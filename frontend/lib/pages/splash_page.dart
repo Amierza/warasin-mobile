@@ -17,7 +17,7 @@ class _SplashPageState extends State<SplashPage>{
   void initState() {
     super.initState();
 
-    Timer(const Duration(seconds: 1), (){
+    Timer(const Duration(seconds: 2), (){
       Navigator.pushNamedAndRemoveUntil(
         context, '/login', (route) => false
         );
@@ -49,7 +49,7 @@ class _SplashPageState extends State<SplashPage>{
               'Warasin',
               style: secondaryTextStyle.copyWith(
                 fontSize: 30,
-                fontWeight: FontWeight.w900,
+                fontWeight: extraBold,
               ),
             )
           ],

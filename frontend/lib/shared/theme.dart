@@ -18,6 +18,19 @@ TextStyle secondaryTextStyle = GoogleFonts.poppins(
   color: secondaryTextColor,
 );
 
+TextStyle primaryColorText = GoogleFonts.poppins(
+  color: primaryColor,
+);
+
 TextStyle tertiaryTextStyle = GoogleFonts.poppins(
   color: tertiaryTextColor,
 );
+
+
+FontWeight light = FontWeight.w300;
+FontWeight regular = FontWeight.w400;
+FontWeight medium = FontWeight.w500;
+FontWeight semiBold = FontWeight.w600;
+FontWeight bold = FontWeight.w700;
+FontWeight extraBold = FontWeight.w800;
+FontWeight black = FontWeight.w900;
