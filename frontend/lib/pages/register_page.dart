@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPage();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPage extends State<RegisterPage> {
   bool _isObsecure = true;
 
   @override
@@ -78,6 +78,24 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   TextField(
                     decoration: InputDecoration(
+                      hintText: "Nama",
+                      filled: true,
+                      fillColor: secondaryTextColor,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 20,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  TextField(
+                    decoration: InputDecoration(
                       hintText: "Email",
                       filled: true,
                       fillColor: secondaryTextColor,
@@ -109,14 +127,14 @@ class _LoginPageState extends State<LoginPage> {
                         borderSide: BorderSide.none,
                       ),
                       suffixIcon: IconButton(
-                        icon: Icon(
-                          _isObsecure ? Icons.visibility_off : Icons.visibility
-                        ),
                         onPressed: () {
                           setState(() {
                             _isObsecure = !_isObsecure;
                           });
-                        },
+                        }, 
+                        icon: Icon(
+                          _isObsecure ? Icons.visibility_off : Icons.visibility
+                        ),
                       ),
                     ),
                   ),
@@ -126,9 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primaryColor,
                         shape: RoundedRectangleBorder(
@@ -137,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
                       child: Text(
-                        "Login",
+                        "Register",
                         style: GoogleFonts.poppins(
                           fontSize: 18,
                           fontWeight: semiBold,
@@ -146,28 +162,16 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Lupa Password?",
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: medium,
-                        color: primaryColor,
-                      ),
-                    ),
-                  ),
                 ],
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Tidak punya akun?",
+                    "Sudah punya akun?",
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       fontWeight: medium,
@@ -178,12 +182,12 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.pushNamedAndRemoveUntil(
                         context,
-                        '/register',
+                        '/login',
                         (route) => false,
                       );
                     },
                     child: Text(
-                      "Register!",
+                      "Login!",
                       style: GoogleFonts.poppins(
                         fontSize: 14,
                         fontWeight: medium,
