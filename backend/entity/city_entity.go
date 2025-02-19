@@ -2,7 +2,6 @@ package entity
 
 import (
 	"github.com/google/uuid"
-	"gorm.io/gorm"
 )
 
 type City struct {
@@ -12,16 +11,4 @@ type City struct {
 	Psychologs []Psycholog `gorm:"foreignKey:CityID"`
 
 	TimeStamp
-}
-
-func (c *City) BeforeCreate(tx *gorm.DB) error {
-	defer func() {
-		if err := recover(); err != nil {
-			tx.Rollback()
-		}
-	}()
-
-	c.ID = uuid.New()
-
-	return nil
 }

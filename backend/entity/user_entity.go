@@ -10,7 +10,7 @@ import (
 
 type User struct {
 	ID          uuid.UUID     `gorm:"type:uuid;primaryKey" json:"user_id"`
-	CityID      uuid.UUID     `gorm:"type:uuid" json:"city_id"`
+	CityID      *uuid.UUID    `gorm:"type:uuid" json:"city_id"`
 	City        City          `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	Consuls     []Consulation `gorm:"foreignKey:UserID"`
 	NewsDetails []NewsDetail  `gorm:"foreignKey:UserID"`
