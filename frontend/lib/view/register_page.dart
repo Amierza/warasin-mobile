@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/register_controller.dart';
 import 'package:frontend/shared/theme.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPage();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPage extends State<RegisterPage> {
-  bool _isObsecure = true;
+class _RegisterPageState extends State<RegisterPage> {
+  bool _isObscure = true;
+  final RegisterController controller = Get.put(RegisterController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 50),
-        children: [
-          Column(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: Column(
             children: [
+              // Logo dan Judul Aplikasi
               Container(
                 width: 174,
                 height: 144,
@@ -39,16 +43,12 @@ class _RegisterPage extends State<RegisterPage> {
                   color: primaryColor,
                 ),
               ),
-            ],
-          ),
 
-          const SizedBox(height: 30),
+              const SizedBox(height: 30),
 
-          // Bagian Form Login
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+              // Pesan Selamat Datang
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Selamat Datang di Warasin!",
@@ -74,14 +74,17 @@ class _RegisterPage extends State<RegisterPage> {
 
               const SizedBox(height: 30),
 
+              // Form Input
               Column(
                 children: [
-                  TextField(
+                  // Input Nama
+                  TextFormField(
+                    controller: controller.nameController,
                     decoration: InputDecoration(
                       hintText: "Nama",
                       filled: true,
                       fillColor: secondaryTextColor,
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 25,
                         vertical: 20,
                       ),
@@ -91,15 +94,27 @@ class _RegisterPage extends State<RegisterPage> {
                       ),
                     ),
                   ),
+                  Obx(() => controller.isName.value
+                      ? const SizedBox.shrink()
+                      : Text(
+                          'Nama tidak boleh kosong',
+                          style: GoogleFonts.poppins(
+                            color: Colors.red,
+                            fontSize: 12,
+                          ),
+                        ),
+                  ),
 
                   const SizedBox(height: 20),
 
-                  TextField(
+                  // Input Email
+                  TextFormField(
+                    controller: controller.emailController,
                     decoration: InputDecoration(
                       hintText: "Email",
                       filled: true,
                       fillColor: secondaryTextColor,
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 25,
                         vertical: 20,
                       ),
@@ -109,16 +124,28 @@ class _RegisterPage extends State<RegisterPage> {
                       ),
                     ),
                   ),
+                  Obx(() => controller.isEmail.value
+                      ? const SizedBox.shrink()
+                      : Text(
+                          'Email tidak valid',
+                          style: GoogleFonts.poppins(
+                            color: Colors.red,
+                            fontSize: 12,
+                          ),
+                        ),
+                  ),
 
                   const SizedBox(height: 20),
 
-                  TextField(
-                    obscureText: _isObsecure,
+                  // Input Password
+                  TextFormField(
+                    controller: controller.passwordController,
+                    obscureText: _isObscure,
                     decoration: InputDecoration(
                       hintText: "Password",
                       filled: true,
                       fillColor: secondaryTextColor,
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 25,
                         vertical: 20,
                       ),
@@ -129,22 +156,35 @@ class _RegisterPage extends State<RegisterPage> {
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
-                            _isObsecure = !_isObsecure;
+                            _isObscure = !_isObscure;
                           });
-                        }, 
+                        },
                         icon: Icon(
-                          _isObsecure ? Icons.visibility_off : Icons.visibility
+                          _isObscure ? Icons.visibility_off : Icons.visibility,
                         ),
                       ),
                     ),
                   ),
+                  Obx(() => controller.isPassword.value
+                      ? const SizedBox.shrink()
+                      : Text(
+                          'Password tidak boleh kosong',
+                          style: GoogleFonts.poppins(
+                            color: Colors.red,
+                            fontSize: 12,
+                          ),
+                        ),
+                  ),
 
                   const SizedBox(height: 24),
 
+                  // Tombol Register
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.register(); // Panggil method register dari controller
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primaryColor,
                         shape: RoundedRectangleBorder(
@@ -167,6 +207,7 @@ class _RegisterPage extends State<RegisterPage> {
 
               const SizedBox(height: 20),
 
+              // Link ke Halaman Login
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -180,11 +221,7 @@ class _RegisterPage extends State<RegisterPage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        '/login',
-                        (route) => false,
-                      );
+                      Get.offAllNamed('/login'); // Navigasi ke halaman login menggunakan GetX
                     },
                     child: Text(
                       "Login!",
@@ -199,7 +236,7 @@ class _RegisterPage extends State<RegisterPage> {
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
