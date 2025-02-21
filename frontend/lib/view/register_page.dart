@@ -24,7 +24,6 @@ class _RegisterPageState extends State<RegisterPage> {
           padding: const EdgeInsets.symmetric(horizontal: 50),
           child: Column(
             children: [
-              // Logo dan Judul Aplikasi
               Container(
                 width: 174,
                 height: 144,
@@ -46,7 +45,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
               const SizedBox(height: 30),
 
-              // Pesan Selamat Datang
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -74,10 +72,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
               const SizedBox(height: 30),
 
-              // Form Input
               Column(
                 children: [
-                  // Input Nama
                   TextFormField(
                     controller: controller.nameController,
                     decoration: InputDecoration(
@@ -94,15 +90,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-                  Obx(() => controller.isName.value
-                      ? const SizedBox.shrink()
-                      : Text(
-                          'Nama tidak boleh kosong',
-                          style: GoogleFonts.poppins(
-                            color: Colors.red,
-                            fontSize: 12,
-                          ),
-                        ),
+                  Obx(
+                    () =>
+                        controller.isName.value
+                            ? const SizedBox.shrink()
+                            : Text(
+                              'Nama tidak boleh kosong',
+                              style: GoogleFonts.poppins(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
+                            ),
                   ),
 
                   const SizedBox(height: 20),
@@ -124,15 +122,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-                  Obx(() => controller.isEmail.value
-                      ? const SizedBox.shrink()
-                      : Text(
-                          'Email tidak valid',
-                          style: GoogleFonts.poppins(
-                            color: Colors.red,
-                            fontSize: 12,
-                          ),
-                        ),
+                  Obx(
+                    () =>
+                        controller.isEmail.value
+                            ? const SizedBox.shrink()
+                            : Text(
+                              'Email tidak valid',
+                              style: GoogleFonts.poppins(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
+                            ),
                   ),
 
                   const SizedBox(height: 20),
@@ -165,40 +165,51 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-                  Obx(() => controller.isPassword.value
-                      ? const SizedBox.shrink()
-                      : Text(
-                          'Password tidak boleh kosong',
-                          style: GoogleFonts.poppins(
-                            color: Colors.red,
-                            fontSize: 12,
-                          ),
-                        ),
+                  Obx(
+                    () =>
+                        controller.isPassword.value
+                            ? const SizedBox.shrink()
+                            : Text(
+                              'Password tidak boleh kosong',
+                              style: GoogleFonts.poppins(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
+                            ),
                   ),
 
                   const SizedBox(height: 24),
 
-                  // Tombol Register
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        controller.register(); // Panggil method register dari controller
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                  Obx(
+                    () => SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed:
+                            controller.isLoading.value
+                                ? null
+                                : () {
+                                  controller.register();
+                                },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                      child: Text(
-                        "Register",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: semiBold,
-                          color: secondaryTextColor,
-                        ),
+                        child:
+                            controller.isLoading.value
+                                ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                                : Text(
+                                  "Register",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 18,
+                                    fontWeight: semiBold,
+                                    color: secondaryTextColor,
+                                  ),
+                                ),
                       ),
                     ),
                   ),
@@ -207,7 +218,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
               const SizedBox(height: 20),
 
-              // Link ke Halaman Login
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -221,7 +231,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Get.offAllNamed('/login'); // Navigasi ke halaman login menggunakan GetX
+                      Get.offAllNamed(
+                        '/login',
+                      );
                     },
                     child: Text(
                       "Login!",
