@@ -7,6 +7,7 @@ void showCustomDialog({
   required IconData icon,
   required String title,
   required String message,
+  required VoidCallback onPressed,
   required Color backgroundColor,
 }) {
   showDialog(
@@ -48,9 +49,7 @@ void showCustomDialog({
               const SizedBox(height: 24),
               SizedBox(
                 child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: onPressed,
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(

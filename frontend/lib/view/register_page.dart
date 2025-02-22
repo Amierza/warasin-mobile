@@ -38,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 "Warasin",
                 style: GoogleFonts.poppins(
                   fontSize: 30,
-                  fontWeight: extraBold,
+                  fontWeight: bold,
                   color: primaryColor,
                 ),
               ),
@@ -52,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     "Selamat Datang di Warasin!",
                     style: GoogleFonts.poppins(
                       fontSize: 20,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: semiBold,
                       color: primaryTextColor,
                     ),
                     textAlign: TextAlign.center,
@@ -62,7 +62,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     "Jaga kesehatan mentalmu bersama Warasin",
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: regular,
                       color: tertiaryTextColor,
                     ),
                     textAlign: TextAlign.center,
@@ -90,6 +90,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 5),
+
                   Obx(
                     () =>
                         controller.isName.value
@@ -103,7 +106,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
                   // Input Email
                   TextFormField(
@@ -122,6 +125,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 5),
+
                   Obx(
                     () =>
                         controller.isEmail.value
@@ -135,9 +141,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
-                  // Input Password
                   TextFormField(
                     controller: controller.passwordController,
                     obscureText: _isObscure,
@@ -165,6 +170,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 5),
+
                   Obx(
                     () =>
                         controller.isPassword.value
@@ -178,7 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             ),
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 20),
 
                   Obx(
                     () => SizedBox(
@@ -231,9 +239,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Get.offAllNamed(
-                        '/login',
-                      );
+                      Navigator.pushNamed(context, '/login');
                     },
                     child: Text(
                       "Login!",

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/service/api_service.dart';
 import 'package:frontend/shared/theme.dart';
@@ -34,12 +36,10 @@ class RegisterController extends GetxController {
     }
 
     if (!isEmail.value || !isName.value || !isPassword.value) {
-      print("Validasi gagal");
       return;
     }
 
     isLoading.value = true;
-    print("Mengirim request ke server...");
 
     try {
       final response = await ApiService.register(
@@ -48,34 +48,43 @@ class RegisterController extends GetxController {
         passwordController.text,
       );
 
-      print("Response Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
-
       if (response.statusCode == 200) {
         showCustomDialog(
           context: context, 
           icon: Icons.check_circle, 
           title: 'Registrasi Berhasil', 
           message: "Semoga harimu menyenangkan", 
+          onPressed: () {
+            Navigator.pushNamed(context, '/login');
+          },
           backgroundColor: successColor
         );
       } else {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        final errorMessage = responseData['error'] ?? "Terjadi kesalahan";
+
         showCustomDialog(
           context: context, 
           icon: Icons.cancel, 
           title: 'Registrasi Gagal', 
-          message: "Oops..! Coba cek lagi", 
+          message: errorMessage,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           backgroundColor: dangerColor
         );
       }
     } catch (err) {
-        showCustomDialog(
-          context: context, 
-          icon: Icons.cancel, 
-          title: 'Registrasi Gagal', 
-          message: "Oops..! Coba cek lagi", 
-          backgroundColor: dangerColor
-        );
+      showCustomDialog(
+        context: context, 
+        icon: Icons.cancel, 
+        title: 'Registrasi Gagal', 
+        message: "Oops..! Coba cek lagi", 
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        backgroundColor: dangerColor
+      );
     } finally {
       isLoading.value = false;
     }
