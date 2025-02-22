@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/login_controller.dart';
 import 'package:frontend/shared/theme.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginPage extends StatefulWidget {
@@ -11,15 +13,16 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _isObsecure = true;
+  final LoginController controller = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 50),
-        children: [
-          Column(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 50),
+          child: Column(
             children: [
               Container(
                 width: 174,
@@ -35,26 +38,21 @@ class _LoginPageState extends State<LoginPage> {
                 "Warasin",
                 style: GoogleFonts.poppins(
                   fontSize: 30,
-                  fontWeight: extraBold,
+                  fontWeight: bold,
                   color: primaryColor,
                 ),
               ),
-            ],
-          ),
 
-          const SizedBox(height: 30),
+              const SizedBox(height: 30),
 
-          // Bagian Form Login
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Selamat Datang di Warasin!",
                     style: GoogleFonts.poppins(
                       fontSize: 20,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: semiBold,
                       color: primaryTextColor,
                     ),
                     textAlign: TextAlign.center,
@@ -64,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                     "Jaga kesehatan mentalmu bersama Warasin",
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: regular,
                       color: tertiaryTextColor,
                     ),
                     textAlign: TextAlign.center,
@@ -76,12 +74,13 @@ class _LoginPageState extends State<LoginPage> {
 
               Column(
                 children: [
-                  TextField(
+                  TextFormField(
+                    controller: controller.emailController,
                     decoration: InputDecoration(
                       hintText: "Email",
                       filled: true,
                       fillColor: secondaryTextColor,
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 25,
                         vertical: 20,
                       ),
@@ -92,15 +91,32 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 5),
 
-                  TextField(
+                  Obx(
+                    () =>
+                        controller.isEmail.value
+                            ? const SizedBox.shrink()
+                            : Text(
+                              'Email tidak valid',
+                              style: GoogleFonts.poppins(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
+                            ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // Input Password
+                  TextFormField(
+                    controller: controller.passwordController,
                     obscureText: _isObsecure,
                     decoration: InputDecoration(
                       hintText: "Password",
                       filled: true,
                       fillColor: secondaryTextColor,
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                         horizontal: 25,
                         vertical: 20,
                       ),
@@ -109,59 +125,72 @@ class _LoginPageState extends State<LoginPage> {
                         borderSide: BorderSide.none,
                       ),
                       suffixIcon: IconButton(
-                        icon: Icon(
-                          _isObsecure ? Icons.visibility_off : Icons.visibility
-                        ),
                         onPressed: () {
                           setState(() {
                             _isObsecure = !_isObsecure;
                           });
                         },
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 24),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                      ),
-                      child: Text(
-                        "Login",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: semiBold,
-                          color: secondaryTextColor,
+                        icon: Icon(
+                          _isObsecure ? Icons.visibility_off : Icons.visibility,
                         ),
                       ),
                     ),
                   ),
 
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Lupa Password?",
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        fontWeight: medium,
-                        color: primaryColor,
+                  const SizedBox(height: 5),
+
+                  Obx(
+                    () =>
+                        controller.isPassword.value
+                            ? const SizedBox.shrink()
+                            : Text(
+                              'Password tidak boleh kosong',
+                              style: GoogleFonts.poppins(
+                                color: Colors.red,
+                                fontSize: 12,
+                              ),
+                            ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  Obx(
+                    () => SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed:
+                            controller.isLoading.value
+                                ? null
+                                : () {
+                                  controller.login(context);
+                                },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                        ),
+                        child:
+                            controller.isLoading.value
+                                ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                                : Text(
+                                  "Login",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 18,
+                                    fontWeight: semiBold,
+                                    color: secondaryTextColor,
+                                  ),
+                                ),
                       ),
                     ),
                   ),
                 ],
               ),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -176,11 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        '/register',
-                        (route) => false,
-                      );
+                      Navigator.pushNamed(context, '/register');
                     },
                     child: Text(
                       "Register!",
@@ -195,7 +220,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
