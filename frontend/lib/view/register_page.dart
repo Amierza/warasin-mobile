@@ -188,7 +188,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             controller.isLoading.value
                                 ? null
                                 : () {
-                                  controller.register();
+                                  controller.register(context);
                                 },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,

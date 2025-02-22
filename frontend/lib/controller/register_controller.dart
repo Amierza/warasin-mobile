@@ -1,7 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:frontend/service/api_service.dart';
+import 'package:frontend/shared/theme.dart';
+import 'package:frontend/widget/dialog_auth.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController {
@@ -14,7 +14,7 @@ class RegisterController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void register() async {
+  void register(context) async {
     if (emailController.text.isEmpty || !emailController.text.isEmail) {
       isEmail.value = false;
     } else {
@@ -34,10 +34,12 @@ class RegisterController extends GetxController {
     }
 
     if (!isEmail.value || !isName.value || !isPassword.value) {
-      return ;
+      print("Validasi gagal");
+      return;
     }
 
     isLoading.value = true;
+    print("Mengirim request ke server...");
 
     try {
       final response = await ApiService.register(
@@ -46,17 +48,34 @@ class RegisterController extends GetxController {
         passwordController.text,
       );
 
+      print("Response Status Code: ${response.statusCode}");
+      print("Response Body: ${response.body}");
+
       if (response.statusCode == 200) {
-        Get.offNamed('/login');
-        Get.snackbar('Success', 'Registrasi berhasil!');
+        showCustomDialog(
+          context: context, 
+          icon: Icons.check_circle, 
+          title: 'Registrasi Berhasil', 
+          message: "Semoga harimu menyenangkan", 
+          backgroundColor: successColor
+        );
       } else {
-        final responseData = jsonDecode(response.body);
-        Get.snackbar('Error', responseData['message'] ?? 'Registrasi gagal');
+        showCustomDialog(
+          context: context, 
+          icon: Icons.cancel, 
+          title: 'Registrasi Gagal', 
+          message: "Oops..! Coba cek lagi", 
+          backgroundColor: dangerColor
+        );
       }
     } catch (err) {
-      if (Get.context != null) {
-        Get.snackbar('Error', 'Terjadi kesalahan: $err');
-      }
+        showCustomDialog(
+          context: context, 
+          icon: Icons.cancel, 
+          title: 'Registrasi Gagal', 
+          message: "Oops..! Coba cek lagi", 
+          backgroundColor: dangerColor
+        );
     } finally {
       isLoading.value = false;
     }
