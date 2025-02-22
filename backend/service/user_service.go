@@ -6,6 +6,7 @@ import (
 
 	"github.com/Amierza/warasin-mobile/backend/dto"
 	"github.com/Amierza/warasin-mobile/backend/entity"
+	"github.com/Amierza/warasin-mobile/backend/helpers"
 	"github.com/Amierza/warasin-mobile/backend/repository"
 	"github.com/go-playground/validator/v10"
 )
@@ -13,6 +14,7 @@ import (
 type (
 	IUserService interface {
 		Register(ctx context.Context, req dto.UserRegisterRequest) (dto.UserResponse, error)
+		Login(ctx context.Context, req dto.UserLoginRequest) (dto.UserLoginResponse, error)
 	}
 
 	UserService struct {
@@ -23,7 +25,8 @@ type (
 
 func NewUserService(userRepo repository.IUserRepository, jwtService IJWTService) *UserService {
 	return &UserService{
-		userRepo: userRepo,
+		userRepo:   userRepo,
+		jwtService: jwtService,
 	}
 }
 
@@ -60,5 +63,27 @@ func (us *UserService) Register(ctx context.Context, req dto.UserRegisterRequest
 		Name:     userReg.Name,
 		Email:    userReg.Email,
 		Password: userReg.Password,
+	}, nil
+}
+
+func (us *UserService) Login(ctx context.Context, req dto.UserLoginRequest) (dto.UserLoginResponse, error) {
+	user, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
+	if !flag || err != nil {
+		return dto.UserLoginResponse{}, dto.ErrEmailNotFound
+	}
+
+	checkPassword, err := helpers.CheckPassword(user.Password, []byte(req.Password))
+	if err != nil || !checkPassword {
+		return dto.UserLoginResponse{}, dto.ErrPasswordNotMatch
+	}
+
+	accessToken, refreshToken, err := us.jwtService.GenerateToken(user.ID.String())
+	if err != nil {
+		return dto.UserLoginResponse{}, err
+	}
+
+	return dto.UserLoginResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
 	}, nil
 }

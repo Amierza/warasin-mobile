@@ -10,5 +10,6 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, jwtService servic
 	routes := route.Group("/api/v1/user")
 	{
 		routes.POST("/register", userHandler.Register)
+		routes.POST("/login", userHandler.Login)
 	}
 }
