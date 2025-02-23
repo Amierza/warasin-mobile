@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/home_page.dart';
 import 'package:frontend/view/login_page.dart';
 import 'package:frontend/view/register_page.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashPage(),
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
+        '/forget_password': (context) => const ForgetPasswordEmailPage(),
         '/home': (context) => const HomePage(),
       },
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/register_controller.dart';
 import 'package:frontend/shared/theme.dart';
+import 'package:frontend/widget/logo_widget.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -24,24 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
           padding: const EdgeInsets.symmetric(horizontal: 50),
           child: Column(
             children: [
-              Container(
-                width: 174,
-                height: 144,
-                margin: const EdgeInsets.only(top: 100),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/logo-purple.png"),
-                  ),
-                ),
-              ),
-              Text(
-                "Warasin",
-                style: GoogleFonts.poppins(
-                  fontSize: 30,
-                  fontWeight: bold,
-                  color: primaryColor,
-                ),
-              ),
+              LogoWarasin(),
 
               const SizedBox(height: 30),
 
