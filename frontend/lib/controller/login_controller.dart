@@ -5,7 +5,6 @@ import 'package:frontend/service/api_service.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:frontend/widget/dialog_auth.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginController extends GetxController{
