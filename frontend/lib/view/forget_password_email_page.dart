@@ -79,6 +79,7 @@ class ForgetPasswordEmailPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           controller.forgetPasswordEmail(context);
+                          Navigator.pushNamed(context, '/forget_password_password');
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryColor,
