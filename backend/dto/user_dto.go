@@ -8,9 +8,13 @@ import (
 
 const (
 	// failed
-	MESSAGE_FAILED_GET_DATA_FROM_BODY = "failed get data from body"
-	MESSAGE_FAILED_REGISTER_USER      = "failed register user"
-	MESSAGE_FAILED_LOGIN_USER         = "failed login user"
+	MESSAGE_FAILED_GET_DATA_FROM_BODY  = "failed get data from body"
+	MESSAGE_FAILED_REGISTER_USER       = "failed register user"
+	MESSAGE_FAILED_LOGIN_USER          = "failed login user"
+	MESSAGE_FAILED_PROSES_REQUEST      = "failed proses request"
+	MESSAGE_FAILED_TOKEN_NOT_FOUND     = "failed token not found"
+	MESSAGE_FAILED_TOKEN_NOT_VALID     = "failed token not valid"
+	MESSAGE_FAILED_TOKEN_DENIED_ACCESS = "failed token denied access"
 
 	// success
 	MESSAGE_SUCCESS_GET_DATA_FROM_BODY = "success get data from body"
