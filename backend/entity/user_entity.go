@@ -23,6 +23,7 @@ type User struct {
 	Data01      int           `json:"user_data01,omitempty"`
 	Data02      int           `json:"user_data02,omitempty"`
 	Data03      int           `json:"user_data03,omitempty"`
+	IsVerified  bool          `json:"is_verified"`
 
 	TimeStamp
 }

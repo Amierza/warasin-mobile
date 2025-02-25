@@ -8,25 +8,38 @@ import (
 
 const (
 	// failed
-	MESSAGE_FAILED_GET_DATA_FROM_BODY  = "failed get data from body"
-	MESSAGE_FAILED_REGISTER_USER       = "failed register user"
-	MESSAGE_FAILED_LOGIN_USER          = "failed login user"
-	MESSAGE_FAILED_PROSES_REQUEST      = "failed proses request"
-	MESSAGE_FAILED_TOKEN_NOT_FOUND     = "failed token not found"
-	MESSAGE_FAILED_TOKEN_NOT_VALID     = "failed token not valid"
-	MESSAGE_FAILED_TOKEN_DENIED_ACCESS = "failed token denied access"
+	MESSAGE_FAILED_GET_DATA_FROM_BODY      = "failed get data from body"
+	MESSAGE_FAILED_REGISTER_USER           = "failed register user"
+	MESSAGE_FAILED_LOGIN_USER              = "failed login user"
+	MESSAGE_FAILED_PROSES_REQUEST          = "failed proses request"
+	MESSAGE_FAILED_TOKEN_NOT_FOUND         = "failed token not found"
+	MESSAGE_FAILED_TOKEN_NOT_VALID         = "failed token not valid"
+	MESSAGE_FAILED_TOKEN_DENIED_ACCESS     = "failed token denied access"
+	MESSAGE_FAILED_SEND_VERIFICATION_EMAIL = "failed to send verification email"
+	MESSAGE_FAILED_VERIFY_EMAIL            = "failed to verify email"
 
 	// success
-	MESSAGE_SUCCESS_GET_DATA_FROM_BODY = "success get data from body"
-	MESSAGE_SUCCESS_REGISTER_USER      = "success register user"
-	MESSAGE_SUCCESS_LOGIN_USER         = "success login user"
+	MESSAGE_SUCCESS_GET_DATA_FROM_BODY      = "success get data from body"
+	MESSAGE_SUCCESS_REGISTER_USER           = "success register user"
+	MESSAGE_SUCCESS_LOGIN_USER              = "success login user"
+	MESSAGE_SUCCESS_SEND_VERIFICATION_EMAIL = "success to send verification email"
+	MESSAGE_SUCCESS_VERIFY_EMAIL            = "success to verify email"
 )
 
 var (
-	ErrEmailAlreadyExists = errors.New("email already exists")
-	ErrRegisterUser       = errors.New("failed to register user")
-	ErrEmailNotFound      = errors.New("email not found")
-	ErrPasswordNotMatch   = errors.New("password not match")
+	ErrEmailAlreadyExists    = errors.New("email already exists")
+	ErrRegisterUser          = errors.New("failed to register user")
+	ErrEmailNotFound         = errors.New("email not found")
+	ErrUserNotFound          = errors.New("user not found")
+	ErrPasswordNotMatch      = errors.New("password not match")
+	ErrMakeVerificationEmail = errors.New("failed to make verification email")
+	ErrSendEmail             = errors.New("failed to send email")
+	ErrDecryptToken          = errors.New("failed to decrypt token")
+	ErrTokenInvalid          = errors.New("token invalid")
+	ErrParsingExpiredTime    = errors.New("failed to parsing expired time")
+	ErrTokenExpired          = errors.New("token expired")
+	ErrEmailALreadyVerified  = errors.New("email is already verfied")
+	ErrUpdateUser            = errors.New("failed to update user")
 )
 
 type (
@@ -51,5 +64,18 @@ type (
 	UserLoginResponse struct {
 		AccessToken  string `json:"access_token"`
 		RefreshToken string `json:"refresh_token"`
+	}
+
+	SendVerificationEmailRequest struct {
+		Email string `json:"email" form:"email" binding:"required"`
+	}
+
+	VerifyEmailRequest struct {
+		Token string `json:"token" form:"token" binding:"required"`
+	}
+
+	VerifyEmailResponse struct {
+		Email      string `json:"email"`
+		IsVerified bool   `json:"is_verified"`
 	}
 )
