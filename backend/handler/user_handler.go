@@ -13,6 +13,8 @@ type (
 	IUserHandler interface {
 		Register(ctx *gin.Context)
 		Login(ctx *gin.Context)
+		SendVerificationEmail(ctx *gin.Context)
+		VerifyEmail(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -61,5 +63,43 @@ func (uh *UserHandler) Login(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_LOGIN_USER, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (uh *UserHandler) SendVerificationEmail(ctx *gin.Context) {
+	var payload dto.SendVerificationEmailRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	err := uh.userService.SendVerificationEmail(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_SEND_VERIFICATION_EMAIL, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_SEND_VERIFICATION_EMAIL, nil)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (uh *UserHandler) VerifyEmail(ctx *gin.Context) {
+	var payload dto.VerifyEmailRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := uh.userService.VerifyEmail(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_VERIFY_EMAIL, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_VERIFY_EMAIL, result)
 	ctx.JSON(http.StatusOK, res)
 }

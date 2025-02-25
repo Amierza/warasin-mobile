@@ -11,5 +11,7 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, jwtService servic
 	{
 		routes.POST("/register", userHandler.Register)
 		routes.POST("/login", userHandler.Login)
+		routes.POST("/send-verification-email", userHandler.SendVerificationEmail)
+		routes.GET("/verify-email", userHandler.VerifyEmail)
 	}
 }
