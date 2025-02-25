@@ -8,22 +8,28 @@ import (
 
 const (
 	// failed
-	MESSAGE_FAILED_GET_DATA_FROM_BODY      = "failed get data from body"
-	MESSAGE_FAILED_REGISTER_USER           = "failed register user"
-	MESSAGE_FAILED_LOGIN_USER              = "failed login user"
-	MESSAGE_FAILED_PROSES_REQUEST          = "failed proses request"
-	MESSAGE_FAILED_TOKEN_NOT_FOUND         = "failed token not found"
-	MESSAGE_FAILED_TOKEN_NOT_VALID         = "failed token not valid"
-	MESSAGE_FAILED_TOKEN_DENIED_ACCESS     = "failed token denied access"
-	MESSAGE_FAILED_SEND_VERIFICATION_EMAIL = "failed to send verification email"
-	MESSAGE_FAILED_VERIFY_EMAIL            = "failed to verify email"
+	MESSAGE_FAILED_GET_DATA_FROM_BODY          = "failed get data from body"
+	MESSAGE_FAILED_REGISTER_USER               = "failed register user"
+	MESSAGE_FAILED_LOGIN_USER                  = "failed login user"
+	MESSAGE_FAILED_PROSES_REQUEST              = "failed proses request"
+	MESSAGE_FAILED_TOKEN_NOT_FOUND             = "failed token not found"
+	MESSAGE_FAILED_TOKEN_NOT_VALID             = "failed token not valid"
+	MESSAGE_FAILED_TOKEN_DENIED_ACCESS         = "failed token denied access"
+	MESSAGE_FAILED_SEND_VERIFICATION_EMAIL     = "failed to send verification email"
+	MESSAGE_FAILED_VERIFY_EMAIL                = "failed to verify email"
+	MESSAGE_FAILED_SEND_FORGOT_PASSWORD_EMAIL  = "failed to send forgot password email"
+	MESSAGE_FAILED_UPDATE_PASSWORD             = "failed to update password"
+	MESSAGE_FAILED_CHECK_FORGOT_PASSWORD_TOKEN = "failed to check forgot password token"
 
 	// success
-	MESSAGE_SUCCESS_GET_DATA_FROM_BODY      = "success get data from body"
-	MESSAGE_SUCCESS_REGISTER_USER           = "success register user"
-	MESSAGE_SUCCESS_LOGIN_USER              = "success login user"
-	MESSAGE_SUCCESS_SEND_VERIFICATION_EMAIL = "success to send verification email"
-	MESSAGE_SUCCESS_VERIFY_EMAIL            = "success to verify email"
+	MESSAGE_SUCCESS_GET_DATA_FROM_BODY          = "success get data from body"
+	MESSAGE_SUCCESS_REGISTER_USER               = "success register user"
+	MESSAGE_SUCCESS_LOGIN_USER                  = "success login user"
+	MESSAGE_SUCCESS_SEND_VERIFICATION_EMAIL     = "success to send verification email"
+	MESSAGE_SUCCESS_VERIFY_EMAIL                = "success to verify email"
+	MESSAGE_SUCCESS_SEND_FORGOT_PASSWORD_EMAIL  = "success to send forgot password email"
+	MESSAGE_SUCCESS_UPDATE_PASSWORD             = "success to update password"
+	MESSAGE_SUCCESS_CHECK_FORGOT_PASSWORD_TOKEN = "success to check forgot password token"
 )
 
 var (
@@ -40,6 +46,8 @@ var (
 	ErrTokenExpired          = errors.New("token expired")
 	ErrEmailALreadyVerified  = errors.New("email is already verfied")
 	ErrUpdateUser            = errors.New("failed to update user")
+	ErrGetUserByPassword     = errors.New("failed to get user by password")
+	ErrHashPassword          = errors.New("failed to hash password")
 )
 
 type (
@@ -64,6 +72,24 @@ type (
 	UserLoginResponse struct {
 		AccessToken  string `json:"access_token"`
 		RefreshToken string `json:"refresh_token"`
+	}
+
+	SendForgotPasswordEmailRequest struct {
+		Email string `json:"email" form:"email" binding:"required"`
+	}
+
+	ForgotPasswordRequest struct {
+		Token string `json:"token" form:"token" binding:"required"`
+	}
+
+	UpdatePasswordRequest struct {
+		Email    string `json:"email" form:"email" binding:"required"`
+		Password string `json:"password" form:"password" binding:"required"`
+	}
+
+	UpdatePasswordResponse struct {
+		OldPassword string `json:"old_password" form:"old_password" binding:"required"`
+		NewPassword string `json:"new_password" form:"new_password" binding:"required"`
 	}
 
 	SendVerificationEmailRequest struct {
