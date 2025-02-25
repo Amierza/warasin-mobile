@@ -13,6 +13,9 @@ type (
 	IUserHandler interface {
 		Register(ctx *gin.Context)
 		Login(ctx *gin.Context)
+		SendForgotPasswordEmail(ctx *gin.Context)
+		ForgotPassword(ctx *gin.Context)
+		UpdatePassword(ctx *gin.Context)
 		SendVerificationEmail(ctx *gin.Context)
 		VerifyEmail(ctx *gin.Context)
 	}
@@ -63,6 +66,63 @@ func (uh *UserHandler) Login(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_LOGIN_USER, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (uh *UserHandler) SendForgotPasswordEmail(ctx *gin.Context) {
+	var payload dto.SendForgotPasswordEmailRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	err := uh.userService.SendForgotPasswordEmail(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_SEND_FORGOT_PASSWORD_EMAIL, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_SEND_FORGOT_PASSWORD_EMAIL, nil)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (uh UserHandler) ForgotPassword(ctx *gin.Context) {
+	var payload dto.ForgotPasswordRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := uh.userService.ForgotPassword(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_CHECK_FORGOT_PASSWORD_TOKEN, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CHECK_FORGOT_PASSWORD_TOKEN, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (uh *UserHandler) UpdatePassword(ctx *gin.Context) {
+	var payload dto.UpdatePasswordRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := uh.userService.UpdatePassword(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_PASSWORD, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_PASSWORD, result)
 	ctx.JSON(http.StatusOK, res)
 }
 
