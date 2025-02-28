@@ -11,17 +11,20 @@ type EmailConfig struct {
 }
 
 func NewEmailConfig() (*EmailConfig, error) {
-	viper.SetConfigFile(".env")
-
-	if err := viper.ReadInConfig(); err != nil {
-		return nil, err
-	}
-
 	viper.AutomaticEnv()
 
-	var config EmailConfig
-	if err := viper.Unmarshal(&config); err != nil {
-		return nil, err
+	viper.BindEnv("SMTP_HOST")
+	viper.BindEnv("SMTP_PORT")
+	viper.BindEnv("SMTP_SENDER_NAME")
+	viper.BindEnv("SMTP_AUTH_EMAIL")
+	viper.BindEnv("SMTP_AUTH_PASSWORD")
+
+	config := EmailConfig{
+		Host:         viper.GetString("SMTP_HOST"),
+		Port:         viper.GetInt("SMTP_PORT"),
+		SenderName:   viper.GetString("SMTP_SENDER_NAME"),
+		AuthEmail:    viper.GetString("SMTP_AUTH_EMAIL"),
+		AuthPassword: viper.GetString("SMTP_AUTH_PASSWORD"),
 	}
 
 	return &config, nil
