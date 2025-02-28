@@ -11,7 +11,6 @@ class ForgetPasswordEmailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ForgetPassword controller = Get.put(ForgetPassword());
-    final TextEditingController emailController = TextEditingController();
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -19,10 +18,7 @@ class ForgetPasswordEmailPage extends StatelessWidget {
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 40,
-              vertical: 45
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 45),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -41,7 +37,7 @@ class ForgetPasswordEmailPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
-                      controller: emailController,
+                      controller: controller.emailController,
                       decoration: InputDecoration(
                         hintText: "Email",
                         filled: true,
@@ -55,6 +51,21 @@ class ForgetPasswordEmailPage extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                    ),
+
+                    const SizedBox(height: 5),
+
+                    Obx(
+                      () =>
+                          controller.isEmail.value
+                              ? const SizedBox.shrink()
+                              : Text(
+                                'Tolong masukkan email dengan benar!',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.red,
+                                  fontSize: 12,
+                                ),
+                              ),
                     ),
                   ],
                 ),
@@ -75,29 +86,39 @@ class ForgetPasswordEmailPage extends StatelessWidget {
                         color: Colors.orange,
                       ),
                     ),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          controller.forgetPasswordEmail(context);
-                          Navigator.pushNamed(context, '/forget_password_password');
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+
+                    Obx(
+                      () => Expanded(
+                        child: ElevatedButton(
+                          onPressed:
+                              controller.isLoading.value
+                                  ? null
+                                  : () {
+                                    controller.forgetPasswordEmail(context);
+                                  },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 16,
+                              horizontal: 12,
+                            ),
                           ),
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 16,
-                            horizontal: 12,
-                          ),
-                        ),
-                        child: Text(
-                          "Reset Password Link",
-                          style: GoogleFonts.poppins(
-                            fontSize: 18,
-                            fontWeight: semiBold,
-                            color: secondaryTextColor,
-                          ),
+                          child:
+                              controller.isLoading.value
+                                  ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                  : Text(
+                                    "Reset Password Link",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      fontWeight: semiBold,
+                                      color: secondaryTextColor,
+                                    ),
+                                  ),
                         ),
                       ),
                     ),
@@ -106,7 +127,7 @@ class ForgetPasswordEmailPage extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
       ),
     );
   }

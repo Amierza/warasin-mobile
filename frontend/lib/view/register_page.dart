@@ -88,7 +88,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           controller.isName.value
                               ? const SizedBox.shrink()
                               : Text(
-                                'Nama tidak boleh kosong',
+                                'Nama minimal mengandung 1 angka!',
                                 style: GoogleFonts.poppins(
                                   color: Colors.red,
                                   fontSize: 12,
@@ -123,7 +123,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           controller.isEmail.value
                               ? const SizedBox.shrink()
                               : Text(
-                                'Email tidak valid',
+                                'Tolong masukkan email dengan benar!',
                                 style: GoogleFonts.poppins(
                                   color: Colors.red,
                                   fontSize: 12,
@@ -168,7 +168,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           controller.isPassword.value
                               ? const SizedBox.shrink()
                               : Text(
-                                'Password tidak boleh kosong',
+                                'Password minimal 8 karakter!',
                                 style: GoogleFonts.poppins(
                                   color: Colors.red,
                                   fontSize: 12,
