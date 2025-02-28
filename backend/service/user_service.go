@@ -22,7 +22,7 @@ type (
 		Register(ctx context.Context, req dto.UserRegisterRequest) (dto.UserResponse, error)
 		Login(ctx context.Context, req dto.UserLoginRequest) (dto.UserLoginResponse, error)
 		SendForgotPasswordEmail(ctx context.Context, req dto.SendForgotPasswordEmailRequest) error
-		ForgotPassword(ctx context.Context, req dto.ForgotPasswordRequest) (string, error)
+		ForgotPassword(ctx context.Context, req dto.ForgotPasswordRequest) (dto.ForgotPasswordResponse, error)
 		UpdatePassword(ctx context.Context, req dto.UpdatePasswordRequest) (dto.UpdatePasswordResponse, error)
 		SendVerificationEmail(ctx context.Context, req dto.SendVerificationEmailRequest) error
 		VerifyEmail(ctx context.Context, req dto.VerifyEmailRequest) (dto.VerifyEmailResponse, error)
@@ -211,19 +211,19 @@ func (us *UserService) SendForgotPasswordEmail(ctx context.Context, req dto.Send
 	return nil
 }
 
-func (us *UserService) ForgotPassword(ctx context.Context, req dto.ForgotPasswordRequest) (string, error) {
+func (us *UserService) ForgotPassword(ctx context.Context, req dto.ForgotPasswordRequest) (dto.ForgotPasswordResponse, error) {
 	decryptedToken, err := utils.AESDecrypt(req.Token)
 	if err != nil {
-		return "", dto.ErrDecryptToken
+		return dto.ForgotPasswordResponse{}, dto.ErrDecryptToken
 	}
 
 	if !strings.Contains(decryptedToken, "_") {
-		return "", dto.ErrTokenInvalid
+		return dto.ForgotPasswordResponse{}, dto.ErrTokenInvalid
 	}
 
 	decryptedTokenSplit := strings.Split(decryptedToken, "_")
 	if len(decryptedTokenSplit) != 2 {
-		return "", dto.ErrTokenInvalid
+		return dto.ForgotPasswordResponse{}, dto.ErrTokenInvalid
 	}
 
 	email := decryptedTokenSplit[0]
@@ -232,14 +232,16 @@ func (us *UserService) ForgotPassword(ctx context.Context, req dto.ForgotPasswor
 	now := time.Now()
 	expiredTime, err := time.Parse("2006-01-02 15:04:05", expired)
 	if err != nil {
-		return "", dto.ErrParsingExpiredTime
+		return dto.ForgotPasswordResponse{}, dto.ErrParsingExpiredTime
 	}
 
 	if expiredTime.Sub(now) < 0 {
-		return "", dto.ErrTokenExpired
+		return dto.ForgotPasswordResponse{}, dto.ErrTokenExpired
 	}
 
-	return email, nil
+	return dto.ForgotPasswordResponse{
+		Email: email,
+	}, nil
 }
 
 func (us *UserService) UpdatePassword(ctx context.Context, req dto.UpdatePasswordRequest) (dto.UpdatePasswordResponse, error) {
