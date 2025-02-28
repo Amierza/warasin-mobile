@@ -28,4 +28,15 @@ class ApiService {
     );
     return response;
   }
+
+  static Future<http.Response> checkEmail(String email) async {
+    final response = await http.post(
+      Uri.parse('${baseUrl}/user/send-forgot-password-email'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'email': email
+      })
+    );
+    return response;
+  }
 }
