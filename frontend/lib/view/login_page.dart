@@ -14,7 +14,15 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool _isObsecure = true;
-  final LoginController controller = Get.put(LoginController());
+ final LoginController controller = Get.find<LoginController>(); 
+
+  // final emailController = TextEditingController();
+  // final passwordController = TextEditingController();
+  // @override
+  // void dispose() {
+  //  emailController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +32,7 @@ class _LoginPageState extends State<LoginPage> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 40,
-              vertical: 30
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -121,7 +126,9 @@ class _LoginPageState extends State<LoginPage> {
                             });
                           },
                           icon: Icon(
-                            _isObsecure ? Icons.visibility_off : Icons.visibility,
+                            _isObsecure
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                           ),
                         ),
                       ),
@@ -185,17 +192,17 @@ class _LoginPageState extends State<LoginPage> {
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/forget_password');
-                  }, 
+                  },
                   child: Text(
                     "Lupa Password?",
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       fontWeight: medium,
-                      color: primaryColor
+                      color: primaryColor,
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 30),
 
                 Row(
