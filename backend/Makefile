@@ -33,3 +33,6 @@ seed:
 
 rollback:
 	@go run main.go --rollback
+
+tidy:
+	@go mod tidy

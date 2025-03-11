@@ -7,6 +7,7 @@ import (
 	"github.com/Amierza/warasin-mobile/backend/cmd"
 	"github.com/Amierza/warasin-mobile/backend/config/database"
 	"github.com/Amierza/warasin-mobile/backend/handler"
+	"github.com/Amierza/warasin-mobile/backend/middleware"
 	"github.com/Amierza/warasin-mobile/backend/repository"
 	"github.com/Amierza/warasin-mobile/backend/routes"
 	"github.com/Amierza/warasin-mobile/backend/service"
@@ -30,6 +31,7 @@ func main() {
 	)
 
 	server := gin.Default()
+	server.Use(middleware.CORSMiddleware())
 
 	routes.User(server, userHandler, jwtService)
 
