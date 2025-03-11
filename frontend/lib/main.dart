@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/login_controller.dart';
 import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/forget_password_pasword_page.dart';
 import 'package:frontend/view/home_page.dart';
 import 'package:frontend/view/login_page.dart';
 import 'package:frontend/view/register_page.dart';
 import 'package:frontend/view/splash_page.dart';
+import 'package:get/get.dart';
 
 void main() {
+  Get.lazyPut<LoginController>(() => LoginController(), fenix: false);
   runApp(const MyApp());
 }
 

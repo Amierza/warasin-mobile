@@ -39,6 +39,8 @@ dependencies:
   get: ^4.6.6
   shared_preferences: ^2.5.2
   flutter_secure_storage: ^9.2.4
+  curved_navigation_bar: ^1.0.6
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +75,13 @@ flutter:
     - assets/Smiling_face.png
     - assets/SpeciallyPeople.png
     - assets/Welcome.png
+    - assets/Happy.png
+    - assets/Calm.png
+    - assets/Relax.png
+    - assets/Angry.png
+    - assets/berita1.png
+    - assets/berita2.png
+    - assets/berita3.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

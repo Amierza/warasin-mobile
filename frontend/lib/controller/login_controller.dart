@@ -7,7 +7,7 @@ import 'package:frontend/widget/dialog_auth.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginController extends GetxController{
+class LoginController extends GetxController {
   var isEmail = true.obs;
   var isPassword = true.obs;
   var isLoading = false.obs;
@@ -36,7 +36,7 @@ class LoginController extends GetxController{
 
     try {
       final response = await ApiService.login(
-        emailController.text, 
+        emailController.text,
         passwordController.text,
       );
 
@@ -55,9 +55,9 @@ class LoginController extends GetxController{
               message: 'Semoga harimu menyenangkan',
               onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(
-                  context, 
+                  context,
                   '/home',
-                  (route) => false
+                  (route) => false,
                 );
               },
               backgroundColor: successColor,
@@ -104,17 +104,24 @@ class LoginController extends GetxController{
       }
     } catch (err) {
       showCustomDialog(
-        context: context, 
-        icon: Icons.cancel, 
-        title: 'Login Gagal', 
-        message: "Oops..! Terjadi kesalahan: $err", 
+        context: context,
+        icon: Icons.cancel,
+        title: 'Login Gagal',
+        message: "Oops..! Terjadi kesalahan: $err",
         onPressed: () {
           Navigator.of(context).pop();
         },
-        backgroundColor: dangerColor
+        backgroundColor: dangerColor,
       );
     } finally {
       isLoading.value = false;
     }
+  }
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
   }
 }
