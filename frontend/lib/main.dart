@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/login_controller.dart';
+import 'package:frontend/view/concultation_page.dart';
 import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/forget_password_pasword_page.dart';
 import 'package:frontend/view/home_page.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Warasin Mental Health Application',
       debugShowCheckedModeBanner: false,
       routes: {
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/forget_password': (context) => const ForgetPasswordEmailPage(),
         '/home': (context) => const HomePage(),
         '/forget_password_password': (context) => const ForgetPasswordPaswordPage(),
+        '/concultation': (context) => const ConcultationPage(),
       },
     );
   }
