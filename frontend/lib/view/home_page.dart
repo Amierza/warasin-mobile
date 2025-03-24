@@ -11,6 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       backgroundColor: primaryColor,
       body: SingleChildScrollView(
         child: Column(
@@ -47,7 +48,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const CustomNavigationBar(),
+      bottomNavigationBar: const CustomNavigationBar(currentIndex: 0),
     );
   }
 }
@@ -89,7 +90,7 @@ class MoodSection extends StatelessWidget {
             MoodItem(
               color: customAqua,
               image: 'assets/Relax.png',
-              label: 'Manic'
+              label: 'Manic',
             ),
             MoodItem(
               color: customOrange,
@@ -122,25 +123,20 @@ class MoodItem extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(20)
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Image.asset(
-              image, 
-              width: 40, 
+              image,
+              width: 40,
               height: 40,
-              color: Colors.white
+              color: Colors.white,
             ),
           ),
         ),
         const SizedBox(height: 5),
-        Text(
-          label, 
-          style: GoogleFonts.poppins(
-            fontSize: 12
-          ),
-        ),
+        Text(label, style: GoogleFonts.poppins(fontSize: 12)),
       ],
     );
   }
@@ -149,18 +145,19 @@ class MoodItem extends StatelessWidget {
 List<Map<String, String>> trendingItems = [
   {
     "image": "assets/berita1.png",
-    "title": "10 Rekomendasi Musik Klasik yang Cocok untuk Relaksasi"
+    "title": "10 Rekomendasi Musik Klasik yang Cocok untuk Relaksasi",
   },
   {
     "image": "assets/berita2.png",
-    "title": "Halo GenZ, Seberapa Sehatkah Mentalmu? Ini Cara Mendeteksinya dari Psikolog."
+    "title":
+        "Halo GenZ, Seberapa Sehatkah Mentalmu? Ini Cara Mendeteksinya dari Psikolog.",
   },
   {
     "image": "assets/berita3.png",
-    "title": "Introvert Susah Bergaul karena 'Social Battery' Cepat Habis? Begini Kata Psikolog."
+    "title":
+        "Introvert Susah Bergaul karena 'Social Battery' Cepat Habis? Begini Kata Psikolog.",
   },
 ];
-
 
 class TrendingSection extends StatelessWidget {
   @override
@@ -174,12 +171,13 @@ class TrendingSection extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         CarouselSlider(
-          items: trendingItems.map((item) {
-            return TrendingItem(
-              title: item['title']!,
-              image: item['image']!,
-            );
-          }).toList(),
+          items:
+              trendingItems.map((item) {
+                return TrendingItem(
+                  title: item['title']!,
+                  image: item['image']!,
+                );
+              }).toList(),
           options: CarouselOptions(
             height: 150,
             autoPlay: true,
@@ -248,7 +246,6 @@ class TrendingItem extends StatelessWidget {
     );
   }
 }
-
 
 class ProgressSection extends StatelessWidget {
   @override
