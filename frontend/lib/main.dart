@@ -5,6 +5,7 @@ import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/forget_password_pasword_page.dart';
 import 'package:frontend/view/home_page.dart';
 import 'package:frontend/view/login_page.dart';
+import 'package:frontend/view/news_page.dart';
 import 'package:frontend/view/register_page.dart';
 import 'package:frontend/view/splash_page.dart';
 import 'package:get/get.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomePage(),
         '/forget_password_password': (context) => const ForgetPasswordPaswordPage(),
         '/concultation': (context) => const ConcultationPage(),
+        '/news': (context) => const NewsPage(),
       },
     );
   }

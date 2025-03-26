@@ -2,10 +2,56 @@ import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:frontend/widget/header.dart';
 import 'package:frontend/widget/navigation_bar.dart';
+import 'package:frontend/widget/news_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ConcultationPage extends StatelessWidget {
-  const ConcultationPage({super.key});
+List<Map<String, String>> newList = [
+  {
+    "image": "assets/Alone.png",
+    "title": "Halo GenZ, Seberapa Sehatkah Mentalmu? Ini...",
+    "description":
+        "Sekarang adalah waktu yang tepat untuk memperbaiki masalahmu!",
+    "date": "25-04-2025 15:05:08",
+  },
+  {
+    "image": "assets/berita2.png",
+    "title": "Cara Mengatasi Stres dalam Kehidupan Sehari-hari",
+    "description":
+        "Tips dan trik agar tetap tenang menghadapi tantangan hidup.",
+    "date": "26-04-2025 10:30:00",
+  },
+  {
+    "image": "assets/berita3.png",
+    "title": "Manfaat Meditasi untuk Kesehatan Mental",
+    "description":
+        "Mengapa meditasi bisa membantu mengurangi stres dan kecemasan.",
+    "date": "27-04-2025 08:15:00",
+  },
+  {
+    "image": "assets/Alone.png",
+    "title": "Halo GenZ, Seberapa Sehatkah Mentalmu? Ini...",
+    "description":
+        "Sekarang adalah waktu yang tepat untuk memperbaiki masalahmu!",
+    "date": "25-04-2025 15:05:08",
+  },
+  {
+    "image": "assets/berita2.png",
+    "title": "Cara Mengatasi Stres dalam Kehidupan Sehari-hari",
+    "description":
+        "Tips dan trik agar tetap tenang menghadapi tantangan hidup.",
+    "date": "26-04-2025 10:30:00",
+  },
+  {
+    "image": "assets/berita3.png",
+    "title": "Manfaat Meditasi untuk Kesehatan Mental",
+    "description":
+        "Mengapa meditasi bisa membantu mengurangi stres dan kecemasan.",
+    "date": "27-04-2025 08:15:00",
+  },
+];
+
+class NewsPage extends StatelessWidget {
+  const NewsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +71,7 @@ class ConcultationPage extends StatelessWidget {
                   TextFormField(
                     style: GoogleFonts.poppins(color: backgroundColor),
                     decoration: InputDecoration(
-                      hintText: "Temukan Konselormu...",
+                      hintText: "Temukan Berita Menarik...",
                       hintStyle: GoogleFonts.poppins(color: backgroundColor),
                       prefixIcon: Icon(
                         Icons.search_rounded,
@@ -79,7 +125,7 @@ class ConcultationPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Daftar Konselor",
+                          "Daftar Berita",
                           style: GoogleFonts.poppins(
                             fontSize: 20,
                             fontWeight: semiBold,
@@ -97,19 +143,17 @@ class ConcultationPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 14),
-                    CounselorCard(),
-                    const SizedBox(height: 14),
-                    CounselorCard(),
-                    const SizedBox(height: 14),
-                    CounselorCard(),
-                    const SizedBox(height: 14),
-                    CounselorCard(),
-                    const SizedBox(height: 14),
-                    CounselorCard(),
-                    const SizedBox(height: 14),
-                    CounselorCard(),
-                    const SizedBox(height: 14),
+                    Column(
+                      children:
+                          newList.map((news) {
+                            return NewsCard(
+                              image: news["image"]!,
+                              title: news["title"]!,
+                              desc: news["description"]!,
+                              date: news["date"]!,
+                            );
+                          }).toList(),
+                    ),
                   ],
                 ),
               ),
@@ -117,7 +161,7 @@ class ConcultationPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const CustomNavigationBar(currentIndex: 2),
+      bottomNavigationBar: const CustomNavigationBar(currentIndex: 3),
     );
   }
 }
