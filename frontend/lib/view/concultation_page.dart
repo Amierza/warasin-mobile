@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:frontend/widget/header.dart';
 import 'package:frontend/widget/navigation_bar.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ConcultationPage extends StatelessWidget {
@@ -98,18 +99,29 @@ class ConcultationPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 14),
-                    CounselorCard(),
+                    CounselorCard(onTap: () {
+                      Get.toNamed('/concultation_detail');
+                    }),
                     const SizedBox(height: 14),
-                    CounselorCard(),
+                    CounselorCard(onTap: () {
+                      Get.toNamed('/concultation_detail');
+                    }),
                     const SizedBox(height: 14),
-                    CounselorCard(),
+                    CounselorCard(onTap: () {
+                      Get.toNamed('/concultation_detail');
+                    }),
                     const SizedBox(height: 14),
-                    CounselorCard(),
+                    CounselorCard(onTap: () {
+                      Get.toNamed('/concultation_detail');
+                    }),
                     const SizedBox(height: 14),
-                    CounselorCard(),
+                    CounselorCard(onTap: () {
+                      Get.toNamed('/concultation_detail');
+                    }),
                     const SizedBox(height: 14),
-                    CounselorCard(),
-                    const SizedBox(height: 14),
+                    CounselorCard(onTap: () {
+                      Get.toNamed('/concultation_detail');
+                    }),
                   ],
                 ),
               ),
@@ -123,68 +135,76 @@ class ConcultationPage extends StatelessWidget {
 }
 
 class CounselorCard extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const CounselorCard({Key? key, required this.onTap}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.asset(
-                'assets/Alone.png',
-                width: 100,
-                height: 100,
-                fit: BoxFit.cover,
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.asset(
+                  'assets/Alone.png',
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Dr. Alfonsus Nortus",
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: semiBold,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Dr. Alfonsus Nortus",
+                      style: GoogleFonts.poppins(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                  const Divider(),
-                  Row(
-                    children: [
-                      Text(
-                        "Konselor",
-                        style: GoogleFonts.poppins(fontSize: 14),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: VerticalDivider(
-                          thickness: 1,
-                          color: Colors.black54,
+                    const Divider(),
+                    Row(
+                      children: [
+                        Text(
+                          "Konselor",
+                          style: GoogleFonts.poppins(fontSize: 14),
                         ),
-                      ),
-                      Text(
-                        "RS Unair",
-                        style: GoogleFonts.poppins(fontSize: 14),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Icon(Icons.star, color: Colors.amber, size: 20),
-                      SizedBox(width: 5),
-                      Text("4.9", style: GoogleFonts.poppins(fontSize: 14)),
-                    ],
-                  ),
-                ],
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: VerticalDivider(
+                            thickness: 1,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        Text(
+                          "RS Unair",
+                          style: GoogleFonts.poppins(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Icon(Icons.star, color: Colors.amber, size: 20),
+                        SizedBox(width: 5),
+                        Text("4.9", style: GoogleFonts.poppins(fontSize: 14)),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

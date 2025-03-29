@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/login_controller.dart';
 import 'package:frontend/view/concultation_page.dart';
+import 'package:frontend/view/detail_concultation_page.dart';
 import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/forget_password_pasword_page.dart';
 import 'package:frontend/view/home_page.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/concultation': (context) => const ConcultationPage(),
         '/news': (context) => const NewsPage(),
         '/news_detail': (context) => const NewsDetailPage(),
+        '/concultation_detail': (context) => const DetailConcultationPage(),
       },
     );
   }
