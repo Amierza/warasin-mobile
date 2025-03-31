@@ -4,6 +4,7 @@ import 'package:frontend/view/concultation_page.dart';
 import 'package:frontend/view/detail_concultation_page.dart';
 import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/forget_password_pasword_page.dart';
+import 'package:frontend/view/history_consultation_page.dart';
 import 'package:frontend/view/profile_page.dart';
 import 'package:frontend/view/home_page.dart';
 import 'package:frontend/view/login_page.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/news': (context) => const NewsPage(),
         '/news_detail': (context) => const NewsDetailPage(),
         '/concultation_detail': (context) => const DetailConcultationPage(),
+        '/history_consultation': (context) => const HistoryConsultationPage(),
         '/profile': (context) => const ProfilePage(),
       },
     );
