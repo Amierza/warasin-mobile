@@ -48,7 +48,7 @@ class ProfilePage extends StatelessWidget {
                       icon: Icons.history, 
                       name: "Riwayat Konsultasi",
                       onPressed: () {
-                        Get.toNamed('/history_concultation');
+                        Get.toNamed('/history_consultation');
                       },
                     ),
                     MenuButton(
