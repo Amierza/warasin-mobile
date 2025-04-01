@@ -53,7 +53,10 @@ class ProfilePage extends StatelessWidget {
                     ),
                     MenuButton(
                       icon: Icons.people_outline, 
-                      name: "Riwayat Kesehatan"
+                      name: "Riwayat Kesehatan",
+                      onPressed:  () {
+                        Get.toNamed('/data_completeness_greetings');
+                      },
                     ),
 
                     const SizedBox(
