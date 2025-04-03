@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/login_controller.dart';
 import 'package:frontend/view/concultation_page.dart';
+import 'package:frontend/view/data_completeness_feels_page.dart';
 import 'package:frontend/view/data_completeness_greetings_page.dart';
 import 'package:frontend/view/detail_concultation_page.dart';
 import 'package:frontend/view/forget_password_email_page.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterPage(),
         '/forget_password': (context) => const ForgetPasswordEmailPage(),
         '/data_completeness_greetings': (context) => const DataCompletenessGreetingsPage(),
+        '/data_completeness_feels': (context) => const DataCompletenessFeelsPage(),
         '/home': (context) => const HomePage(),
         '/forget_password_password': (context) => const ForgetPasswordPaswordPage(),
         '/concultation': (context) => const ConcultationPage(),
