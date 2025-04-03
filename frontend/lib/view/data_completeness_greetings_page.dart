@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DataCompletenessGreetingsPage extends StatelessWidget {
@@ -14,6 +15,7 @@ class DataCompletenessGreetingsPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             vertical: 150,
             horizontal: 50,
+            
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,7 +34,9 @@ class DataCompletenessGreetingsPage extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed('/data_completeness_feels');
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryColor,
                     shape: RoundedRectangleBorder(
