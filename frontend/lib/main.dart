@@ -4,6 +4,7 @@ import 'package:frontend/view/concultation_page.dart';
 import 'package:frontend/view/data_completeness_feels_page.dart';
 import 'package:frontend/view/data_completeness_greetings_page.dart';
 import 'package:frontend/view/data_completeness_problems_page.dart';
+import 'package:frontend/view/data_completeness_supports_page.dart';
 import 'package:frontend/view/detail_concultation_page.dart';
 import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/forget_password_pasword_page.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/data_completeness_greetings': (context) => const DataCompletenessGreetingsPage(),
         '/data_completeness_feels': (context) => const DataCompletenessFeelsPage(),
         '/data_completeness_problems': (context) => const DataCompletenessProblemsPage(),
+        '/data_completeness_supports': (context) => const DataCompletenessSupportsPage(),
         '/home': (context) => const HomePage(),
         '/forget_password_password': (context) => const ForgetPasswordPaswordPage(),
         '/concultation': (context) => const ConcultationPage(),
