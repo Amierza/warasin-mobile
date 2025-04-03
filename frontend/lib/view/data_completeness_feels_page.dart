@@ -4,8 +4,23 @@ import 'package:frontend/widget/feels_cards.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class DataCompletenessFeelsPage extends StatelessWidget {
+List<Map<String, String>> feels = [
+  {"image": "assets/Smiling_face.png", "label": "Senang"},
+  {"image": "assets/Disappointed_face.png", "label": "Sedih"},
+  {"image": "assets/Pouting_face.png", "label": "Marah"},
+  {"image": "assets/Disappointed_but_relieved_face.png", "label": "Bingung"},
+];
+
+class DataCompletenessFeelsPage extends StatefulWidget {
   const DataCompletenessFeelsPage({super.key});
+
+  @override
+  State<DataCompletenessFeelsPage> createState() =>
+      _DataCompletenessFeelsPageState();
+}
+
+class _DataCompletenessFeelsPageState extends State<DataCompletenessFeelsPage> {
+  int? selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -23,36 +38,34 @@ class DataCompletenessFeelsPage extends StatelessWidget {
                 style: GoogleFonts.poppins(fontSize: 20, fontWeight: semiBold),
               ),
               Expanded(
-                // Tambahkan Expanded agar GridView tidak error
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  children: [
-                    FeelCards(
-                      image: 'assets/Smiling_face.png',
-                      label: 'Senang',
-                    ),
-                    FeelCards(
-                      image: 'assets/Disappointed_face.png',
-                      label: 'Sedih',
-                    ),
-                    FeelCards(
-                      image: 'assets/Pouting_face.png',
-                      label: 'Marah',
-                    ),
-                    FeelCards(
-                      image: 'assets/Disappointed_but_relieved_face.png',
-                      label: 'Bingung',
-                    ),
-                  ],
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                  ),
+                  itemCount: feels.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedIndex = index;
+                        });
+                      },
+                      child: FeelCards(
+                        image: feels[index]['image']!,
+                        label: feels[index]['label']!,
+                        isSelected: selectedIndex == index,
+                      ),
+                    );
+                  },
                 ),
               ),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Get.toNamed('/data_completeness_feels');
+                    Get.toNamed('/data_completeness_problems');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryColor,
