@@ -15,7 +15,6 @@ class DataCompletenessGreetingsPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             vertical: 150,
             horizontal: 40,
-            
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
