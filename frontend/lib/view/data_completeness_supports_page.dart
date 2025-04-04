@@ -153,7 +153,7 @@ class _DataCompletenessSupportsPageState
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        Get.toNamed('/data_completeness_problems');
+                        Get.toNamed('/data_completeness_profile');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primaryColor,
