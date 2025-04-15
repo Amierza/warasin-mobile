@@ -99,7 +99,7 @@ class MoodSection extends StatelessWidget {
             ),
             MoodItem(
               color: customGreen,
-              image: 'assets/Angry.png',
+              image: 'assets/Sad.png',
               label: 'Sad',
             ),
           ],

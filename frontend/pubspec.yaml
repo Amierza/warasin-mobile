@@ -59,29 +59,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/Alone.png
-    - assets/Check_Icon.png
-    - assets/Close_Icon.png
-    - assets/Community.png
-    - assets/Disappointed_face.png
-    - assets/Disappointed_but_relieved_face.png
-    - assets/Doctor.png
-    - assets/Family.png
-    - assets/Hobby.png
-    - assets/logo-purple.png
-    - assets/logo-white.png
-    - assets/Pouting_face.png
-    - assets/Pray.png
-    - assets/Smiling_face.png
-    - assets/SpeciallyPeople.png
-    - assets/Welcome.png
-    - assets/Happy.png
-    - assets/Calm.png
-    - assets/Relax.png
-    - assets/Angry.png
-    - assets/berita1.png
-    - assets/berita2.png
-    - assets/berita3.png
+    - assets/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

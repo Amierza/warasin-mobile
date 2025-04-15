@@ -56,7 +56,7 @@ class LoginController extends GetxController {
               onPressed: () {
                 Navigator.pushNamedAndRemoveUntil(
                   context,
-                  '/home',
+                  '/data_completeness_greetings',
                   (route) => false,
                 );
               },

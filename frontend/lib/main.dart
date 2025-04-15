@@ -17,6 +17,7 @@ import 'package:frontend/view/news_detail_page.dart';
 import 'package:frontend/view/news_page.dart';
 import 'package:frontend/view/register_page.dart';
 import 'package:frontend/view/splash_page.dart';
+import 'package:frontend/view/terapiin_page.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/data_completeness_supports': (context) => const DataCompletenessSupportsPage(),
         '/data_completeness_profile': (context) => const DataCompletenessProfilePage(),
         '/home': (context) => const HomePage(),
+        '/terapiin': (context) => const TerapiinPage(),
         '/forget_password_password': (context) => const ForgetPasswordPaswordPage(),
         '/concultation': (context) => const ConcultationPage(),
         '/news': (context) => const NewsPage(),
