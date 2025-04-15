@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:frontend/shared/theme.dart';
+import 'package:frontend/widget/navigation_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+class TerapiinPage extends StatelessWidget {
+  const TerapiinPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: backgroundColor,
+      body: Center(
+        child: Text(
+          "404 Not Found",
+          style: GoogleFonts.poppins(
+            fontSize: 26,
+            fontWeight: regular,
+            color: primaryTextColor
+          ),
+        )
+      ),
+      bottomNavigationBar: const CustomNavigationBar(currentIndex: 1),
+    );
+  }
+}

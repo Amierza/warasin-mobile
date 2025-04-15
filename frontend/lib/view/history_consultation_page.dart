@@ -8,6 +8,7 @@ class HistoryConsultationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
         child: AppBar(
