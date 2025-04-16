@@ -2,7 +2,9 @@ package dto
 
 import (
 	"errors"
+	"time"
 
+	"github.com/Amierza/warasin-mobile/backend/entity"
 	"github.com/google/uuid"
 )
 
@@ -20,6 +22,7 @@ const (
 	MESSAGE_FAILED_SEND_FORGOT_PASSWORD_EMAIL  = "failed to send forgot password email"
 	MESSAGE_FAILED_UPDATE_PASSWORD             = "failed to update password"
 	MESSAGE_FAILED_CHECK_FORGOT_PASSWORD_TOKEN = "failed to check forgot password token"
+	MESSAGE_FAILED_GET_DETAIL_USER             = "failed get detail user"
 
 	// success
 	MESSAGE_SUCCESS_GET_DATA_FROM_BODY          = "success get data from body"
@@ -30,6 +33,7 @@ const (
 	MESSAGE_SUCCESS_SEND_FORGOT_PASSWORD_EMAIL  = "success to send forgot password email"
 	MESSAGE_SUCCESS_UPDATE_PASSWORD             = "success to update password"
 	MESSAGE_SUCCESS_CHECK_FORGOT_PASSWORD_TOKEN = "success to check forgot password token"
+	MESSAGE_SUCCESS_GET_DETAIL_USER             = "success get detail user"
 )
 
 var (
@@ -48,6 +52,7 @@ var (
 	ErrUpdateUser            = errors.New("failed to update user")
 	ErrGetUserByPassword     = errors.New("failed to get user by password")
 	ErrHashPassword          = errors.New("failed to hash password")
+	ErrGetUserIDFromToken    = errors.New("failed get user id from token")
 )
 
 type (
@@ -56,6 +61,8 @@ type (
 		Name     string    `json:"name"`
 		Email    string    `json:"email"`
 		Password string    `json:"password"`
+
+		entity.TimeStamp
 	}
 
 	UserRegisterRequest struct {
@@ -72,6 +79,8 @@ type (
 	UserLoginResponse struct {
 		AccessToken  string `json:"access_token"`
 		RefreshToken string `json:"refresh_token"`
+
+		entity.TimeStamp
 	}
 
 	SendForgotPasswordEmailRequest struct {
@@ -84,6 +93,8 @@ type (
 
 	ForgotPasswordResponse struct {
 		Email string `json:"email" form:"email" binding:"required"`
+
+		entity.TimeStamp
 	}
 
 	UpdatePasswordRequest struct {
@@ -94,6 +105,8 @@ type (
 	UpdatePasswordResponse struct {
 		OldPassword string `json:"old_password" form:"old_password" binding:"required"`
 		NewPassword string `json:"new_password" form:"new_password" binding:"required"`
+
+		entity.TimeStamp
 	}
 
 	SendVerificationEmailRequest struct {
@@ -107,5 +120,24 @@ type (
 	VerifyEmailResponse struct {
 		Email      string `json:"email"`
 		IsVerified bool   `json:"is_verified"`
+
+		entity.TimeStamp
+	}
+
+	AllUserResponse struct {
+		ID          uuid.UUID  `json:"user_id"`
+		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id"`
+		Name        string     `json:"name"`
+		Email       string     `json:"email"`
+		Password    string     `json:"password"`
+		Birthdate   *time.Time `gorm:"type:date" json:"user_birth_date,omitempty"`
+		PhoneNumber string     `json:"user_phone_number,omitempty"`
+		Role        int        `json:"user_role"`
+		Data01      int        `json:"user_data01,omitempty"`
+		Data02      int        `json:"user_data02,omitempty"`
+		Data03      int        `json:"user_data03,omitempty"`
+		IsVerified  bool       `json:"is_verified"`
+
+		entity.TimeStamp
 	}
 )

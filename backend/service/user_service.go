@@ -26,6 +26,7 @@ type (
 		UpdatePassword(ctx context.Context, req dto.UpdatePasswordRequest) (dto.UpdatePasswordResponse, error)
 		SendVerificationEmail(ctx context.Context, req dto.SendVerificationEmailRequest) error
 		VerifyEmail(ctx context.Context, req dto.VerifyEmailRequest) (dto.VerifyEmailResponse, error)
+		GetDetailUser(ctx context.Context) (dto.AllUserResponse, error)
 	}
 
 	UserService struct {
@@ -337,5 +338,34 @@ func (us *UserService) VerifyEmail(ctx context.Context, req dto.VerifyEmailReque
 	return dto.VerifyEmailResponse{
 		Email:      email,
 		IsVerified: updatedUser.IsVerified,
+	}, nil
+}
+
+func (us *UserService) GetDetailUser(ctx context.Context) (dto.AllUserResponse, error) {
+	token := ctx.Value("Authorization").(string)
+
+	userId, err := us.jwtService.GetUserIDByToken(token)
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrGetUserIDFromToken
+	}
+
+	user, err := us.userRepo.GetUserByID(ctx, nil, userId)
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrUserNotFound
+	}
+
+	return dto.AllUserResponse{
+		ID:          user.ID,
+		CityID:      user.CityID,
+		Name:        user.Name,
+		Email:       user.Email,
+		Password:    user.Password,
+		Birthdate:   user.Birthdate,
+		PhoneNumber: user.PhoneNumber,
+		Role:        user.Role,
+		Data01:      user.Data01,
+		Data02:      user.Data02,
+		Data03:      user.Data03,
+		IsVerified:  user.IsVerified,
 	}, nil
 }

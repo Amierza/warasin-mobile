@@ -18,6 +18,7 @@ type (
 		UpdatePassword(ctx *gin.Context)
 		SendVerificationEmail(ctx *gin.Context)
 		VerifyEmail(ctx *gin.Context)
+		GetDetailUser(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -161,5 +162,17 @@ func (uh *UserHandler) VerifyEmail(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_VERIFY_EMAIL, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (uh *UserHandler) GetDetailUser(ctx *gin.Context) {
+	result, err := uh.userService.GetDetailUser(ctx)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_USER, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_USER, result)
 	ctx.JSON(http.StatusOK, res)
 }
