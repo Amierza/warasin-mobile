@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/Amierza/warasin-mobile/backend/entity"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -48,6 +49,7 @@ func (ur *UserRepository) RegisterUser(ctx context.Context, tx *gorm.DB, user en
 		tx = ur.db
 	}
 
+	user.ID = uuid.New()
 	if err := tx.WithContext(ctx).Create(&user).Error; err != nil {
 		return entity.User{}, err
 	}
