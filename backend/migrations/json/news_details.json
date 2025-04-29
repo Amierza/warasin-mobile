@@ -1,0 +1,98 @@
+[
+  {
+    "news_detail_id": "c65eb812-f209-417e-b017-e6e0120107ae",
+    "news_detail_date": "2025-04-11",
+    "user_id": "e7c3be62-6e20-4e21-a83d-daa9b95c591b",
+    "news_id": "f5d7a8a9-2b0f-4c6f-a2d5-8b2e1b3d5e77"
+  },
+  {
+    "news_detail_id": "ab5e0de2-c063-4705-84ec-4e897dfc1d69",
+    "news_detail_date": "2025-04-12",
+    "user_id": "e7c3be62-6e20-4e21-a83d-daa9b95c591b",
+    "news_id": "9db2a991-03e7-4a55-b845-524f2a226ed2"
+  },
+  {
+    "news_detail_id": "137fe571-ff69-4e08-9ab4-b3c23978b598",
+    "news_detail_date": "2025-04-13",
+    "user_id": "e7c3be62-6e20-4e21-a83d-daa9b95c591b",
+    "news_id": "71bfb20e-0a52-48b5-9e8e-c730c6e582d0"
+  },
+  {
+    "news_detail_id": "d255ac3a-c7c7-4d1a-a93e-6275c6e59915",
+    "news_detail_date": "2025-04-14",
+    "user_id": "e7c3be62-6e20-4e21-a83d-daa9b95c591b",
+    "news_id": "c510f197-104e-4c21-b70e-b32c1df630a4"
+  },
+  {
+    "news_detail_id": "73f9ec0f-bb2d-4a8e-8883-846779a3ab14",
+    "news_detail_date": "2025-04-15",
+    "user_id": "4578adad-bfc2-42e2-b9ef-3782d1fcd028",
+    "news_id": "f5d7a8a9-2b0f-4c6f-a2d5-8b2e1b3d5e77"
+  },
+  {
+    "news_detail_id": "6492fe62-30a4-4d44-b3b6-e4e182374bd9",
+    "news_detail_date": "2025-04-16",
+    "user_id": "4578adad-bfc2-42e2-b9ef-3782d1fcd028",
+    "news_id": "9db2a991-03e7-4a55-b845-524f2a226ed2"
+  },
+  {
+    "news_detail_id": "7b299eb0-79b9-4662-a51a-4db09cd00042",
+    "news_detail_date": "2025-04-17",
+    "user_id": "4578adad-bfc2-42e2-b9ef-3782d1fcd028",
+    "news_id": "71bfb20e-0a52-48b5-9e8e-c730c6e582d0"
+  },
+  {
+    "news_detail_id": "70a88d87-d585-4ee5-b179-39c3a145cf09",
+    "news_detail_date": "2025-04-18",
+    "user_id": "4578adad-bfc2-42e2-b9ef-3782d1fcd028",
+    "news_id": "c510f197-104e-4c21-b70e-b32c1df630a4"
+  },
+  {
+    "news_detail_id": "b2e0d7f2-85df-4ccf-b768-d400dd462df8",
+    "news_detail_date": "2025-04-19",
+    "user_id": "a1d42b16-4c86-40d3-90c4-6b8e12be36e0",
+    "news_id": "f5d7a8a9-2b0f-4c6f-a2d5-8b2e1b3d5e77"
+  },
+  {
+    "news_detail_id": "3d7cf6bb-4bb3-4083-8f64-c3e6ed7e502c",
+    "news_detail_date": "2025-04-20",
+    "user_id": "a1d42b16-4c86-40d3-90c4-6b8e12be36e0",
+    "news_id": "9db2a991-03e7-4a55-b845-524f2a226ed2"
+  },
+  {
+    "news_detail_id": "4df83ff9-8e5d-48ae-9c10-1a62b2a0a64a",
+    "news_detail_date": "2025-04-21",
+    "user_id": "a1d42b16-4c86-40d3-90c4-6b8e12be36e0",
+    "news_id": "71bfb20e-0a52-48b5-9e8e-c730c6e582d0"
+  },
+  {
+    "news_detail_id": "3467e31f-1ad3-41b0-8555-36f2f00785f5",
+    "news_detail_date": "2025-04-22",
+    "user_id": "a1d42b16-4c86-40d3-90c4-6b8e12be36e0",
+    "news_id": "c510f197-104e-4c21-b70e-b32c1df630a4"
+  },
+  {
+    "news_detail_id": "5cfa7a69-f5d2-4959-bb0a-4cd93936cf2a",
+    "news_detail_date": "2025-04-23",
+    "user_id": "76e7a6d3-7f7c-4f0d-98f7-5c5e80f328a9",
+    "news_id": "f5d7a8a9-2b0f-4c6f-a2d5-8b2e1b3d5e77"
+  },
+  {
+    "news_detail_id": "b0f2a19d-680e-44a8-a5a2-f823ec69a44d",
+    "news_detail_date": "2025-04-24",
+    "user_id": "76e7a6d3-7f7c-4f0d-98f7-5c5e80f328a9",
+    "news_id": "9db2a991-03e7-4a55-b845-524f2a226ed2"
+  },
+  {
+    "news_detail_id": "96e62c13-55f1-4b79-a2d3-10e6a0f956be",
+    "news_detail_date": "2025-04-25",
+    "user_id": "76e7a6d3-7f7c-4f0d-98f7-5c5e80f328a9",
+    "news_id": "71bfb20e-0a52-48b5-9e8e-c730c6e582d0"
+  },
+  {
+    "news_detail_id": "f09f77ce-070f-4c11-85b4-9fc56fcfa11f",
+    "news_detail_date": "2025-04-26",
+    "user_id": "76e7a6d3-7f7c-4f0d-98f7-5c5e80f328a9",
+    "news_id": "c510f197-104e-4c21-b70e-b32c1df630a4"
+  }
+]

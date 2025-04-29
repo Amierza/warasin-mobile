@@ -1,0 +1,42 @@
+[
+  {
+    "prac_id": "5d8fa850-6eaf-4d56-8286-2f31b56a52b2",
+    "prac_type": "Praktek Klinik",
+    "prac_name": "Klinik Psikologi Sehat Jiwa",
+    "prac_address": "Jl. Sehat No.10, Jakarta",
+    "prac_phone_number": "+62 21 5551001",
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f"
+  },
+  {
+    "prac_id": "31d8f7f3-8a42-4c99-85ca-c6cc55c9c1f9",
+    "prac_type": "Konsultasi Online",
+    "prac_name": "Psikologi Digital",
+    "prac_address": "Jl. Cyber No.15, Bandung",
+    "prac_phone_number": "+62 22 7891234",
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
+  },
+  {
+    "prac_id": "f84db3b4-5a90-4041-9fd0-2c547fb45be5",
+    "prac_type": "Praktek Klinik",
+    "prac_name": "Klinik Psikologi Harmoni",
+    "prac_address": "Jl. Kebahagiaan No.50, Surabaya",
+    "prac_phone_number": "+62 31 4002555",
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
+  },
+  {
+    "prac_id": "d7c3b98f-c39c-48f2-9c53-68c49fbbf0a9",
+    "prac_type": "Konsultasi Online",
+    "prac_name": "Konsultasi Psikologi Pro",
+    "prac_address": "Jl. Mahir No.27, Yogyakarta",
+    "prac_phone_number": "+62 27 3355444",
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76"
+  },
+  {
+    "prac_id": "a76df1e7-4d73-44d7-b27c-439fe2f66e2e",
+    "prac_type": "Praktek Klinik",
+    "prac_name": "Klinik Psikologi Ceria",
+    "prac_address": "Jl. Suka No.13, Medan",
+    "prac_phone_number": "+62 61 3356222",
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
+  }
+]

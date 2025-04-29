@@ -1,0 +1,62 @@
+[
+  {
+    "user_id": "e7c3be62-6e20-4e21-a83d-daa9b95c591b",
+    "user_name": "Andi Prasetyo",
+    "user_email": "andi.prasetyo@gmail.com",
+    "user_password": "hashedpassword1",
+    "user_phone_number": "081234567890",
+    "user_is_verified": true,
+    "city_id": "b13bb1cb-b8a0-4cf0-832a-e35796f44bbe",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "user_id": "4578adad-bfc2-42e2-b9ef-3782d1fcd028",
+    "user_name": "Budi Prasetyo",
+    "user_email": "budi.prasetyo@gmail.com",
+    "user_password": "hashedpassword10",
+    "user_phone_number": "081234567449",
+    "user_is_verified": false,
+    "city_id": "3fcc9055-9cd7-487a-b573-f9a79b113525",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "user_id": "a1d42b16-4c86-40d3-90c4-6b8e12be36e0",
+    "user_name": "Dewi Lestari",
+    "user_email": "dewi.lestari@gmail.com",
+    "user_password": "hashedpassword2",
+    "user_phone_number": "081298765432",
+    "user_is_verified": false,
+    "city_id": "b13bb1cb-b8a0-4cf0-832a-e35796f44bbe",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "user_id": "76e7a6d3-7f7c-4f0d-98f7-5c5e80f328a9",
+    "user_name": "Rina Handayani",
+    "user_email": "rina.handayani@gmail.com",
+    "user_password": "hashedpassword3",
+    "user_phone_number": "082134567890",
+    "user_is_verified": true,
+    "city_id": "3fcc9055-9cd7-487a-b573-f9a79b113525",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "user_id": "4ed6c306-c529-44a6-8128-89dd4c3f5c1f",
+    "user_name": "Admin Utama",
+    "user_email": "admin1@psikologapp.com",
+    "user_password": "adminpass1",
+    "user_phone_number": "089912345678",
+    "user_is_verified": true,
+    "city_id": "8e571815-809d-46e8-ad36-61ff4a1f2ca1",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "user_id": "cb929b5d-d2d3-47e6-a9f0-3a73ef9c4f47",
+    "user_name": "Admin Cadangan",
+    "user_email": "admin2@psikologapp.com",
+    "user_password": "adminpass2",
+    "user_phone_number": "089923456789",
+    "user_is_verified": true,
+    "city_id": "121ff0c4-b8b3-481e-8fe6-a736528daf71",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  }
+]

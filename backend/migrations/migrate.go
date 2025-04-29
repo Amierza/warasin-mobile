@@ -7,12 +7,32 @@ import (
 
 func Migrate(db *gorm.DB) error {
 	if err := db.AutoMigrate(
+		&entity.Role{},
+		&entity.Permission{},
+		&entity.Province{},
 		&entity.City{},
-		&entity.News{},
-		&entity.Psycholog{},
 		&entity.User{},
-		&entity.NewsDetail{},
+		&entity.Psycholog{},
 		&entity.Consulation{},
+		&entity.Education{},
+
+		&entity.MotivationCategory{},
+		&entity.Motivation{},
+		&entity.UserMotivation{},
+
+		&entity.News{},
+		&entity.NewsDetail{},
+
+		&entity.LanguageMaster{},
+		&entity.PsychologLanguage{},
+
+		&entity.Specialization{},
+		&entity.SpecializationDetail{},
+		&entity.PsychologSpecialization{},
+
+		&entity.Practice{},
+		&entity.PracticeSchedule{},
+		&entity.AvailableSlot{},
 	); err != nil {
 		return err
 	}

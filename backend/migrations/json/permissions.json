@@ -1,0 +1,62 @@
+[
+  {
+    "permission_id": "0a42cdea-bbb8-40d5-a39e-8c9d01fc2021",
+    "permission_endpoint": "/api/v1/user/register",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "32a9713c-3e60-46ec-bc96-5edb38c2b3e4",
+    "permission_endpoint": "/api/v1/user/login",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "5d6dce4d-dc4e-4e33-a58d-89cfd0bfb0a6",
+    "permission_endpoint": "/api/v1/user/refresh-token",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "f23d3b87-42a1-4c87-91ef-ec2ce75843aa",
+    "permission_endpoint": "/api/v1/user/send-verification-email",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "c7b0a5c9-cdcb-4651-b355-003fa3efec4e",
+    "permission_endpoint": "/api/v1/user/verify-email",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "21995d56-4a60-4b6f-aeef-4a94b7c9346b",
+    "permission_endpoint": "/api/v1/user/send-forgot-password-email",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "d5cf2826-c0cb-4b9f-aac3-bf3d8a17406b",
+    "permission_endpoint": "/api/v1/user/forgot-password",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "11fd5fa4-23fd-49ec-b1f1-5cd982f5192d",
+    "permission_endpoint": "/api/v1/user/update-password",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "b3177e49-9628-40e5-8cf4-4b3482e4adcf",
+    "permission_endpoint": "/api/v1/user/get-detail-user",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "aa4f1680-2e51-44d2-89d3-5d527e83a710",
+    "permission_endpoint": "/api/v1/admin/login",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "f15e39d2-3c38-4974-8441-b676f73d3396",
+    "permission_endpoint": "/api/v1/admin/refresh-token",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "9cb764b1-b6d9-460e-81ee-39d2451f7a1f",
+    "permission_endpoint": "/api/v1/admin/get-all-user",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  }
+]
