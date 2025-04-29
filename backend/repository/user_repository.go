@@ -37,7 +37,7 @@ func (ur *UserRepository) CheckEmail(ctx context.Context, tx *gorm.DB, email str
 	}
 
 	var user entity.User
-	if err := tx.WithContext(ctx).Where("email = ?", email).Take(&user).Error; err != nil {
+	if err := tx.WithContext(ctx).Preload("Role").Preload("City").Where("email = ?", email).Take(&user).Error; err != nil {
 		return entity.User{}, false, err
 	}
 
@@ -88,7 +88,7 @@ func (ur *UserRepository) GetUserByID(ctx context.Context, tx *gorm.DB, userID s
 	}
 
 	var user entity.User
-	if err := tx.WithContext(ctx).Where("id = ?", userID).Take(&user).Error; err != nil {
+	if err := tx.WithContext(ctx).Preload("City.Province").Preload("Role").Where("id = ?", userID).Take(&user).Error; err != nil {
 		return entity.User{}, err
 	}
 
