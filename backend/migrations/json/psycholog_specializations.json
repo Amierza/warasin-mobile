@@ -1,0 +1,52 @@
+[
+  {
+    "psy_spe_id": "cf5ea346-79b1-4a58-b3d4-9e21f7c63a8b",
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f",
+    "spe_id": "60d6bbdf-92ac-46fb-8753-46874101a5a8"
+  },
+  {
+    "psy_spe_id": "af1db257-8ca2-4b69-c4e5-0f32e8d74b9c",
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f",
+    "spe_id": "0230edc3-0a65-4e15-8e17-7917cc64513f"
+  },
+  {
+    "psy_spe_id": "be2ec368-9db3-4c70-d5f6-1e43f9e85c0d",
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d",
+    "spe_id": "1be8321f-74e9-4b62-8c86-58233a6aa59f"
+  },
+  {
+    "psy_spe_id": "cd3fd479-0ec4-4d81-e6f7-2f54e0f96d1e",
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d",
+    "spe_id": "0063e0cb-1e87-411b-acd1-352e3d3e8330"
+  },
+  {
+    "psy_spe_id": "de4ee58a-1fd5-4e92-f7e8-3e65f1e07e2f",
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a",
+    "spe_id": "74a4fd9d-3873-45e5-85c6-f136a0fff7c3"
+  },
+  {
+    "psy_spe_id": "ef5ff69b-2ee6-4fa3-e8f9-4f76e2f18f3e",
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a",
+    "spe_id": "3177e0e6-f6d0-4731-99b9-cce40c5be8fd"
+  },
+  {
+    "psy_spe_id": "fe6ef70c-3ff7-4eb4-f9e0-5e87f3e29f4f",
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76",
+    "spe_id": "84705475-6985-4801-9ad2-3fd84606a0c1"
+  },
+  {
+    "psy_spe_id": "ef7fe81d-4ee8-4fc5-e0f1-6f98e4f30e5e",
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76",
+    "spe_id": "66aa8323-330a-4ec1-ba1d-f4c7c2e5e58b"
+  },
+  {
+    "psy_spe_id": "df8ef92e-5ff9-4ed6-f1e2-7e09f5e41f6f",
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735",
+    "spe_id": "c715a4a8-1535-42f0-8d91-0785c07ebe24"
+  },
+  {
+    "psy_spe_id": "cf9fe03f-6ee0-4fe7-e2f3-8f10e6f52e7e",
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735",
+    "spe_id": "b397710a-0839-4f99-bf5d-3718399b37c3"
+  }
+]

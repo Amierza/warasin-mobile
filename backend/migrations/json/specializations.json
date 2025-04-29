@@ -1,0 +1,52 @@
+[
+  {
+    "spe_id": "60d6bbdf-92ac-46fb-8753-46874101a5a8",
+    "spe_name": "Psikologi Klinis",
+    "spe_desc": "Spesialisasi dalam diagnosis dan pengobatan masalah kesehatan mental, termasuk gangguan mood, kecemasan, dan gangguan psikologis lainnya."
+  },
+  {
+    "spe_id": "0230edc3-0a65-4e15-8e17-7917cc64513f",
+    "spe_name": "Psikologi Anak",
+    "spe_desc": "Fokus pada perkembangan emosional, sosial, dan mental anak serta penanganan masalah psikologis pada usia dini."
+  },
+  {
+    "spe_id": "1be8321f-74e9-4b62-8c86-58233a6aa59f",
+    "spe_name": "Psikologi Forensik",
+    "spe_desc": "Mengkaji hubungan antara psikologi dan hukum, serta bekerja dengan individu yang terlibat dalam sistem peradilan pidana."
+  },
+  {
+    "spe_id": "0063e0cb-1e87-411b-acd1-352e3d3e8330",
+    "spe_name": "Psikologi Kesehatan",
+    "spe_desc": "Menggunakan prinsip psikologi untuk membantu individu mengelola kondisi kesehatan dan memperbaiki perilaku terkait kesehatan."
+  },
+  {
+    "spe_id": "74a4fd9d-3873-45e5-85c6-f136a0fff7c3",
+    "spe_name": "Psikologi Sosial",
+    "spe_desc": "Studi tentang bagaimana individu dipengaruhi oleh interaksi sosial, kelompok, dan faktor sosial lainnya dalam kehidupan mereka."
+  },
+  {
+    "spe_id": "3177e0e6-f6d0-4731-99b9-cce40c5be8fd",
+    "spe_name": "Neuropsikologi",
+    "spe_desc": "Memahami bagaimana fungsi otak dan sistem saraf berhubungan dengan perilaku dan proses kognitif."
+  },
+  {
+    "spe_id": "84705475-6985-4801-9ad2-3fd84606a0c1",
+    "spe_name": "Psikologi Olahraga",
+    "spe_desc": "Fokus pada pengaruh psikologi dalam kinerja olahraga dan bagaimana olahraga dapat mempengaruhi kesejahteraan psikologis individu."
+  },
+  {
+    "spe_id": "66aa8323-330a-4ec1-ba1d-f4c7c2e5e58b",
+    "spe_name": "Psikologi Konseling",
+    "spe_desc": "Membantu individu mengatasi masalah emosional dan psikologis melalui konseling untuk meningkatkan kesejahteraan hidup mereka."
+  },
+  {
+    "spe_id": "c715a4a8-1535-42f0-8d91-0785c07ebe24",
+    "spe_name": "Terapi Pernikahan dan Keluarga",
+    "spe_desc": "Berfokus pada masalah hubungan interpersonal dalam keluarga atau pasangan, serta memberikan terapi untuk memperbaiki dinamika keluarga."
+  },
+  {
+    "spe_id": "b397710a-0839-4f99-bf5d-3718399b37c3",
+    "spe_name": "Psikologi Ketergantungan",
+    "spe_desc": "Membantu individu dalam mengatasi kecanduan, baik itu obat-obatan, alkohol, atau perilaku lainnya yang merugikan."
+  }
+]

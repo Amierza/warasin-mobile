@@ -1,0 +1,157 @@
+[
+  {
+    "spe_detail_id": "dfe1c3a4-1b17-4b0e-9081-0f9d681c4041",
+    "spe_detail_name": "Psikoterapi Individu",
+    "spe_id": "60d6bbdf-92ac-46fb-8753-46874101a5a8"
+  },
+  {
+    "spe_detail_id": "9fd62b63-7001-43ad-a1cb-1cdbb154127f",
+    "spe_detail_name": "Psikoterapi Kelompok",
+    "spe_id": "60d6bbdf-92ac-46fb-8753-46874101a5a8"
+  },
+  {
+    "spe_detail_id": "e9f10638-67be-457e-a1f3-68e7f3c7f891",
+    "spe_detail_name": "Manajemen Stres Klinis",
+    "spe_id": "60d6bbdf-92ac-46fb-8753-46874101a5a8"
+  },
+  {
+    "spe_detail_id": "f295f3cf-2fbe-4197-a270-64e2cbadf110",
+    "spe_detail_name": "Pencegahan Depresi",
+    "spe_id": "60d6bbdf-92ac-46fb-8753-46874101a5a8"
+  },
+  {
+    "spe_detail_id": "a4a6f9b7-591a-442d-ae33-e23229c5df10",
+    "spe_detail_name": "Penyuluhan Psikoedukasi",
+    "spe_id": "0230edc3-0a65-4e15-8e17-7917cc64513f"
+  },
+  {
+    "spe_detail_id": "f1c48d7b-9963-43d9-858e-c97b3c2ab878",
+    "spe_detail_name": "Psikoanalisis untuk Anak",
+    "spe_id": "0230edc3-0a65-4e15-8e17-7917cc64513f"
+  },
+  {
+    "spe_detail_id": "6d040914-8a19-4b77-9e68-4d226257d8db",
+    "spe_detail_name": "Terapi Perilaku Kognitif",
+    "spe_id": "0230edc3-0a65-4e15-8e17-7917cc64513f"
+  },
+  {
+    "spe_detail_id": "94a660dc-fcf2-4816-b730-c1441866d5f2",
+    "spe_detail_name": "Terapi Psikodinamika",
+    "spe_id": "1be8321f-74e9-4b62-8c86-58233a6aa59f"
+  },
+  {
+    "spe_detail_id": "92832a86-d8b3-44dc-b2eb-b8f19161286d",
+    "spe_detail_name": "Psikoterapi untuk Remaja",
+    "spe_id": "1be8321f-74e9-4b62-8c86-58233a6aa59f"
+  },
+  {
+    "spe_detail_id": "fc195dc9-c846-405c-931e-50e8be6ceba7",
+    "spe_detail_name": "Konseling Pasangan",
+    "spe_id": "1be8321f-74e9-4b62-8c86-58233a6aa59f"
+  },
+  {
+    "spe_detail_id": "38312f8b-e8f9-45e7-9e7f-75e76cc6635a",
+    "spe_detail_name": "Terapi Keluarga",
+    "spe_id": "0063e0cb-1e87-411b-acd1-352e3d3e8330"
+  },
+  {
+    "spe_detail_id": "47a1e845-f16b-4c4a-867e-b33d9b0b8391",
+    "spe_detail_name": "Konseling Penderita Gangguan Makan",
+    "spe_id": "0063e0cb-1e87-411b-acd1-352e3d3e8330"
+  },
+  {
+    "spe_detail_id": "d45be478-28b4-46b6-88d2-3b3a2ac96c07",
+    "spe_detail_name": "Konseling dengan Pendekatan Humanistik",
+    "spe_id": "0063e0cb-1e87-411b-acd1-352e3d3e8330"
+  },
+  {
+    "spe_detail_id": "fa09b9a7-bf58-4625-87a3-f0eeefc1d00a",
+    "spe_detail_name": "Terapi Kognitif untuk Gangguan Kecemasan",
+    "spe_id": "74a4fd9d-3873-45e5-85c6-f136a0fff7c3"
+  },
+  {
+    "spe_detail_id": "24f6f04f-6c7a-42d2-a510-7237f7e3663e",
+    "spe_detail_name": "Terapi Eksposur",
+    "spe_id": "74a4fd9d-3873-45e5-85c6-f136a0fff7c3"
+  },
+  {
+    "spe_detail_id": "f2a06e6c-9c5b-4c39-8534-3838eebc4eb9",
+    "spe_detail_name": "Konseling untuk Trauma",
+    "spe_id": "74a4fd9d-3873-45e5-85c6-f136a0fff7c3"
+  },
+  {
+    "spe_detail_id": "9e332e17-e5b4-44b8-936f-bb33b9c6be35",
+    "spe_detail_name": "Psikoterapi untuk Depresi",
+    "spe_id": "3177e0e6-f6d0-4731-99b9-cce40c5be8fd"
+  },
+  {
+    "spe_detail_id": "bcf30ad5-76d7-455e-a73f-1f8aa678ba80",
+    "spe_detail_name": "Konseling dengan Pendekatan Keluarga",
+    "spe_id": "3177e0e6-f6d0-4731-99b9-cce40c5be8fd"
+  },
+  {
+    "spe_detail_id": "59f38177-3028-4ac8-9421-1e62f75f7555",
+    "spe_detail_name": "Terapi Kognitif untuk Stres",
+    "spe_id": "3177e0e6-f6d0-4731-99b9-cce40c5be8fd"
+  },
+  {
+    "spe_detail_id": "69076017-9a80-4516-a23a-5e6321dfb1d3",
+    "spe_detail_name": "Psikoterapi Kelompok untuk Pemulihan",
+    "spe_id": "84705475-6985-4801-9ad2-3fd84606a0c1"
+  },
+  {
+    "spe_detail_id": "fd5f30e9-6e35-414e-8d84-f4b12184a8cd",
+    "spe_detail_name": "Konseling untuk Mengatasi Rasa Takut",
+    "spe_id": "84705475-6985-4801-9ad2-3fd84606a0c1"
+  },
+  {
+    "spe_detail_id": "16ae8d16-3c3d-4f47-8942-f2c84f041089",
+    "spe_detail_name": "Konseling untuk Menghadapi Perubahan Hidup",
+    "spe_id": "84705475-6985-4801-9ad2-3fd84606a0c1"
+  },
+  {
+    "spe_detail_id": "e8a8a7d2-2e71-4d70-8cf1-ea6ef99e59ef",
+    "spe_detail_name": "Konseling Pra-Nikah",
+    "spe_id": "66aa8323-330a-4ec1-ba1d-f4c7c2e5e58b"
+  },
+  {
+    "spe_detail_id": "f3fdc3dc-5106-45c3-9ec7-b151f113086c",
+    "spe_detail_name": "Psikoterapi untuk Kesehatan Mental Ibu",
+    "spe_id": "66aa8323-330a-4ec1-ba1d-f4c7c2e5e58b"
+  },
+  {
+    "spe_detail_id": "0a80a4e2-6463-4875-a39b-163a58a07e3d",
+    "spe_detail_name": "Konseling Anak-Anak dengan Kecemasan",
+    "spe_id": "66aa8323-330a-4ec1-ba1d-f4c7c2e5e58b"
+  },
+  {
+    "spe_detail_id": "b593be1b-7cf3-4cf7-8f3e-c6c3e9c6f8ec",
+    "spe_detail_name": "Psikoterapi untuk Penanganan Trauma",
+    "spe_id": "c715a4a8-1535-42f0-8d91-0785c07ebe24"
+  },
+  {
+    "spe_detail_id": "a07f20fa-cdff-42e5-bf4f-c2e5e660b418",
+    "spe_detail_name": "Konseling untuk Mengatasi Kecemasan",
+    "spe_id": "c715a4a8-1535-42f0-8d91-0785c07ebe24"
+  },
+  {
+    "spe_detail_id": "8a01087c-4c32-4646-a49c-497d48a801e0",
+    "spe_detail_name": "Psikoterapi Keluarga untuk Gangguan Keluarga",
+    "spe_id": "c715a4a8-1535-42f0-8d91-0785c07ebe24"
+  },
+  {
+    "spe_detail_id": "c4d43b7a-7f23-4c7c-aac7-48b3b2274ab4",
+    "spe_detail_name": "Terapi dengan Pendekatan Kognitif untuk Depresi",
+    "spe_id": "b397710a-0839-4f99-bf5d-3718399b37c3"
+  },
+  {
+    "spe_detail_id": "3c0a70b1-11a9-47dc-9ad0-90e7d9918e7e",
+    "spe_detail_name": "Konseling untuk Penyembuhan Emosional",
+    "spe_id": "b397710a-0839-4f99-bf5d-3718399b37c3"
+  },
+  {
+    "spe_detail_id": "6f9281e0-9d10-46d5-a87a-b1c74a8f5dfb",
+    "spe_detail_name": "Terapi Psikodinamik untuk Pemulihan",
+    "spe_id": "b397710a-0839-4f99-bf5d-3718399b37c3"
+  }
+]

@@ -1,0 +1,3080 @@
+[
+  {
+    "city_id": "75ffbfd6-450b-463e-907e-2981d502928d",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Simeulue",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "771d06f2-135d-41a3-94b8-dc9e74eea82d",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Singkil",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2db650f9-1913-48ac-b96d-a79b18709601",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "73542346-d28c-4d1f-8f20-eefac9b7adc5",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Tenggara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a1899273-1f41-498f-84a4-1d9205862045",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3e5c3b11-1d79-4724-9fb7-6350c31171ed",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "443f0665-c5f0-4c2f-ad39-09754bc5539a",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "279887db-5a44-42e8-a0fd-9729fbe16e6d",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Besar",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "635832bf-1a5b-4929-bcde-3bca8b60cf3f",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Pidie",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "be1c2aae-afa6-4834-b85e-23ebce147851",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Bireuen",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9f2af043-d24e-48aa-9acf-8f947d1ea68e",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3d4ffc2b-eb20-4042-891c-a9b262663922",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Barat Daya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d6ad883c-2656-4c8d-b3b3-ad2a44189ed1",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Gayo Lues",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "322c404e-6a81-471b-a582-5ba4d2aaaff9",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Tamiang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9a2d75c2-9615-4731-8361-98819a32d52a",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Nagan Raya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ba586e3e-6566-481a-986e-878c0c1621c5",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Aceh Jaya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7870250e-776d-41e0-b7b4-008353fd64d3",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Bener Meriah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "19fd1e3b-0ca5-4ff6-a84a-0d57e9fa7e93",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Pidie Jaya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "cd92de4a-268c-4e7c-81c5-8345913c7a6c",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Banda Aceh",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "a21ef9ed-6c0c-4072-bbc9-c2a4f5718cce",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Sabang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "0ad2e989-4d2a-46fb-850b-d180e7ed056f",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Lhokseumawe",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "639c3ce8-e0a7-4d47-bcc9-4b41c0ed84b5",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Langsa",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "30081bf8-6945-477a-8358-a7a6a84e3437",
+    "province_id": "cb82a10e-c956-4bd7-87db-a41b90f5acdc",
+    "city_name": "Subulussalam",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "39ed2327-db3d-4082-b029-9b28eae6550c",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Nias",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "29e64473-1e4a-4b9d-acf7-2d1b2177df9d",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Mandailing Natal",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3995ed06-5f5f-4418-b1cd-5dadcc085ccc",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Tapanuli Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8432fbe7-262b-43c0-886c-bff2b54f5155",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Tapanuli Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7b0cfa89-5d70-4a63-a157-5c88b9f82fa6",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Tapanuli Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4063ce05-db0a-492d-b9b6-d09361c3c6ce",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Toba Samosir",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e7ae658a-8cac-4639-841b-50b9e3e7ab9b",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Labuhan Batu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d4b1e2d4-71af-4871-844e-ab4ad320fb37",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Asahan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a2070c3f-4eec-43ad-b360-99072d6c3782",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Simalungun",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "db338e60-c5e4-4920-b301-3c9ce1bc1f80",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Dairi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "68e3ea7f-451a-47fc-bd15-486f41bb70ed",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Karo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "64c18407-bbba-4281-8392-c9b424820214",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Deliserdang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "76985ca9-0813-48d4-8548-bbf6dcd214ac",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Langkat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "44ae56c3-ad09-4132-a1c2-017ef984db60",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Nias Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4d1aa32b-aee9-4401-a367-247f17c41b6c",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Humbang Hasundutan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "214ecb0f-3f51-4ff0-9f5d-0d9419fb44c4",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Pakpak Bharat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2339527f-c3aa-4e43-b61a-123f6d7cd297",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Samosir",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f952c981-2f16-453b-a701-e0b936bd0442",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Serdang Bedagai",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7b1f08a3-293a-4246-81b8-6a769449069b",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Batu Bara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "1b1ba241-3ed9-4a94-8738-9562e0624280",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Padang Lawas Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "475372d0-c27b-47b9-b393-9fc9f32fef6d",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Padang Lawas",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4a773a2d-5a9d-49d9-a3f4-4bda0ad8bc29",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Labuhan Batu Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "43c2f4a0-6d12-4df0-b7e4-d5a41625f119",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Labuhan Batu Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "678d80df-0bf6-46fb-81df-32e0697b11d8",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Nias Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "28985187-be77-4145-b895-416259191b48",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Nias Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "5f0bb9e1-d2ba-4c91-9696-cfd90234215d",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Sibolga",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "8a5f62b7-e4fd-46a6-9b87-730d156e604c",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Tanjung Balai",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "a812b1de-5b1a-444a-8a2e-f49c3a3f2a7b",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Pematang Siantar",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "7e80e885-224a-4b1d-8673-728e7b51c695",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Tebing Tinggi",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "e2ea6fcf-7cc6-4286-ad0d-93f47165bc8d",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Medan",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "c6095789-20a9-47a2-bfee-aa3cbb87577a",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Binjai",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "90d6b72f-c9da-48fc-ae20-9f5a54995bfb",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Padangsidimpuan",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "307284d0-5628-400d-9fd2-87bdff94851b",
+    "province_id": "10150264-9b59-42e3-9629-939137faeacc",
+    "city_name": "Gunungsitoli",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "89098523-f721-4415-964a-49276dc826e5",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Kepulauan Mentawai",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8807f51e-eb9d-4df2-9fe5-abb2454bab1c",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Pesisir Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4d892c77-f07a-4481-a7af-2119d87757c7",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Solok",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "31844610-e134-4056-a838-035bd8e9997d",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Sijunjung",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "56b35ec7-2770-425f-b987-084eafe44e12",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Tanah Datar",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "de4cf5b9-fc90-4d96-952e-1127aee1d07b",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Padang Pariaman",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a031bb17-b1ba-4e4f-b0ca-9d04aee1cb81",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Agam",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "817ea425-c93e-44ac-a06e-84f12f481557",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Lima Puluh Kota",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8ee6d36b-3fe8-4c32-81f7-cd11abb31875",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Pasaman",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9861f22c-aace-4cfd-aa4b-4d2d49983fee",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Solok Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c31c03cc-d21d-4d7a-b562-cfc89244e9d5",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Dharmasraya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "bdafeb7a-b638-4489-8aca-aaef1ad268b7",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Pasaman Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "88047639-fc33-4b42-94b7-9f0f35d499bc",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Padang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "14664e65-beb4-45b4-b091-b4f955bcb5d0",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Solok",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "00b5d4a0-60ab-4d4b-a42a-58c739f4a50d",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Sawah Lunto",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "c1fbbc15-c3ed-40ab-997a-d2eef8948bf1",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Padang Panjang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "fcf98f6f-6edf-45b0-8ce2-2a625f6870e9",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Bukittinggi",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "1d49b4e7-2d5a-4713-b8cc-8dbeb151a105",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Payakumbuh",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "2c49ea08-5606-42aa-819d-f2c830dc321d",
+    "province_id": "afd7bc17-4f70-4389-9a83-a4b75a7e935c",
+    "city_name": "Pariaman",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "94b2825b-f396-4625-9420-8e0b63ff11eb",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Kuantan Singingi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "86ca97b8-7966-4b66-8ab3-cfb772d00d84",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Indragiri Hulu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e151bf9a-7442-44cc-9379-23293ddf4f05",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Indragiri Hilir",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f742d392-14d7-4933-a401-e0b7ce4f11ad",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Pelalawan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "322a355d-7a70-4d60-8e4e-f5b0d031db67",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "S I A K",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "662ccf27-a029-4d19-92de-795e712f5937",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Kampar",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "bd8b4ec7-8b4e-4b27-bde0-6e7ba8e98a5a",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Rokan Hulu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e3816a6a-6acd-4ccb-9838-826ffb04407f",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Bengkalis",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9b38d579-d2d6-42e9-ad9c-3e8337bd94e4",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Rokan Hilir",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "21e4fffb-7ed3-41fb-84b8-70d1f96814e8",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Kepulauan Meranti",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d0d3d956-0346-41d1-96c0-f4850105062a",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Pekanbaru",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "3375d734-951e-42e5-b49c-9d90ba971e25",
+    "province_id": "6d2d53c1-9395-4675-9b89-d88c28c0adab",
+    "city_name": "Dumai",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "cd30d978-658e-4558-8e7e-f7188b2f64ab",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Kerinci",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2752bd34-ce49-4f7d-949c-816eb7895257",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Merangin",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e2c6583b-c7d1-42c3-9355-fb7e82fe6179",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Sarolangun",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "db857419-060e-428d-b300-612699c19805",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Batang Hari",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "60a8a37a-0343-41c6-a9f6-6a9dc5a9d4eb",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Muaro Jambi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e399e4b9-62b2-407a-95f8-83153a73ecd3",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Tanjung Jabung Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f0f08c5c-1335-4ebc-a051-892b30c6d262",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Tanjung Jabung Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "cc302fc1-93f3-41a3-9a8d-9559801f270c",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Tebo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "260973e1-d7cd-4b0c-a903-08475e5d6a1b",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Bungo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "95e78a18-4794-479f-ace1-f640e3b08478",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Jambi",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "b369a115-a72c-4664-b1a9-38bcfd698212",
+    "province_id": "070c4913-230e-48cd-bd18-4d0992abf8e0",
+    "city_name": "Sungai Penuh",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "50a4a170-6431-42bf-abc9-4465ecbf73ee",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Ogan Komering Ulu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "98b868ba-9239-4e3e-8f97-0b89be7ea7b7",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Ogan Komering Ilir",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c8031cd1-5376-473b-83ba-24bd6bdf1fff",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Muara Enim",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e66ed145-a117-4ec0-8ec8-d38a20832a01",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Lahat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "68f104b6-bab1-41b8-b4aa-5ddac5669817",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Musi Rawas",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "124c5eda-361a-494a-ba4a-da0f24d85b8c",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Musi Banyuasin",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3592a015-0496-451c-8a37-24b1dd4f20c9",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Banyuasin",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ebf0ea55-e13f-413e-abb0-6c7b74f96eaa",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Ogan Komering Ulu Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d16face2-a7f2-4d79-b992-8628a622db1a",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Ogan Komering Ulu Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e19bf1f1-2c49-409a-a5be-c8b84587371d",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Ogan Ilir",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c26f5c20-bbc5-410e-a35a-c3516223ea29",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Empat Lawang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4bac879f-91cf-44bf-829f-06f54484cbd1",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Penukal Abab Lematang Ilir",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "820296c9-aa49-4d19-8d7e-58b6204f742b",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Musi Rawas Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "25cc1cac-706f-4c3e-82ef-d701a45c1bc1",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Palembang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "310324b7-eb2c-4a99-8fa3-c6ddedad2cdb",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Prabumulih",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "c3731a08-8d88-440a-bc53-1067f1137f65",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Pagar Alam",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "74ad571d-fbcd-4653-9f23-889b25bf73e0",
+    "province_id": "4c01c462-a35a-4dd0-b8f9-5e639cdc0055",
+    "city_name": "Lubuklinggau",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "26bdeadc-2046-44b3-a874-ffbced38535a",
+    "province_id": "c2f3c6d8-63e6-4ac2-afd6-15cb0d566aa8",
+    "city_name": "Bengkulu Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "39696dd7-3a5f-4285-aeb1-78f875768ea6",
+    "province_id": "c2f3c6d8-63e6-4ac2-afd6-15cb0d566aa8",
+    "city_name": "Rejang Lebong",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a915c6e3-0b79-42bd-a944-39187b8bf6d3",
+    "province_id": "c2f3c6d8-63e6-4ac2-afd6-15cb0d566aa8",
+    "city_name": "Bengkulu Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "22dc9af4-24cc-44b6-b651-4c4f342698d2",
+    "province_id": "c2f3c6d8-63e6-4ac2-afd6-15cb0d566aa8",
+    "city_name": "Kaur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3d8c502b-52e6-4a2a-9dbf-9bb620db076a",
+    "province_id": "c2f3c6d8-63e6-4ac2-afd6-15cb0d566aa8",
+    "city_name": "Seluma",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2609907d-a431-4c62-b7a9-225df653b3a7",
+    "province_id": "c2f3c6d8-63e6-4ac2-afd6-15cb0d566aa8",
+    "city_name": "Mukomuko",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "38e14078-f3de-4e9f-83e7-0a588ea13b25",
+    "province_id": "c2f3c6d8-63e6-4ac2-afd6-15cb0d566aa8",
+    "city_name": "Lebong",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d4bdf37c-f325-407e-a2ec-a711c69c6e9d",
+    "province_id": "c2f3c6d8-63e6-4ac2-afd6-15cb0d566aa8",
+    "city_name": "Kepahiang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "fc670f84-d33d-4bb0-8d26-13b499be6f15",
+    "province_id": "c2f3c6d8-63e6-4ac2-afd6-15cb0d566aa8",
+    "city_name": "Bengkulu Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "6a80f1f7-f725-4f71-9b96-7cc443303c4a",
+    "province_id": "c2f3c6d8-63e6-4ac2-afd6-15cb0d566aa8",
+    "city_name": "Bengkulu",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "6a0c3223-a86e-4798-89d4-82a8e6a59166",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Lampung Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c3dae865-98dc-4309-b737-652ee2c78b94",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Tanggamus",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f7e322c4-580b-4540-aebe-cd3ee48839af",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Lampung Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "de520d1a-64c9-4de8-983a-e7e72e7620a4",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Lampung Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "31c06dd1-8706-43ee-b18d-097905ca1c58",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Lampung Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "83323c09-451d-4240-b28b-6b103ae5e908",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Lampung Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "bb59e3ff-0705-4154-9ca4-4ffdd57bee5a",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Way Kanan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "da6cc530-f718-417a-a532-588951ec1919",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Tulangbawang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3fbc6762-3057-46de-9c15-74d0ed8dae9d",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Pesawaran",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "edfefe25-a81b-4b71-9050-73448eb9d8c9",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Pringsewu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8147f7fe-62cb-4f76-af21-da0e0ac91e91",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Mesuji",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7388b3ce-3240-436b-b9b9-96246f9e8413",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Tulang Bawang Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "55b68b0a-3776-4532-b45f-f392fdd91d14",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Pesisir Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c24c2c8a-cf6e-42b0-8fca-b205aa6486da",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Bandar Lampung",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "b58ba252-c8c6-4b9c-a3ee-7eda20489a2f",
+    "province_id": "3c2b74f4-e36b-4216-ad3f-8684b83a0682",
+    "city_name": "Metro",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "0cfb8af0-ff88-4033-8b95-46ee06510489",
+    "province_id": "de95c58b-ef23-4161-9239-920a36215882",
+    "city_name": "Bangka",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f8adb527-98a0-425c-9b1f-9802632443af",
+    "province_id": "de95c58b-ef23-4161-9239-920a36215882",
+    "city_name": "Belitung",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c9bfef01-1397-4056-8f06-6d0605255cb3",
+    "province_id": "de95c58b-ef23-4161-9239-920a36215882",
+    "city_name": "Bangka Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ee78e21b-764d-4db5-8df1-48346373b1d3",
+    "province_id": "de95c58b-ef23-4161-9239-920a36215882",
+    "city_name": "Bangka Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a887ee8b-e54e-45eb-9776-0f4fc16e9ba1",
+    "province_id": "de95c58b-ef23-4161-9239-920a36215882",
+    "city_name": "Bangka Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c6897ce0-88c1-4668-b879-4bd5f8d869dc",
+    "province_id": "de95c58b-ef23-4161-9239-920a36215882",
+    "city_name": "Belitung Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c720c7f5-72c7-4da0-b771-b4fe5dae71d5",
+    "province_id": "de95c58b-ef23-4161-9239-920a36215882",
+    "city_name": "Pangkal Pinang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "326cdfdb-1e66-4f2b-b009-ab05cede1d2d",
+    "province_id": "c019cc92-4592-441d-bfb7-b0c20264582c",
+    "city_name": "Karimun",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c2dbedb8-4ca1-4cf3-b3d0-77a660f76f71",
+    "province_id": "c019cc92-4592-441d-bfb7-b0c20264582c",
+    "city_name": "Bintan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7260481c-60e3-4fe2-926a-9a17de7769a4",
+    "province_id": "c019cc92-4592-441d-bfb7-b0c20264582c",
+    "city_name": "Natuna",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b4b47f59-8c9d-474b-ab6d-32d0bee24288",
+    "province_id": "c019cc92-4592-441d-bfb7-b0c20264582c",
+    "city_name": "Lingga",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "966c5e41-03bb-4bac-9bb2-467326a159a7",
+    "province_id": "c019cc92-4592-441d-bfb7-b0c20264582c",
+    "city_name": "Kepulauan Anambas",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4a8f1c32-509c-49b4-990c-af28cc48f81a",
+    "province_id": "c019cc92-4592-441d-bfb7-b0c20264582c",
+    "city_name": "Batam",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "05885ccb-4d73-4184-bea8-309d99c6bd8f",
+    "province_id": "c019cc92-4592-441d-bfb7-b0c20264582c",
+    "city_name": "Tanjung Pinang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "38433692-6eec-4d4e-86cb-98c00c30d25b",
+    "province_id": "aec403b5-afb2-403f-8f91-7db1b4752b01",
+    "city_name": "Kepulauan Seribu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a341406a-9ae0-41b8-b213-bb7e6a48c89e",
+    "province_id": "aec403b5-afb2-403f-8f91-7db1b4752b01",
+    "city_name": "Jakarta Selatan",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "178243aa-5453-413c-9b9e-a52cdf773079",
+    "province_id": "aec403b5-afb2-403f-8f91-7db1b4752b01",
+    "city_name": "Jakarta Timur",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "9fa163fc-0416-4e15-a4dd-4ac79a4c0cac",
+    "province_id": "aec403b5-afb2-403f-8f91-7db1b4752b01",
+    "city_name": "Jakarta Pusat",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "8f2ba0da-8cb2-4e5a-84a1-b0f3d23a485f",
+    "province_id": "aec403b5-afb2-403f-8f91-7db1b4752b01",
+    "city_name": "Jakarta Barat",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "8dc017b3-99c8-4c44-a3bb-0635d806b267",
+    "province_id": "aec403b5-afb2-403f-8f91-7db1b4752b01",
+    "city_name": "Jakarta Utara",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "2c68ac2f-a159-4fea-be23-3390c65e72e2",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Bogor",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "42315d1e-5b96-4364-bf24-d76fbe6caabf",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Sukabumi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "645f09fe-5965-4258-9233-bcba52ed3974",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Cianjur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7050f1dc-743b-4f4d-9dfd-c6bc5ca2fdc9",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Bandung",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "79e3cc90-7ace-43bf-85db-5875c98f081c",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Garut",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "06bc45ba-c711-4c3d-bbf5-5a732f9327a6",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Tasikmalaya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "43d2ad60-199b-4a24-91ee-ef070c398ccd",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Ciamis",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "02337233-ac0c-40c8-8eb9-0f2e2c415184",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Kuningan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b3ffe634-990e-4f1b-94bb-e6d582356722",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Cirebon",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "217c6d50-6fe9-4efa-b8b4-baa5fdf32b1a",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Majalengka",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "69d4874c-4dd7-46e9-8d54-6a3ad7c40f78",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Sumedang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "562c5672-0a59-4b02-a2c0-84503f0de143",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Indramayu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "48cb1cff-81e4-4196-8679-a27dfd9b24cf",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Subang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "672771fb-47c5-4e72-8414-89936b5fe3ef",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Purwakarta",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ed0c14d0-fcef-4cdd-83cf-5119b5a38736",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Karawang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f688ae4a-5900-4617-a520-cb07d9a665e7",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Bekasi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "dd7f8768-cb66-4ab2-860f-f12d08525c6e",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Bandung Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "fa882139-2008-4ac6-8f4a-c92f2ab33312",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Pangandaran",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "bc791ec6-a083-400d-abf8-0fd4ab27e7f9",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Bogor",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "b579a57b-4bb4-409f-b6b9-90c1ebefeaea",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Sukabumi",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "58b02c5d-3553-4da6-8884-1ee8627a9467",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Bandung",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "866f73ef-e599-4875-8d01-e71522f0b5e2",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Cirebon",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "414cef16-594d-44cd-b3c0-12cacd02df1d",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Bekasi",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "43e030a3-f3d6-4b13-a214-6967093f5f48",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Depok",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "4acc923c-7b03-4186-b1d3-6de983e1b136",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Cimahi",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "5453dc7d-bee1-4ba1-bfdf-57f12ee44041",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Tasikmalaya",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "a2b1fede-7f35-47c4-944d-436abea32260",
+    "province_id": "ea227b9c-3c43-4348-8173-38a24e76033e",
+    "city_name": "Banjar",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "5b0856e8-f9d5-428d-baac-2e3226ebbd14",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Cilacap",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0cedc22c-99ef-4dfc-9dc8-07c955288d37",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Banyumas",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "615899e8-ead2-4118-bed2-c4ed21bef957",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Purbalingga",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3427963d-7dc2-45af-b7be-01245108843a",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Banjarnegara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "5c4a8b67-b937-4562-9b1c-310c34680c94",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Kebumen",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "935d465d-af79-4051-90d3-7e9cc85f7a6e",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Purworejo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "21d53e3c-4061-4bd4-9c53-70a711e84099",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Wonosobo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "91ae8305-414f-4cce-8b8e-107cfabf83a5",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Magelang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d47c3705-c714-449d-8966-855a1408088a",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Boyolali",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2dd48e38-bf99-495c-a47c-5c922e34c435",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Klaten",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d1f784e3-b0b6-49d5-bcf3-8373acb60139",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Sukoharjo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "cc1a5f96-f1cf-495f-8942-27731af14471",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Wonogiri",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9281459a-281d-4ba3-8b6f-ea488cd6d415",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Karanganyar",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "eeaa73f8-1288-4f54-b961-d43159516841",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Sragen",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0599e824-b9bb-407c-ac24-ac5d13aed099",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Grobogan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a0261074-e5dd-4888-bf6a-b52babbf7690",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Blora",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ff52ddc9-6057-4e04-889b-5c7a5472c647",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Rembang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "6a6bcf58-007b-4487-8929-d8e3f8c46542",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Pati",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "60009ac1-5986-4b98-be48-66e1016c1887",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Kudus",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c3647c79-f77a-4a1c-be0c-3ca4953b3e88",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Jepara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ab5e94e3-53f2-44ff-90ed-d583ab1195b4",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Demak",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d7d609ec-2fb5-4d2a-a942-975c0383013b",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Semarang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "02f5f654-d95b-4860-832b-19228a26cb28",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Temanggung",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ccee46e5-bc6b-446d-a78b-cec02ef1bdea",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Kendal",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a85660de-2582-4cee-b39e-019f0374e6b7",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Batang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4763d082-f427-4d18-bbaf-df667d17fd31",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Pekalongan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3da39fcc-7cfd-4032-b715-72b6c604a830",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Pemalang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "bf0d5818-1ab2-44db-87ca-4dfc2721fa35",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Tegal",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f7a6bffb-5593-4fa4-8b7c-c374ff833791",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Brebes",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "db6e4934-1459-4b97-8e55-3fbad4bbc692",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Magelang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "a582d48a-dfdf-403b-b74b-714d4036eff5",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Surakarta",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "1ac01780-3fb7-436e-8b3c-29598c6b3d97",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Salatiga",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "11e4e3ff-9b7d-44dd-bd02-2525614c377e",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Semarang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "c6c66903-908a-4b6f-837d-8a5559a72638",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Pekalongan",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "2ce2f67a-47ba-4c85-a79a-64d1de5a5556",
+    "province_id": "4a55fc01-4385-4a74-95aa-0bc4d5e2f163",
+    "city_name": "Tegal",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "6e4bb607-fe1d-4ff6-9bc5-311e744a7531",
+    "province_id": "c31b4156-2dcc-4a98-8e70-bb7e5a1c9440",
+    "city_name": "Kulon Progo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "dd2b09d6-e547-4d7c-b170-49311aa05601",
+    "province_id": "c31b4156-2dcc-4a98-8e70-bb7e5a1c9440",
+    "city_name": "Bantul",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "6860a536-c873-41a4-808b-7dd6c761379d",
+    "province_id": "c31b4156-2dcc-4a98-8e70-bb7e5a1c9440",
+    "city_name": "Gunung Kidul",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "46495484-9937-4833-a87e-70f5487bf69e",
+    "province_id": "c31b4156-2dcc-4a98-8e70-bb7e5a1c9440",
+    "city_name": "Sleman",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ac1206fc-efdf-42b6-aaeb-269b456fa6d5",
+    "province_id": "c31b4156-2dcc-4a98-8e70-bb7e5a1c9440",
+    "city_name": "Yogyakarta",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "e0fed056-37f1-4ce4-b682-8dc119b32ebd",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Pacitan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "347cd70e-f566-4800-96af-ec36d213bf3f",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Ponorogo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "cd5827e1-0002-476f-a8b8-8200de8d2869",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Trenggalek",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4ee35296-cb14-4efd-b5c5-d4b46b01767c",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Tulungagung",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0dead88c-40d8-4b62-9425-5ada94ab09e2",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Blitar",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "473e6908-7602-49f6-8671-ab7318b0d064",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Kediri",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "99d9b78b-adb1-4957-8df1-fbd188295182",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Malang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b13bb1cb-b8a0-4cf0-832a-e35796f44bbe",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Lumajang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "18f786a2-dc89-4cf0-8a1b-da5c8f04d1b0",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Jember",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "26f7dea3-4d17-476c-9463-faef92ba5dca",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Banyuwangi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a3c025db-5377-484d-afee-934311627fd4",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Bondowoso",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "504771cf-ff84-432d-8a9e-e3426359d967",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Situbondo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "adb98ee5-7743-4222-83e8-2caf91c74890",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Probolinggo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ae842768-e70a-4b89-aa55-c1ed2ef3fa65",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Pasuruan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "121ff0c4-b8b3-481e-8fe6-a736528daf71",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Sidoarjo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d94509c9-41a2-402a-a3c0-ba8550d3ff3b",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Mojokerto",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "79a2b9bc-b579-4a43-a50d-62d89863a430",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Jombang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a0b3aa9c-6b79-491e-bcc9-a6410cd07d58",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Nganjuk",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "99f06334-37b4-43a9-9159-8b80063a0685",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Madiun",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a48799cc-4da6-43bb-aa6d-bd3af8a2fdd7",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Magetan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "07b47266-a3c0-4cfe-9e17-a4c298dc29d5",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Ngawi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8c14aadb-381f-4196-a5c3-bae915397292",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Bojonegoro",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2bb15b0d-d001-421a-91c3-0db833a95b8e",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Tuban",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3fcc9055-9cd7-487a-b573-f9a79b113525",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Lamongan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "10689059-e3d7-4518-b1f0-6fedbee9b475",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Gresik",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "467c7b43-2a96-4a0d-a6fb-a1364cf7932e",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Bangkalan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "11ead10b-c535-4b27-8cac-6db428f7a492",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Sampang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "da2a1f0a-0f70-4268-bd0e-3c0d10828ddf",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Pamekasan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "970e7860-7134-429a-9552-206044630cdc",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Sumenep",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "39784c04-3685-4551-b1f7-4d50ca0fe011",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Kediri",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "0fe58308-15d5-443c-bbec-5a782d58c9f3",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Blitar",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "1a8a3e6a-333b-450a-96ed-720c64a36507",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Malang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "27dfbebc-981b-401f-9930-1257e1e084ab",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Probolinggo",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "654ef0db-d88c-41cd-8026-c0be99b36b36",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Pasuruan",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "cfb03c84-8616-4688-8fa2-5fbae1c1e5d8",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Mojokerto",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "d28f10e4-a49e-4e87-be45-822ff42eecb5",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Madiun",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "8e571815-809d-46e8-ad36-61ff4a1f2ca1",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Surabaya",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "8fabe534-af36-42ec-beda-6099b32c967c",
+    "province_id": "f6272daa-a67a-4bb2-a1a2-a275355b355e",
+    "city_name": "Batu",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "88c6eeaa-507d-49be-a24b-93ffb5c0814d",
+    "province_id": "2b9b5a93-c650-4c61-a543-cac5bde48645",
+    "city_name": "Pandeglang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "60d03d94-16d9-477f-b86f-8885609884b5",
+    "province_id": "2b9b5a93-c650-4c61-a543-cac5bde48645",
+    "city_name": "Lebak",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2bb12080-7130-47e6-8e16-3fe49e440ffe",
+    "province_id": "2b9b5a93-c650-4c61-a543-cac5bde48645",
+    "city_name": "Tangerang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f918db36-0c04-4cb5-bdcd-67c4d2711f6e",
+    "province_id": "2b9b5a93-c650-4c61-a543-cac5bde48645",
+    "city_name": "Serang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a6d3a10c-f592-446c-b96c-f5ae10b51b90",
+    "province_id": "2b9b5a93-c650-4c61-a543-cac5bde48645",
+    "city_name": "Tangerang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "190c9031-9dce-40e9-b5c6-1c752d107d1c",
+    "province_id": "2b9b5a93-c650-4c61-a543-cac5bde48645",
+    "city_name": "Cilegon",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "c0cefa5d-b3a1-4048-ba2c-736d538a382f",
+    "province_id": "2b9b5a93-c650-4c61-a543-cac5bde48645",
+    "city_name": "Serang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "d05ec938-1851-42a8-ba6c-c0bd167b676b",
+    "province_id": "2b9b5a93-c650-4c61-a543-cac5bde48645",
+    "city_name": "Tangerang Selatan",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "ffbedc23-516c-4442-b2ad-ef87aecfaff4",
+    "province_id": "f908d3e5-2159-4d7e-aa15-1aac65d42b9c",
+    "city_name": "Jembrana",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0232b7e5-2ce1-4dd0-afa3-5cbb91bfeaaa",
+    "province_id": "f908d3e5-2159-4d7e-aa15-1aac65d42b9c",
+    "city_name": "Tabanan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d5ade14f-a2cc-4a2b-b65d-ae962f37fe12",
+    "province_id": "f908d3e5-2159-4d7e-aa15-1aac65d42b9c",
+    "city_name": "Badung",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "6eaf5a20-0f39-43c9-8491-e0312ead02a1",
+    "province_id": "f908d3e5-2159-4d7e-aa15-1aac65d42b9c",
+    "city_name": "Gianyar",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "45e28d3b-4678-4c7a-a04a-20ea60177a80",
+    "province_id": "f908d3e5-2159-4d7e-aa15-1aac65d42b9c",
+    "city_name": "Klungkung",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "334a5bfa-5583-4c72-9c3a-3d59157cd350",
+    "province_id": "f908d3e5-2159-4d7e-aa15-1aac65d42b9c",
+    "city_name": "Bangli",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "cf97126f-4e45-4ee3-a972-7f967a825340",
+    "province_id": "f908d3e5-2159-4d7e-aa15-1aac65d42b9c",
+    "city_name": "Karang Asem",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2bea7ac1-4909-4347-8292-ea3abf34e8a5",
+    "province_id": "f908d3e5-2159-4d7e-aa15-1aac65d42b9c",
+    "city_name": "Buleleng",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "567f8cea-6708-4ca5-881e-adfb63bba79f",
+    "province_id": "f908d3e5-2159-4d7e-aa15-1aac65d42b9c",
+    "city_name": "Denpasar",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "c49167ed-17aa-4aef-96eb-b2421040e8a6",
+    "province_id": "bf7f0097-d872-4602-aade-c0a758906f6a",
+    "city_name": "Lombok Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "843faf52-ec96-4bd6-84a8-c99d9f449faa",
+    "province_id": "bf7f0097-d872-4602-aade-c0a758906f6a",
+    "city_name": "Lombok Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "37718b92-f031-4fe7-81fc-9dc69ea43599",
+    "province_id": "bf7f0097-d872-4602-aade-c0a758906f6a",
+    "city_name": "Lombok Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b71db056-1b55-4876-9e68-53d951272d3b",
+    "province_id": "bf7f0097-d872-4602-aade-c0a758906f6a",
+    "city_name": "Sumbawa",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "552a30a4-2ce1-4319-922f-7d67255c990d",
+    "province_id": "bf7f0097-d872-4602-aade-c0a758906f6a",
+    "city_name": "Dompu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "903fc7f9-8581-4301-b7fa-3439219e9865",
+    "province_id": "bf7f0097-d872-4602-aade-c0a758906f6a",
+    "city_name": "Bima",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "af02494f-39c2-4c77-b2eb-18a99f0bb948",
+    "province_id": "bf7f0097-d872-4602-aade-c0a758906f6a",
+    "city_name": "Sumbawa Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "73f24b5c-0bcf-4670-b822-0e0e02beaf67",
+    "province_id": "bf7f0097-d872-4602-aade-c0a758906f6a",
+    "city_name": "Lombok Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "03fb283f-5e99-49d0-8f90-27465191b41f",
+    "province_id": "bf7f0097-d872-4602-aade-c0a758906f6a",
+    "city_name": "Mataram",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "61513862-e302-46e1-b9da-d5624d190199",
+    "province_id": "bf7f0097-d872-4602-aade-c0a758906f6a",
+    "city_name": "Bima",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "92a61bea-db4a-4ae4-a114-35a827ddb6b6",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Sumba Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "87745eb5-fe5d-41ac-a96f-c5bf45e8cef0",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Sumba Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c23e22aa-bdf9-4d69-88a3-1fe51645e48a",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Kupang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "24df67ce-e22f-46d9-8137-b47e4f290aa5",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Timor Tengah Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "619e56eb-db73-4e81-b9be-41c0a519a810",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Timor Tengah Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e8095874-0fcf-42d5-ab29-e97982034252",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Belu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "14a4f669-c8db-4971-be3d-c88a9c4990f0",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Alor",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0fc230dc-fa04-4b74-bf6b-18c2a2d7e0d9",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Flores Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "95e44ca3-6cd7-4aff-9c1f-5cfac3e748f1",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Sikka",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "569163eb-9789-42f6-8131-63c3f601b518",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Ende",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e93c11de-d4b8-4884-b2a9-ba220e276b23",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Ngada",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "57ce57e5-47ec-41fd-8680-5297a8970a15",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Manggarai",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ea38b5c5-f643-4d5d-a97e-47b1d66922d4",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Rote Ndao",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "5e5b4718-fe5a-4ddb-a00c-543cf51a3768",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Manggarai Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9fc62898-8adb-472c-89eb-45997aab048c",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Sumba Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b9f29e6b-8330-45ca-b57f-e134a0cf96c0",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Sumba Barat Daya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b034dfba-276f-4578-8710-f95585582dc2",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Nagekeo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "57cec046-23cd-4fae-a287-e7b99fe22f86",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Manggarai Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4186aaba-380e-4ca2-9564-f018aed14377",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Sabu Raijua",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "26d4e5e5-9774-4876-bdea-154c8e60a846",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Malaka",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a4400a01-8a5f-4f43-b9a2-615b92fbe76d",
+    "province_id": "ee107c34-e7f6-4808-9cdd-a4fe8e26ded5",
+    "city_name": "Kupang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "70bab3f1-1151-4239-befd-78526b786c2b",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Sambas",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a801c185-5fc0-4fc4-8966-a3c771621ab9",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Mempawah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e176a033-a561-4dde-9e20-e4d8108de57f",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Sanggau",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0b8738f7-f6a9-40e5-b78b-750e8bf19b44",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Ketapang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "aead48a2-7e99-4720-8296-edab9e6288d7",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Sintang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "19d33fc3-b191-4d6c-8e60-f5360b959882",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Kapuas Hulu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a4749930-1241-4039-91c9-d1746a3b6f7d",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Bengkayang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7f7679e3-c8ad-48d4-9186-ac5f067ab1bc",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Landak",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9f055ea6-de8c-471b-ba03-6fa0c10ecadf",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Sekadau",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d79ce69a-7992-4618-8929-3661836f3eaa",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Melawi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "124f4860-1da0-4874-8532-41f6af8716f9",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Kayong Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "1cc33477-e28f-4a87-9631-1457cd9aa33c",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Kubu Raya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "41a4e1ed-70e2-4e52-8194-a732143556ad",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Pontianak",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "62cec71c-f0f1-46ac-88cd-245214a37d77",
+    "province_id": "b74d6b8f-5fa7-4faf-b8ee-5dc0a0671dfb",
+    "city_name": "Singkawang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "74472aca-0d39-4dee-bed4-e367249ac72b",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Kotawaringin Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "5f2f08c7-6bc0-4f0b-8fdf-8a2135c7356a",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Kotawaringin Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7dfd6b5b-f0ed-4c78-9c7d-8229fad007f0",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Kapuas",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c5bbbc80-5af5-4f7d-bcfe-b535b55cd0a2",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Barito Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7c5317d4-1284-4bbd-8613-c9bdadf3f3e8",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Barito Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4fbfe371-ce67-4d8f-999c-5bbeb41fb9a8",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Sukamara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "5a59a992-e05b-461c-8873-f3fd0e4ef86d",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Lamandau",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "049d1a27-2db9-42e4-bb01-7a545de2956b",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Seruyan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "6b1afbe2-1e95-48b0-989d-b5d8fdd3ded6",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Katingan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "84d54ec6-91c3-4ec0-8c1d-5a4fb846a8cf",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Pulang Pisau",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "677bfeb5-99eb-401c-9f19-4fe7d17436c7",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Gunung Mas",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b7230298-bec1-442e-bf7a-012d3118a350",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Barito Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ebfb47b7-76ef-40d4-8fa8-0f6890d7cee9",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Murung Raya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "49e0d84e-283c-403a-8566-e2319d6c76d5",
+    "province_id": "34263062-06d2-458f-82b0-0ca6361f7cc4",
+    "city_name": "Palangka Raya",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "ecc698e9-b86a-44d3-ad64-7b13e5c287ec",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Tanah Laut",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0bff69da-4938-4346-bf88-d734184e0dab",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Kota Baru",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8062b8df-6269-48d2-8c73-c9be34dff19a",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Banjar",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "23bec888-af93-473b-822e-797a03d22ae2",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Barito Kuala",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4de87016-5375-427f-8374-cfdbc3777041",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Tapin",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "fcc6767a-2172-4e85-b464-60d9deb77c91",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Hulu Sungai Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "12667531-2193-4ddb-8c11-d25eef6f0db0",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Hulu Sungai Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "1f9ea246-00f6-4e7e-b6f3-de89fdcdd552",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Hulu Sungai Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ed9aaa57-a429-4501-a1ba-6b86076c3b70",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Tabalong",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "13b769d9-8cb9-4cf5-bf28-26f32d1027dc",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Tanah Bumbu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7fd7e2e3-d5ad-4bf5-a4ff-8ada80442617",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Balangan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "31540a34-88cb-41ae-aecb-3a853fdddcd8",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Banjarmasin",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "47bd81d6-bd17-4b01-b172-99891d214abf",
+    "province_id": "399e7a28-3278-4cd6-bfbe-3b66b69f403f",
+    "city_name": "Banjarbaru",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "3fbf086c-59fc-4706-bc86-33813f734b0f",
+    "province_id": "4023d063-f914-46c2-b1f9-274aefe5a38a",
+    "city_name": "Paser",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "29bf207d-eb6d-4824-a34f-fc5fef7fb8fb",
+    "province_id": "4023d063-f914-46c2-b1f9-274aefe5a38a",
+    "city_name": "Kutai Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3191b9b9-ce13-4e57-991e-b336ac2c2f23",
+    "province_id": "4023d063-f914-46c2-b1f9-274aefe5a38a",
+    "city_name": "Kutai Kartanegara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b7083367-9983-41c6-8475-f5c84c0cab26",
+    "province_id": "4023d063-f914-46c2-b1f9-274aefe5a38a",
+    "city_name": "Kutai Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a3432f33-39fe-4ada-ac85-ed7920aaf7e6",
+    "province_id": "4023d063-f914-46c2-b1f9-274aefe5a38a",
+    "city_name": "Berau",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "32875930-d761-4c54-a2d7-828c46456bd7",
+    "province_id": "4023d063-f914-46c2-b1f9-274aefe5a38a",
+    "city_name": "Penajam Paser Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "d64be6aa-fc06-4b3f-8e04-da9c6d1a6caa",
+    "province_id": "4023d063-f914-46c2-b1f9-274aefe5a38a",
+    "city_name": "Balikpapan",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "d7864457-ea17-479e-a68d-e3dba114f78f",
+    "province_id": "4023d063-f914-46c2-b1f9-274aefe5a38a",
+    "city_name": "Samarinda",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "7c96df9c-41e9-47c8-aacd-51161fa1184d",
+    "province_id": "4023d063-f914-46c2-b1f9-274aefe5a38a",
+    "city_name": "Bontang",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "af645430-06ce-4d51-b2ce-43284c7fd7c7",
+    "province_id": "5793fd58-99ac-4bfe-8f58-61d443ad05f2",
+    "city_name": "Malinau",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3e94ca37-89ae-4730-bd22-052e0f4e3ccc",
+    "province_id": "5793fd58-99ac-4bfe-8f58-61d443ad05f2",
+    "city_name": "Bulungan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "adb0a65b-0df5-498b-b98f-1c0be3c4f67a",
+    "province_id": "5793fd58-99ac-4bfe-8f58-61d443ad05f2",
+    "city_name": "Tana Tidung",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8c26e3b9-fbe3-45f9-b2f8-c6daf57c83a6",
+    "province_id": "5793fd58-99ac-4bfe-8f58-61d443ad05f2",
+    "city_name": "Nunukan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "1e549d12-2e44-416c-acf4-a54a34923052",
+    "province_id": "5793fd58-99ac-4bfe-8f58-61d443ad05f2",
+    "city_name": "Tarakan",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "ed8c2698-f37e-44ce-928d-3100be6e4902",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Bolaang Mongondow",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "081a9952-ca8f-4e23-996d-413b6781d232",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Minahasa",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e9f36550-cb2f-4227-a1c0-438431695801",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Kepulauan Sangihe",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "373c4283-0ab7-436a-9bf2-e790d739fb58",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Kepulauan Talaud",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "40dfdaa5-a521-4a5c-b13a-457760c4770f",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Minahasa Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "6e337910-2799-4c92-bf72-2648a88f7330",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Minahasa Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e2acba63-9286-4f61-9af2-1bdb1e3c5d72",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Bolaang Mongondow Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "00811be4-e5f8-4807-95d3-3fd6085a265e",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Siau Tagulandang Biaro (Sitaro)",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9452aebc-9755-44ab-a93b-c5b1aa0e563a",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Minahasa Tenggara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9e17803a-9ea6-4df5-9c2a-ada2c4b0bbc7",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Bolaang Mongondow Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "22337b6a-eea5-4ce9-8f7e-bea832c4acf2",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Bolaang Mongondow Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "80ce2e4f-9a20-4e16-ac9b-0a71cac422bb",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Manado",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "d2e8de9a-8175-4343-a05e-6d9c6743b3be",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Bitung",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "3f36b751-b9d8-4ce7-be0e-e4f56526d5de",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Tomohon",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "cb953d32-cf48-4576-8871-d6ec48425f9a",
+    "province_id": "6440ee33-122f-404e-80a6-d571d567d264",
+    "city_name": "Kotamobagu",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "843c3c9c-32d4-4678-b86e-82f7dfe62f13",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Banggai",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "dbd1704f-8b00-4593-99ea-2335ba777bb2",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Poso",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "6598264f-7a31-4aad-86e2-a80a23432ef2",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Donggala",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "6ff55e5d-c2c4-45ff-a9db-298e62a530d6",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Toli-Toli",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "425bc37d-9bdb-4467-b68b-642066609dfb",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Buol",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "60c8a2e2-6fa1-4891-aaa1-7b2c9792ee52",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Morowali",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7aebb726-65ac-4354-b249-9f49b199e8b5",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Banggai Kepulauan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "6ec55ab9-f941-4515-9ab0-215ddc6915e0",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Parigi Moutong",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "905b0613-c580-4e8f-b5c3-ad64a7cc7925",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Tojo Una-Una",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b1937f8a-09c9-49b3-93a1-0c0d496090c3",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Sigi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8167bc41-3740-4892-9fbe-6622ab9c7660",
+    "province_id": "ee6a80d8-5651-4d00-aab3-ab09f539e232",
+    "city_name": "Palu",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "cacc7dd3-7035-4e64-8ce5-0b05d82767f9",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Kepulauan Selayar",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "abcb9fc2-9f17-4ebb-90a4-06cfc66a18be",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Bulukumba",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "63cae577-55ba-40d6-bddc-c998e5d90073",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Bantaeng",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3c3f68e8-df08-4fca-b15e-577241760a21",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Jeneponto",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b13181a3-4370-4c12-b9e5-86be948a2a3b",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Takalar",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "1719ecbb-c86a-4cbb-b628-f793654920b9",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Gowa",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ad8d5358-e046-4e94-8e41-d6a33e43633a",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Sinjai",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "294bcc67-50d3-40d1-8759-9a506573a63e",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Bone",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "47ec494a-d6be-49df-8ce6-aefa0b39ae1e",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Maros",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "25984ff9-09c9-4a4c-8c22-93470a404eae",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Pangkajene Dan Kepulauan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "546b3d06-9b26-4a79-ad4a-036dd72598f1",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Barru",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "af4cd8ac-38ef-47d0-9068-c1a9ca3f8618",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Soppeng",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "83478910-3934-44cf-8919-57df8d789879",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Wajo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "86b27097-913c-4b3e-8dc0-a1ecab8ced1f",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Sidenreng Rappang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "90f2d64b-8a4d-45c5-8286-632da7f2e1cc",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Pinrang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "561331f0-0f56-4370-b614-bb07eb368b29",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Enrekang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "61c8ba2d-8657-4c04-974c-e787b6c064fa",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Luwu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3f1baadb-ae51-442c-9551-5ac664cfe61a",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Tana Toraja",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f08b3439-e314-4ea7-81f3-0a89a40030a1",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Luwu Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3da9399c-48b0-486f-86db-c4d3c6058998",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Luwu Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3394b0ec-47ac-41e9-acae-bab0f7b5ae83",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Toraja Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "224c9c2f-6f28-49df-9b5f-ee3f6d44274b",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Makassar",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "b9286d2e-1e56-447c-a929-58a72f90b351",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Parepare",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "4bb48102-8105-4ee3-91e8-5551e34cd927",
+    "province_id": "ad49e20c-b188-4261-bb3d-b5afd60d455f",
+    "city_name": "Palu",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "a676418c-d63d-4814-9822-1e4d09acc83f",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Buton",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b78c4856-3730-40b3-987a-c877e4da4cfb",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Muna",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0e95c2b9-ddee-4400-96a8-58acf56e4b03",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Konawe",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "6bcfe3ee-2ea2-45a2-ba61-bfd3c5227f2a",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Kolaka",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "01810797-3c90-4b78-8b8e-434e38c70b03",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Konawe Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9a7cb9e9-03e8-48b9-bb5a-63c37dcd8c94",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Bombana",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "00094b46-4380-4e97-9440-6de43f113918",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Wakatobi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "983aa486-2cb8-45c8-a164-5ba68af3d1a3",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Kolaka Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9a38a394-346a-4e71-be79-fd28f63ecbc4",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Buton Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "333ce6ff-b15e-4f20-9a96-e5057493debd",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Konawe Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "72897be2-d43b-4e11-a397-4816e2eb45fc",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Kolaka Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "43a82de1-5beb-4896-bd48-afe9746e798f",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Konawe Kepulauan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8b901789-ba9e-414e-938d-508c309c5f1b",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Muna Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "eac00466-53a1-42c0-92c2-6e9cc53a0e82",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Buton Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f59afa27-0d0f-421c-a49a-d134ced9c1b5",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Buton Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "fac9838a-d04f-4213-abdb-d94d13ac368f",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Kendari",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "3a06b984-bb19-4503-98b7-4620955b7ed7",
+    "province_id": "efd730ab-292f-4850-93c4-f8f95e5a28a0",
+    "city_name": "Baubau",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "072b397d-7cdf-4445-a1ec-830e21ed2426",
+    "province_id": "80e4593d-b479-426a-a63f-098eb103c6c7",
+    "city_name": "Boalemo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f6f6308f-fd04-497b-9fb8-b4ec016d403d",
+    "province_id": "80e4593d-b479-426a-a63f-098eb103c6c7",
+    "city_name": "Gorontalo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2275c87a-ba93-4b7d-b2b6-53063f8a142c",
+    "province_id": "80e4593d-b479-426a-a63f-098eb103c6c7",
+    "city_name": "Pohuwato",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "48d07bea-ac52-422f-8680-d3a0e31cf17c",
+    "province_id": "80e4593d-b479-426a-a63f-098eb103c6c7",
+    "city_name": "Bone Bolango",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e3dc46b2-72ee-4308-af8a-7dfc122c5fa5",
+    "province_id": "80e4593d-b479-426a-a63f-098eb103c6c7",
+    "city_name": "Gorontalo Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "cd302228-f71b-49d2-a46d-8ab7361ba033",
+    "province_id": "80e4593d-b479-426a-a63f-098eb103c6c7",
+    "city_name": "Gorontalo",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "03fbe2ab-06d5-42c5-a30e-52067da2c8cc",
+    "province_id": "14de3c19-bcfb-4f19-b53c-345322b9e263",
+    "city_name": "Majene",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ec24c88d-a094-47a8-878b-3023b67750b2",
+    "province_id": "14de3c19-bcfb-4f19-b53c-345322b9e263",
+    "city_name": "Polewali Mandar",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "1db17894-a7b5-466b-8bb5-5a042bf97f7c",
+    "province_id": "14de3c19-bcfb-4f19-b53c-345322b9e263",
+    "city_name": "Mamasa",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "078f274d-69bb-4ae4-867e-29fa46211772",
+    "province_id": "14de3c19-bcfb-4f19-b53c-345322b9e263",
+    "city_name": "Mamuju",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0afbbbc3-bb12-40b8-8b77-a343aa77e11c",
+    "province_id": "14de3c19-bcfb-4f19-b53c-345322b9e263",
+    "city_name": "Mamuju Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8706f930-c09d-4f21-8efc-f698017a0ce8",
+    "province_id": "14de3c19-bcfb-4f19-b53c-345322b9e263",
+    "city_name": "Mamuju Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "fa3ac776-6741-41ad-9bfc-4c0c00591be3",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Maluku Tenggara Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "04ec3632-a9dc-428a-9a20-cf5c8c2af6e7",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Maluku Tenggara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "53859b8e-5bd2-4315-a61e-14496d0456a5",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Maluku Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "066ad544-3aad-4c33-b27c-9d7136cb8887",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Buru",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f41839fe-017b-43d2-b07a-9db99b49614f",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Kepulauan Aru",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f7fe6ada-8e55-4bbe-87d5-32bd2b2ae7a5",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Seram Bagian Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0b68451a-5c41-42d5-b714-d77d43bf9bd0",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Seram Bagian Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "871064c3-e34f-4a99-a26f-8c7dff0663ed",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Maluku Barat Daya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "cad96e4c-a9bc-4b1b-acbe-8dba4013efda",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Buru Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "77503e8f-0e45-43cf-8533-cb115e221e19",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Ambon",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "81f3e842-56e6-40d2-bcbb-350cea501c69",
+    "province_id": "c2e6cc12-1e67-4148-9d14-5e5020c2bda8",
+    "city_name": "Tual",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "554c5767-747c-4b60-81b0-9e94d5b6266b",
+    "province_id": "37e4fd29-eeec-42d0-8880-fc5b51297fcd",
+    "city_name": "Halmahera Barat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ec662399-32e3-40ee-ac83-7627301e12a2",
+    "province_id": "37e4fd29-eeec-42d0-8880-fc5b51297fcd",
+    "city_name": "Halmahera Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2a51ff36-bf48-4a82-b5b0-4ae291cda375",
+    "province_id": "37e4fd29-eeec-42d0-8880-fc5b51297fcd",
+    "city_name": "Kepulauan Sula",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "944170f0-bb1b-4537-b06e-341ed94a335a",
+    "province_id": "37e4fd29-eeec-42d0-8880-fc5b51297fcd",
+    "city_name": "Halmahera Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "68a49163-2263-4291-979f-18eaf2871909",
+    "province_id": "37e4fd29-eeec-42d0-8880-fc5b51297fcd",
+    "city_name": "Halmahera Utara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a9488368-754d-481a-8cdd-a3d25becedc0",
+    "province_id": "37e4fd29-eeec-42d0-8880-fc5b51297fcd",
+    "city_name": "Halmahera Timur",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "308104e4-f8fc-4e4a-a52a-076b0199caf2",
+    "province_id": "37e4fd29-eeec-42d0-8880-fc5b51297fcd",
+    "city_name": "Pulau Morotai",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "55afcc97-ed24-4d46-aebe-bb10e71cf1cf",
+    "province_id": "37e4fd29-eeec-42d0-8880-fc5b51297fcd",
+    "city_name": "Pulau Taliabu",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "a4ed8d7d-895a-425f-b2f2-44ee79f9399a",
+    "province_id": "37e4fd29-eeec-42d0-8880-fc5b51297fcd",
+    "city_name": "Ternate",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "e38dcdae-18cd-4a10-8cfa-6c3bdcacf369",
+    "province_id": "37e4fd29-eeec-42d0-8880-fc5b51297fcd",
+    "city_name": "Tidore Kepulauan",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "dd6e42d9-3c09-4a17-b681-3fb2095e329e",
+    "province_id": "443961b4-fe3e-48db-8aea-b6ef5233c788",
+    "city_name": "Sarmi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "5d01cc2d-4bd5-45fc-ad5e-1cda67f8b463",
+    "province_id": "443961b4-fe3e-48db-8aea-b6ef5233c788",
+    "city_name": "Keerom",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b828aef9-b3b2-4d3c-932d-19a8ee4a4771",
+    "province_id": "443961b4-fe3e-48db-8aea-b6ef5233c788",
+    "city_name": "Waropen",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7b867c5f-c474-4b52-a671-28b64a6f8515",
+    "province_id": "443961b4-fe3e-48db-8aea-b6ef5233c788",
+    "city_name": "Supiori",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f93a6069-a861-469c-a10e-20edab888264",
+    "province_id": "443961b4-fe3e-48db-8aea-b6ef5233c788",
+    "city_name": "Mamberamo Raya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7c9c0679-c62b-4780-bd96-d93d0ffb3a4e",
+    "province_id": "443961b4-fe3e-48db-8aea-b6ef5233c788",
+    "city_name": "Jayapura",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "a0d85c32-e259-44a4-881d-4b175909a85b",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Fakfak",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "4be10112-e849-4da4-92da-5820d20bea2e",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Kaimana",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "dee0cfaa-c827-48c1-9ca4-bb610676b1c3",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Teluk Wondama",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "513d54bb-d161-4ce2-aab7-b27f94b567a1",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Teluk Bintuni",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b842bfa9-4ad6-4a5d-a8c2-dd6740fe8f29",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Manokwari",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b18892ff-08e7-48b2-95b1-afbafca0820d",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Sorong Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "51f00277-21c0-47b3-afc7-6ecf958ec345",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Sorong",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "07a95098-5a94-4db4-9410-d0b05a7ce5c8",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Raja Ampat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9e69a499-3a37-49a2-86a6-96ead8d0a5c1",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Tambrauw",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "8ff2800d-8165-407d-8622-f137ff5f9a1f",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Maybrat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7298e561-c714-4b73-a6cc-af5a690cc86f",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Manokwari Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "0056045f-b18c-43cb-b4ec-78330fec7d62",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Pegunungan Arfak",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "ef404ee6-4ad5-4b0a-9958-bfdc5be5e6b7",
+    "province_id": "7da5de59-d82b-4383-a712-86c51af8d68c",
+    "city_name": "Sorong",
+    "city_type": "Kota"
+  },
+  {
+    "city_id": "733ce46a-fb03-4c04-a2a4-5623b71e7be2",
+    "province_id": "a9916584-5032-4c4e-adc4-f782c1ed8d38",
+    "city_name": "Asmat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "efaccf3d-4025-4ee4-b924-6dc4d2205b4b",
+    "province_id": "a9916584-5032-4c4e-adc4-f782c1ed8d38",
+    "city_name": "Boven Digoel",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3d8c0bb8-57fd-4bb6-a22c-0ca06fc6c05d",
+    "province_id": "a9916584-5032-4c4e-adc4-f782c1ed8d38",
+    "city_name": "Mappi",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "481d4f09-634b-4835-bd76-b40d4d861c7b",
+    "province_id": "a9916584-5032-4c4e-adc4-f782c1ed8d38",
+    "city_name": "Merauke",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "19074b8f-a0db-4cdc-92d5-a114670a2d81",
+    "province_id": "d0c10e72-fcf3-4acf-903c-715cae143e9a",
+    "city_name": "Deiyai (Deliyai)",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "fd7f9732-c2b4-4eb5-8d73-458876990870",
+    "province_id": "d0c10e72-fcf3-4acf-903c-715cae143e9a",
+    "city_name": "Dogiyai",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "cafc4b6c-9a32-4a02-a7c1-cbb34dcea457",
+    "province_id": "d0c10e72-fcf3-4acf-903c-715cae143e9a",
+    "city_name": "Intan Jaya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f96d877c-99de-4ab3-92a3-fe0f1dcb26b9",
+    "province_id": "d0c10e72-fcf3-4acf-903c-715cae143e9a",
+    "city_name": "Mimika",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "9908105f-26ca-4bd8-8468-891cf4e82c01",
+    "province_id": "d0c10e72-fcf3-4acf-903c-715cae143e9a",
+    "city_name": "Nabire",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "cb8d0e62-dd07-403a-ac8f-adb16bd654b3",
+    "province_id": "d0c10e72-fcf3-4acf-903c-715cae143e9a",
+    "city_name": "Paniai",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "2a8fd658-7dd5-4db2-b914-5c85275468a3",
+    "province_id": "d0c10e72-fcf3-4acf-903c-715cae143e9a",
+    "city_name": "Puncak",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7f2bca73-4412-474e-a87b-86fa1d4548fe",
+    "province_id": "d0c10e72-fcf3-4acf-903c-715cae143e9a",
+    "city_name": "Puncak Jaya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "c28cd5b6-544d-444a-9112-75deb2dac0e2",
+    "province_id": "4a9590f1-787a-4be8-adc9-f82e54ecc758",
+    "city_name": "Jayawijaya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "88f42af3-a117-4abe-93d6-a6fb0ee9bcc6",
+    "province_id": "4a9590f1-787a-4be8-adc9-f82e54ecc758",
+    "city_name": "Lanny Jaya",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "f0a73e69-5c73-4cc0-928c-fdcefbfcc73f",
+    "province_id": "4a9590f1-787a-4be8-adc9-f82e54ecc758",
+    "city_name": "Mamberamo Tengah",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "3d580286-2791-4d7a-b776-3ace2acd54dc",
+    "province_id": "4a9590f1-787a-4be8-adc9-f82e54ecc758",
+    "city_name": "Nduga",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "baca2f3f-995c-4068-9444-eb44cc8bd07c",
+    "province_id": "4a9590f1-787a-4be8-adc9-f82e54ecc758",
+    "city_name": "Pegunungan Bintang",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "bc271054-4118-4628-8450-bc4462da87e7",
+    "province_id": "4a9590f1-787a-4be8-adc9-f82e54ecc758",
+    "city_name": "Tolikara",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "7c7a2e63-51c1-4013-95eb-e3ee259f216b",
+    "province_id": "4a9590f1-787a-4be8-adc9-f82e54ecc758",
+    "city_name": "Yahukimo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "83f90c45-7885-42f1-a1b5-84575e1f7b53",
+    "province_id": "4a9590f1-787a-4be8-adc9-f82e54ecc758",
+    "city_name": "Yalimo",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "281e4e65-4190-4e0a-a2f8-ffd743385172",
+    "province_id": "7192b42d-833b-4abd-bd2f-1fefd97d0ed9",
+    "city_name": "Maybrat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "65b4ffdb-c35b-4719-9220-457d3b0c5030",
+    "province_id": "7192b42d-833b-4abd-bd2f-1fefd97d0ed9",
+    "city_name": "Raja Ampat",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "b1299d44-fa0a-4d2b-9e83-39ca77ca0ea5",
+    "province_id": "7192b42d-833b-4abd-bd2f-1fefd97d0ed9",
+    "city_name": "Sorong",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "138e34aa-96e5-4cda-a517-c1894da6fa4f",
+    "province_id": "7192b42d-833b-4abd-bd2f-1fefd97d0ed9",
+    "city_name": "Sorong Selatan",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "e38603e0-f849-497c-8d26-60bb49b60c69",
+    "province_id": "7192b42d-833b-4abd-bd2f-1fefd97d0ed9",
+    "city_name": "Tambrauw",
+    "city_type": "Kabupaten"
+  },
+  {
+    "city_id": "94bf59e4-950a-45b3-b4d6-26021b379a93",
+    "province_id": "7192b42d-833b-4abd-bd2f-1fefd97d0ed9",
+    "city_name": "Sorong",
+    "city_type": "Kota"
+  }
+]

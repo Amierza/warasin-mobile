@@ -1,0 +1,52 @@
+[
+  {
+    "psy_lang_id": "a8f52c37-6e19-4d83-9b7f-12c3e5f84d92",
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f",
+    "lang_id": "6fcb0d3e-4970-4ed2-bc7a-3d4c7fd87a44"
+  },
+  {
+    "psy_lang_id": "b9d63e48-7f2a-4e94-ac8f-23d4f6e95e03",
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f",
+    "lang_id": "3b1e4a26-8452-4cc5-8db2-259c0f39ec59"
+  },
+  {
+    "psy_lang_id": "c0e74f59-8b3b-4f05-bd9a-34e5a7b06f14",
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d",
+    "lang_id": "6fcb0d3e-4970-4ed2-bc7a-3d4c7fd87a44"
+  },
+  {
+    "psy_lang_id": "d1f85a60-9a4c-4a16-ce0a-45f6a8a17a25",
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d",
+    "lang_id": "3b1e4a26-8452-4cc5-8db2-259c0f39ec59"
+  },
+  {
+    "psy_lang_id": "e2a96a71-0a5d-4a27-df1a-56a7a9a28a36",
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a",
+    "lang_id": "6fcb0d3e-4970-4ed2-bc7a-3d4c7fd87a44"
+  },
+  {
+    "psy_lang_id": "f3a07a82-1a6e-4a38-ea2a-67a8a0a39a47",
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a",
+    "lang_id": "3b1e4a26-8452-4cc5-8db2-259c0f39ec59"
+  },
+  {
+    "psy_lang_id": "a4a18a93-2a7f-4a49-fa3a-78a9a1a40a58",
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76",
+    "lang_id": "6fcb0d3e-4970-4ed2-bc7a-3d4c7fd87a44"
+  },
+  {
+    "psy_lang_id": "a5a29a04-3a8a-4a50-aa4a-89a0a2a51a69",
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76",
+    "lang_id": "3b1e4a26-8452-4cc5-8db2-259c0f39ec59"
+  },
+  {
+    "psy_lang_id": "a6a30a15-4a9a-4a61-aa5a-90a1a3a62a70",
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735",
+    "lang_id": "6fcb0d3e-4970-4ed2-bc7a-3d4c7fd87a44"
+  },
+  {
+    "psy_lang_id": "a7a41a26-5a0a-4a72-aa6a-01a2a4a73a81",
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735",
+    "lang_id": "3b1e4a26-8452-4cc5-8db2-259c0f39ec59"
+  }
+]
