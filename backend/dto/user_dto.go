@@ -175,4 +175,12 @@ type (
 		City        CityResponse `json:"city"`
 		Role        RoleResponse `json:"role"`
 	}
+
+	RefreshTokenRequest struct {
+		RefreshToken string `json:"refresh_token"`
+	}
+
+	RefreshTokenResponse struct {
+		AccessToken string `json:"access_token"`
+	}
 )

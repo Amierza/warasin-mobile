@@ -20,6 +20,7 @@ type (
 	IUserService interface {
 		Register(ctx context.Context, req dto.UserRegisterRequest) (dto.AllUserResponse, error)
 		Login(ctx context.Context, req dto.UserLoginRequest) (dto.UserLoginResponse, error)
+		RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error)
 		SendForgotPasswordEmail(ctx context.Context, req dto.SendForgotPasswordEmailRequest) error
 		ForgotPassword(ctx context.Context, req dto.ForgotPasswordRequest) (dto.ForgotPasswordResponse, error)
 		UpdatePassword(ctx context.Context, req dto.UpdatePasswordRequest) (dto.UpdatePasswordResponse, error)
@@ -125,6 +126,45 @@ func (us *UserService) Login(ctx context.Context, req dto.UserLoginRequest) (dto
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}, nil
+}
+
+func (us *UserService) RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error) {
+	_, err := us.jwtService.ValidateToken(req.RefreshToken)
+
+	if err != nil {
+		return dto.RefreshTokenResponse{}, dto.ErrValidateToken
+	}
+
+	userID, err := us.jwtService.GetUserIDByToken(req.RefreshToken)
+	if err != nil {
+		return dto.RefreshTokenResponse{}, dto.ErrGetUserIDFromToken
+	}
+
+	roleID, err := us.jwtService.GetRoleIDByToken(req.RefreshToken)
+	if err != nil {
+		return dto.RefreshTokenResponse{}, dto.ErrGetRoleFromToken
+	}
+
+	role, err := us.userRepo.GetRoleByID(ctx, nil, roleID)
+	if err != nil {
+		return dto.RefreshTokenResponse{}, dto.ErrGetRoleFromID
+	}
+
+	if role.Name != "user" {
+		return dto.RefreshTokenResponse{}, dto.ErrDeniedAccess
+	}
+
+	endpoints, err := us.userRepo.GetPermissionsByRoleID(ctx, nil, roleID)
+	if err != nil {
+		return dto.RefreshTokenResponse{}, dto.ErrGetPermissionsByRoleID
+	}
+
+	accessToken, _, err := us.jwtService.GenerateToken(userID, roleID, endpoints)
+	if err != nil {
+		return dto.RefreshTokenResponse{}, dto.ErrGenerateAccessToken
+	}
+
+	return dto.RefreshTokenResponse{AccessToken: accessToken}, nil
 }
 
 func makeVerificationEmail(receiverEmail string) (map[string]string, error) {

@@ -12,6 +12,7 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, jwtService servic
 	{
 		routes.POST("/register", userHandler.Register)
 		routes.POST("/login", userHandler.Login)
+		routes.POST("/refresh-token", userHandler.RefreshToken)
 
 		routes.POST("/send-forgot-password-email", userHandler.SendForgotPasswordEmail)
 		routes.GET("/forgot-password", userHandler.ForgotPassword)
@@ -20,6 +21,9 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, jwtService servic
 		routes.POST("/send-verification-email", userHandler.SendVerificationEmail)
 		routes.GET("/verify-email", userHandler.VerifyEmail)
 
-		routes.GET("/get-detail-user", middleware.Authentication(jwtService), userHandler.GetDetailUser)
+		routes.Use(middleware.Authentication(jwtService))
+		{
+			routes.GET("/get-detail-user", userHandler.GetDetailUser)
+		}
 	}
 }
