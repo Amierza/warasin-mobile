@@ -16,6 +16,7 @@ type (
 		GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error)
 		GetRoleByName(ctx context.Context, tx *gorm.DB, roleName string) (entity.Role, error)
 		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
+		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
 	}
 
 	UserRepository struct {
@@ -99,6 +100,19 @@ func (ur *UserRepository) GetRoleByName(ctx context.Context, tx *gorm.DB, roleNa
 
 	var role entity.Role
 	if err := tx.WithContext(ctx).Where("name = ?", roleName).Take(&role).Error; err != nil {
+		return entity.Role{}, err
+	}
+
+	return role, nil
+}
+
+func (ur *UserRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var role entity.Role
+	if err := tx.WithContext(ctx).Where("id = ?", roleID).Take(&role).Error; err != nil {
 		return entity.Role{}, err
 	}
 
