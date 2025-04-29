@@ -14,6 +14,8 @@ type (
 		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
 		GetUserByPassword(ctx context.Context, tx *gorm.DB, password string) (entity.User, error)
 		GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error)
+		GetRoleByName(ctx context.Context, tx *gorm.DB, roleName string) (entity.Role, error)
+		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
 	}
 
 	UserRepository struct {
@@ -88,4 +90,30 @@ func (ur *UserRepository) GetUserByID(ctx context.Context, tx *gorm.DB, userID s
 	}
 
 	return user, nil
+}
+
+func (ur *UserRepository) GetRoleByName(ctx context.Context, tx *gorm.DB, roleName string) (entity.Role, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var role entity.Role
+	if err := tx.WithContext(ctx).Where("name = ?", roleName).Take(&role).Error; err != nil {
+		return entity.Role{}, err
+	}
+
+	return role, nil
+}
+
+func (ur *UserRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var endpoints []string
+	if err := tx.WithContext(ctx).Table("permissions").Where("role_id = ?", roleID).Pluck("endpoint", &endpoints).Error; err != nil {
+		return []string{}, err
+	}
+
+	return endpoints, nil
 }
