@@ -1,0 +1,57 @@
+[
+  {
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f",
+    "psy_name": "Dr. Andi Prasetya",
+    "psy_str_number": "ST12345678",
+    "psy_email": "andi@psychologist.com",
+    "psy_password": "password123",
+    "psy_work_year": "2005",
+    "psy_description": "Dr. Andi Prasetya adalah seorang psikolog klinis dengan pengalaman lebih dari 15 tahun dalam memberikan terapi kepada individu dan pasangan. Beliau mengkhususkan diri dalam terapi kognitif perilaku (CBT) untuk mengatasi gangguan kecemasan, depresi, dan stres. Dengan pendekatan yang berfokus pada pemahaman pola pikir, Dr. Andi membantu klien untuk mengubah pola pikir negatif dan mengembangkan keterampilan koping yang lebih sehat. Beliau juga memiliki pengalaman dalam menangani trauma dan konflik interpersonal.",
+    "psy_phone_number": "+6281234567890",
+    "city_id": "b13bb1cb-b8a0-4cf0-832a-e35796f44bbe"
+  },
+  {
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d",
+    "psy_name": "Dr. Maria Sari",
+    "psy_str_number": "ST87654321",
+    "psy_email": "maria@psychologist.com",
+    "psy_password": "password456",
+    "psy_work_year": "2010",
+    "psy_description": "Dr. Maria Sari merupakan psikolog yang telah berpraktik sejak 2010, dengan fokus pada terapi perilaku untuk mengatasi kecemasan dan stres, terutama bagi mereka yang bekerja di lingkungan bertekanan tinggi. Beliau menggabungkan teknik mindfulness dan relaksasi dalam sesi terapis untuk membantu klien mencapai keseimbangan emosional. Selain itu, Dr. Maria aktif mengedukasi masyarakat mengenai pentingnya kesehatan mental dan teknik-teknik untuk meningkatkan kualitas hidup melalui buku dan seminar yang beliau selenggarakan.",
+    "psy_phone_number": "+6282345678901",
+    "city_id": "b13bb1cb-b8a0-4cf0-832a-e35796f44bbe"
+  },
+  {
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a",
+    "psy_name": "Dr. Rina Hartati",
+    "psy_str_number": "ST65432190",
+    "psy_email": "rina@psychologist.com",
+    "psy_password": "password789",
+    "psy_work_year": "2007",
+    "psy_description": "Dr. Rina Hartati adalah psikolog dengan keahlian dalam bidang terapi keluarga dan anak. Dengan pengalaman lebih dari 13 tahun, beliau fokus pada penyembuhan trauma keluarga, masalah komunikasi antar anggota keluarga, dan pengelolaan stres pada anak-anak dan remaja. Dr. Rina menggunakan pendekatan terapi berbasis solusi dan terapi bermain untuk membantu anak-anak memahami dan mengungkapkan perasaan mereka. Beliau juga memiliki minat dalam mendukung orangtua dalam menghadapi tantangan pengasuhan di era digital.",
+    "psy_phone_number": "+6283456789012",
+    "city_id": "3fcc9055-9cd7-487a-b573-f9a79b113525"
+  },
+  {
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76",
+    "psy_name": "Dr. Fajar Prabowo",
+    "psy_str_number": "ST19283746",
+    "psy_email": "fajar@psychologist.com",
+    "psy_password": "password101",
+    "psy_work_year": "2015",
+    "psy_description": "Dr. Fajar Prabowo adalah psikolog klinis yang berfokus pada pengelolaan stres dan kecemasan, terutama untuk individu yang menghadapi tantangan dalam dunia profesional. Beliau menggunakan terapi berbasis bukti seperti Cognitive Behavioral Therapy (CBT) untuk membantu klien menanggulangi stres yang berlebihan dan mengembangkan strategi coping yang lebih sehat. Selain itu, Dr. Fajar aktif memberikan pelatihan dan seminar terkait pengelolaan stres di perusahaan dan lembaga pendidikan.",
+    "psy_phone_number": "+6284567890123",
+    "city_id": "3fcc9055-9cd7-487a-b573-f9a79b113525"
+  },
+  {
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735",
+    "psy_name": "Dr. Nia Susanti",
+    "psy_str_number": "ST11223344",
+    "psy_email": "nia@psychologist.com",
+    "psy_password": "password202",
+    "psy_work_year": "2009",
+    "psy_description": "Dr. Nia Susanti adalah seorang psikolog yang berfokus pada penyembuhan trauma dan kesehatan mental bagi individu yang mengalami gangguan pasca trauma (PTSD). Beliau memiliki pendekatan yang empatik dan berbasis pada evidence-based therapy, serta aktif dalam program pengembangan diri dan kebijakan kesehatan mental untuk komunitas. Dr. Nia juga mengintegrasikan teknik mindfulness dan teknik terapi traumatis yang telah terbukti efektif dalam membantu klien pulih dari masa lalu yang berat.",
+    "psy_phone_number": "+6285678901234",
+    "city_id": "8e571815-809d-46e8-ad36-61ff4a1f2ca1"
+  }
+]

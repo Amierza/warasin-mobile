@@ -1,0 +1,90 @@
+[
+  {
+    "edu_id": "fa174842-89cb-4a1a-9d01-2261e0f7a1e6",
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f",
+    "edu_degree": "S1",
+    "edu_major": "Psikologi Klinis",
+    "edu_institution": "Universitas Indonesia",
+    "edu_graduation_year": "2014"
+  },
+  {
+    "edu_id": "7bb1a939-6ae0-4d5e-b38a-c05883d78099",
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f",
+    "edu_degree": "S2",
+    "edu_major": "Psikologi Pendidikan",
+    "edu_institution": "Universitas Gadjah Mada",
+    "edu_graduation_year": "2017"
+  },
+  {
+    "edu_id": "54f66b5e-8c42-4264-b4b4-dc5ad0e6e410",
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d",
+    "edu_degree": "S1",
+    "edu_major": "Psikologi Sosial",
+    "edu_institution": "Universitas Airlangga",
+    "edu_graduation_year": "2012"
+  },
+  {
+    "edu_id": "5ff3a4c3-68f6-45ec-8d27-d37e6d8fc2f0",
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d",
+    "edu_degree": "S2",
+    "edu_major": "Psikologi Klinis",
+    "edu_institution": "Universitas Padjadjaran",
+    "edu_graduation_year": "2015"
+  },
+  {
+    "edu_id": "4a2b41ee-2191-4955-aef9-b5e4eac53769",
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a",
+    "edu_degree": "S1",
+    "edu_major": "Psikologi Klinis",
+    "edu_institution": "Universitas Muhammadiyah Surakarta",
+    "edu_graduation_year": "2011"
+  },
+  {
+    "edu_id": "fcb353d4-4c52-4c17-9363-21b0d8b225a4",
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a",
+    "edu_degree": "S2",
+    "edu_major": "Psikologi Sosial",
+    "edu_institution": "Universitas Diponegoro",
+    "edu_graduation_year": "2014"
+  },
+  {
+    "edu_id": "d6a16c0d-c211-41e0-927c-c05e0cb2efc7",
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76",
+    "edu_degree": "S1",
+    "edu_major": "Psikologi Pendidikan",
+    "edu_institution": "Universitas Negeri Malang",
+    "edu_graduation_year": "2013"
+  },
+  {
+    "edu_id": "924f9280-c45e-4703-91b5-8f37d9b1d7d9",
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76",
+    "edu_degree": "S2",
+    "edu_major": "Psikologi Industri dan Organisasi",
+    "edu_institution": "Universitas Brawijaya",
+    "edu_graduation_year": "2016"
+  },
+  {
+    "edu_id": "c91fc9e6-b23d-4d7e-9f27-74cd8a70a737",
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735",
+    "edu_degree": "S1",
+    "edu_major": "Psikologi Umum",
+    "edu_institution": "Universitas Sanata Dharma",
+    "edu_graduation_year": "2012"
+  },
+  {
+    "edu_id": "09ef49cb-1ce8-41c6-a1e1-948a190cd2db",
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735",
+    "edu_degree": "S2",
+    "edu_major": "Psikologi Klinis",
+    "edu_institution": "Universitas Sebelas Maret",
+    "edu_graduation_year": "2015"
+  },
+  {
+    "edu_id": "bf1bc3be-7657-4f70-bb55-f3147dcd3cc0",
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735",
+    "edu_degree": "S3",
+    "edu_major": "Psikologi Sosial",
+    "edu_institution": "Universitas Kristen Satya Wacana",
+    "edu_graduation_year": "2020"
+  }
+]
