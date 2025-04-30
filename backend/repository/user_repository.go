@@ -18,6 +18,7 @@ type (
 		GetRoleByName(ctx context.Context, tx *gorm.DB, roleName string) (entity.Role, error)
 		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
 		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
+		GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error)
 	}
 
 	UserRepository struct {
@@ -132,4 +133,17 @@ func (ur *UserRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.D
 	}
 
 	return endpoints, nil
+}
+
+func (ar *UserRepository) GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var city entity.City
+	if err := tx.WithContext(ctx).Preload("Province").Where("id = ?", cityID).Take(&city).Error; err != nil {
+		return entity.City{}, err
+	}
+
+	return city, nil
 }

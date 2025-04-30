@@ -21,9 +21,10 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, jwtService servic
 		routes.POST("/send-verification-email", userHandler.SendVerificationEmail)
 		routes.GET("/verify-email", userHandler.VerifyEmail)
 
-		routes.Use(middleware.Authentication(jwtService))
+		routes.Use(middleware.Authentication(jwtService), middleware.RouteAccessControl(jwtService))
 		{
 			routes.GET("/get-detail-user", userHandler.GetDetailUser)
+			routes.PATCH("/update-user", userHandler.UpdateUser)
 		}
 	}
 }

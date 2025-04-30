@@ -27,6 +27,7 @@ type (
 		SendVerificationEmail(ctx context.Context, req dto.SendVerificationEmailRequest) error
 		VerifyEmail(ctx context.Context, req dto.VerifyEmailRequest) (dto.VerifyEmailResponse, error)
 		GetDetailUser(ctx context.Context) (dto.AllUserResponse, error)
+		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
 	}
 
 	UserService struct {
@@ -446,4 +447,99 @@ func (us *UserService) GetDetailUser(ctx context.Context) (dto.AllUserResponse, 
 			Name: user.Role.Name,
 		},
 	}, nil
+}
+
+func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error) {
+	token := ctx.Value("Authorization").(string)
+	userID, err := us.jwtService.GetUserIDByToken(token)
+
+	user, err := us.userRepo.GetUserByID(ctx, nil, userID)
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrGetDataUserFromID
+	}
+
+	if req.CityID != nil {
+		city, err := us.userRepo.GetCityByID(ctx, nil, req.CityID.String())
+		if err != nil {
+			return dto.AllUserResponse{}, dto.ErrGetCityByID
+		}
+
+		user.City = city
+	}
+
+	if req.RoleID != nil {
+		role, err := us.userRepo.GetRoleByID(ctx, nil, req.RoleID.String())
+		if err != nil {
+			return dto.AllUserResponse{}, dto.ErrGetRoleFromID
+		}
+
+		user.Role = role
+	}
+
+	if req.Name != "" {
+		if len(req.Name) < 5 {
+			return dto.AllUserResponse{}, dto.ErrInvalidName
+		}
+
+		user.Name = req.Name
+	}
+
+	if req.Email != "" {
+		if !helpers.IsValidEmail(req.Email) {
+			return dto.AllUserResponse{}, dto.ErrInvalidEmail
+		}
+
+		_, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
+		if flag || err == nil {
+			return dto.AllUserResponse{}, dto.ErrEmailAlreadyExists
+		}
+
+		user.Email = req.Email
+	}
+
+	if req.Birthdate != nil {
+		user.Birthdate = req.Birthdate
+	}
+
+	if req.PhoneNumber != "" {
+		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber)
+		if err != nil {
+			return dto.AllUserResponse{}, dto.ErrFormatPhoneNumber
+		}
+
+		user.PhoneNumber = phoneNumberFormatted
+	}
+
+	updatedUser, err := us.userRepo.UpdateUser(ctx, nil, user)
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrUpdateUser
+	}
+
+	res := dto.AllUserResponse{
+		ID:          updatedUser.ID,
+		Name:        updatedUser.Name,
+		Email:       updatedUser.Email,
+		Password:    updatedUser.Password,
+		Birthdate:   updatedUser.Birthdate,
+		PhoneNumber: updatedUser.PhoneNumber,
+		Data01:      updatedUser.Data01,
+		Data02:      updatedUser.Data02,
+		Data03:      updatedUser.Data03,
+		IsVerified:  updatedUser.IsVerified,
+		City: dto.CityResponse{
+			ID:   updatedUser.CityID,
+			Name: updatedUser.City.Name,
+			Type: updatedUser.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   updatedUser.City.ProvinceID,
+				Name: updatedUser.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   updatedUser.RoleID,
+			Name: updatedUser.Role.Name,
+		},
+	}
+
+	return res, nil
 }
