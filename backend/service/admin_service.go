@@ -15,6 +15,7 @@ type (
 		Login(ctx context.Context, req dto.AdminLoginRequest) (dto.AdminLoginResponse, error)
 		RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error)
 		CreateUser(ctx context.Context, req dto.CreateUserRequest) (dto.AllUserResponse, error)
+		GetAllUserWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserPaginationResponse, error)
 	}
 
 	AdminService struct {
@@ -180,4 +181,53 @@ func (as *AdminService) CreateUser(ctx context.Context, req dto.CreateUserReques
 	}
 
 	return res, nil
+}
+
+func (as *AdminService) GetAllUserWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserPaginationResponse, error) {
+	dataWithPaginate, err := as.adminRepo.GetAllUserWithPagination(ctx, nil, req)
+	if err != nil {
+		return dto.UserPaginationResponse{}, err
+	}
+
+	var datas []dto.AllUserResponse
+	for _, user := range dataWithPaginate.Users {
+		data := dto.AllUserResponse{
+			ID:          user.ID,
+			Name:        user.Name,
+			Email:       user.Email,
+			Password:    user.Password,
+			Gender:      user.Gender,
+			Birthdate:   user.Birthdate,
+			PhoneNumber: user.PhoneNumber,
+			Data01:      user.Data01,
+			Data02:      user.Data02,
+			Data03:      user.Data03,
+			IsVerified:  user.IsVerified,
+			City: dto.CityResponse{
+				ID:   user.CityID,
+				Name: user.City.Name,
+				Type: user.City.Type,
+				Province: dto.ProvinceResponse{
+					ID:   user.City.ProvinceID,
+					Name: user.City.Province.Name,
+				},
+			},
+			Role: dto.RoleResponse{
+				ID:   user.RoleID,
+				Name: user.Role.Name,
+			},
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.UserPaginationResponse{
+		Data: datas,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    dataWithPaginate.Page,
+			PerPage: dataWithPaginate.PerPage,
+			MaxPage: dataWithPaginate.MaxPage,
+			Count:   dataWithPaginate.Count,
+		},
+	}, nil
 }
