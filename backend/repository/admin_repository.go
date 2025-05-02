@@ -21,6 +21,7 @@ type (
 		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
 		GetAllUserWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserRepositoryResponse, error)
 		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
+		DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error
 	}
 
 	AdminRepository struct {
@@ -182,4 +183,12 @@ func (ar *AdminRepository) UpdateUser(ctx context.Context, tx *gorm.DB, user ent
 	}
 
 	return updatedUser, nil
+}
+
+func (ar AdminRepository) DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", userID).Delete(&entity.User{}).Error
 }
