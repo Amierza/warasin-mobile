@@ -16,6 +16,7 @@ type (
 		RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error)
 		CreateUser(ctx context.Context, req dto.CreateUserRequest) (dto.AllUserResponse, error)
 		GetAllUserWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserPaginationResponse, error)
+		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
 	}
 
 	AdminService struct {
@@ -230,4 +231,96 @@ func (as *AdminService) GetAllUserWithPagination(ctx context.Context, req dto.Pa
 			Count:   dataWithPaginate.Count,
 		},
 	}, nil
+}
+
+func (as *AdminService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error) {
+	user, err := as.adminRepo.GetUserByID(ctx, nil, req.ID.String())
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrGetDataUserFromID
+	}
+
+	if req.CityID != nil {
+		city, err := as.adminRepo.GetCityByID(ctx, nil, req.CityID.String())
+		if err != nil {
+			return dto.AllUserResponse{}, dto.ErrGetCityByID
+		}
+
+		user.City = city
+	}
+
+	if req.RoleID != nil {
+		role, err := as.adminRepo.GetRoleByID(ctx, nil, req.RoleID.String())
+		if err != nil {
+			return dto.AllUserResponse{}, dto.ErrGetRoleFromID
+		}
+
+		user.Role = role
+	}
+
+	if req.Name != "" {
+		if len(req.Name) < 5 {
+			return dto.AllUserResponse{}, dto.ErrInvalidName
+		}
+
+		user.Name = req.Name
+	}
+
+	if req.Email != "" {
+		if !helpers.IsValidEmail(req.Email) {
+			return dto.AllUserResponse{}, dto.ErrInvalidEmail
+		}
+
+		_, flag, err := as.adminRepo.CheckEmail(ctx, nil, req.Email)
+		if flag || err == nil {
+			return dto.AllUserResponse{}, dto.ErrEmailAlreadyExists
+		}
+
+		user.Email = req.Email
+	}
+
+	if req.Birthdate != nil {
+		user.Birthdate = req.Birthdate
+	}
+
+	if req.PhoneNumber != "" {
+		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber)
+		if err != nil {
+			return dto.AllUserResponse{}, dto.ErrFormatPhoneNumber
+		}
+
+		user.PhoneNumber = phoneNumberFormatted
+	}
+
+	updatedUser, err := as.adminRepo.UpdateUser(ctx, nil, user)
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrUpdateUser
+	}
+
+	res := dto.AllUserResponse{
+		ID:          updatedUser.ID,
+		Name:        updatedUser.Name,
+		Email:       updatedUser.Email,
+		Password:    updatedUser.Password,
+		Birthdate:   updatedUser.Birthdate,
+		PhoneNumber: updatedUser.PhoneNumber,
+		Data01:      updatedUser.Data01,
+		Data02:      updatedUser.Data02,
+		Data03:      updatedUser.Data03,
+		IsVerified:  updatedUser.IsVerified,
+		City: dto.CityResponse{
+			ID:   updatedUser.CityID,
+			Name: updatedUser.City.Name,
+			Type: updatedUser.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   updatedUser.City.ProvinceID,
+				Name: updatedUser.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   updatedUser.RoleID,
+			Name: updatedUser.Role.Name,
+		},
+	}
+
+	return res, nil
 }

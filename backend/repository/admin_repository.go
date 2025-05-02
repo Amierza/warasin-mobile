@@ -20,6 +20,7 @@ type (
 		GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error)
 		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
 		GetAllUserWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserRepositoryResponse, error)
+		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
 	}
 
 	AdminRepository struct {
@@ -157,4 +158,28 @@ func (ar *AdminRepository) GetAllUserWithPagination(ctx context.Context, tx *gor
 			Count:   count,
 		},
 	}, err
+}
+
+func (ar *AdminRepository) UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	if err := tx.WithContext(ctx).
+		Model(&entity.User{}).
+		Where("id = ?", user.ID).
+		Updates(user).Error; err != nil {
+		return entity.User{}, err
+	}
+
+	var updatedUser entity.User
+	if err := tx.WithContext(ctx).
+		Preload("City.Province").
+		Preload("Role").
+		Where("id = ?", user.ID).
+		Take(&updatedUser).Error; err != nil {
+		return entity.User{}, err
+	}
+
+	return updatedUser, nil
 }
