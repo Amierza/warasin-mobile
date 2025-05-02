@@ -10,8 +10,10 @@ import (
 const (
 	// failed
 	MESSAGE_FAILED_CREATE_USER = "failed create user"
+	MESSAGE_FAILED_DELETE_USER = "failed delete user"
 	// success
 	MESSAGE_SUCCESS_CREATE_USER = "success create user"
+	MESSAGE_SUCCESS_DELETE_USER = "success delete user"
 )
 
 var (
@@ -50,5 +52,9 @@ type (
 		PhoneNumber string     `json:"phone_number"`
 		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id"`
 		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id"`
+	}
+
+	DeleteUserRequest struct {
+		UserID uuid.UUID `json:"user_id"`
 	}
 )

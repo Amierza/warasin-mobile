@@ -17,6 +17,7 @@ type (
 		CreateUser(ctx context.Context, req dto.CreateUserRequest) (dto.AllUserResponse, error)
 		GetAllUserWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserPaginationResponse, error)
 		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
+		DeleteUser(ctx context.Context, req dto.DeleteUserRequest) (dto.AllUserResponse, error)
 	}
 
 	AdminService struct {
@@ -319,6 +320,46 @@ func (as *AdminService) UpdateUser(ctx context.Context, req dto.UpdateUserReques
 		Role: dto.RoleResponse{
 			ID:   updatedUser.RoleID,
 			Name: updatedUser.Role.Name,
+		},
+	}
+
+	return res, nil
+}
+
+func (as *AdminService) DeleteUser(ctx context.Context, req dto.DeleteUserRequest) (dto.AllUserResponse, error) {
+	deletedUser, err := as.adminRepo.GetUserByID(ctx, nil, req.UserID.String())
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrGetDataUserFromID
+	}
+
+	err = as.adminRepo.DeleteUserByID(ctx, nil, req.UserID.String())
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrDeleteUserByID
+	}
+
+	res := dto.AllUserResponse{
+		ID:          deletedUser.ID,
+		Name:        deletedUser.Name,
+		Email:       deletedUser.Email,
+		Password:    deletedUser.Password,
+		Birthdate:   deletedUser.Birthdate,
+		PhoneNumber: deletedUser.PhoneNumber,
+		Data01:      deletedUser.Data01,
+		Data02:      deletedUser.Data02,
+		Data03:      deletedUser.Data03,
+		IsVerified:  deletedUser.IsVerified,
+		City: dto.CityResponse{
+			ID:   deletedUser.CityID,
+			Name: deletedUser.City.Name,
+			Type: deletedUser.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   deletedUser.City.ProvinceID,
+				Name: deletedUser.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   deletedUser.RoleID,
+			Name: deletedUser.Role.Name,
 		},
 	}
 
