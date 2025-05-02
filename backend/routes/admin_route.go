@@ -16,6 +16,7 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 		{
 			routes.POST("/create-user", adminHandler.CreateUser)
 			routes.GET("/get-all-user", adminHandler.GetAllUser)
+			routes.PATCH("/update-user", adminHandler.UpdateUser)
 		}
 	}
 }

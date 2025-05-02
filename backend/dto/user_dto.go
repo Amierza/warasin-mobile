@@ -180,9 +180,10 @@ type (
 	}
 
 	UpdateUserRequest struct {
+		ID          uuid.UUID  `gorm:"type:uuid" json:"id"`
 		Name        string     `json:"name,omitempty"`
 		Email       string     `json:"email,omitempty"`
-		Gender      bool       `json:"user_gender,omitempty"`
+		Gender      bool       `json:"gender,omitempty"`
 		Birthdate   *time.Time `gorm:"type:date" json:"user_birth_date,omitempty"`
 		PhoneNumber string     `json:"phone_number,omitempty"`
 		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id,omitempty"`
