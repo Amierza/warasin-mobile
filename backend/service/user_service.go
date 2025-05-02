@@ -85,7 +85,7 @@ func (us *UserService) Register(ctx context.Context, req dto.UserRegisterRequest
 		Password: userReg.Password,
 		Role: dto.RoleResponse{
 			ID:   userReg.RoleID,
-			Name: user.Name,
+			Name: user.Role.Name,
 		},
 	}, nil
 }
@@ -427,6 +427,7 @@ func (us *UserService) GetDetailUser(ctx context.Context) (dto.AllUserResponse, 
 		Name:        user.Name,
 		Email:       user.Email,
 		Password:    user.Password,
+		Gender:      user.Gender,
 		Birthdate:   user.Birthdate,
 		PhoneNumber: user.PhoneNumber,
 		Data01:      user.Data01,
@@ -520,6 +521,7 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 		Name:        updatedUser.Name,
 		Email:       updatedUser.Email,
 		Password:    updatedUser.Password,
+		Gender:      updatedUser.Gender,
 		Birthdate:   updatedUser.Birthdate,
 		PhoneNumber: updatedUser.PhoneNumber,
 		Data01:      updatedUser.Data01,

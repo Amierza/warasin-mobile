@@ -160,6 +160,7 @@ type (
 		Name        string       `json:"user_name"`
 		Email       string       `json:"user_email"`
 		Password    string       `json:"user_password"`
+		Gender      bool         `json:"user_gender,omitempty"`
 		Birthdate   *time.Time   `gorm:"type:date" json:"user_birth_date,omitempty"`
 		PhoneNumber string       `json:"user_phone_number,omitempty"`
 		Data01      int          `json:"user_data01,omitempty"`
@@ -181,6 +182,7 @@ type (
 	UpdateUserRequest struct {
 		Name        string     `json:"name,omitempty"`
 		Email       string     `json:"email,omitempty"`
+		Gender      bool       `json:"user_gender,omitempty"`
 		Birthdate   *time.Time `gorm:"type:date" json:"user_birth_date,omitempty"`
 		PhoneNumber string     `json:"phone_number,omitempty"`
 		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id,omitempty"`
