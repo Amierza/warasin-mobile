@@ -8,10 +8,10 @@ import (
 )
 
 const (
-// failed
-
-// success
-
+	// failed
+	MESSAGE_FAILED_CREATE_USER = "failed create user"
+	// success
+	MESSAGE_SUCCESS_CREATE_USER = "success create user"
 )
 
 var (

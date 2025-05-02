@@ -13,6 +13,7 @@ type (
 	IAdminHandler interface {
 		Login(ctx *gin.Context)
 		RefreshToken(ctx *gin.Context)
+		CreateUser(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -61,5 +62,24 @@ func (ah *AdminHandler) RefreshToken(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_REFRESH_TOKEN, result)
+	ctx.AbortWithStatusJSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) CreateUser(ctx *gin.Context) {
+	var payload dto.CreateUserRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.CreateUser(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_CREATE_USER, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_USER, result)
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
 }
