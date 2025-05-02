@@ -2,8 +2,12 @@ package repository
 
 import (
 	"context"
+	"math"
+	"strings"
 
+	"github.com/Amierza/warasin-mobile/backend/dto"
 	"github.com/Amierza/warasin-mobile/backend/entity"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -15,6 +19,7 @@ type (
 		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
 		GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error)
 		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
+		GetAllUserWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserRepositoryResponse, error)
 	}
 
 	AdminRepository struct {
@@ -99,4 +104,57 @@ func (ar *AdminRepository) GetCityByID(ctx context.Context, tx *gorm.DB, cityID 
 	}
 
 	return city, nil
+}
+
+func (ar *AdminRepository) GetAllUserWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var users []entity.User
+	var err error
+	var count int64
+
+	if req.PerPage == 0 {
+		req.PerPage = 10
+	}
+
+	if req.Page == 0 {
+		req.Page = 1
+	}
+
+	var adminIDs []uuid.UUID
+	if err := tx.WithContext(ctx).Model(&entity.Role{}).Where("name != ?", "admin").Pluck("id", &adminIDs).Error; err != nil {
+		return dto.AllUserRepositoryResponse{}, err
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.User{}).Where("role_id IN (?)", adminIDs)
+
+	if req.Search != "" {
+		searchValue := "%" + strings.ToLower(req.Search) + "%"
+		query = query.Where("LOWER(name) LIKE ? OR LOWER(email) LIKE ? OR LOWER(phone_number) LIKE ?",
+			searchValue, searchValue, searchValue)
+	}
+
+	query = query.Preload("City.Province").Preload("Role")
+
+	if err := query.Count(&count).Error; err != nil {
+		return dto.AllUserRepositoryResponse{}, err
+	}
+
+	if err := query.Order("created_at DESC").Scopes(Paginate(req.Page, req.PerPage)).Find(&users).Error; err != nil {
+		return dto.AllUserRepositoryResponse{}, err
+	}
+
+	totalPage := int64(math.Ceil(float64(count) / float64(req.PerPage)))
+
+	return dto.AllUserRepositoryResponse{
+		Users: users,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    req.Page,
+			PerPage: req.PerPage,
+			MaxPage: totalPage,
+			Count:   count,
+		},
+	}, err
 }
