@@ -45,6 +45,11 @@
     "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
   },
   {
+    "permission_id": "107527ce-e8bb-406a-841f-2d61b3c5c956",
+    "permission_endpoint": "/api/v1/user/update-user",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
     "permission_id": "aa4f1680-2e51-44d2-89d3-5d527e83a710",
     "permission_endpoint": "/api/v1/admin/login",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
@@ -57,6 +62,21 @@
   {
     "permission_id": "9cb764b1-b6d9-460e-81ee-39d2451f7a1f",
     "permission_endpoint": "/api/v1/admin/get-all-user",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "5b0c05b6-1be0-4e5e-b507-bb3de130b763",
+    "permission_endpoint": "/api/v1/admin/create-user",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "6167e893-af82-4168-8411-7463bedd8aa4",
+    "permission_endpoint": "/api/v1/admin/update-user",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "0f9d6de4-7de8-4161-9af1-6d0277f423e8",
+    "permission_endpoint": "/api/v1/admin/delete-user",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]
