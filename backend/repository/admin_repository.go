@@ -13,6 +13,8 @@ type (
 		GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error)
 		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
 		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
+		GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error)
+		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
 	}
 
 	AdminRepository struct {
@@ -37,6 +39,14 @@ func (ar *AdminRepository) CheckEmail(ctx context.Context, tx *gorm.DB, email st
 	}
 
 	return user, true, nil
+}
+
+func (ar *AdminRepository) CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&user).Error
 }
 
 func (ar *AdminRepository) GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error) {
@@ -76,4 +86,17 @@ func (ar *AdminRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.
 	}
 
 	return endpoints, nil
+}
+
+func (ar *AdminRepository) GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var city entity.City
+	if err := tx.WithContext(ctx).Preload("Province").Where("id = ?", cityID).Take(&city).Error; err != nil {
+		return entity.City{}, err
+	}
+
+	return city, nil
 }

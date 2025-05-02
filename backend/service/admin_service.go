@@ -4,14 +4,17 @@ import (
 	"context"
 
 	"github.com/Amierza/warasin-mobile/backend/dto"
+	"github.com/Amierza/warasin-mobile/backend/entity"
 	"github.com/Amierza/warasin-mobile/backend/helpers"
 	"github.com/Amierza/warasin-mobile/backend/repository"
+	"github.com/google/uuid"
 )
 
 type (
 	IAdminService interface {
 		Login(ctx context.Context, req dto.AdminLoginRequest) (dto.AdminLoginResponse, error)
 		RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error)
+		CreateUser(ctx context.Context, req dto.CreateUserRequest) (dto.AllUserResponse, error)
 	}
 
 	AdminService struct {
@@ -94,4 +97,87 @@ func (as *AdminService) RefreshToken(ctx context.Context, req dto.RefreshTokenRe
 	}
 
 	return dto.RefreshTokenResponse{AccessToken: accessToken}, nil
+}
+
+func (as *AdminService) CreateUser(ctx context.Context, req dto.CreateUserRequest) (dto.AllUserResponse, error) {
+	if len(req.Name) < 5 {
+		return dto.AllUserResponse{}, dto.ErrInvalidName
+	}
+
+	if !helpers.IsValidEmail(req.Email) {
+		return dto.AllUserResponse{}, dto.ErrInvalidEmail
+	}
+
+	_, flag, err := as.adminRepo.CheckEmail(ctx, nil, req.Email)
+	if flag || err == nil {
+		return dto.AllUserResponse{}, dto.ErrEmailAlreadyExists
+	}
+
+	if len(req.Password) < 8 {
+		return dto.AllUserResponse{}, dto.ErrInvalidPassword
+	}
+
+	birthdateFormatted, err := helpers.ParseBirthdate(req.Birthdate)
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrFormatBirthdate
+	}
+
+	phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber)
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrFormatPhoneNumber
+	}
+
+	city, err := as.adminRepo.GetCityByID(ctx, nil, req.CityID.String())
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrGetCityByID
+	}
+
+	role, err := as.adminRepo.GetRoleByID(ctx, nil, req.RoleID.String())
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrGetRoleFromID
+	}
+
+	user := entity.User{
+		ID:          uuid.New(),
+		Name:        req.Name,
+		Email:       req.Email,
+		Password:    req.Password,
+		Birthdate:   birthdateFormatted,
+		PhoneNumber: phoneNumberFormatted,
+		City:        city,
+		Role:        role,
+	}
+
+	err = as.adminRepo.CreateUser(ctx, nil, user)
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrRegisterUser
+	}
+
+	res := dto.AllUserResponse{
+		ID:          user.ID,
+		Name:        user.Name,
+		Email:       user.Email,
+		Password:    user.Password,
+		Birthdate:   user.Birthdate,
+		PhoneNumber: user.PhoneNumber,
+		Data01:      user.Data01,
+		Data02:      user.Data02,
+		Data03:      user.Data03,
+		IsVerified:  user.IsVerified,
+		City: dto.CityResponse{
+			ID:   &city.ID,
+			Name: user.City.Name,
+			Type: user.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   user.City.ProvinceID,
+				Name: user.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   &role.ID,
+			Name: user.Role.Name,
+		},
+	}
+
+	return res, nil
 }
