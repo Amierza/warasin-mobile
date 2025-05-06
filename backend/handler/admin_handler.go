@@ -18,6 +18,7 @@ type (
 		UpdateUser(ctx *gin.Context)
 		DeleteUser(ctx *gin.Context)
 		CreateNews(ctx *gin.Context)
+		GetAllNews(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -168,4 +169,29 @@ func (ah *AdminHandler) CreateNews(ctx *gin.Context) {
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_NEWS, result)
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) GetAllNews(ctx *gin.Context) {
+	var payload dto.PaginationRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.GetAllNewsWithPagination(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_NEWS, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_NEWS,
+		Data:     result.Data,
+		Meta:     result.PaginationResponse,
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }

@@ -20,6 +20,7 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 			routes.DELETE("/delete-user", adminHandler.DeleteUser)
 
 			routes.POST("/create-news", adminHandler.CreateNews)
+			routes.GET("/get-all-news", adminHandler.GetAllNews)
 		}
 	}
 }

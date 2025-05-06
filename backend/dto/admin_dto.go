@@ -9,13 +9,15 @@ import (
 
 const (
 	// failed
-	MESSAGE_FAILED_CREATE_USER = "failed create user"
-	MESSAGE_FAILED_CREATE_NEWS = "failed create news"
-	MESSAGE_FAILED_DELETE_USER = "failed delete user"
+	MESSAGE_FAILED_CREATE_USER   = "failed create user"
+	MESSAGE_FAILED_CREATE_NEWS   = "failed create news"
+	MESSAGE_FAILED_GET_LIST_NEWS = "failed get list news"
+	MESSAGE_FAILED_DELETE_USER   = "failed delete user"
 	// success
-	MESSAGE_SUCCESS_CREATE_USER = "success create user"
-	MESSAGE_SUCCESS_CREATE_NEWS = "success create news"
-	MESSAGE_SUCCESS_DELETE_USER = "success delete user"
+	MESSAGE_SUCCESS_CREATE_USER   = "success create user"
+	MESSAGE_SUCCESS_CREATE_NEWS   = "success create news"
+	MESSAGE_SUCCESS_GET_LIST_NEWS = "success get list news"
+	MESSAGE_SUCCESS_DELETE_USER   = "success delete user"
 )
 
 var (
@@ -73,5 +75,15 @@ type (
 		Title string    `json:"news_title"`
 		Body  string    `json:"news_body"`
 		Date  string    `gorm:"type:date" json:"news_date"`
+	}
+
+	NewsPaginationResponse struct {
+		PaginationResponse
+		Data []NewsResponse `json:"data"`
+	}
+
+	AllNewsRepositoryResponse struct {
+		PaginationResponse
+		News []entity.News
 	}
 )
