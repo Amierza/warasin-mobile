@@ -10,15 +10,18 @@ import (
 const (
 	// failed
 	MESSAGE_FAILED_CREATE_USER = "failed create user"
+	MESSAGE_FAILED_CREATE_NEWS = "failed create news"
 	MESSAGE_FAILED_DELETE_USER = "failed delete user"
 	// success
 	MESSAGE_SUCCESS_CREATE_USER = "success create user"
+	MESSAGE_SUCCESS_CREATE_NEWS = "success create news"
 	MESSAGE_SUCCESS_DELETE_USER = "success delete user"
 )
 
 var (
 	ErrDeleteUserByID  = errors.New("failed delete user by id")
 	ErrFormatBirthdate = errors.New("failed parse birthdate input")
+	ErrCreateNews      = errors.New("failed create news")
 )
 
 type (
@@ -43,7 +46,6 @@ type (
 	}
 
 	CreateUserRequest struct {
-		ID          uuid.UUID  `json:"id"`
 		Name        string     `json:"name"`
 		Email       string     `json:"email"`
 		Password    string     `json:"password"`
@@ -56,5 +58,20 @@ type (
 
 	DeleteUserRequest struct {
 		UserID uuid.UUID `json:"user_id"`
+	}
+
+	CreateNewsRequest struct {
+		Image string `json:"image"`
+		Title string `json:"title"`
+		Body  string `json:"body"`
+		Date  string `gorm:"type:date" json:"date"`
+	}
+
+	NewsResponse struct {
+		ID    uuid.UUID `json:"news_id"`
+		Image string    `json:"news_image"`
+		Title string    `json:"news_title"`
+		Body  string    `json:"news_body"`
+		Date  string    `gorm:"type:date" json:"news_date"`
 	}
 )

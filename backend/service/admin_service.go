@@ -18,6 +18,7 @@ type (
 		GetAllUserWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserPaginationResponse, error)
 		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
 		DeleteUser(ctx context.Context, req dto.DeleteUserRequest) (dto.AllUserResponse, error)
+		CreateNews(ctx context.Context, req dto.CreateNewsRequest) (dto.NewsResponse, error)
 	}
 
 	AdminService struct {
@@ -361,6 +362,31 @@ func (as *AdminService) DeleteUser(ctx context.Context, req dto.DeleteUserReques
 			ID:   deletedUser.RoleID,
 			Name: deletedUser.Role.Name,
 		},
+	}
+
+	return res, nil
+}
+
+func (as *AdminService) CreateNews(ctx context.Context, req dto.CreateNewsRequest) (dto.NewsResponse, error) {
+	news := entity.News{
+		ID:    uuid.New(),
+		Image: req.Image,
+		Title: req.Title,
+		Body:  req.Body,
+		Date:  req.Date,
+	}
+
+	err := as.adminRepo.CreateNews(ctx, nil, news)
+	if err != nil {
+		return dto.NewsResponse{}, dto.ErrCreateNews
+	}
+
+	res := dto.NewsResponse{
+		ID:    news.ID,
+		Image: news.Image,
+		Title: news.Title,
+		Body:  news.Body,
+		Date:  news.Date,
 	}
 
 	return res, nil
