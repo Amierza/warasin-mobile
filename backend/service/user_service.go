@@ -326,6 +326,8 @@ func (us *UserService) UpdatePassword(ctx context.Context, req dto.UpdatePasswor
 		return dto.UpdatePasswordResponse{}, dto.ErrHashPassword
 	}
 
+	user.Password = newPassword
+
 	_, err = us.userRepo.UpdateUser(ctx, nil, user)
 	if err != nil {
 		return dto.UpdatePasswordResponse{}, dto.ErrUpdateUser
@@ -427,6 +429,7 @@ func (us *UserService) GetDetailUser(ctx context.Context) (dto.AllUserResponse, 
 		Name:        user.Name,
 		Email:       user.Email,
 		Password:    user.Password,
+		Image:       user.Image,
 		Gender:      user.Gender,
 		Birthdate:   user.Birthdate,
 		PhoneNumber: user.PhoneNumber,
@@ -521,6 +524,7 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 		Name:        updatedUser.Name,
 		Email:       updatedUser.Email,
 		Password:    updatedUser.Password,
+		Image:       updatedUser.Image,
 		Gender:      updatedUser.Gender,
 		Birthdate:   updatedUser.Birthdate,
 		PhoneNumber: updatedUser.PhoneNumber,
