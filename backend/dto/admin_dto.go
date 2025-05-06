@@ -14,12 +14,14 @@ const (
 	MESSAGE_FAILED_CREATE_NEWS   = "failed create news"
 	MESSAGE_FAILED_GET_LIST_NEWS = "failed get list news"
 	MESSAGE_FAILED_UPDATE_NEWS   = "failed update news"
+	MESSAGE_FAILED_DELETE_NEWS   = "failed delete news"
 	// success
 	MESSAGE_SUCCESS_CREATE_USER   = "success create user"
 	MESSAGE_SUCCESS_DELETE_USER   = "success delete user"
 	MESSAGE_SUCCESS_CREATE_NEWS   = "success create news"
 	MESSAGE_SUCCESS_GET_LIST_NEWS = "success get list news"
 	MESSAGE_SUCCESS_UPDATE_NEWS   = "success update news"
+	MESSAGE_SUCCESS_DELETE_NEWS   = "success delete news"
 )
 
 var (
@@ -30,6 +32,7 @@ var (
 	ErrGetAllNewsWithPagination = errors.New("failed get list news with pagination")
 	ErrGetNewsFromID            = errors.New("failed to get news data from id")
 	ErrUpdateNews               = errors.New("failed update news")
+	ErrDeleteNews               = errors.New("failed delete news")
 )
 
 type (
@@ -99,5 +102,9 @@ type (
 		Title string `json:"title,omitempty"`
 		Body  string `json:"body,omitempty"`
 		Date  string `gorm:"type:date" json:"date,omitempty"`
+	}
+
+	DeleteNewsRequest struct {
+		UserID string `json:"-"`
 	}
 )
