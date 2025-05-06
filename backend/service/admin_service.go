@@ -21,6 +21,7 @@ type (
 		CreateNews(ctx context.Context, req dto.CreateNewsRequest) (dto.NewsResponse, error)
 		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
 		UpdateNews(ctx context.Context, req dto.UpdateNewsRequest) (dto.NewsResponse, error)
+		DeleteNews(ctx context.Context, req dto.DeleteNewsRequest) (dto.NewsResponse, error)
 	}
 
 	AdminService struct {
@@ -454,6 +455,28 @@ func (as *AdminService) UpdateNews(ctx context.Context, req dto.UpdateNewsReques
 		Title: updatedNews.Title,
 		Body:  updatedNews.Body,
 		Date:  updatedNews.Date,
+	}
+
+	return res, nil
+}
+
+func (as *AdminService) DeleteNews(ctx context.Context, req dto.DeleteNewsRequest) (dto.NewsResponse, error) {
+	deletedNews, err := as.adminRepo.GetNewsByID(ctx, nil, req.UserID)
+	if err != nil {
+		return dto.NewsResponse{}, dto.ErrGetNewsFromID
+	}
+
+	err = as.adminRepo.DeleteNewsByID(ctx, nil, req.UserID)
+	if err != nil {
+		return dto.NewsResponse{}, dto.ErrDeleteNews
+	}
+
+	res := dto.NewsResponse{
+		ID:    deletedNews.ID,
+		Image: deletedNews.Image,
+		Title: deletedNews.Title,
+		Body:  deletedNews.Body,
+		Date:  deletedNews.Date,
 	}
 
 	return res, nil

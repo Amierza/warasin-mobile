@@ -93,5 +93,10 @@
     "permission_id": "6480502b-49e9-4d8c-8258-cfb3cb566576",
     "permission_endpoint": "/api/v1/admin/update-news/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "0612c967-b59b-4ba6-9083-c53f92246f0f",
+    "permission_endpoint": "/api/v1/admin/delete-news/:id",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]

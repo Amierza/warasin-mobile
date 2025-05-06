@@ -26,6 +26,7 @@ type (
 		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
 		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error)
 		UpdateNews(ctx context.Context, tx *gorm.DB, user entity.News) (entity.News, error)
+		DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error
 	}
 
 	AdminRepository struct {
@@ -284,4 +285,12 @@ func (ar *AdminRepository) UpdateNews(ctx context.Context, tx *gorm.DB, news ent
 	}
 
 	return updatedNews, nil
+}
+
+func (ar AdminRepository) DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", newsID).Delete(&entity.News{}).Error
 }
