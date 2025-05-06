@@ -17,6 +17,7 @@ type (
 		GetAllUser(ctx *gin.Context)
 		UpdateUser(ctx *gin.Context)
 		DeleteUser(ctx *gin.Context)
+		CreateNews(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -148,4 +149,23 @@ func (ah *AdminHandler) DeleteUser(ctx *gin.Context) {
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_DELETE_USER, result)
 	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) CreateNews(ctx *gin.Context) {
+	var payload dto.CreateNewsRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.CreateNews(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_CREATE_NEWS, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_NEWS, result)
+	ctx.AbortWithStatusJSON(http.StatusOK, res)
 }

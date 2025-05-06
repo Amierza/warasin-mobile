@@ -18,6 +18,8 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 			routes.GET("/get-all-user", adminHandler.GetAllUser)
 			routes.PATCH("/update-user", adminHandler.UpdateUser)
 			routes.DELETE("/delete-user", adminHandler.DeleteUser)
+
+			routes.POST("/create-news", adminHandler.CreateNews)
 		}
 	}
 }
