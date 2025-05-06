@@ -16,11 +16,12 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 		{
 			routes.POST("/create-user", adminHandler.CreateUser)
 			routes.GET("/get-all-user", adminHandler.GetAllUser)
-			routes.PATCH("/update-user", adminHandler.UpdateUser)
-			routes.DELETE("/delete-user", adminHandler.DeleteUser)
+			routes.PATCH("/update-user/:id", adminHandler.UpdateUser)
+			routes.DELETE("/delete-user/:id", adminHandler.DeleteUser)
 
 			routes.POST("/create-news", adminHandler.CreateNews)
 			routes.GET("/get-all-news", adminHandler.GetAllNews)
+			routes.PATCH("/update-news/:id", adminHandler.UpdateNews)
 		}
 	}
 }

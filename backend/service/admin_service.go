@@ -20,6 +20,7 @@ type (
 		DeleteUser(ctx context.Context, req dto.DeleteUserRequest) (dto.AllUserResponse, error)
 		CreateNews(ctx context.Context, req dto.CreateNewsRequest) (dto.NewsResponse, error)
 		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
+		UpdateNews(ctx context.Context, req dto.UpdateNewsRequest) (dto.NewsResponse, error)
 	}
 
 	AdminService struct {
@@ -190,7 +191,7 @@ func (as *AdminService) CreateUser(ctx context.Context, req dto.CreateUserReques
 func (as *AdminService) GetAllUserWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserPaginationResponse, error) {
 	dataWithPaginate, err := as.adminRepo.GetAllUserWithPagination(ctx, nil, req)
 	if err != nil {
-		return dto.UserPaginationResponse{}, err
+		return dto.UserPaginationResponse{}, dto.ErrGetAllUserWithPagination
 	}
 
 	var datas []dto.AllUserResponse
@@ -237,7 +238,7 @@ func (as *AdminService) GetAllUserWithPagination(ctx context.Context, req dto.Pa
 }
 
 func (as *AdminService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error) {
-	user, err := as.adminRepo.GetUserByID(ctx, nil, req.ID.String())
+	user, err := as.adminRepo.GetUserByID(ctx, nil, req.ID)
 	if err != nil {
 		return dto.AllUserResponse{}, dto.ErrGetDataUserFromID
 	}
@@ -329,12 +330,12 @@ func (as *AdminService) UpdateUser(ctx context.Context, req dto.UpdateUserReques
 }
 
 func (as *AdminService) DeleteUser(ctx context.Context, req dto.DeleteUserRequest) (dto.AllUserResponse, error) {
-	deletedUser, err := as.adminRepo.GetUserByID(ctx, nil, req.UserID.String())
+	deletedUser, err := as.adminRepo.GetUserByID(ctx, nil, req.UserID)
 	if err != nil {
 		return dto.AllUserResponse{}, dto.ErrGetDataUserFromID
 	}
 
-	err = as.adminRepo.DeleteUserByID(ctx, nil, req.UserID.String())
+	err = as.adminRepo.DeleteUserByID(ctx, nil, req.UserID)
 	if err != nil {
 		return dto.AllUserResponse{}, dto.ErrDeleteUserByID
 	}
@@ -396,7 +397,7 @@ func (as *AdminService) CreateNews(ctx context.Context, req dto.CreateNewsReques
 func (as *AdminService) GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error) {
 	dataWithPaginate, err := as.adminRepo.GetAllNewsWithPagination(ctx, nil, req)
 	if err != nil {
-		return dto.NewsPaginationResponse{}, err
+		return dto.NewsPaginationResponse{}, dto.ErrGetAllNewsWithPagination
 	}
 
 	var datas []dto.NewsResponse
@@ -421,4 +422,39 @@ func (as *AdminService) GetAllNewsWithPagination(ctx context.Context, req dto.Pa
 			Count:   dataWithPaginate.Count,
 		},
 	}, nil
+}
+
+func (as *AdminService) UpdateNews(ctx context.Context, req dto.UpdateNewsRequest) (dto.NewsResponse, error) {
+	news, err := as.adminRepo.GetNewsByID(ctx, nil, req.ID)
+	if err != nil {
+		return dto.NewsResponse{}, dto.ErrGetNewsFromID
+	}
+
+	if req.Image != "" {
+		news.Image = req.Image
+	}
+	if req.Title != "" {
+		news.Title = req.Title
+	}
+	if req.Body != "" {
+		news.Body = req.Body
+	}
+	if req.Date != "" {
+		news.Date = req.Date
+	}
+
+	updatedNews, err := as.adminRepo.UpdateNews(ctx, nil, news)
+	if err != nil {
+		return dto.NewsResponse{}, dto.ErrUpdateNews
+	}
+
+	res := dto.NewsResponse{
+		ID:    updatedNews.ID,
+		Image: updatedNews.Image,
+		Title: updatedNews.Title,
+		Body:  updatedNews.Body,
+		Date:  updatedNews.Date,
+	}
+
+	return res, nil
 }

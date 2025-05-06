@@ -24,6 +24,8 @@ type (
 		DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error
 		CreateNews(ctx context.Context, tx *gorm.DB, news entity.News) error
 		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
+		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error)
+		UpdateNews(ctx context.Context, tx *gorm.DB, user entity.News) (entity.News, error)
 	}
 
 	AdminRepository struct {
@@ -247,4 +249,39 @@ func (ar *AdminRepository) GetAllNewsWithPagination(ctx context.Context, tx *gor
 			Count:   count,
 		},
 	}, err
+}
+
+func (ar *AdminRepository) GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var news entity.News
+	if err := tx.WithContext(ctx).Where("id = ?", newsID).Take(&news).Error; err != nil {
+		return entity.News{}, err
+	}
+
+	return news, nil
+}
+
+func (ar *AdminRepository) UpdateNews(ctx context.Context, tx *gorm.DB, news entity.News) (entity.News, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	if err := tx.WithContext(ctx).
+		Model(&entity.News{}).
+		Where("id = ?", news.ID).
+		Updates(news).Error; err != nil {
+		return entity.News{}, err
+	}
+
+	var updatedNews entity.News
+	if err := tx.WithContext(ctx).
+		Where("id = ?", news.ID).
+		Take(&updatedNews).Error; err != nil {
+		return entity.News{}, err
+	}
+
+	return updatedNews, nil
 }

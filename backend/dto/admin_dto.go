@@ -10,20 +10,26 @@ import (
 const (
 	// failed
 	MESSAGE_FAILED_CREATE_USER   = "failed create user"
+	MESSAGE_FAILED_DELETE_USER   = "failed delete user"
 	MESSAGE_FAILED_CREATE_NEWS   = "failed create news"
 	MESSAGE_FAILED_GET_LIST_NEWS = "failed get list news"
-	MESSAGE_FAILED_DELETE_USER   = "failed delete user"
+	MESSAGE_FAILED_UPDATE_NEWS   = "failed update news"
 	// success
 	MESSAGE_SUCCESS_CREATE_USER   = "success create user"
+	MESSAGE_SUCCESS_DELETE_USER   = "success delete user"
 	MESSAGE_SUCCESS_CREATE_NEWS   = "success create news"
 	MESSAGE_SUCCESS_GET_LIST_NEWS = "success get list news"
-	MESSAGE_SUCCESS_DELETE_USER   = "success delete user"
+	MESSAGE_SUCCESS_UPDATE_NEWS   = "success update news"
 )
 
 var (
-	ErrDeleteUserByID  = errors.New("failed delete user by id")
-	ErrFormatBirthdate = errors.New("failed parse birthdate input")
-	ErrCreateNews      = errors.New("failed create news")
+	ErrGetAllUserWithPagination = errors.New("failed get list user with pagination")
+	ErrDeleteUserByID           = errors.New("failed delete user by id")
+	ErrFormatBirthdate          = errors.New("failed parse birthdate input")
+	ErrCreateNews               = errors.New("failed create news")
+	ErrGetAllNewsWithPagination = errors.New("failed get list news with pagination")
+	ErrGetNewsFromID            = errors.New("failed to get news data from id")
+	ErrUpdateNews               = errors.New("failed update news")
 )
 
 type (
@@ -59,7 +65,7 @@ type (
 	}
 
 	DeleteUserRequest struct {
-		UserID uuid.UUID `json:"user_id"`
+		UserID string `json:"-"`
 	}
 
 	CreateNewsRequest struct {
@@ -85,5 +91,13 @@ type (
 	AllNewsRepositoryResponse struct {
 		PaginationResponse
 		News []entity.News
+	}
+
+	UpdateNewsRequest struct {
+		ID    string `json:"-"`
+		Image string `json:"image,omitempty"`
+		Title string `json:"title,omitempty"`
+		Body  string `json:"body,omitempty"`
+		Date  string `gorm:"type:date" json:"date,omitempty"`
 	}
 )

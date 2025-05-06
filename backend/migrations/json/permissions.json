@@ -71,12 +71,12 @@
   },
   {
     "permission_id": "6167e893-af82-4168-8411-7463bedd8aa4",
-    "permission_endpoint": "/api/v1/admin/update-user",
+    "permission_endpoint": "/api/v1/admin/update-user/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
     "permission_id": "0f9d6de4-7de8-4161-9af1-6d0277f423e8",
-    "permission_endpoint": "/api/v1/admin/delete-user",
+    "permission_endpoint": "/api/v1/admin/delete-user/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
@@ -87,6 +87,11 @@
   {
     "permission_id": "43a53e7c-7551-4a8c-96f8-3b493fa9614f",
     "permission_endpoint": "/api/v1/admin/get-all-news",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "6480502b-49e9-4d8c-8258-cfb3cb566576",
+    "permission_endpoint": "/api/v1/admin/update-news/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]

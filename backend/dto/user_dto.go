@@ -181,7 +181,7 @@ type (
 	}
 
 	UpdateUserRequest struct {
-		ID          uuid.UUID  `gorm:"type:uuid" json:"id"`
+		ID          string     `json:"-"`
 		Name        string     `json:"name,omitempty"`
 		Email       string     `json:"email,omitempty"`
 		Image       string     `json:"image,omitempty"`
