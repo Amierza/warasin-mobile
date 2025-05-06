@@ -13,7 +13,7 @@ type User struct {
 	Name        string     `json:"user_name"`
 	Email       string     `gorm:"unique; not null" json:"user_email"`
 	Password    string     `json:"user_password"`
-	Image       bool       `json:"user_image,omitempty"`
+	Image       string     `json:"user_image,omitempty"`
 	Gender      bool       `json:"user_gender,omitempty"`
 	Birthdate   *time.Time `gorm:"type:date" json:"user_birth_date,omitempty"`
 	PhoneNumber string     `json:"user_phone_number,omitempty"`
