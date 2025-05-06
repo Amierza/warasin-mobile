@@ -160,6 +160,7 @@ type (
 		Name        string       `json:"user_name"`
 		Email       string       `json:"user_email"`
 		Password    string       `json:"user_password"`
+		Image       bool         `json:"user_image,omitempty"`
 		Gender      bool         `json:"user_gender,omitempty"`
 		Birthdate   *time.Time   `gorm:"type:date" json:"user_birth_date,omitempty"`
 		PhoneNumber string       `json:"user_phone_number,omitempty"`
@@ -183,6 +184,7 @@ type (
 		ID          uuid.UUID  `gorm:"type:uuid" json:"id"`
 		Name        string     `json:"name,omitempty"`
 		Email       string     `json:"email,omitempty"`
+		Image       bool       `json:"image,omitempty"`
 		Gender      bool       `json:"gender,omitempty"`
 		Birthdate   *time.Time `gorm:"type:date" json:"user_birth_date,omitempty"`
 		PhoneNumber string     `json:"phone_number,omitempty"`
