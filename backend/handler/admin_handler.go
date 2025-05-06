@@ -19,6 +19,7 @@ type (
 		DeleteUser(ctx *gin.Context)
 		CreateNews(ctx *gin.Context)
 		GetAllNews(ctx *gin.Context)
+		UpdateNews(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -115,7 +116,10 @@ func (ah *AdminHandler) GetAllUser(ctx *gin.Context) {
 }
 
 func (ah *AdminHandler) UpdateUser(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+
 	var payload dto.UpdateUserRequest
+	payload.ID = idStr
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
@@ -134,7 +138,10 @@ func (ah *AdminHandler) UpdateUser(ctx *gin.Context) {
 }
 
 func (ah *AdminHandler) DeleteUser(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+
 	var payload dto.DeleteUserRequest
+	payload.UserID = idStr
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
@@ -193,5 +200,27 @@ func (ah *AdminHandler) GetAllNews(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) UpdateNews(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+
+	var payload dto.UpdateNewsRequest
+	payload.ID = idStr
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.UpdateNews(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_NEWS, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_NEWS, result)
 	ctx.JSON(http.StatusOK, res)
 }
