@@ -83,5 +83,10 @@
     "permission_id": "05d4a596-5faf-4816-b657-3bf206768a21",
     "permission_endpoint": "/api/v1/admin/create-news",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "43a53e7c-7551-4a8c-96f8-3b493fa9614f",
+    "permission_endpoint": "/api/v1/admin/get-all-news",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]

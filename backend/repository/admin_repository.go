@@ -23,6 +23,7 @@ type (
 		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
 		DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error
 		CreateNews(ctx context.Context, tx *gorm.DB, news entity.News) error
+		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
 	}
 
 	AdminRepository struct {
@@ -200,4 +201,50 @@ func (ar *AdminRepository) CreateNews(ctx context.Context, tx *gorm.DB, news ent
 	}
 
 	return tx.WithContext(ctx).Create(&news).Error
+}
+
+func (ar *AdminRepository) GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var news []entity.News
+	var err error
+	var count int64
+
+	if req.PerPage == 0 {
+		req.PerPage = 10
+	}
+
+	if req.Page == 0 {
+		req.Page = 1
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.News{})
+
+	if req.Search != "" {
+		searchValue := "%" + strings.ToLower(req.Search) + "%"
+		query = query.Where("LOWER(image) LIKE ? OR LOWER(title) LIKE ? OR LOWER(body) LIKE ?",
+			searchValue, searchValue, searchValue)
+	}
+
+	if err := query.Count(&count).Error; err != nil {
+		return dto.AllNewsRepositoryResponse{}, err
+	}
+
+	if err := query.Order("created_at DESC").Scopes(Paginate(req.Page, req.PerPage)).Find(&news).Error; err != nil {
+		return dto.AllNewsRepositoryResponse{}, err
+	}
+
+	totalPage := int64(math.Ceil(float64(count) / float64(req.PerPage)))
+
+	return dto.AllNewsRepositoryResponse{
+		News: news,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    req.Page,
+			PerPage: req.PerPage,
+			MaxPage: totalPage,
+			Count:   count,
+		},
+	}, err
 }

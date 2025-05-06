@@ -19,6 +19,7 @@ type (
 		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
 		DeleteUser(ctx context.Context, req dto.DeleteUserRequest) (dto.AllUserResponse, error)
 		CreateNews(ctx context.Context, req dto.CreateNewsRequest) (dto.NewsResponse, error)
+		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
 	}
 
 	AdminService struct {
@@ -390,4 +391,34 @@ func (as *AdminService) CreateNews(ctx context.Context, req dto.CreateNewsReques
 	}
 
 	return res, nil
+}
+
+func (as *AdminService) GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error) {
+	dataWithPaginate, err := as.adminRepo.GetAllNewsWithPagination(ctx, nil, req)
+	if err != nil {
+		return dto.NewsPaginationResponse{}, err
+	}
+
+	var datas []dto.NewsResponse
+	for _, news := range dataWithPaginate.News {
+		data := dto.NewsResponse{
+			ID:    news.ID,
+			Image: news.Image,
+			Title: news.Title,
+			Body:  news.Body,
+			Date:  news.Date,
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.NewsPaginationResponse{
+		Data: datas,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    dataWithPaginate.Page,
+			PerPage: dataWithPaginate.PerPage,
+			MaxPage: dataWithPaginate.MaxPage,
+			Count:   dataWithPaginate.Count,
+		},
+	}, nil
 }
