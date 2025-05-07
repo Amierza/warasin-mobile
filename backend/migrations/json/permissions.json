@@ -60,13 +60,18 @@
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
+    "permission_id": "9e9969da-8636-4257-b59a-87eeed76cb4f",
+    "permission_endpoint": "/api/v1/admin/create-motivation-category",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
     "permission_id": "9b005216-e569-4241-a40f-8db14d8eae94",
     "permission_endpoint": "/api/v1/admin/get-all-motivation-category",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
-    "permission_id": "9e9969da-8636-4257-b59a-87eeed76cb4f",
-    "permission_endpoint": "/api/v1/admin/create-motivation-category",
+    "permission_id": "aa9a865a-2dc0-4d4a-bca0-f8d81061d422",
+    "permission_endpoint": "/api/v1/admin/update-motivation-category/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]

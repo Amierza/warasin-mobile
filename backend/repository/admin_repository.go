@@ -29,6 +29,8 @@ type (
 		DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error
 		GetAllMotivationCategoryWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationCategoryRepositoryResponse, error)
 		CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error
+		GetMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (entity.MotivationCategory, error)
+		UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) (entity.MotivationCategory, error)
 	}
 
 	AdminRepository struct {
@@ -348,4 +350,39 @@ func (ar *AdminRepository) CreateMotivationCategory(ctx context.Context, tx *gor
 	}
 
 	return tx.WithContext(ctx).Create(&motivationCategory).Error
+}
+
+func (ar *AdminRepository) GetMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (entity.MotivationCategory, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var motivationCategory entity.MotivationCategory
+	if err := tx.WithContext(ctx).Where("id = ?", motivationCategoryID).Take(&motivationCategory).Error; err != nil {
+		return entity.MotivationCategory{}, err
+	}
+
+	return motivationCategory, nil
+}
+
+func (ar *AdminRepository) UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) (entity.MotivationCategory, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	if err := tx.WithContext(ctx).
+		Model(&entity.MotivationCategory{}).
+		Where("id = ?", motivationCategory.ID).
+		Updates(motivationCategory).Error; err != nil {
+		return entity.MotivationCategory{}, err
+	}
+
+	var updatedMotivationCategory entity.MotivationCategory
+	if err := tx.WithContext(ctx).
+		Where("id = ?", motivationCategory.ID).
+		Take(&updatedMotivationCategory).Error; err != nil {
+		return entity.MotivationCategory{}, err
+	}
+
+	return updatedMotivationCategory, nil
 }

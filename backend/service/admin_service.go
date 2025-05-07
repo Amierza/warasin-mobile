@@ -24,6 +24,7 @@ type (
 		DeleteNews(ctx context.Context, req dto.DeleteNewsRequest) (dto.NewsResponse, error)
 		GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error)
 		CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
+		UpdateMotivationCategory(ctx context.Context, req dto.UpdateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 	}
 
 	AdminService struct {
@@ -525,6 +526,29 @@ func (as *AdminService) CreateMotivationCategory(ctx context.Context, req dto.Cr
 	res := dto.MotivationCategoryResponse{
 		ID:   &motivationCategory.ID,
 		Name: motivationCategory.Name,
+	}
+
+	return res, nil
+}
+
+func (as *AdminService) UpdateMotivationCategory(ctx context.Context, req dto.UpdateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error) {
+	motivationCategory, err := as.adminRepo.GetMotivationCategoryByID(ctx, nil, req.ID)
+	if err != nil {
+		return dto.MotivationCategoryResponse{}, dto.ErrGetNewsFromID
+	}
+
+	if req.Name != "" {
+		motivationCategory.Name = req.Name
+	}
+
+	updatedMotivationCategory, err := as.adminRepo.UpdateMotivationCategory(ctx, nil, motivationCategory)
+	if err != nil {
+		return dto.MotivationCategoryResponse{}, dto.ErrUpdateNews
+	}
+
+	res := dto.MotivationCategoryResponse{
+		ID:   &updatedMotivationCategory.ID,
+		Name: updatedMotivationCategory.Name,
 	}
 
 	return res, nil
