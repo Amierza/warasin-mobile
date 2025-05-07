@@ -22,6 +22,7 @@ type (
 		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
 		UpdateNews(ctx context.Context, req dto.UpdateNewsRequest) (dto.NewsResponse, error)
 		DeleteNews(ctx context.Context, req dto.DeleteNewsRequest) (dto.NewsResponse, error)
+		GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error)
 	}
 
 	AdminService struct {
@@ -480,4 +481,31 @@ func (as *AdminService) DeleteNews(ctx context.Context, req dto.DeleteNewsReques
 	}
 
 	return res, nil
+}
+
+func (as *AdminService) GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error) {
+	dataWithPaginate, err := as.adminRepo.GetAllMotivationCategoryWithPagination(ctx, nil, req)
+	if err != nil {
+		return dto.MotivationCategoryPaginationResponse{}, dto.ErrGetAllMotivationCategoryWithPagination
+	}
+
+	var datas []dto.MotivationCategoryResponse
+	for _, motivationCategory := range dataWithPaginate.MotivationCategories {
+		data := dto.MotivationCategoryResponse{
+			ID:   &motivationCategory.ID,
+			Name: motivationCategory.Name,
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.MotivationCategoryPaginationResponse{
+		Data: datas,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    dataWithPaginate.Page,
+			PerPage: dataWithPaginate.PerPage,
+			MaxPage: dataWithPaginate.MaxPage,
+			Count:   dataWithPaginate.Count,
+		},
+	}, nil
 }
