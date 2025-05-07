@@ -18,6 +18,7 @@ const (
 	MESSAGE_FAILED_GET_LIST_MOTIVATION_CATEGORY = "failed get list motivation category"
 	MESSAGE_FAILED_CREATE_MOTIVATION_CATEGORY   = "failed create motivation category"
 	MESSAGE_FAILED_UPDATE_MOTIVATION_CATEGORY   = "failed update motivation category"
+	MESSAGE_FAILED_DELETE_MOTIVATION_CATEGORY   = "failed delete motivation category"
 	// success
 	MESSAGE_SUCCESS_CREATE_USER                  = "success create user"
 	MESSAGE_SUCCESS_DELETE_USER                  = "success delete user"
@@ -28,6 +29,7 @@ const (
 	MESSAGE_SUCCESS_GET_LIST_MOTIVATION_CATEGORY = "success get list motivation category"
 	MESSAGE_SUCCESS_CREATE_MOTIVATION_CATEGORY   = "success create motivation category"
 	MESSAGE_SUCCESS_UPDATE_MOTIVATION_CATEGORY   = "success update motivation category"
+	MESSAGE_SUCCESS_DELETE_MOTIVATION_CATEGORY   = "success delete motivation category"
 )
 
 var (
@@ -41,6 +43,8 @@ var (
 	ErrDeleteNews                             = errors.New("failed delete news")
 	ErrGetAllMotivationCategoryWithPagination = errors.New("failed get list motivation category with pagination")
 	ErrCreateMotivationCategory               = errors.New("failed create motivation category")
+	ErrGetMotivationCategoryFromID            = errors.New("failed get motivation category data from id")
+	ErrDeleteMotivationCategory               = errors.New("failed delete motivation category")
 )
 
 type (
@@ -113,7 +117,7 @@ type (
 	}
 
 	DeleteNewsRequest struct {
-		UserID string `json:"-"`
+		NewsID string `json:"-"`
 	}
 
 	CreateMotivationRequest struct {
@@ -151,5 +155,9 @@ type (
 	UpdateMotivationCategoryRequest struct {
 		ID   string `json:"-"`
 		Name string `json:"name"`
+	}
+
+	DeleteMotivationCategoryRequest struct {
+		MotivationCategoryID string `json:"-"`
 	}
 )
