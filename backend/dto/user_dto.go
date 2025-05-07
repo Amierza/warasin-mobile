@@ -30,6 +30,7 @@ const (
 	MESSAGE_FAILED_INAVLID_ROUTE_FORMAT_TOKEN  = "failed invalid route format in token"
 	MESSAGE_FAILED_UPDATE_USER                 = "failed update user"
 	MESSAGE_FAILED_GET_LIST_PROVINCE           = "failed get list province"
+	MESSAGE_FAILED_GET_LIST_CITY               = "failed get list city"
 
 	// success
 	MESSAGE_SUCCESS_REGISTER_USER               = "success register user"
@@ -44,6 +45,7 @@ const (
 	MESSAGE_SUCCESS_REFRESH_TOKEN               = "success refresh token"
 	MESSAGE_SUCCESS_UPDATE_USER                 = "success update user"
 	MESSAGE_SUCCESS_GET_LIST_PROVINCE           = "success get list province"
+	MESSAGE_SUCCESS_GET_LIST_CITY               = "success get list city"
 )
 
 var (
@@ -200,7 +202,25 @@ type (
 		Data []ProvinceResponse `json:"data"`
 	}
 
+	CityResponseCustom struct {
+		ID   *uuid.UUID `json:"city_id"`
+		Name string     `json:"city_name"`
+		Type string     `json:"city_type"`
+	}
+
+	CityQueryRequest struct {
+		ProvinceID string `json:"province_id" form:"province_id"`
+	}
+
+	CitiesResponse struct {
+		Data []CityResponseCustom `json:"data"`
+	}
+
 	AllProvinceRepositoryResponse struct {
-		Province []entity.Province
+		Provinces []entity.Province
+	}
+
+	AllCityRepositoryResponse struct {
+		Cities []entity.City
 	}
 )

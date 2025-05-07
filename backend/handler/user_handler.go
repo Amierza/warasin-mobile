@@ -22,6 +22,7 @@ type (
 		GetDetailUser(ctx *gin.Context)
 		UpdateUser(ctx *gin.Context)
 		GetAllProvince(ctx *gin.Context)
+		GetAllCity(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -229,6 +230,30 @@ func (ah *UserHandler) GetAllProvince(ctx *gin.Context) {
 	res := utils.Response{
 		Status:   true,
 		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_PROVINCE,
+		Data:     result.Data,
+	}
+
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *UserHandler) GetAllCity(ctx *gin.Context) {
+	var payload dto.CityQueryRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.userService.GetAllCity(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_CITY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_CITY,
 		Data:     result.Data,
 	}
 
