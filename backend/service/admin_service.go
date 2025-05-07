@@ -25,6 +25,7 @@ type (
 		GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error)
 		CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 		UpdateMotivationCategory(ctx context.Context, req dto.UpdateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
+		DeleteMotivationCategory(ctx context.Context, req dto.DeleteMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 	}
 
 	AdminService struct {
@@ -464,12 +465,12 @@ func (as *AdminService) UpdateNews(ctx context.Context, req dto.UpdateNewsReques
 }
 
 func (as *AdminService) DeleteNews(ctx context.Context, req dto.DeleteNewsRequest) (dto.NewsResponse, error) {
-	deletedNews, err := as.adminRepo.GetNewsByID(ctx, nil, req.UserID)
+	deletedNews, err := as.adminRepo.GetNewsByID(ctx, nil, req.NewsID)
 	if err != nil {
 		return dto.NewsResponse{}, dto.ErrGetNewsFromID
 	}
 
-	err = as.adminRepo.DeleteNewsByID(ctx, nil, req.UserID)
+	err = as.adminRepo.DeleteNewsByID(ctx, nil, req.NewsID)
 	if err != nil {
 		return dto.NewsResponse{}, dto.ErrDeleteNews
 	}
@@ -549,6 +550,25 @@ func (as *AdminService) UpdateMotivationCategory(ctx context.Context, req dto.Up
 	res := dto.MotivationCategoryResponse{
 		ID:   &updatedMotivationCategory.ID,
 		Name: updatedMotivationCategory.Name,
+	}
+
+	return res, nil
+}
+
+func (as *AdminService) DeleteMotivationCategory(ctx context.Context, req dto.DeleteMotivationCategoryRequest) (dto.MotivationCategoryResponse, error) {
+	deletedMotivationCategory, err := as.adminRepo.GetMotivationCategoryByID(ctx, nil, req.MotivationCategoryID)
+	if err != nil {
+		return dto.MotivationCategoryResponse{}, dto.ErrGetMotivationCategoryFromID
+	}
+
+	err = as.adminRepo.DeleteMotivationCategoryByID(ctx, nil, req.MotivationCategoryID)
+	if err != nil {
+		return dto.MotivationCategoryResponse{}, dto.ErrDeleteMotivationCategory
+	}
+
+	res := dto.MotivationCategoryResponse{
+		ID:   &deletedMotivationCategory.ID,
+		Name: deletedMotivationCategory.Name,
 	}
 
 	return res, nil

@@ -24,6 +24,7 @@ type (
 		CreateMotivationCategory(ctx *gin.Context)
 		GetAllMotivationCategory(ctx *gin.Context)
 		UpdateMotivationCategory(ctx *gin.Context)
+		DeleteMotivationCategory(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -233,7 +234,7 @@ func (ah *AdminHandler) DeleteNews(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 
 	var payload dto.DeleteNewsRequest
-	payload.UserID = idStr
+	payload.NewsID = idStr
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
@@ -314,5 +315,27 @@ func (ah *AdminHandler) UpdateMotivationCategory(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_MOTIVATION_CATEGORY, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) DeleteMotivationCategory(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+
+	var payload dto.DeleteMotivationCategoryRequest
+	payload.MotivationCategoryID = idStr
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.DeleteMotivationCategory(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_DELETE_MOTIVATION_CATEGORY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_DELETE_MOTIVATION_CATEGORY, result)
 	ctx.JSON(http.StatusOK, res)
 }

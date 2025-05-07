@@ -31,6 +31,7 @@ type (
 		CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error
 		GetMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (entity.MotivationCategory, error)
 		UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) (entity.MotivationCategory, error)
+		DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error
 	}
 
 	AdminRepository struct {
@@ -385,4 +386,12 @@ func (ar *AdminRepository) UpdateMotivationCategory(ctx context.Context, tx *gor
 	}
 
 	return updatedMotivationCategory, nil
+}
+
+func (ar AdminRepository) DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", motivationCategoryID).Delete(&entity.MotivationCategory{}).Error
 }
