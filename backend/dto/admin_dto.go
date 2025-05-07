@@ -17,6 +17,7 @@ const (
 	MESSAGE_FAILED_DELETE_NEWS                  = "failed delete news"
 	MESSAGE_FAILED_GET_LIST_MOTIVATION_CATEGORY = "failed get list motivation category"
 	MESSAGE_FAILED_CREATE_MOTIVATION_CATEGORY   = "failed create motivation category"
+	MESSAGE_FAILED_UPDATE_MOTIVATION_CATEGORY   = "failed update motivation category"
 	// success
 	MESSAGE_SUCCESS_CREATE_USER                  = "success create user"
 	MESSAGE_SUCCESS_DELETE_USER                  = "success delete user"
@@ -26,6 +27,7 @@ const (
 	MESSAGE_SUCCESS_DELETE_NEWS                  = "success delete news"
 	MESSAGE_SUCCESS_GET_LIST_MOTIVATION_CATEGORY = "success get list motivation category"
 	MESSAGE_SUCCESS_CREATE_MOTIVATION_CATEGORY   = "success create motivation category"
+	MESSAGE_SUCCESS_UPDATE_MOTIVATION_CATEGORY   = "success update motivation category"
 )
 
 var (
@@ -127,6 +129,10 @@ type (
 		MotivationCategoryID string `json:"mot_cat_id"`
 	}
 
+	CreateMotivationCategoryRequest struct {
+		Name string `json:"name"`
+	}
+
 	MotivationCategoryResponse struct {
 		ID   *uuid.UUID `json:"motivation_category_id"`
 		Name string     `json:"motivation_category_name"`
@@ -142,7 +148,8 @@ type (
 		MotivationCategories []entity.MotivationCategory
 	}
 
-	CreateMotivationCategoryRequest struct {
+	UpdateMotivationCategoryRequest struct {
+		ID   string `json:"-"`
 		Name string `json:"name"`
 	}
 )

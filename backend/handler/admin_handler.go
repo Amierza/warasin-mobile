@@ -21,8 +21,9 @@ type (
 		GetAllNews(ctx *gin.Context)
 		UpdateNews(ctx *gin.Context)
 		DeleteNews(ctx *gin.Context)
-		GetAllMotivationCategory(ctx *gin.Context)
 		CreateMotivationCategory(ctx *gin.Context)
+		GetAllMotivationCategory(ctx *gin.Context)
+		UpdateMotivationCategory(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -250,6 +251,25 @@ func (ah *AdminHandler) DeleteNews(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+func (ah *AdminHandler) CreateMotivationCategory(ctx *gin.Context) {
+	var payload dto.CreateMotivationCategoryRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.CreateMotivationCategory(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_CREATE_MOTIVATION_CATEGORY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_MOTIVATION_CATEGORY, result)
+	ctx.AbortWithStatusJSON(http.StatusOK, res)
+}
+
 func (ah *AdminHandler) GetAllMotivationCategory(ctx *gin.Context) {
 	var payload dto.PaginationRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -275,21 +295,24 @@ func (ah *AdminHandler) GetAllMotivationCategory(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-func (ah *AdminHandler) CreateMotivationCategory(ctx *gin.Context) {
-	var payload dto.CreateMotivationCategoryRequest
+func (ah *AdminHandler) UpdateMotivationCategory(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+
+	var payload dto.UpdateMotivationCategoryRequest
+	payload.ID = idStr
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
 		return
 	}
 
-	result, err := ah.adminService.CreateMotivationCategory(ctx, payload)
+	result, err := ah.adminService.UpdateMotivationCategory(ctx.Request.Context(), payload)
 	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_CREATE_MOTIVATION_CATEGORY, err.Error(), nil)
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_MOTIVATION_CATEGORY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
 		return
 	}
 
-	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_MOTIVATION_CATEGORY, result)
-	ctx.AbortWithStatusJSON(http.StatusOK, res)
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_MOTIVATION_CATEGORY, result)
+	ctx.JSON(http.StatusOK, res)
 }
