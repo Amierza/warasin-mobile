@@ -23,6 +23,7 @@ type (
 		UpdateNews(ctx context.Context, req dto.UpdateNewsRequest) (dto.NewsResponse, error)
 		DeleteNews(ctx context.Context, req dto.DeleteNewsRequest) (dto.NewsResponse, error)
 		GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error)
+		CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 	}
 
 	AdminService struct {
@@ -508,4 +509,23 @@ func (as *AdminService) GetAllMotivationCategoryWithPagination(ctx context.Conte
 			Count:   dataWithPaginate.Count,
 		},
 	}, nil
+}
+
+func (as *AdminService) CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error) {
+	motivationCategory := entity.MotivationCategory{
+		ID:   uuid.New(),
+		Name: req.Name,
+	}
+
+	err := as.adminRepo.CreateMotivationCategory(ctx, nil, motivationCategory)
+	if err != nil {
+		return dto.MotivationCategoryResponse{}, dto.ErrCreateMotivationCategory
+	}
+
+	res := dto.MotivationCategoryResponse{
+		ID:   &motivationCategory.ID,
+		Name: motivationCategory.Name,
+	}
+
+	return res, nil
 }

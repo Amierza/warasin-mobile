@@ -28,6 +28,7 @@ type (
 		UpdateNews(ctx context.Context, tx *gorm.DB, user entity.News) (entity.News, error)
 		DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error
 		GetAllMotivationCategoryWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationCategoryRepositoryResponse, error)
+		CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error
 	}
 
 	AdminRepository struct {
@@ -339,4 +340,12 @@ func (ar *AdminRepository) GetAllMotivationCategoryWithPagination(ctx context.Co
 			Count:   count,
 		},
 	}, err
+}
+
+func (ar *AdminRepository) CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&motivationCategory).Error
 }
