@@ -21,6 +21,7 @@ type (
 		VerifyEmail(ctx *gin.Context)
 		GetDetailUser(ctx *gin.Context)
 		UpdateUser(ctx *gin.Context)
+		GetAllProvince(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -214,5 +215,22 @@ func (uh *UserHandler) UpdateUser(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_USER, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *UserHandler) GetAllProvince(ctx *gin.Context) {
+	result, err := ah.userService.GetAllProvince(ctx.Request.Context())
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_PROVINCE, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_PROVINCE,
+		Data:     result.Data,
+	}
+
 	ctx.JSON(http.StatusOK, res)
 }

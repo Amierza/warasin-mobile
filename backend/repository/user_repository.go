@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 
+	"github.com/Amierza/warasin-mobile/backend/dto"
 	"github.com/Amierza/warasin-mobile/backend/entity"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -19,6 +20,7 @@ type (
 		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
 		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
 		GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error)
+		GetAllProvince(ctx context.Context, tx *gorm.DB) (dto.AllProvinceRepositoryResponse, error)
 	}
 
 	UserRepository struct {
@@ -146,4 +148,21 @@ func (ar *UserRepository) GetCityByID(ctx context.Context, tx *gorm.DB, cityID s
 	}
 
 	return city, nil
+}
+
+func (ar *UserRepository) GetAllProvince(ctx context.Context, tx *gorm.DB) (dto.AllProvinceRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var provinces []entity.Province
+	var err error
+
+	if err := tx.WithContext(ctx).Model(&entity.Province{}).Find(&provinces).Error; err != nil {
+		return dto.AllProvinceRepositoryResponse{}, err
+	}
+
+	return dto.AllProvinceRepositoryResponse{
+		Province: provinces,
+	}, err
 }
