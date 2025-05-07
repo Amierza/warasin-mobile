@@ -9,30 +9,33 @@ import (
 
 const (
 	// failed
-	MESSAGE_FAILED_CREATE_USER   = "failed create user"
-	MESSAGE_FAILED_DELETE_USER   = "failed delete user"
-	MESSAGE_FAILED_CREATE_NEWS   = "failed create news"
-	MESSAGE_FAILED_GET_LIST_NEWS = "failed get list news"
-	MESSAGE_FAILED_UPDATE_NEWS   = "failed update news"
-	MESSAGE_FAILED_DELETE_NEWS   = "failed delete news"
+	MESSAGE_FAILED_CREATE_USER                  = "failed create user"
+	MESSAGE_FAILED_DELETE_USER                  = "failed delete user"
+	MESSAGE_FAILED_CREATE_NEWS                  = "failed create news"
+	MESSAGE_FAILED_GET_LIST_NEWS                = "failed get list news"
+	MESSAGE_FAILED_UPDATE_NEWS                  = "failed update news"
+	MESSAGE_FAILED_DELETE_NEWS                  = "failed delete news"
+	MESSAGE_FAILED_GET_LIST_MOTIVATION_CATEGORY = "failed get list motivation category"
 	// success
-	MESSAGE_SUCCESS_CREATE_USER   = "success create user"
-	MESSAGE_SUCCESS_DELETE_USER   = "success delete user"
-	MESSAGE_SUCCESS_CREATE_NEWS   = "success create news"
-	MESSAGE_SUCCESS_GET_LIST_NEWS = "success get list news"
-	MESSAGE_SUCCESS_UPDATE_NEWS   = "success update news"
-	MESSAGE_SUCCESS_DELETE_NEWS   = "success delete news"
+	MESSAGE_SUCCESS_CREATE_USER                  = "success create user"
+	MESSAGE_SUCCESS_DELETE_USER                  = "success delete user"
+	MESSAGE_SUCCESS_CREATE_NEWS                  = "success create news"
+	MESSAGE_SUCCESS_GET_LIST_NEWS                = "success get list news"
+	MESSAGE_SUCCESS_UPDATE_NEWS                  = "success update news"
+	MESSAGE_SUCCESS_DELETE_NEWS                  = "success delete news"
+	MESSAGE_SUCCESS_GET_LIST_MOTIVATION_CATEGORY = "success get list motivation category"
 )
 
 var (
-	ErrGetAllUserWithPagination = errors.New("failed get list user with pagination")
-	ErrDeleteUserByID           = errors.New("failed delete user by id")
-	ErrFormatBirthdate          = errors.New("failed parse birthdate input")
-	ErrCreateNews               = errors.New("failed create news")
-	ErrGetAllNewsWithPagination = errors.New("failed get list news with pagination")
-	ErrGetNewsFromID            = errors.New("failed to get news data from id")
-	ErrUpdateNews               = errors.New("failed update news")
-	ErrDeleteNews               = errors.New("failed delete news")
+	ErrGetAllUserWithPagination               = errors.New("failed get list user with pagination")
+	ErrDeleteUserByID                         = errors.New("failed delete user by id")
+	ErrFormatBirthdate                        = errors.New("failed parse birthdate input")
+	ErrCreateNews                             = errors.New("failed create news")
+	ErrGetAllNewsWithPagination               = errors.New("failed get list news with pagination")
+	ErrGetNewsFromID                          = errors.New("failed to get news data from id")
+	ErrUpdateNews                             = errors.New("failed update news")
+	ErrDeleteNews                             = errors.New("failed delete news")
+	ErrGetAllMotivationCategoryWithPagination = errors.New("failed get list motivation category with pagination")
 )
 
 type (
@@ -106,5 +109,33 @@ type (
 
 	DeleteNewsRequest struct {
 		UserID string `json:"-"`
+	}
+
+	CreateMotivationRequest struct {
+		Author               string `json:"author"`
+		Content              string `json:"content"`
+		MotivationCategoryID string `json:"mot_cat_id"`
+	}
+
+	MotivationResponse struct {
+		ID                   string `json:"motivation_id"`
+		Author               string `json:"motivation_author"`
+		Content              string `json:"motivation_content"`
+		MotivationCategoryID string `json:"mot_cat_id"`
+	}
+
+	MotivationCategoryResponse struct {
+		ID   *uuid.UUID `json:"motivation_category_id"`
+		Name string     `json:"motivation_category_name"`
+	}
+
+	MotivationCategoryPaginationResponse struct {
+		PaginationResponse
+		Data []MotivationCategoryResponse `json:"data"`
+	}
+
+	AllMotivationCategoryRepositoryResponse struct {
+		PaginationResponse
+		MotivationCategories []entity.MotivationCategory
 	}
 )

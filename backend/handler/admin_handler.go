@@ -21,6 +21,7 @@ type (
 		GetAllNews(ctx *gin.Context)
 		UpdateNews(ctx *gin.Context)
 		DeleteNews(ctx *gin.Context)
+		GetAllMotivationCategory(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -245,5 +246,30 @@ func (ah *AdminHandler) DeleteNews(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_DELETE_NEWS, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) GetAllMotivationCategory(ctx *gin.Context) {
+	var payload dto.PaginationRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.GetAllMotivationCategoryWithPagination(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_MOTIVATION_CATEGORY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_MOTIVATION_CATEGORY,
+		Data:     result.Data,
+		Meta:     result.PaginationResponse,
+	}
+
 	ctx.JSON(http.StatusOK, res)
 }
