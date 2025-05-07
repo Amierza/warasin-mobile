@@ -22,6 +22,7 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, jwtService servic
 		routes.GET("/verify-email", userHandler.VerifyEmail)
 
 		routes.GET("/get-all-province", userHandler.GetAllProvince)
+		routes.GET("/get-all-city", userHandler.GetAllCity)
 
 		routes.Use(middleware.Authentication(jwtService), middleware.RouteAccessControl(jwtService))
 		{

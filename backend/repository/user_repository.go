@@ -21,6 +21,7 @@ type (
 		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
 		GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error)
 		GetAllProvince(ctx context.Context, tx *gorm.DB) (dto.AllProvinceRepositoryResponse, error)
+		GetAllCity(ctx context.Context, tx *gorm.DB, req dto.CityQueryRequest) (dto.AllCityRepositoryResponse, error)
 	}
 
 	UserRepository struct {
@@ -163,6 +164,29 @@ func (ar *UserRepository) GetAllProvince(ctx context.Context, tx *gorm.DB) (dto.
 	}
 
 	return dto.AllProvinceRepositoryResponse{
-		Province: provinces,
+		Provinces: provinces,
+	}, err
+}
+
+func (ar *UserRepository) GetAllCity(ctx context.Context, tx *gorm.DB, req dto.CityQueryRequest) (dto.AllCityRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var cities []entity.City
+	var err error
+
+	query := tx.WithContext(ctx).Model(&entity.City{})
+
+	if req.ProvinceID != "" {
+		query = query.Where("province_id = ?", req.ProvinceID)
+	}
+
+	if err := query.Find(&cities).Error; err != nil {
+		return dto.AllCityRepositoryResponse{}, err
+	}
+
+	return dto.AllCityRepositoryResponse{
+		Cities: cities,
 	}, err
 }
