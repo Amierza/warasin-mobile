@@ -28,6 +28,7 @@ type (
 		VerifyEmail(ctx context.Context, req dto.VerifyEmailRequest) (dto.VerifyEmailResponse, error)
 		GetDetailUser(ctx context.Context) (dto.AllUserResponse, error)
 		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
+		GetAllProvince(ctx context.Context) (dto.ProvincesResponse, error)
 	}
 
 	UserService struct {
@@ -548,4 +549,25 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 	}
 
 	return res, nil
+}
+
+func (as *UserService) GetAllProvince(ctx context.Context) (dto.ProvincesResponse, error) {
+	data, err := as.userRepo.GetAllProvince(ctx, nil)
+	if err != nil {
+		return dto.ProvincesResponse{}, dto.ErrGetAllProvince
+	}
+
+	var datas []dto.ProvinceResponse
+	for _, province := range data.Province {
+		data := dto.ProvinceResponse{
+			ID:   &province.ID,
+			Name: province.Name,
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.ProvincesResponse{
+		Data: datas,
+	}, nil
 }

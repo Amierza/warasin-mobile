@@ -4,6 +4,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/Amierza/warasin-mobile/backend/entity"
 	"github.com/google/uuid"
 )
 
@@ -28,6 +29,7 @@ const (
 	MESSAGE_FAILED_INAVLID_ENPOINTS_TOKEN      = "failed invalid endpoints in token"
 	MESSAGE_FAILED_INAVLID_ROUTE_FORMAT_TOKEN  = "failed invalid route format in token"
 	MESSAGE_FAILED_UPDATE_USER                 = "failed update user"
+	MESSAGE_FAILED_GET_LIST_PROVINCE           = "failed get list province"
 
 	// success
 	MESSAGE_SUCCESS_REGISTER_USER               = "success register user"
@@ -41,6 +43,7 @@ const (
 	MESSAGE_SUCCESS_GET_LIST_USER               = "success get list user"
 	MESSAGE_SUCCESS_REFRESH_TOKEN               = "success refresh token"
 	MESSAGE_SUCCESS_UPDATE_USER                 = "success update user"
+	MESSAGE_SUCCESS_GET_LIST_PROVINCE           = "success get list province"
 )
 
 var (
@@ -77,6 +80,7 @@ var (
 	ErrGetDataUserFromID       = errors.New("failed get data user by id")
 	ErrGetCityByID             = errors.New("failed get city by id")
 	ErrFormatPhoneNumber       = errors.New("failed standarize phone number input")
+	ErrGetAllProvince          = errors.New("failed get list province")
 )
 
 type (
@@ -190,5 +194,13 @@ type (
 		PhoneNumber string     `json:"phone_number,omitempty"`
 		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id,omitempty"`
 		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id,omitempty"`
+	}
+
+	ProvincesResponse struct {
+		Data []ProvinceResponse `json:"data"`
+	}
+
+	AllProvinceRepositoryResponse struct {
+		Province []entity.Province
 	}
 )

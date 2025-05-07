@@ -7,4 +7,6 @@ type Province struct {
 	Name string    `json:"province_name"`
 
 	Cities []City `gorm:"foreignKey:ProvinceID"`
+
+	TimeStamp
 }
