@@ -29,6 +29,7 @@ type (
 		CreateMotivation(ctx context.Context, req dto.CreateMotivationRequest) (dto.MotivationResponse, error)
 		GetAllMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationPaginationResponse, error)
 		UpdateMotivation(ctx context.Context, req dto.UpdateMotivationRequest) (dto.MotivationResponse, error)
+		DeleteMotivation(ctx context.Context, req dto.DeleteMotivationRequest) (dto.MotivationResponse, error)
 	}
 
 	AdminService struct {
@@ -660,6 +661,27 @@ func (as *AdminService) UpdateMotivation(ctx context.Context, req dto.UpdateMoti
 		Author:               updatedMotivation.Author,
 		Content:              updatedMotivation.Content,
 		MotivationCategoryID: updatedMotivation.MotivationCategoryID,
+	}
+
+	return res, nil
+}
+
+func (as *AdminService) DeleteMotivation(ctx context.Context, req dto.DeleteMotivationRequest) (dto.MotivationResponse, error) {
+	deletedMotivation, err := as.adminRepo.GetMotivationByID(ctx, nil, req.MotivationID)
+	if err != nil {
+		return dto.MotivationResponse{}, dto.ErrGetMotivationCategoryFromID
+	}
+
+	err = as.adminRepo.DeleteMotivationByID(ctx, nil, req.MotivationID)
+	if err != nil {
+		return dto.MotivationResponse{}, dto.ErrDeleteMotivationCategory
+	}
+
+	res := dto.MotivationResponse{
+		ID:                   &deletedMotivation.ID,
+		Author:               deletedMotivation.Author,
+		Content:              deletedMotivation.Content,
+		MotivationCategoryID: deletedMotivation.MotivationCategoryID,
 	}
 
 	return res, nil

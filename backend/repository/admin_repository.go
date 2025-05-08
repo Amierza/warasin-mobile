@@ -36,6 +36,7 @@ type (
 		GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error)
 		GetMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) (entity.Motivation, error)
 		UpdateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) (entity.Motivation, error)
+		DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error
 	}
 
 	AdminRepository struct {
@@ -486,4 +487,12 @@ func (ar *AdminRepository) UpdateMotivation(ctx context.Context, tx *gorm.DB, mo
 	}
 
 	return updatedMotivation, nil
+}
+
+func (ar AdminRepository) DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", motivationID).Delete(&entity.Motivation{}).Error
 }

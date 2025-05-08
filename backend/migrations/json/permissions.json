@@ -93,5 +93,10 @@
     "permission_id": "8d771007-fc74-45a7-ac85-507dd009e9a2",
     "permission_endpoint": "/api/v1/admin/update-motivation",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "d96dc4d3-769e-47b2-b690-aee440ca9c50",
+    "permission_endpoint": "/api/v1/admin/delete-motivation",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]
