@@ -26,6 +26,7 @@ type (
 		UpdateMotivationCategory(ctx *gin.Context)
 		DeleteMotivationCategory(ctx *gin.Context)
 		CreateMotivation(ctx *gin.Context)
+		GetAllMotivation(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -358,4 +359,29 @@ func (ah *AdminHandler) CreateMotivation(ctx *gin.Context) {
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_MOTIVATION, result)
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) GetAllMotivation(ctx *gin.Context) {
+	var payload dto.PaginationRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.GetAllMotivationWithPagination(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_MOTIVATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_MOTIVATION,
+		Data:     result.Data,
+		Meta:     result.PaginationResponse,
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }

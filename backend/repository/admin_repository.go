@@ -27,13 +27,14 @@ type (
 		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error)
 		UpdateNews(ctx context.Context, tx *gorm.DB, user entity.News) (entity.News, error)
 		DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error
-		GetAllMotivationCategoryWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationCategoryRepositoryResponse, error)
 		CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error
+		GetAllMotivationCategoryWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationCategoryRepositoryResponse, error)
 		GetMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (entity.MotivationCategory, error)
 		UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) (entity.MotivationCategory, error)
 		DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error
 		CheckMotivationCategoryID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (bool, error)
 		CreateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error
+		GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error)
 	}
 
 	AdminRepository struct {
@@ -302,6 +303,14 @@ func (ar AdminRepository) DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsI
 	return tx.WithContext(ctx).Where("id = ?", newsID).Delete(&entity.News{}).Error
 }
 
+func (ar *AdminRepository) CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&motivationCategory).Error
+}
+
 func (ar *AdminRepository) GetAllMotivationCategoryWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationCategoryRepositoryResponse, error) {
 	if tx == nil {
 		tx = ar.db
@@ -345,14 +354,6 @@ func (ar *AdminRepository) GetAllMotivationCategoryWithPagination(ctx context.Co
 			Count:   count,
 		},
 	}, err
-}
-
-func (ar *AdminRepository) CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	return tx.WithContext(ctx).Create(&motivationCategory).Error
 }
 
 func (ar *AdminRepository) GetMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (entity.MotivationCategory, error) {
@@ -416,4 +417,49 @@ func (ar *AdminRepository) CreateMotivation(ctx context.Context, tx *gorm.DB, mo
 	}
 
 	return tx.WithContext(ctx).Create(&motivation).Error
+}
+
+func (ar *AdminRepository) GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var motivations []entity.Motivation
+	var err error
+	var count int64
+
+	if req.PerPage == 0 {
+		req.PerPage = 10
+	}
+
+	if req.Page == 0 {
+		req.Page = 1
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.Motivation{}).Preload("MotivationCategory")
+
+	if req.Search != "" {
+		searchValue := "%" + strings.ToLower(req.Search) + "%"
+		query = query.Where("LOWER(name) LIKE ?", searchValue)
+	}
+
+	if err := query.Count(&count).Error; err != nil {
+		return dto.AllMotivationRepositoryResponse{}, err
+	}
+
+	if err := query.Order("created_at DESC").Scopes(Paginate(req.Page, req.PerPage)).Find(&motivations).Error; err != nil {
+		return dto.AllMotivationRepositoryResponse{}, err
+	}
+
+	totalPage := int64(math.Ceil(float64(count) / float64(req.PerPage)))
+
+	return dto.AllMotivationRepositoryResponse{
+		Motivations: motivations,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    req.Page,
+			PerPage: req.PerPage,
+			MaxPage: totalPage,
+			Count:   count,
+		},
+	}, err
 }
