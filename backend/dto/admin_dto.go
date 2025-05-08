@@ -15,10 +15,11 @@ const (
 	MESSAGE_FAILED_GET_LIST_NEWS                = "failed get list news"
 	MESSAGE_FAILED_UPDATE_NEWS                  = "failed update news"
 	MESSAGE_FAILED_DELETE_NEWS                  = "failed delete news"
-	MESSAGE_FAILED_GET_LIST_MOTIVATION_CATEGORY = "failed get list motivation category"
 	MESSAGE_FAILED_CREATE_MOTIVATION_CATEGORY   = "failed create motivation category"
+	MESSAGE_FAILED_GET_LIST_MOTIVATION_CATEGORY = "failed get list motivation category"
 	MESSAGE_FAILED_UPDATE_MOTIVATION_CATEGORY   = "failed update motivation category"
 	MESSAGE_FAILED_DELETE_MOTIVATION_CATEGORY   = "failed delete motivation category"
+	MESSAGE_FAILED_CREATE_MOTIVATION            = "success create motivation"
 	// success
 	MESSAGE_SUCCESS_CREATE_USER                  = "success create user"
 	MESSAGE_SUCCESS_DELETE_USER                  = "success delete user"
@@ -26,10 +27,11 @@ const (
 	MESSAGE_SUCCESS_GET_LIST_NEWS                = "success get list news"
 	MESSAGE_SUCCESS_UPDATE_NEWS                  = "success update news"
 	MESSAGE_SUCCESS_DELETE_NEWS                  = "success delete news"
-	MESSAGE_SUCCESS_GET_LIST_MOTIVATION_CATEGORY = "success get list motivation category"
 	MESSAGE_SUCCESS_CREATE_MOTIVATION_CATEGORY   = "success create motivation category"
+	MESSAGE_SUCCESS_GET_LIST_MOTIVATION_CATEGORY = "success get list motivation category"
 	MESSAGE_SUCCESS_UPDATE_MOTIVATION_CATEGORY   = "success update motivation category"
 	MESSAGE_SUCCESS_DELETE_MOTIVATION_CATEGORY   = "success delete motivation category"
+	MESSAGE_SUCCESS_CREATE_MOTIVATION            = "success create motivation"
 )
 
 var (
@@ -41,10 +43,12 @@ var (
 	ErrGetNewsFromID                          = errors.New("failed to get news data from id")
 	ErrUpdateNews                             = errors.New("failed update news")
 	ErrDeleteNews                             = errors.New("failed delete news")
-	ErrGetAllMotivationCategoryWithPagination = errors.New("failed get list motivation category with pagination")
 	ErrCreateMotivationCategory               = errors.New("failed create motivation category")
+	ErrGetAllMotivationCategoryWithPagination = errors.New("failed get list motivation category with pagination")
 	ErrGetMotivationCategoryFromID            = errors.New("failed get motivation category data from id")
 	ErrDeleteMotivationCategory               = errors.New("failed delete motivation category")
+	ErrMotivationCategoryIDNotFound           = errors.New("failed motivation category id not found")
+	ErrCreateMotivation                       = errors.New("failed create motivation")
 )
 
 type (
@@ -120,19 +124,6 @@ type (
 		NewsID string `json:"-"`
 	}
 
-	CreateMotivationRequest struct {
-		Author               string `json:"author"`
-		Content              string `json:"content"`
-		MotivationCategoryID string `json:"mot_cat_id"`
-	}
-
-	MotivationResponse struct {
-		ID                   string `json:"motivation_id"`
-		Author               string `json:"motivation_author"`
-		Content              string `json:"motivation_content"`
-		MotivationCategoryID string `json:"mot_cat_id"`
-	}
-
 	CreateMotivationCategoryRequest struct {
 		Name string `json:"name"`
 	}
@@ -159,5 +150,18 @@ type (
 
 	DeleteMotivationCategoryRequest struct {
 		MotivationCategoryID string `json:"-"`
+	}
+
+	CreateMotivationRequest struct {
+		Author               string     `json:"author"`
+		Content              string     `json:"content"`
+		MotivationCategoryID *uuid.UUID `json:"motivation_category_id"`
+	}
+
+	MotivationResponse struct {
+		ID                   *uuid.UUID `json:"motivation_id"`
+		Author               string     `json:"motivation_author"`
+		Content              string     `json:"motivation_content"`
+		MotivationCategoryID *uuid.UUID `json:"motivation_category_id"`
 	}
 )

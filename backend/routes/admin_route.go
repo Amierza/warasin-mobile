@@ -31,6 +31,9 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 			routes.GET("/get-all-motivation-category", adminHandler.GetAllMotivationCategory)
 			routes.PATCH("/update-motivation-category/:id", adminHandler.UpdateMotivationCategory)
 			routes.DELETE("/delete-motivation-category/:id", adminHandler.DeleteMotivationCategory)
+
+			// CRUD Motivation
+			routes.POST("/create-motivation", adminHandler.CreateMotivation)
 		}
 	}
 }
