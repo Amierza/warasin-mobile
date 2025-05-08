@@ -32,6 +32,8 @@ type (
 		GetMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (entity.MotivationCategory, error)
 		UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) (entity.MotivationCategory, error)
 		DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error
+		CheckMotivationCategoryID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (bool, error)
+		CreateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error
 	}
 
 	AdminRepository struct {
@@ -394,4 +396,24 @@ func (ar AdminRepository) DeleteMotivationCategoryByID(ctx context.Context, tx *
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", motivationCategoryID).Delete(&entity.MotivationCategory{}).Error
+}
+
+func (ar *AdminRepository) CheckMotivationCategoryID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (bool, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	if err := tx.WithContext(ctx).Model(&entity.MotivationCategory{}).Where("id = ?", motivationCategoryID).Error; err != nil {
+		return false, err
+	}
+
+	return true, nil
+}
+
+func (ar *AdminRepository) CreateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&motivation).Error
 }

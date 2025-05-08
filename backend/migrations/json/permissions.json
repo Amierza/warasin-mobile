@@ -78,5 +78,10 @@
     "permission_id": "8aba3e0f-0cf5-4510-b958-6497e19f0547",
     "permission_endpoint": "/api/v1/admin/delete-motivation-category/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "485748bf-9db0-4802-8282-64c3025b36fe",
+    "permission_endpoint": "/api/v1/admin/create-motivation",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]

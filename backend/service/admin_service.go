@@ -22,10 +22,11 @@ type (
 		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
 		UpdateNews(ctx context.Context, req dto.UpdateNewsRequest) (dto.NewsResponse, error)
 		DeleteNews(ctx context.Context, req dto.DeleteNewsRequest) (dto.NewsResponse, error)
-		GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error)
 		CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
+		GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error)
 		UpdateMotivationCategory(ctx context.Context, req dto.UpdateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 		DeleteMotivationCategory(ctx context.Context, req dto.DeleteMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
+		CreateMotivation(ctx context.Context, req dto.CreateMotivationRequest) (dto.MotivationResponse, error)
 	}
 
 	AdminService struct {
@@ -486,6 +487,25 @@ func (as *AdminService) DeleteNews(ctx context.Context, req dto.DeleteNewsReques
 	return res, nil
 }
 
+func (as *AdminService) CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error) {
+	motivationCategory := entity.MotivationCategory{
+		ID:   uuid.New(),
+		Name: req.Name,
+	}
+
+	err := as.adminRepo.CreateMotivationCategory(ctx, nil, motivationCategory)
+	if err != nil {
+		return dto.MotivationCategoryResponse{}, dto.ErrCreateMotivationCategory
+	}
+
+	res := dto.MotivationCategoryResponse{
+		ID:   &motivationCategory.ID,
+		Name: motivationCategory.Name,
+	}
+
+	return res, nil
+}
+
 func (as *AdminService) GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error) {
 	dataWithPaginate, err := as.adminRepo.GetAllMotivationCategoryWithPagination(ctx, nil, req)
 	if err != nil {
@@ -511,25 +531,6 @@ func (as *AdminService) GetAllMotivationCategoryWithPagination(ctx context.Conte
 			Count:   dataWithPaginate.Count,
 		},
 	}, nil
-}
-
-func (as *AdminService) CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error) {
-	motivationCategory := entity.MotivationCategory{
-		ID:   uuid.New(),
-		Name: req.Name,
-	}
-
-	err := as.adminRepo.CreateMotivationCategory(ctx, nil, motivationCategory)
-	if err != nil {
-		return dto.MotivationCategoryResponse{}, dto.ErrCreateMotivationCategory
-	}
-
-	res := dto.MotivationCategoryResponse{
-		ID:   &motivationCategory.ID,
-		Name: motivationCategory.Name,
-	}
-
-	return res, nil
 }
 
 func (as *AdminService) UpdateMotivationCategory(ctx context.Context, req dto.UpdateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error) {
@@ -569,6 +570,34 @@ func (as *AdminService) DeleteMotivationCategory(ctx context.Context, req dto.De
 	res := dto.MotivationCategoryResponse{
 		ID:   &deletedMotivationCategory.ID,
 		Name: deletedMotivationCategory.Name,
+	}
+
+	return res, nil
+}
+
+func (as *AdminService) CreateMotivation(ctx context.Context, req dto.CreateMotivationRequest) (dto.MotivationResponse, error) {
+	flag, err := as.adminRepo.CheckMotivationCategoryID(ctx, nil, req.MotivationCategoryID.String())
+	if err != nil || flag == false {
+		return dto.MotivationResponse{}, dto.ErrMotivationCategoryIDNotFound
+	}
+
+	motivation := entity.Motivation{
+		ID:                   uuid.New(),
+		Author:               req.Author,
+		Content:              req.Content,
+		MotivationCategoryID: req.MotivationCategoryID,
+	}
+
+	err = as.adminRepo.CreateMotivation(ctx, nil, motivation)
+	if err != nil {
+		return dto.MotivationResponse{}, dto.ErrCreateMotivation
+	}
+
+	res := dto.MotivationResponse{
+		ID:                   &motivation.ID,
+		Author:               motivation.Author,
+		Content:              motivation.Content,
+		MotivationCategoryID: motivation.MotivationCategoryID,
 	}
 
 	return res, nil
