@@ -32,9 +32,10 @@ type (
 		GetMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (entity.MotivationCategory, error)
 		UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) (entity.MotivationCategory, error)
 		DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error
-		CheckMotivationCategoryID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (bool, error)
 		CreateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error
 		GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error)
+		GetMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) (entity.Motivation, error)
+		UpdateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) (entity.Motivation, error)
 	}
 
 	AdminRepository struct {
@@ -399,18 +400,6 @@ func (ar AdminRepository) DeleteMotivationCategoryByID(ctx context.Context, tx *
 	return tx.WithContext(ctx).Where("id = ?", motivationCategoryID).Delete(&entity.MotivationCategory{}).Error
 }
 
-func (ar *AdminRepository) CheckMotivationCategoryID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (bool, error) {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	if err := tx.WithContext(ctx).Model(&entity.MotivationCategory{}).Where("id = ?", motivationCategoryID).Error; err != nil {
-		return false, err
-	}
-
-	return true, nil
-}
-
 func (ar *AdminRepository) CreateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error {
 	if tx == nil {
 		tx = ar.db
@@ -462,4 +451,39 @@ func (ar *AdminRepository) GetAllMotivationWithPagination(ctx context.Context, t
 			Count:   count,
 		},
 	}, err
+}
+
+func (ar *AdminRepository) GetMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) (entity.Motivation, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var motivation entity.Motivation
+	if err := tx.WithContext(ctx).Where("id = ?", motivationID).Take(&motivation).Error; err != nil {
+		return entity.Motivation{}, err
+	}
+
+	return motivation, nil
+}
+
+func (ar *AdminRepository) UpdateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) (entity.Motivation, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	if err := tx.WithContext(ctx).
+		Model(&entity.Motivation{}).
+		Where("id = ?", motivation.ID).
+		Updates(motivation).Error; err != nil {
+		return entity.Motivation{}, err
+	}
+
+	var updatedMotivation entity.Motivation
+	if err := tx.WithContext(ctx).
+		Where("id = ?", motivation.ID).
+		Take(&updatedMotivation).Error; err != nil {
+		return entity.Motivation{}, err
+	}
+
+	return updatedMotivation, nil
 }

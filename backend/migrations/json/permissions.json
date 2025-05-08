@@ -88,5 +88,10 @@
     "permission_id": "604df661-2832-4151-8444-072fb566bb09",
     "permission_endpoint": "/api/v1/admin/get-all-motivation",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "8d771007-fc74-45a7-ac85-507dd009e9a2",
+    "permission_endpoint": "/api/v1/admin/update-motivation",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]
