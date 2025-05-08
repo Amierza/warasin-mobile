@@ -22,6 +22,7 @@ const (
 	MESSAGE_FAILED_CREATE_MOTIVATION            = "failed create motivation"
 	MESSAGE_FAILED_GET_LIST_MOTIVATION          = "failed get all motivation"
 	MESSAGE_FAILED_UPDATE_MOTIVATION            = "failed update motivation"
+	MESSAGE_FAILED_DELETE_MOTIVATION            = "failed delete motivation"
 	// success
 	MESSAGE_SUCCESS_CREATE_USER                  = "success create user"
 	MESSAGE_SUCCESS_DELETE_USER                  = "success delete user"
@@ -36,6 +37,7 @@ const (
 	MESSAGE_SUCCESS_CREATE_MOTIVATION            = "success create motivation"
 	MESSAGE_SUCCESS_GET_LIST_MOTIVATION          = "success get all motivation"
 	MESSAGE_SUCCESS_UPDATE_MOTIVATION            = "success update motivation"
+	MESSAGE_SUCCESS_DELETE_MOTIVATION            = "success delete motivation"
 )
 
 var (
@@ -186,5 +188,9 @@ type (
 		Author               string `json:"author"`
 		Content              string `json:"content"`
 		MotivationCategoryID string `json:"motivation_category_id"`
+	}
+
+	DeleteMotivationRequest struct {
+		MotivationID string `json:"-"`
 	}
 )
