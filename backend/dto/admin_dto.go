@@ -21,6 +21,7 @@ const (
 	MESSAGE_FAILED_DELETE_MOTIVATION_CATEGORY   = "failed delete motivation category"
 	MESSAGE_FAILED_CREATE_MOTIVATION            = "failed create motivation"
 	MESSAGE_FAILED_GET_LIST_MOTIVATION          = "failed get all motivation"
+	MESSAGE_FAILED_UPDATE_MOTIVATION            = "failed update motivation"
 	// success
 	MESSAGE_SUCCESS_CREATE_USER                  = "success create user"
 	MESSAGE_SUCCESS_DELETE_USER                  = "success delete user"
@@ -34,6 +35,7 @@ const (
 	MESSAGE_SUCCESS_DELETE_MOTIVATION_CATEGORY   = "success delete motivation category"
 	MESSAGE_SUCCESS_CREATE_MOTIVATION            = "success create motivation"
 	MESSAGE_SUCCESS_GET_LIST_MOTIVATION          = "success get all motivation"
+	MESSAGE_SUCCESS_UPDATE_MOTIVATION            = "success update motivation"
 )
 
 var (
@@ -51,6 +53,8 @@ var (
 	ErrDeleteMotivationCategory               = errors.New("failed delete motivation category")
 	ErrMotivationCategoryIDNotFound           = errors.New("failed motivation category id not found")
 	ErrCreateMotivation                       = errors.New("failed create motivation")
+	ErrGetAllMotivationWithPagination         = errors.New("failed get list motivation with pagination")
+	ErrGetMotivationFromID                    = errors.New("failed get motivation data from id")
 )
 
 type (
@@ -175,5 +179,12 @@ type (
 	AllMotivationRepositoryResponse struct {
 		PaginationResponse
 		Motivations []entity.Motivation
+	}
+
+	UpdateMotivationRequest struct {
+		ID                   string `json:"-"`
+		Author               string `json:"author"`
+		Content              string `json:"content"`
+		MotivationCategoryID string `json:"motivation_category_id"`
 	}
 )
