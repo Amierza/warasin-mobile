@@ -14,6 +14,9 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 		routes.POST("/refresh-token", adminHandler.RefreshToken)
 		routes.Use(middleware.Authentication(jwtService), middleware.RouteAccessControl(jwtService))
 		{
+			// Get All Role
+			routes.GET("/get-all-role", adminHandler.GetAllRole)
+
 			// CRUD User
 			routes.POST("/create-user", adminHandler.CreateUser)
 			routes.GET("/get-all-user", adminHandler.GetAllUser)

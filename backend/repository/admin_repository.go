@@ -37,6 +37,7 @@ type (
 		GetMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) (entity.Motivation, error)
 		UpdateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) (entity.Motivation, error)
 		DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error
+		GetAllRole(ctx context.Context, tx *gorm.DB) (dto.AllRoleRepositoryResponse, error)
 	}
 
 	AdminRepository struct {
@@ -495,4 +496,23 @@ func (ar AdminRepository) DeleteMotivationByID(ctx context.Context, tx *gorm.DB,
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", motivationID).Delete(&entity.Motivation{}).Error
+}
+
+func (ar *AdminRepository) GetAllRole(ctx context.Context, tx *gorm.DB) (dto.AllRoleRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var (
+		roles []entity.Role
+		err   error
+	)
+
+	if err := tx.WithContext(ctx).Model(&entity.Role{}).Find(&roles).Error; err != nil {
+		return dto.AllRoleRepositoryResponse{}, err
+	}
+
+	return dto.AllRoleRepositoryResponse{
+		Roles: roles,
+	}, err
 }
