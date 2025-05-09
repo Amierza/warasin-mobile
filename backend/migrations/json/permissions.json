@@ -98,5 +98,10 @@
     "permission_id": "d96dc4d3-769e-47b2-b690-aee440ca9c50",
     "permission_endpoint": "/api/v1/admin/delete-motivation",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "2d766618-5908-40b5-9bd3-b233a391456f",
+    "permission_endpoint": "/api/v1/admin/get-all-role",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]

@@ -29,6 +29,7 @@ type (
 		GetAllMotivation(ctx *gin.Context)
 		UpdateMotivation(ctx *gin.Context)
 		DeleteMotivation(ctx *gin.Context)
+		GetAllRole(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -429,5 +430,22 @@ func (ah *AdminHandler) DeleteMotivation(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_DELETE_MOTIVATION, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) GetAllRole(ctx *gin.Context) {
+	result, err := ah.adminService.GetAllRole(ctx.Request.Context())
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_ROLE, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_ROLE,
+		Data:     result.Data,
+	}
+
 	ctx.JSON(http.StatusOK, res)
 }

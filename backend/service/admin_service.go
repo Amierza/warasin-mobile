@@ -30,6 +30,7 @@ type (
 		GetAllMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationPaginationResponse, error)
 		UpdateMotivation(ctx context.Context, req dto.UpdateMotivationRequest) (dto.MotivationResponse, error)
 		DeleteMotivation(ctx context.Context, req dto.DeleteMotivationRequest) (dto.MotivationResponse, error)
+		GetAllRole(ctx context.Context) (dto.RolePaginationResponse, error)
 	}
 
 	AdminService struct {
@@ -685,4 +686,25 @@ func (as *AdminService) DeleteMotivation(ctx context.Context, req dto.DeleteMoti
 	}
 
 	return res, nil
+}
+
+func (as *AdminService) GetAllRole(ctx context.Context) (dto.RolePaginationResponse, error) {
+	dataWithPaginate, err := as.adminRepo.GetAllRole(ctx, nil)
+	if err != nil {
+		return dto.RolePaginationResponse{}, dto.ErrGetAllNewsWithPagination
+	}
+
+	var datas []dto.RoleResponse
+	for _, role := range dataWithPaginate.Roles {
+		data := dto.RoleResponse{
+			ID:   &role.ID,
+			Name: role.Name,
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.RolePaginationResponse{
+		Data: datas,
+	}, nil
 }
