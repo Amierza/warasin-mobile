@@ -19,6 +19,8 @@ type Psycholog struct {
 
 	CityID *uuid.UUID `gorm:"type:uuid" json:"city_id"`
 	City   City       `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	RoleID *uuid.UUID `gorm:"type:uuid" json:"role_id"`
+	Role   Role       `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 
 	Consuls                  []Consulation             `gorm:"foreignKey:PsychologID"`
 	PsychologLanguages       []PsychologLanguage       `gorm:"foreignKey:PsychologID"`

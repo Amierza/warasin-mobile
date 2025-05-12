@@ -33,6 +33,10 @@ func main() {
 		adminRepo    = repository.NewAdminRepository(db)
 		adminService = service.NewAdminService(adminRepo, jwtService)
 		adminHandler = handler.NewAdminHandler(adminService)
+
+		psyRepo    = repository.NewPsychologRepository(db)
+		psyService = service.NewPsychologService(psyRepo, jwtService)
+		psyHandler = handler.NewPsychologHandler(psyService)
 	)
 
 	server := gin.Default()
@@ -40,6 +44,7 @@ func main() {
 
 	routes.User(server, userHandler, jwtService)
 	routes.Admin(server, adminHandler, jwtService)
+	routes.Psycholog(server, psyHandler, jwtService)
 
 	server.Static("/assets", "./assets")
 
