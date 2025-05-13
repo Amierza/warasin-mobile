@@ -20,6 +20,7 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 			// CRUD User
 			routes.POST("/create-user", adminHandler.CreateUser)
 			routes.GET("/get-all-user", adminHandler.GetAllUser)
+			routes.GET("/get-detail-user/:id", adminHandler.GetDetailUser)
 			routes.PATCH("/update-user/:id", adminHandler.UpdateUser)
 			routes.DELETE("/delete-user/:id", adminHandler.DeleteUser)
 

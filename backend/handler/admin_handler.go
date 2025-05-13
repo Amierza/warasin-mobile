@@ -15,6 +15,7 @@ type (
 		RefreshToken(ctx *gin.Context)
 		CreateUser(ctx *gin.Context)
 		GetAllUser(ctx *gin.Context)
+		GetDetailUser(ctx *gin.Context)
 		UpdateUser(ctx *gin.Context)
 		DeleteUser(ctx *gin.Context)
 		CreateNews(ctx *gin.Context)
@@ -122,6 +123,19 @@ func (ah *AdminHandler) GetAllUser(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) GetDetailUser(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := ah.adminService.GetDetailUser(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_USER, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_USER, result)
 	ctx.JSON(http.StatusOK, res)
 }
 
