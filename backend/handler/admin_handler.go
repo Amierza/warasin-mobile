@@ -11,25 +11,37 @@ import (
 
 type (
 	IAdminHandler interface {
+		// Authentication
 		Login(ctx *gin.Context)
 		RefreshToken(ctx *gin.Context)
+
+		// User
 		CreateUser(ctx *gin.Context)
 		GetAllUser(ctx *gin.Context)
 		GetDetailUser(ctx *gin.Context)
 		UpdateUser(ctx *gin.Context)
 		DeleteUser(ctx *gin.Context)
+
+		// News
 		CreateNews(ctx *gin.Context)
 		GetAllNews(ctx *gin.Context)
+		GetDetailNews(ctx *gin.Context)
 		UpdateNews(ctx *gin.Context)
 		DeleteNews(ctx *gin.Context)
+
+		// Motivation Category
 		CreateMotivationCategory(ctx *gin.Context)
 		GetAllMotivationCategory(ctx *gin.Context)
 		UpdateMotivationCategory(ctx *gin.Context)
 		DeleteMotivationCategory(ctx *gin.Context)
+
+		// Motivation
 		CreateMotivation(ctx *gin.Context)
 		GetAllMotivation(ctx *gin.Context)
 		UpdateMotivation(ctx *gin.Context)
 		DeleteMotivation(ctx *gin.Context)
+
+		// Role
 		GetAllRole(ctx *gin.Context)
 	}
 
@@ -224,6 +236,19 @@ func (ah *AdminHandler) GetAllNews(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) GetDetailNews(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := ah.adminService.GetDetailNews(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_NEWS, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_NEWS, result)
 	ctx.JSON(http.StatusOK, res)
 }
 

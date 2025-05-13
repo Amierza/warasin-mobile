@@ -27,6 +27,7 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 			// CRUD News
 			routes.POST("/create-news", adminHandler.CreateNews)
 			routes.GET("/get-all-news", adminHandler.GetAllNews)
+			routes.GET("/get-detail-news/:id", adminHandler.GetDetailNews)
 			routes.PATCH("/update-news/:id", adminHandler.UpdateNews)
 			routes.DELETE("/delete-news/:id", adminHandler.DeleteNews)
 

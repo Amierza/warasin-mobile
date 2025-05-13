@@ -20,6 +20,11 @@
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
+    "permission_id": "5b0c05b6-1be0-4e5e-b507-bb3de130b763",
+    "permission_endpoint": "/api/v1/admin/create-user",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
     "permission_id": "9cb764b1-b6d9-460e-81ee-39d2451f7a1f",
     "permission_endpoint": "/api/v1/admin/get-all-user",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
@@ -27,11 +32,6 @@
   {
     "permission_id": "a5a7b61b-e235-44a6-8476-61081f67a093",
     "permission_endpoint": "/api/v1/admin/get-detaill-user/:id",
-    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
-  },
-  {
-    "permission_id": "5b0c05b6-1be0-4e5e-b507-bb3de130b763",
-    "permission_endpoint": "/api/v1/admin/create-user",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
@@ -52,6 +52,11 @@
   {
     "permission_id": "43a53e7c-7551-4a8c-96f8-3b493fa9614f",
     "permission_endpoint": "/api/v1/admin/get-all-news",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "ed268911-acdf-491e-86e8-c09e727b61f2",
+    "permission_endpoint": "/api/v1/admin/get-detail-news",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
