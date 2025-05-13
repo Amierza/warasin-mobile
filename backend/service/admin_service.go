@@ -12,24 +12,36 @@ import (
 
 type (
 	IAdminService interface {
+		// Authentication
 		Login(ctx context.Context, req dto.AdminLoginRequest) (dto.AdminLoginResponse, error)
 		RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error)
+
+		// CRUD User
 		CreateUser(ctx context.Context, req dto.CreateUserRequest) (dto.AllUserResponse, error)
 		GetAllUserWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserPaginationResponse, error)
+		GetDetailUser(ctx context.Context, userID string) (dto.AllUserResponse, error)
 		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
 		DeleteUser(ctx context.Context, req dto.DeleteUserRequest) (dto.AllUserResponse, error)
+
+		// CRUD News
 		CreateNews(ctx context.Context, req dto.CreateNewsRequest) (dto.NewsResponse, error)
 		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
 		UpdateNews(ctx context.Context, req dto.UpdateNewsRequest) (dto.NewsResponse, error)
 		DeleteNews(ctx context.Context, req dto.DeleteNewsRequest) (dto.NewsResponse, error)
+
+		// CRUD Motivation Category
 		CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 		GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error)
 		UpdateMotivationCategory(ctx context.Context, req dto.UpdateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 		DeleteMotivationCategory(ctx context.Context, req dto.DeleteMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
+
+		// CRUD Motivation
 		CreateMotivation(ctx context.Context, req dto.CreateMotivationRequest) (dto.MotivationResponse, error)
 		GetAllMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationPaginationResponse, error)
 		UpdateMotivation(ctx context.Context, req dto.UpdateMotivationRequest) (dto.MotivationResponse, error)
 		DeleteMotivation(ctx context.Context, req dto.DeleteMotivationRequest) (dto.MotivationResponse, error)
+
+		// Get Role
 		GetAllRole(ctx context.Context) (dto.RolePaginationResponse, error)
 	}
 
@@ -243,6 +255,41 @@ func (as *AdminService) GetAllUserWithPagination(ctx context.Context, req dto.Pa
 			PerPage: dataWithPaginate.PerPage,
 			MaxPage: dataWithPaginate.MaxPage,
 			Count:   dataWithPaginate.Count,
+		},
+	}, nil
+}
+
+func (as *AdminService) GetDetailUser(ctx context.Context, userID string) (dto.AllUserResponse, error) {
+	user, err := as.adminRepo.GetUserByID(ctx, nil, userID)
+	if err != nil {
+		return dto.AllUserResponse{}, dto.ErrUserNotFound
+	}
+
+	return dto.AllUserResponse{
+		ID:          user.ID,
+		Name:        user.Name,
+		Email:       user.Email,
+		Password:    user.Password,
+		Image:       user.Image,
+		Gender:      user.Gender,
+		Birthdate:   user.Birthdate,
+		PhoneNumber: user.PhoneNumber,
+		Data01:      user.Data01,
+		Data02:      user.Data02,
+		Data03:      user.Data03,
+		IsVerified:  user.IsVerified,
+		City: dto.CityResponse{
+			ID:   user.CityID,
+			Name: user.City.Name,
+			Type: user.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   user.City.ProvinceID,
+				Name: user.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   user.RoleID,
+			Name: user.Role.Name,
 		},
 	}, nil
 }

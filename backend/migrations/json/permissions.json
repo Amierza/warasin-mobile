@@ -25,6 +25,11 @@
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
+    "permission_id": "a5a7b61b-e235-44a6-8476-61081f67a093",
+    "permission_endpoint": "/api/v1/admin/get-detaill-user/:id",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
     "permission_id": "5b0c05b6-1be0-4e5e-b507-bb3de130b763",
     "permission_endpoint": "/api/v1/admin/create-user",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
