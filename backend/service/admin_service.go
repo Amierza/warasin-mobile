@@ -16,26 +16,27 @@ type (
 		Login(ctx context.Context, req dto.AdminLoginRequest) (dto.AdminLoginResponse, error)
 		RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error)
 
-		// CRUD User
+		// User
 		CreateUser(ctx context.Context, req dto.CreateUserRequest) (dto.AllUserResponse, error)
 		GetAllUserWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserPaginationResponse, error)
 		GetDetailUser(ctx context.Context, userID string) (dto.AllUserResponse, error)
 		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
 		DeleteUser(ctx context.Context, req dto.DeleteUserRequest) (dto.AllUserResponse, error)
 
-		// CRUD News
+		// News
 		CreateNews(ctx context.Context, req dto.CreateNewsRequest) (dto.NewsResponse, error)
 		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
+		GetDetailNews(ctx context.Context, newsID string) (dto.NewsResponse, error)
 		UpdateNews(ctx context.Context, req dto.UpdateNewsRequest) (dto.NewsResponse, error)
 		DeleteNews(ctx context.Context, req dto.DeleteNewsRequest) (dto.NewsResponse, error)
 
-		// CRUD Motivation Category
+		// Motivation Category
 		CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 		GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error)
 		UpdateMotivationCategory(ctx context.Context, req dto.UpdateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 		DeleteMotivationCategory(ctx context.Context, req dto.DeleteMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 
-		// CRUD Motivation
+		// Motivation
 		CreateMotivation(ctx context.Context, req dto.CreateMotivationRequest) (dto.MotivationResponse, error)
 		GetAllMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationPaginationResponse, error)
 		UpdateMotivation(ctx context.Context, req dto.UpdateMotivationRequest) (dto.MotivationResponse, error)
@@ -478,6 +479,21 @@ func (as *AdminService) GetAllNewsWithPagination(ctx context.Context, req dto.Pa
 			MaxPage: dataWithPaginate.MaxPage,
 			Count:   dataWithPaginate.Count,
 		},
+	}, nil
+}
+
+func (as *AdminService) GetDetailNews(ctx context.Context, newsID string) (dto.NewsResponse, error) {
+	news, err := as.adminRepo.GetNewsByID(ctx, nil, newsID)
+	if err != nil {
+		return dto.NewsResponse{}, dto.ErrUserNotFound
+	}
+
+	return dto.NewsResponse{
+		ID:    news.ID,
+		Image: news.Image,
+		Title: news.Title,
+		Body:  news.Body,
+		Date:  news.Date,
 	}, nil
 }
 

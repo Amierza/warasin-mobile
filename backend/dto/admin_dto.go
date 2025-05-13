@@ -24,6 +24,7 @@ const (
 	MESSAGE_FAILED_UPDATE_MOTIVATION            = "failed update motivation"
 	MESSAGE_FAILED_DELETE_MOTIVATION            = "failed delete motivation"
 	MESSAGE_FAILED_GET_LIST_ROLE                = "failed get all role"
+	MESSAGE_FAILED_GET_DETAIL_NEWS              = "failed get detail news"
 	// success
 	MESSAGE_SUCCESS_CREATE_USER                  = "success create user"
 	MESSAGE_SUCCESS_DELETE_USER                  = "success delete user"
@@ -40,6 +41,7 @@ const (
 	MESSAGE_SUCCESS_UPDATE_MOTIVATION            = "success update motivation"
 	MESSAGE_SUCCESS_DELETE_MOTIVATION            = "success delete motivation"
 	MESSAGE_SUCCESS_GET_LIST_ROLE                = "success get all role"
+	MESSAGE_SUCCESS_GET_DETAIL_NEWS              = "success get detail news"
 )
 
 var (
