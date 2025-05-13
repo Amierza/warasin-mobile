@@ -33,6 +33,7 @@ type (
 		// Motivation Category
 		CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 		GetAllMotivationCategoryWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationCategoryPaginationResponse, error)
+		GetDetailMotivationCategory(ctx context.Context, motivationCategoryID string) (dto.MotivationCategoryResponse, error)
 		UpdateMotivationCategory(ctx context.Context, req dto.UpdateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 		DeleteMotivationCategory(ctx context.Context, req dto.DeleteMotivationCategoryRequest) (dto.MotivationCategoryResponse, error)
 
@@ -597,6 +598,18 @@ func (as *AdminService) GetAllMotivationCategoryWithPagination(ctx context.Conte
 			MaxPage: dataWithPaginate.MaxPage,
 			Count:   dataWithPaginate.Count,
 		},
+	}, nil
+}
+
+func (as *AdminService) GetDetailMotivationCategory(ctx context.Context, motivationCategoryID string) (dto.MotivationCategoryResponse, error) {
+	motivationCategory, err := as.adminRepo.GetMotivationCategoryByID(ctx, nil, motivationCategoryID)
+	if err != nil {
+		return dto.MotivationCategoryResponse{}, dto.ErrUserNotFound
+	}
+
+	return dto.MotivationCategoryResponse{
+		ID:   &motivationCategory.ID,
+		Name: motivationCategory.Name,
 	}, nil
 }
 

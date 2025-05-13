@@ -80,6 +80,11 @@
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
+    "permission_id": "44251e79-ecb5-43ef-afda-76704ef7b839",
+    "permission_endpoint": "/api/v1/admin/get-detail-motivation-category",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
     "permission_id": "aa9a865a-2dc0-4d4a-bca0-f8d81061d422",
     "permission_endpoint": "/api/v1/admin/update-motivation-category/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
