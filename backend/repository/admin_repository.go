@@ -461,7 +461,7 @@ func (ar *AdminRepository) GetMotivationByID(ctx context.Context, tx *gorm.DB, m
 	}
 
 	var motivation entity.Motivation
-	if err := tx.WithContext(ctx).Where("id = ?", motivationID).Take(&motivation).Error; err != nil {
+	if err := tx.WithContext(ctx).Preload("MotivationCategory").Where("id = ?", motivationID).Take(&motivation).Error; err != nil {
 		return entity.Motivation{}, err
 	}
 

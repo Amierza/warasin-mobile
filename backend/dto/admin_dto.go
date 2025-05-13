@@ -26,6 +26,8 @@ const (
 	MESSAGE_FAILED_GET_LIST_ROLE                  = "failed get all role"
 	MESSAGE_FAILED_GET_DETAIL_NEWS                = "failed get detail news"
 	MESSAGE_FAILED_GET_DETAIL_MOTIVATION_CATEGORY = "failed get detail motivation category"
+	MESSAGE_FAILED_GET_DETAIL_MOTIVATION          = "failed get detail motivation"
+
 	// success
 	MESSAGE_SUCCESS_CREATE_USER                    = "success create user"
 	MESSAGE_SUCCESS_DELETE_USER                    = "success delete user"
@@ -44,6 +46,7 @@ const (
 	MESSAGE_SUCCESS_GET_LIST_ROLE                  = "success get all role"
 	MESSAGE_SUCCESS_GET_DETAIL_NEWS                = "success get detail news"
 	MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION_CATEGORY = "success get detail motivation category"
+	MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION          = "success get detail motivation"
 )
 
 var (
@@ -58,11 +61,14 @@ var (
 	ErrCreateMotivationCategory               = errors.New("failed create motivation category")
 	ErrGetAllMotivationCategoryWithPagination = errors.New("failed get list motivation category with pagination")
 	ErrGetMotivationCategoryFromID            = errors.New("failed get motivation category data from id")
+	ErrUpdateMotivationCategory               = errors.New("failed update motivation category")
 	ErrDeleteMotivationCategory               = errors.New("failed delete motivation category")
-	ErrMotivationCategoryIDNotFound           = errors.New("failed motivation category id not found")
 	ErrCreateMotivation                       = errors.New("failed create motivation")
 	ErrGetAllMotivationWithPagination         = errors.New("failed get list motivation with pagination")
 	ErrGetMotivationFromID                    = errors.New("failed get motivation data from id")
+	ErrDeleteMotivation                       = errors.New("failed delete motivation")
+	ErrUpdateMotivation                       = errors.New("failed update motivation")
+	ErrMotivationNotFound                     = errors.New("failed motivation not found")
 )
 
 type (
@@ -173,10 +179,10 @@ type (
 	}
 
 	MotivationResponse struct {
-		ID                   *uuid.UUID `json:"motivation_id"`
-		Author               string     `json:"motivation_author"`
-		Content              string     `json:"motivation_content"`
-		MotivationCategoryID *uuid.UUID `json:"motivation_category_id"`
+		ID                 *uuid.UUID                 `json:"motivation_id"`
+		Author             string                     `json:"motivation_author"`
+		Content            string                     `json:"motivation_content"`
+		MotivationCategory MotivationCategoryResponse `json:"motivation_category"`
 	}
 
 	MotivationPaginationResponse struct {

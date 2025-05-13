@@ -39,6 +39,7 @@ type (
 		// Motivation
 		CreateMotivation(ctx *gin.Context)
 		GetAllMotivation(ctx *gin.Context)
+		GetDetailMotivation(ctx *gin.Context)
 		UpdateMotivation(ctx *gin.Context)
 		DeleteMotivation(ctx *gin.Context)
 
@@ -439,6 +440,19 @@ func (ah *AdminHandler) GetAllMotivation(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) GetDetailMotivation(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := ah.adminService.GetDetailMotivation(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_MOTIVATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION, result)
 	ctx.JSON(http.StatusOK, res)
 }
 

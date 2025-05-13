@@ -40,6 +40,7 @@ type (
 		// Motivation
 		CreateMotivation(ctx context.Context, req dto.CreateMotivationRequest) (dto.MotivationResponse, error)
 		GetAllMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationPaginationResponse, error)
+		GetDetailMotivation(ctx context.Context, motivationID string) (dto.MotivationResponse, error)
 		UpdateMotivation(ctx context.Context, req dto.UpdateMotivationRequest) (dto.MotivationResponse, error)
 		DeleteMotivation(ctx context.Context, req dto.DeleteMotivationRequest) (dto.MotivationResponse, error)
 
@@ -486,7 +487,7 @@ func (as *AdminService) GetAllNewsWithPagination(ctx context.Context, req dto.Pa
 func (as *AdminService) GetDetailNews(ctx context.Context, newsID string) (dto.NewsResponse, error) {
 	news, err := as.adminRepo.GetNewsByID(ctx, nil, newsID)
 	if err != nil {
-		return dto.NewsResponse{}, dto.ErrUserNotFound
+		return dto.NewsResponse{}, dto.ErrGetNewsFromID
 	}
 
 	return dto.NewsResponse{
@@ -604,7 +605,7 @@ func (as *AdminService) GetAllMotivationCategoryWithPagination(ctx context.Conte
 func (as *AdminService) GetDetailMotivationCategory(ctx context.Context, motivationCategoryID string) (dto.MotivationCategoryResponse, error) {
 	motivationCategory, err := as.adminRepo.GetMotivationCategoryByID(ctx, nil, motivationCategoryID)
 	if err != nil {
-		return dto.MotivationCategoryResponse{}, dto.ErrUserNotFound
+		return dto.MotivationCategoryResponse{}, dto.ErrGetMotivationCategoryFromID
 	}
 
 	return dto.MotivationCategoryResponse{
@@ -616,7 +617,7 @@ func (as *AdminService) GetDetailMotivationCategory(ctx context.Context, motivat
 func (as *AdminService) UpdateMotivationCategory(ctx context.Context, req dto.UpdateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error) {
 	motivationCategory, err := as.adminRepo.GetMotivationCategoryByID(ctx, nil, req.ID)
 	if err != nil {
-		return dto.MotivationCategoryResponse{}, dto.ErrGetNewsFromID
+		return dto.MotivationCategoryResponse{}, dto.ErrGetMotivationCategoryFromID
 	}
 
 	if req.Name != "" {
@@ -625,7 +626,7 @@ func (as *AdminService) UpdateMotivationCategory(ctx context.Context, req dto.Up
 
 	updatedMotivationCategory, err := as.adminRepo.UpdateMotivationCategory(ctx, nil, motivationCategory)
 	if err != nil {
-		return dto.MotivationCategoryResponse{}, dto.ErrUpdateNews
+		return dto.MotivationCategoryResponse{}, dto.ErrUpdateMotivationCategory
 	}
 
 	res := dto.MotivationCategoryResponse{
@@ -656,9 +657,9 @@ func (as *AdminService) DeleteMotivationCategory(ctx context.Context, req dto.De
 }
 
 func (as *AdminService) CreateMotivation(ctx context.Context, req dto.CreateMotivationRequest) (dto.MotivationResponse, error) {
-	_, err := as.adminRepo.GetMotivationCategoryByID(ctx, nil, req.MotivationCategoryID.String())
+	motivationCategory, err := as.adminRepo.GetMotivationCategoryByID(ctx, nil, req.MotivationCategoryID.String())
 	if err != nil {
-		return dto.MotivationResponse{}, dto.ErrMotivationCategoryIDNotFound
+		return dto.MotivationResponse{}, dto.ErrGetMotivationCategoryFromID
 	}
 
 	motivation := entity.Motivation{
@@ -674,10 +675,13 @@ func (as *AdminService) CreateMotivation(ctx context.Context, req dto.CreateMoti
 	}
 
 	res := dto.MotivationResponse{
-		ID:                   &motivation.ID,
-		Author:               motivation.Author,
-		Content:              motivation.Content,
-		MotivationCategoryID: motivation.MotivationCategoryID,
+		ID:      &motivation.ID,
+		Author:  motivation.Author,
+		Content: motivation.Content,
+		MotivationCategory: dto.MotivationCategoryResponse{
+			ID:   &motivationCategory.ID,
+			Name: motivationCategory.Name,
+		},
 	}
 
 	return res, nil
@@ -692,10 +696,13 @@ func (as *AdminService) GetAllMotivationWithPagination(ctx context.Context, req 
 	var datas []dto.MotivationResponse
 	for _, motivation := range dataWithPaginate.Motivations {
 		data := dto.MotivationResponse{
-			ID:                   &motivation.ID,
-			Author:               motivation.Author,
-			Content:              motivation.Content,
-			MotivationCategoryID: &motivation.MotivationCategory.ID,
+			ID:      &motivation.ID,
+			Author:  motivation.Author,
+			Content: motivation.Content,
+			MotivationCategory: dto.MotivationCategoryResponse{
+				ID:   &motivation.MotivationCategory.ID,
+				Name: motivation.MotivationCategory.Name,
+			},
 		}
 
 		datas = append(datas, data)
@@ -708,6 +715,23 @@ func (as *AdminService) GetAllMotivationWithPagination(ctx context.Context, req 
 			PerPage: dataWithPaginate.PerPage,
 			MaxPage: dataWithPaginate.MaxPage,
 			Count:   dataWithPaginate.Count,
+		},
+	}, nil
+}
+
+func (as *AdminService) GetDetailMotivation(ctx context.Context, motivationID string) (dto.MotivationResponse, error) {
+	motivation, err := as.adminRepo.GetMotivationByID(ctx, nil, motivationID)
+	if err != nil {
+		return dto.MotivationResponse{}, dto.ErrMotivationNotFound
+	}
+
+	return dto.MotivationResponse{
+		ID:      &motivation.ID,
+		Author:  motivation.Author,
+		Content: motivation.Content,
+		MotivationCategory: dto.MotivationCategoryResponse{
+			ID:   &motivation.MotivationCategory.ID,
+			Name: motivation.MotivationCategory.Name,
 		},
 	}, nil
 }
@@ -730,14 +754,17 @@ func (as *AdminService) UpdateMotivation(ctx context.Context, req dto.UpdateMoti
 
 	updatedMotivation, err := as.adminRepo.UpdateMotivation(ctx, nil, motivation)
 	if err != nil {
-		return dto.MotivationResponse{}, dto.ErrUpdateNews
+		return dto.MotivationResponse{}, dto.ErrUpdateMotivation
 	}
 
 	res := dto.MotivationResponse{
-		ID:                   &updatedMotivation.ID,
-		Author:               updatedMotivation.Author,
-		Content:              updatedMotivation.Content,
-		MotivationCategoryID: updatedMotivation.MotivationCategoryID,
+		ID:      &updatedMotivation.ID,
+		Author:  updatedMotivation.Author,
+		Content: updatedMotivation.Content,
+		MotivationCategory: dto.MotivationCategoryResponse{
+			ID:   &updatedMotivation.MotivationCategory.ID,
+			Name: updatedMotivation.MotivationCategory.Name,
+		},
 	}
 
 	return res, nil
@@ -746,19 +773,22 @@ func (as *AdminService) UpdateMotivation(ctx context.Context, req dto.UpdateMoti
 func (as *AdminService) DeleteMotivation(ctx context.Context, req dto.DeleteMotivationRequest) (dto.MotivationResponse, error) {
 	deletedMotivation, err := as.adminRepo.GetMotivationByID(ctx, nil, req.MotivationID)
 	if err != nil {
-		return dto.MotivationResponse{}, dto.ErrGetMotivationCategoryFromID
+		return dto.MotivationResponse{}, dto.ErrGetMotivationFromID
 	}
 
 	err = as.adminRepo.DeleteMotivationByID(ctx, nil, req.MotivationID)
 	if err != nil {
-		return dto.MotivationResponse{}, dto.ErrDeleteMotivationCategory
+		return dto.MotivationResponse{}, dto.ErrDeleteMotivation
 	}
 
 	res := dto.MotivationResponse{
-		ID:                   &deletedMotivation.ID,
-		Author:               deletedMotivation.Author,
-		Content:              deletedMotivation.Content,
-		MotivationCategoryID: deletedMotivation.MotivationCategoryID,
+		ID:      &deletedMotivation.ID,
+		Author:  deletedMotivation.Author,
+		Content: deletedMotivation.Content,
+		MotivationCategory: dto.MotivationCategoryResponse{
+			ID:   &deletedMotivation.MotivationCategory.ID,
+			Name: deletedMotivation.MotivationCategory.Name,
+		},
 	}
 
 	return res, nil

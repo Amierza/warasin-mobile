@@ -56,7 +56,7 @@
   },
   {
     "permission_id": "ed268911-acdf-491e-86e8-c09e727b61f2",
-    "permission_endpoint": "/api/v1/admin/get-detail-news",
+    "permission_endpoint": "/api/v1/admin/get-detail-news/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
@@ -81,7 +81,7 @@
   },
   {
     "permission_id": "44251e79-ecb5-43ef-afda-76704ef7b839",
-    "permission_endpoint": "/api/v1/admin/get-detail-motivation-category",
+    "permission_endpoint": "/api/v1/admin/get-detail-motivation-category/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
@@ -105,13 +105,18 @@
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
+    "permission_id": "991be66b-849a-48d0-9a4e-43fa4149c6b3",
+    "permission_endpoint": "/api/v1/admin/get-detail-motivation/:id",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
     "permission_id": "8d771007-fc74-45a7-ac85-507dd009e9a2",
-    "permission_endpoint": "/api/v1/admin/update-motivation",
+    "permission_endpoint": "/api/v1/admin/update-motivation/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
     "permission_id": "d96dc4d3-769e-47b2-b690-aee440ca9c50",
-    "permission_endpoint": "/api/v1/admin/delete-motivation",
+    "permission_endpoint": "/api/v1/admin/delete-motivation/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
