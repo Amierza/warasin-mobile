@@ -32,6 +32,7 @@ type (
 		// Motivation Category
 		CreateMotivationCategory(ctx *gin.Context)
 		GetAllMotivationCategory(ctx *gin.Context)
+		GetDetailMotivationCategory(ctx *gin.Context)
 		UpdateMotivationCategory(ctx *gin.Context)
 		DeleteMotivationCategory(ctx *gin.Context)
 
@@ -337,6 +338,19 @@ func (ah *AdminHandler) GetAllMotivationCategory(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (ah *AdminHandler) GetDetailMotivationCategory(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := ah.adminService.GetDetailMotivationCategory(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_MOTIVATION_CATEGORY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION_CATEGORY, result)
 	ctx.JSON(http.StatusOK, res)
 }
 
