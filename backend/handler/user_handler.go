@@ -24,6 +24,7 @@ type (
 		GetAllProvince(ctx *gin.Context)
 		GetAllCity(ctx *gin.Context)
 		GetAllNews(ctx *gin.Context)
+		GetDetailNews(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -283,5 +284,18 @@ func (uh *UserHandler) GetAllNews(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (uh *UserHandler) GetDetailNews(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := uh.userService.GetDetailNews(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_NEWS, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_NEWS, result)
 	ctx.JSON(http.StatusOK, res)
 }

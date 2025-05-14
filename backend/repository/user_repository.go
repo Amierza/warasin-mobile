@@ -25,6 +25,7 @@ type (
 		GetAllProvince(ctx context.Context, tx *gorm.DB) (dto.AllProvinceRepositoryResponse, error)
 		GetAllCity(ctx context.Context, tx *gorm.DB, req dto.CityQueryRequest) (dto.AllCityRepositoryResponse, error)
 		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
+		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error)
 	}
 
 	UserRepository struct {
@@ -238,4 +239,17 @@ func (ur *UserRepository) GetAllNewsWithPagination(ctx context.Context, tx *gorm
 			Count:   count,
 		},
 	}, err
+}
+
+func (ur *UserRepository) GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var news entity.News
+	if err := tx.WithContext(ctx).Where("id = ?", newsID).Take(&news).Error; err != nil {
+		return entity.News{}, err
+	}
+
+	return news, nil
 }
