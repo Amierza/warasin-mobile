@@ -30,6 +30,7 @@ type (
 		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
 		GetAllProvince(ctx context.Context) (dto.ProvincesResponse, error)
 		GetAllCity(ctx context.Context, req dto.CityQueryRequest) (dto.CitiesResponse, error)
+		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
 	}
 
 	UserService struct {
@@ -609,5 +610,35 @@ func (as *UserService) GetAllCity(ctx context.Context, req dto.CityQueryRequest)
 
 	return dto.CitiesResponse{
 		Data: datas,
+	}, nil
+}
+
+func (us *UserService) GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error) {
+	dataWithPaginate, err := us.userRepo.GetAllNewsWithPagination(ctx, nil, req)
+	if err != nil {
+		return dto.NewsPaginationResponse{}, dto.ErrGetAllNewsWithPagination
+	}
+
+	var datas []dto.NewsResponse
+	for _, news := range dataWithPaginate.News {
+		data := dto.NewsResponse{
+			ID:    news.ID,
+			Image: news.Image,
+			Title: news.Title,
+			Body:  news.Body,
+			Date:  news.Date,
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.NewsPaginationResponse{
+		Data: datas,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    dataWithPaginate.Page,
+			PerPage: dataWithPaginate.PerPage,
+			MaxPage: dataWithPaginate.MaxPage,
+			Count:   dataWithPaginate.Count,
+		},
 	}, nil
 }

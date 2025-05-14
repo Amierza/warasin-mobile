@@ -23,6 +23,7 @@ type (
 		UpdateUser(ctx *gin.Context)
 		GetAllProvince(ctx *gin.Context)
 		GetAllCity(ctx *gin.Context)
+		GetAllNews(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -255,6 +256,31 @@ func (ah *UserHandler) GetAllCity(ctx *gin.Context) {
 		Status:   true,
 		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_CITY,
 		Data:     result.Data,
+	}
+
+	ctx.JSON(http.StatusOK, res)
+}
+
+func (uh *UserHandler) GetAllNews(ctx *gin.Context) {
+	var payload dto.PaginationRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := uh.userService.GetAllNewsWithPagination(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_NEWS, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_NEWS,
+		Data:     result.Data,
+		Meta:     result.PaginationResponse,
 	}
 
 	ctx.JSON(http.StatusOK, res)

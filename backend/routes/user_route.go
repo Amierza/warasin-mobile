@@ -28,6 +28,8 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, jwtService servic
 		{
 			routes.GET("/get-detail-user", userHandler.GetDetailUser)
 			routes.PATCH("/update-user", userHandler.UpdateUser)
+
+			routes.GET("/get-all-news", userHandler.GetAllNews)
 		}
 	}
 }

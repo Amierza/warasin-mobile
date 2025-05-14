@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+	"math"
+	"strings"
 
 	"github.com/Amierza/warasin-mobile/backend/dto"
 	"github.com/Amierza/warasin-mobile/backend/entity"
@@ -22,6 +24,7 @@ type (
 		GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error)
 		GetAllProvince(ctx context.Context, tx *gorm.DB) (dto.AllProvinceRepositoryResponse, error)
 		GetAllCity(ctx context.Context, tx *gorm.DB, req dto.CityQueryRequest) (dto.AllCityRepositoryResponse, error)
+		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
 	}
 
 	UserRepository struct {
@@ -188,5 +191,51 @@ func (ar *UserRepository) GetAllCity(ctx context.Context, tx *gorm.DB, req dto.C
 
 	return dto.AllCityRepositoryResponse{
 		Cities: cities,
+	}, err
+}
+
+func (ur *UserRepository) GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var news []entity.News
+	var err error
+	var count int64
+
+	if req.PerPage == 0 {
+		req.PerPage = 10
+	}
+
+	if req.Page == 0 {
+		req.Page = 1
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.News{})
+
+	if req.Search != "" {
+		searchValue := "%" + strings.ToLower(req.Search) + "%"
+		query = query.Where("LOWER(image) LIKE ? OR LOWER(title) LIKE ? OR LOWER(body) LIKE ?",
+			searchValue, searchValue, searchValue)
+	}
+
+	if err := query.Count(&count).Error; err != nil {
+		return dto.AllNewsRepositoryResponse{}, err
+	}
+
+	if err := query.Order("created_at DESC").Scopes(Paginate(req.Page, req.PerPage)).Find(&news).Error; err != nil {
+		return dto.AllNewsRepositoryResponse{}, err
+	}
+
+	totalPage := int64(math.Ceil(float64(count) / float64(req.PerPage)))
+
+	return dto.AllNewsRepositoryResponse{
+		News: news,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    req.Page,
+			PerPage: req.PerPage,
+			MaxPage: totalPage,
+			Count:   count,
+		},
 	}, err
 }
