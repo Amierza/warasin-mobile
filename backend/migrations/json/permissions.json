@@ -20,6 +20,11 @@
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
+    "permission_id": "2d766618-5908-40b5-9bd3-b233a391456f",
+    "permission_endpoint": "/api/v1/admin/get-all-role",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
     "permission_id": "5b0c05b6-1be0-4e5e-b507-bb3de130b763",
     "permission_endpoint": "/api/v1/admin/create-user",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
@@ -31,7 +36,7 @@
   },
   {
     "permission_id": "a5a7b61b-e235-44a6-8476-61081f67a093",
-    "permission_endpoint": "/api/v1/admin/get-detaill-user/:id",
+    "permission_endpoint": "/api/v1/admin/get-detail-user/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
@@ -120,8 +125,8 @@
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
-    "permission_id": "2d766618-5908-40b5-9bd3-b233a391456f",
-    "permission_endpoint": "/api/v1/admin/get-all-role",
+    "permission_id": "4cfa4216-1051-411a-b028-6e807a9b3e51",
+    "permission_endpoint": "/api/v1/admin/create-psycholog",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]

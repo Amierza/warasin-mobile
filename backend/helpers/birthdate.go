@@ -6,9 +6,9 @@ import (
 )
 
 func ParseBirthdate(dateStr string) (*time.Time, error) {
-	t, err := time.Parse("02-01-2006", dateStr)
+	t, err := time.Parse("2006-01-02", dateStr)
 	if err != nil {
-		return nil, errors.New("invalid date format, expected dd-mm-yyyy")
+		return nil, errors.New("invalid date format, expected yyyy-mm-dd")
 	}
 	return &t, nil
 }
