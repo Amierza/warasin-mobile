@@ -31,6 +31,7 @@ type (
 		GetAllProvince(ctx context.Context) (dto.ProvincesResponse, error)
 		GetAllCity(ctx context.Context, req dto.CityQueryRequest) (dto.CitiesResponse, error)
 		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
+		GetDetailNews(ctx context.Context, newsID string) (dto.NewsResponse, error)
 	}
 
 	UserService struct {
@@ -640,5 +641,20 @@ func (us *UserService) GetAllNewsWithPagination(ctx context.Context, req dto.Pag
 			MaxPage: dataWithPaginate.MaxPage,
 			Count:   dataWithPaginate.Count,
 		},
+	}, nil
+}
+
+func (us *UserService) GetDetailNews(ctx context.Context, newsID string) (dto.NewsResponse, error) {
+	news, err := us.userRepo.GetNewsByID(ctx, nil, newsID)
+	if err != nil {
+		return dto.NewsResponse{}, dto.ErrGetNewsFromID
+	}
+
+	return dto.NewsResponse{
+		ID:    news.ID,
+		Image: news.Image,
+		Title: news.Title,
+		Body:  news.Body,
+		Date:  news.Date,
 	}, nil
 }
