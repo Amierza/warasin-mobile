@@ -8,45 +8,75 @@ import (
 )
 
 const (
-	// failed
-	MESSAGE_FAILED_CREATE_USER                    = "failed create user"
-	MESSAGE_FAILED_DELETE_USER                    = "failed delete user"
-	MESSAGE_FAILED_CREATE_NEWS                    = "failed create news"
-	MESSAGE_FAILED_GET_LIST_NEWS                  = "failed get list news"
-	MESSAGE_FAILED_UPDATE_NEWS                    = "failed update news"
-	MESSAGE_FAILED_DELETE_NEWS                    = "failed delete news"
+	// Failed
+	// Role
+	MESSAGE_FAILED_GET_LIST_ROLE = "failed get all role"
+
+	// User
+	MESSAGE_FAILED_CREATE_USER     = "failed create user"
+	MESSAGE_FAILED_GET_DETAIL_USER = "failed get detail user"
+	MESSAGE_FAILED_GET_LIST_USER   = "failed get list user"
+	MESSAGE_FAILED_UPDATE_USER     = "failed update user"
+	MESSAGE_FAILED_DELETE_USER     = "failed delete user"
+
+	// News
+	MESSAGE_FAILED_CREATE_NEWS     = "failed create news"
+	MESSAGE_FAILED_GET_LIST_NEWS   = "failed get list news"
+	MESSAGE_FAILED_GET_DETAIL_NEWS = "failed get detail news"
+	MESSAGE_FAILED_UPDATE_NEWS     = "failed update news"
+	MESSAGE_FAILED_DELETE_NEWS     = "failed delete news"
+
+	// Motivation Category
 	MESSAGE_FAILED_CREATE_MOTIVATION_CATEGORY     = "failed create motivation category"
 	MESSAGE_FAILED_GET_LIST_MOTIVATION_CATEGORY   = "failed get list motivation category"
+	MESSAGE_FAILED_GET_DETAIL_MOTIVATION_CATEGORY = "failed get detail motivation category"
 	MESSAGE_FAILED_UPDATE_MOTIVATION_CATEGORY     = "failed update motivation category"
 	MESSAGE_FAILED_DELETE_MOTIVATION_CATEGORY     = "failed delete motivation category"
-	MESSAGE_FAILED_CREATE_MOTIVATION              = "failed create motivation"
-	MESSAGE_FAILED_GET_LIST_MOTIVATION            = "failed get all motivation"
-	MESSAGE_FAILED_UPDATE_MOTIVATION              = "failed update motivation"
-	MESSAGE_FAILED_DELETE_MOTIVATION              = "failed delete motivation"
-	MESSAGE_FAILED_GET_LIST_ROLE                  = "failed get all role"
-	MESSAGE_FAILED_GET_DETAIL_NEWS                = "failed get detail news"
-	MESSAGE_FAILED_GET_DETAIL_MOTIVATION_CATEGORY = "failed get detail motivation category"
-	MESSAGE_FAILED_GET_DETAIL_MOTIVATION          = "failed get detail motivation"
 
-	// success
-	MESSAGE_SUCCESS_CREATE_USER                    = "success create user"
-	MESSAGE_SUCCESS_DELETE_USER                    = "success delete user"
-	MESSAGE_SUCCESS_CREATE_NEWS                    = "success create news"
-	MESSAGE_SUCCESS_GET_LIST_NEWS                  = "success get list news"
-	MESSAGE_SUCCESS_UPDATE_NEWS                    = "success update news"
-	MESSAGE_SUCCESS_DELETE_NEWS                    = "success delete news"
+	// Motivation
+	MESSAGE_FAILED_CREATE_MOTIVATION     = "failed create motivation"
+	MESSAGE_FAILED_GET_LIST_MOTIVATION   = "failed get all motivation"
+	MESSAGE_FAILED_GET_DETAIL_MOTIVATION = "failed get detail motivation"
+	MESSAGE_FAILED_UPDATE_MOTIVATION     = "failed update motivation"
+	MESSAGE_FAILED_DELETE_MOTIVATION     = "failed delete motivation"
+
+	// Psycholog
+	MESSAGE_FAILED_CREATE_PSYCHOLOG = "failed create psycholog"
+
+	// Success
+	// Role
+	MESSAGE_SUCCESS_GET_LIST_ROLE = "success get all role"
+
+	// User
+	MESSAGE_SUCCESS_CREATE_USER     = "success create user"
+	MESSAGE_SUCCESS_GET_DETAIL_USER = "success get detail user"
+	MESSAGE_SUCCESS_GET_LIST_USER   = "success get list user"
+	MESSAGE_SUCCESS_UPDATE_USER     = "success update user"
+	MESSAGE_SUCCESS_DELETE_USER     = "success delete user"
+
+	// News
+	MESSAGE_SUCCESS_CREATE_NEWS     = "success create news"
+	MESSAGE_SUCCESS_GET_LIST_NEWS   = "success get list news"
+	MESSAGE_SUCCESS_GET_DETAIL_NEWS = "success get detail news"
+	MESSAGE_SUCCESS_UPDATE_NEWS     = "success update news"
+	MESSAGE_SUCCESS_DELETE_NEWS     = "success delete news"
+
+	// Motivation Category
 	MESSAGE_SUCCESS_CREATE_MOTIVATION_CATEGORY     = "success create motivation category"
 	MESSAGE_SUCCESS_GET_LIST_MOTIVATION_CATEGORY   = "success get list motivation category"
+	MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION_CATEGORY = "success get detail motivation category"
 	MESSAGE_SUCCESS_UPDATE_MOTIVATION_CATEGORY     = "success update motivation category"
 	MESSAGE_SUCCESS_DELETE_MOTIVATION_CATEGORY     = "success delete motivation category"
-	MESSAGE_SUCCESS_CREATE_MOTIVATION              = "success create motivation"
-	MESSAGE_SUCCESS_GET_LIST_MOTIVATION            = "success get all motivation"
-	MESSAGE_SUCCESS_UPDATE_MOTIVATION              = "success update motivation"
-	MESSAGE_SUCCESS_DELETE_MOTIVATION              = "success delete motivation"
-	MESSAGE_SUCCESS_GET_LIST_ROLE                  = "success get all role"
-	MESSAGE_SUCCESS_GET_DETAIL_NEWS                = "success get detail news"
-	MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION_CATEGORY = "success get detail motivation category"
-	MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION          = "success get detail motivation"
+
+	// Motivation
+	MESSAGE_SUCCESS_CREATE_MOTIVATION     = "success create motivation"
+	MESSAGE_SUCCESS_GET_LIST_MOTIVATION   = "success get all motivation"
+	MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION = "success get detail motivation"
+	MESSAGE_SUCCESS_UPDATE_MOTIVATION     = "success update motivation"
+	MESSAGE_SUCCESS_DELETE_MOTIVATION     = "success delete motivation"
+
+	// Psycholog
+	MESSAGE_SUCCESS_CREATE_PSYCHOLOG = "success create psycholog"
 )
 
 var (
@@ -69,6 +99,9 @@ var (
 	ErrDeleteMotivation                       = errors.New("failed delete motivation")
 	ErrUpdateMotivation                       = errors.New("failed update motivation")
 	ErrMotivationNotFound                     = errors.New("failed motivation not found")
+	ErrRegisterPsycholog                      = errors.New("failed to register psycholog")
+	ErrInvalidSTRNumber                       = errors.New("failed invalid STR Number")
+	ErrInvalidWorkYear                        = errors.New("failed invalid work year")
 )
 
 type (
@@ -101,6 +134,18 @@ type (
 		PhoneNumber string     `json:"phone_number"`
 		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id"`
 		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id"`
+	}
+
+	UpdateUserRequest struct {
+		ID          string     `json:"-"`
+		Name        string     `json:"name,omitempty"`
+		Email       string     `json:"email,omitempty"`
+		Image       string     `json:"image,omitempty"`
+		Gender      *bool      `json:"gender,omitempty"`
+		Birthdate   string     `json:"birth_date,omitempty"`
+		PhoneNumber string     `json:"phone_number,omitempty"`
+		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id,omitempty"`
+		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id,omitempty"`
 	}
 
 	DeleteUserRequest struct {
@@ -212,5 +257,32 @@ type (
 
 	AllRoleRepositoryResponse struct {
 		Roles []entity.Role
+	}
+
+	CreatePsychologRequest struct {
+		Name        string     `json:"name"`
+		STRNumber   string     `json:"str_number"`
+		Email       string     `gorm:"unique" json:"email"`
+		Password    string     `json:"password"`
+		WorkYear    string     `json:"work_year"`
+		Description string     `json:"description"`
+		PhoneNumber string     `json:"phone_number"`
+		Image       string     `json:"image"`
+		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id"`
+		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id"`
+	}
+
+	PsychologResponse struct {
+		ID          uuid.UUID    `json:"psy_id"`
+		Name        string       `json:"psy_name"`
+		STRNumber   string       `json:"psy_str_number"`
+		Email       string       `json:"psy_email"`
+		Password    string       `json:"psy_password"`
+		WorkYear    string       `json:"psy_work_year"`
+		Description string       `json:"psy_description"`
+		PhoneNumber string       `json:"psy_phone_number"`
+		Image       string       `json:"psy_image"`
+		City        CityResponse `json:"city"`
+		Role        RoleResponse `json:"role"`
 	}
 )

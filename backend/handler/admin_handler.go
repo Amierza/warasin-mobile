@@ -15,6 +15,9 @@ type (
 		Login(ctx *gin.Context)
 		RefreshToken(ctx *gin.Context)
 
+		// Role
+		GetAllRole(ctx *gin.Context)
+
 		// User
 		CreateUser(ctx *gin.Context)
 		GetAllUser(ctx *gin.Context)
@@ -43,8 +46,8 @@ type (
 		UpdateMotivation(ctx *gin.Context)
 		DeleteMotivation(ctx *gin.Context)
 
-		// Role
-		GetAllRole(ctx *gin.Context)
+		// Psycholog
+		CreatePsycholog(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -58,6 +61,7 @@ func NewAdminHandler(adminService service.IAdminService) *AdminHandler {
 	}
 }
 
+// Authentication
 func (ah *AdminHandler) Login(ctx *gin.Context) {
 	var payload dto.AdminLoginRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -76,7 +80,6 @@ func (ah *AdminHandler) Login(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_LOGIN_USER, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) RefreshToken(ctx *gin.Context) {
 	var payload dto.RefreshTokenRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -96,6 +99,25 @@ func (ah *AdminHandler) RefreshToken(ctx *gin.Context) {
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
 }
 
+// Role
+func (ah *AdminHandler) GetAllRole(ctx *gin.Context) {
+	result, err := ah.adminService.GetAllRole(ctx.Request.Context())
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_ROLE, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_ROLE,
+		Data:     result.Data,
+	}
+
+	ctx.JSON(http.StatusOK, res)
+}
+
+// User
 func (ah *AdminHandler) CreateUser(ctx *gin.Context) {
 	var payload dto.CreateUserRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -114,7 +136,6 @@ func (ah *AdminHandler) CreateUser(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_USER, result)
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) GetAllUser(ctx *gin.Context) {
 	var payload dto.PaginationRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -139,7 +160,6 @@ func (ah *AdminHandler) GetAllUser(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) GetDetailUser(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	result, err := ah.adminService.GetDetailUser(ctx, idStr)
@@ -152,7 +172,6 @@ func (ah *AdminHandler) GetDetailUser(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_USER, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) UpdateUser(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 
@@ -174,7 +193,6 @@ func (ah *AdminHandler) UpdateUser(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_USER, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) DeleteUser(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 
@@ -197,6 +215,7 @@ func (ah *AdminHandler) DeleteUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+// News
 func (ah *AdminHandler) CreateNews(ctx *gin.Context) {
 	var payload dto.CreateNewsRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -215,7 +234,6 @@ func (ah *AdminHandler) CreateNews(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_NEWS, result)
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) GetAllNews(ctx *gin.Context) {
 	var payload dto.PaginationRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -240,7 +258,6 @@ func (ah *AdminHandler) GetAllNews(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) GetDetailNews(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	result, err := ah.adminService.GetDetailNews(ctx, idStr)
@@ -253,7 +270,6 @@ func (ah *AdminHandler) GetDetailNews(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_NEWS, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) UpdateNews(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 
@@ -275,7 +291,6 @@ func (ah *AdminHandler) UpdateNews(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_NEWS, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) DeleteNews(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 
@@ -298,6 +313,7 @@ func (ah *AdminHandler) DeleteNews(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+// Motivation Category
 func (ah *AdminHandler) CreateMotivationCategory(ctx *gin.Context) {
 	var payload dto.CreateMotivationCategoryRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -316,7 +332,6 @@ func (ah *AdminHandler) CreateMotivationCategory(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_MOTIVATION_CATEGORY, result)
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) GetAllMotivationCategory(ctx *gin.Context) {
 	var payload dto.PaginationRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -341,7 +356,6 @@ func (ah *AdminHandler) GetAllMotivationCategory(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) GetDetailMotivationCategory(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	result, err := ah.adminService.GetDetailMotivationCategory(ctx, idStr)
@@ -354,7 +368,6 @@ func (ah *AdminHandler) GetDetailMotivationCategory(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION_CATEGORY, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) UpdateMotivationCategory(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 
@@ -376,7 +389,6 @@ func (ah *AdminHandler) UpdateMotivationCategory(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_MOTIVATION_CATEGORY, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) DeleteMotivationCategory(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 
@@ -399,6 +411,7 @@ func (ah *AdminHandler) DeleteMotivationCategory(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+// Motivation
 func (ah *AdminHandler) CreateMotivation(ctx *gin.Context) {
 	var payload dto.CreateMotivationRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -417,7 +430,6 @@ func (ah *AdminHandler) CreateMotivation(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_MOTIVATION, result)
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) GetAllMotivation(ctx *gin.Context) {
 	var payload dto.PaginationRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -442,7 +454,6 @@ func (ah *AdminHandler) GetAllMotivation(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) GetDetailMotivation(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	result, err := ah.adminService.GetDetailMotivation(ctx, idStr)
@@ -455,7 +466,6 @@ func (ah *AdminHandler) GetDetailMotivation(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) UpdateMotivation(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 
@@ -477,7 +487,6 @@ func (ah *AdminHandler) UpdateMotivation(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_MOTIVATION, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *AdminHandler) DeleteMotivation(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 
@@ -500,19 +509,22 @@ func (ah *AdminHandler) DeleteMotivation(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-func (ah *AdminHandler) GetAllRole(ctx *gin.Context) {
-	result, err := ah.adminService.GetAllRole(ctx.Request.Context())
-	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_ROLE, err.Error(), nil)
+// Psycholog
+func (ah *AdminHandler) CreatePsycholog(ctx *gin.Context) {
+	var payload dto.CreatePsychologRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
 		return
 	}
 
-	res := utils.Response{
-		Status:   true,
-		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_ROLE,
-		Data:     result.Data,
+	result, err := ah.adminService.CreatePsycholog(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_CREATE_PSYCHOLOG, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
 	}
 
-	ctx.JSON(http.StatusOK, res)
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_PSYCHOLOG, result)
+	ctx.AbortWithStatusJSON(http.StatusOK, res)
 }

@@ -44,6 +44,9 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 			routes.GET("/get-detail-motivation/:id", adminHandler.GetDetailMotivation)
 			routes.PATCH("/update-motivation/:id", adminHandler.UpdateMotivation)
 			routes.DELETE("/delete-motivation/:id", adminHandler.DeleteMotivation)
+
+			// CRUD Motivation
+			routes.POST("/create-psycholog", adminHandler.CreatePsycholog)
 		}
 	}
 }

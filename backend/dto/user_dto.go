@@ -2,7 +2,6 @@ package dto
 
 import (
 	"errors"
-	"time"
 
 	"github.com/Amierza/warasin-mobile/backend/entity"
 	"github.com/google/uuid"
@@ -23,12 +22,9 @@ const (
 	MESSAGE_FAILED_SEND_FORGOT_PASSWORD_EMAIL  = "failed to send forgot password email"
 	MESSAGE_FAILED_UPDATE_PASSWORD             = "failed to update password"
 	MESSAGE_FAILED_CHECK_FORGOT_PASSWORD_TOKEN = "failed to check forgot password token"
-	MESSAGE_FAILED_GET_DETAIL_USER             = "failed get detail user"
-	MESSAGE_FAILED_GET_LIST_USER               = "failed get list user"
 	MESSAGE_FAILED_REFRESH_TOKEN               = "failed refresh token"
 	MESSAGE_FAILED_INAVLID_ENPOINTS_TOKEN      = "failed invalid endpoints in token"
 	MESSAGE_FAILED_INAVLID_ROUTE_FORMAT_TOKEN  = "failed invalid route format in token"
-	MESSAGE_FAILED_UPDATE_USER                 = "failed update user"
 	MESSAGE_FAILED_GET_LIST_PROVINCE           = "failed get list province"
 	MESSAGE_FAILED_GET_LIST_CITY               = "failed get list city"
 
@@ -40,10 +36,7 @@ const (
 	MESSAGE_SUCCESS_SEND_FORGOT_PASSWORD_EMAIL  = "success to send forgot password email"
 	MESSAGE_SUCCESS_UPDATE_PASSWORD             = "success to update password"
 	MESSAGE_SUCCESS_CHECK_FORGOT_PASSWORD_TOKEN = "success to check forgot password token"
-	MESSAGE_SUCCESS_GET_DETAIL_USER             = "success get detail user"
-	MESSAGE_SUCCESS_GET_LIST_USER               = "success get list user"
 	MESSAGE_SUCCESS_REFRESH_TOKEN               = "success refresh token"
-	MESSAGE_SUCCESS_UPDATE_USER                 = "success update user"
 	MESSAGE_SUCCESS_GET_LIST_PROVINCE           = "success get list province"
 	MESSAGE_SUCCESS_GET_LIST_CITY               = "success get list city"
 )
@@ -166,13 +159,13 @@ type (
 		Name        string       `json:"user_name"`
 		Email       string       `json:"user_email"`
 		Password    string       `json:"user_password"`
-		Image       string       `json:"user_image,omitempty"`
-		Gender      bool         `json:"user_gender,omitempty"`
-		Birthdate   *time.Time   `gorm:"type:date" json:"user_birth_date,omitempty"`
-		PhoneNumber string       `json:"user_phone_number,omitempty"`
-		Data01      int          `json:"user_data01,omitempty"`
-		Data02      int          `json:"user_data02,omitempty"`
-		Data03      int          `json:"user_data03,omitempty"`
+		Image       string       `json:"user_image"`
+		Gender      *bool        `json:"user_gender"`
+		Birthdate   string       `json:"user_birth_date"`
+		PhoneNumber string       `json:"user_phone_number"`
+		Data01      int          `json:"user_data01"`
+		Data02      int          `json:"user_data02"`
+		Data03      int          `json:"user_data03"`
 		IsVerified  bool         `json:"is_verified"`
 		City        CityResponse `json:"city"`
 		Role        RoleResponse `json:"role"`
@@ -184,18 +177,6 @@ type (
 
 	RefreshTokenResponse struct {
 		AccessToken string `json:"access_token"`
-	}
-
-	UpdateUserRequest struct {
-		ID          string     `json:"-"`
-		Name        string     `json:"name,omitempty"`
-		Email       string     `json:"email,omitempty"`
-		Image       string     `json:"image,omitempty"`
-		Gender      bool       `json:"gender,omitempty"`
-		Birthdate   *time.Time `gorm:"type:date" json:"user_birth_date,omitempty"`
-		PhoneNumber string     `json:"phone_number,omitempty"`
-		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id,omitempty"`
-		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id,omitempty"`
 	}
 
 	ProvincesResponse struct {

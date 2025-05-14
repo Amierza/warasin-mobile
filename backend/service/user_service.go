@@ -427,13 +427,18 @@ func (us *UserService) GetDetailUser(ctx context.Context) (dto.AllUserResponse, 
 	}
 
 	return dto.AllUserResponse{
-		ID:          user.ID,
-		Name:        user.Name,
-		Email:       user.Email,
-		Password:    user.Password,
-		Image:       user.Image,
-		Gender:      user.Gender,
-		Birthdate:   user.Birthdate,
+		ID:       user.ID,
+		Name:     user.Name,
+		Email:    user.Email,
+		Password: user.Password,
+		Image:    user.Image,
+		Gender:   user.Gender,
+		Birthdate: func(t *time.Time) string {
+			if t != nil {
+				return t.Format("2006-01-02")
+			}
+			return ""
+		}(user.Birthdate),
 		PhoneNumber: user.PhoneNumber,
 		Data01:      user.Data01,
 		Data02:      user.Data02,
@@ -503,8 +508,20 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 		user.Email = req.Email
 	}
 
-	if req.Birthdate != nil {
-		user.Birthdate = req.Birthdate
+	if req.Image != "" {
+		user.Image = req.Image
+	}
+
+	if req.Gender != nil {
+		user.Gender = req.Gender
+	}
+
+	if req.Birthdate != "" {
+		t, err := helpers.ParseBirthdate(req.Birthdate)
+		if err != nil {
+			return dto.AllUserResponse{}, dto.ErrFormatBirthdate
+		}
+		user.Birthdate = t
 	}
 
 	if req.PhoneNumber != "" {
@@ -528,7 +545,7 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 		Password:    updatedUser.Password,
 		Image:       updatedUser.Image,
 		Gender:      updatedUser.Gender,
-		Birthdate:   updatedUser.Birthdate,
+		Birthdate:   updatedUser.Birthdate.String(),
 		PhoneNumber: updatedUser.PhoneNumber,
 		Data01:      updatedUser.Data01,
 		Data02:      updatedUser.Data02,

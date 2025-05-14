@@ -13,31 +13,40 @@ import (
 
 type (
 	IAdminRepository interface {
-		CheckEmail(ctx context.Context, tx *gorm.DB, email string) (entity.User, bool, error)
+		// Get
+		CheckEmailUser(ctx context.Context, tx *gorm.DB, email string) (entity.User, bool, error)
 		GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error)
 		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
 		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
 		GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error)
-		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
 		GetAllUserWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserRepositoryResponse, error)
-		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
-		DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error
-		CreateNews(ctx context.Context, tx *gorm.DB, news entity.News) error
 		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
 		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error)
-		UpdateNews(ctx context.Context, tx *gorm.DB, user entity.News) (entity.News, error)
-		DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error
-		CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error
 		GetAllMotivationCategoryWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationCategoryRepositoryResponse, error)
 		GetMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (entity.MotivationCategory, error)
-		UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) (entity.MotivationCategory, error)
-		DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error
-		CreateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error
 		GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error)
 		GetMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) (entity.Motivation, error)
-		UpdateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) (entity.Motivation, error)
-		DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error
 		GetAllRole(ctx context.Context, tx *gorm.DB) (dto.AllRoleRepositoryResponse, error)
+		CheckEmailPsycholog(ctx context.Context, tx *gorm.DB, email string) (entity.Psycholog, bool, error)
+
+		// Create
+		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
+		CreateNews(ctx context.Context, tx *gorm.DB, news entity.News) error
+		CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error
+		CreateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error
+		CreatePsycholog(ctx context.Context, tx *gorm.DB, psycholog entity.Psycholog) error
+
+		// Update
+		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
+		UpdateNews(ctx context.Context, tx *gorm.DB, user entity.News) error
+		UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error
+		UpdateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error
+
+		// Delete
+		DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error
+		DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error
+		DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error
+		DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error
 	}
 
 	AdminRepository struct {
@@ -51,7 +60,8 @@ func NewAdminRepository(db *gorm.DB) *AdminRepository {
 	}
 }
 
-func (ar *AdminRepository) CheckEmail(ctx context.Context, tx *gorm.DB, email string) (entity.User, bool, error) {
+// Get
+func (ar *AdminRepository) CheckEmailUser(ctx context.Context, tx *gorm.DB, email string) (entity.User, bool, error) {
 	if tx == nil {
 		tx = ar.db
 	}
@@ -63,15 +73,6 @@ func (ar *AdminRepository) CheckEmail(ctx context.Context, tx *gorm.DB, email st
 
 	return user, true, nil
 }
-
-func (ar *AdminRepository) CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	return tx.WithContext(ctx).Create(&user).Error
-}
-
 func (ar *AdminRepository) GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error) {
 	if tx == nil {
 		tx = ar.db
@@ -84,7 +85,6 @@ func (ar *AdminRepository) GetUserByID(ctx context.Context, tx *gorm.DB, userID 
 
 	return user, nil
 }
-
 func (ar *AdminRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error) {
 	if tx == nil {
 		tx = ar.db
@@ -97,7 +97,6 @@ func (ar *AdminRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, roleID 
 
 	return role, nil
 }
-
 func (ar *AdminRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error) {
 	if tx == nil {
 		tx = ar.db
@@ -110,7 +109,6 @@ func (ar *AdminRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.
 
 	return endpoints, nil
 }
-
 func (ar *AdminRepository) GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error) {
 	if tx == nil {
 		tx = ar.db
@@ -123,7 +121,6 @@ func (ar *AdminRepository) GetCityByID(ctx context.Context, tx *gorm.DB, cityID 
 
 	return city, nil
 }
-
 func (ar *AdminRepository) GetAllUserWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserRepositoryResponse, error) {
 	if tx == nil {
 		tx = ar.db
@@ -176,47 +173,6 @@ func (ar *AdminRepository) GetAllUserWithPagination(ctx context.Context, tx *gor
 		},
 	}, err
 }
-
-func (ar *AdminRepository) UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error) {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	if err := tx.WithContext(ctx).
-		Model(&entity.User{}).
-		Where("id = ?", user.ID).
-		Updates(user).Error; err != nil {
-		return entity.User{}, err
-	}
-
-	var updatedUser entity.User
-	if err := tx.WithContext(ctx).
-		Preload("City.Province").
-		Preload("Role").
-		Where("id = ?", user.ID).
-		Take(&updatedUser).Error; err != nil {
-		return entity.User{}, err
-	}
-
-	return updatedUser, nil
-}
-
-func (ar AdminRepository) DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	return tx.WithContext(ctx).Where("id = ?", userID).Delete(&entity.User{}).Error
-}
-
-func (ar *AdminRepository) CreateNews(ctx context.Context, tx *gorm.DB, news entity.News) error {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	return tx.WithContext(ctx).Create(&news).Error
-}
-
 func (ar *AdminRepository) GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error) {
 	if tx == nil {
 		tx = ar.db
@@ -262,7 +218,6 @@ func (ar *AdminRepository) GetAllNewsWithPagination(ctx context.Context, tx *gor
 		},
 	}, err
 }
-
 func (ar *AdminRepository) GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error) {
 	if tx == nil {
 		tx = ar.db
@@ -275,45 +230,6 @@ func (ar *AdminRepository) GetNewsByID(ctx context.Context, tx *gorm.DB, newsID 
 
 	return news, nil
 }
-
-func (ar *AdminRepository) UpdateNews(ctx context.Context, tx *gorm.DB, news entity.News) (entity.News, error) {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	if err := tx.WithContext(ctx).
-		Model(&entity.News{}).
-		Where("id = ?", news.ID).
-		Updates(news).Error; err != nil {
-		return entity.News{}, err
-	}
-
-	var updatedNews entity.News
-	if err := tx.WithContext(ctx).
-		Where("id = ?", news.ID).
-		Take(&updatedNews).Error; err != nil {
-		return entity.News{}, err
-	}
-
-	return updatedNews, nil
-}
-
-func (ar AdminRepository) DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	return tx.WithContext(ctx).Where("id = ?", newsID).Delete(&entity.News{}).Error
-}
-
-func (ar *AdminRepository) CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	return tx.WithContext(ctx).Create(&motivationCategory).Error
-}
-
 func (ar *AdminRepository) GetAllMotivationCategoryWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationCategoryRepositoryResponse, error) {
 	if tx == nil {
 		tx = ar.db
@@ -358,7 +274,6 @@ func (ar *AdminRepository) GetAllMotivationCategoryWithPagination(ctx context.Co
 		},
 	}, err
 }
-
 func (ar *AdminRepository) GetMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (entity.MotivationCategory, error) {
 	if tx == nil {
 		tx = ar.db
@@ -371,45 +286,6 @@ func (ar *AdminRepository) GetMotivationCategoryByID(ctx context.Context, tx *go
 
 	return motivationCategory, nil
 }
-
-func (ar *AdminRepository) UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) (entity.MotivationCategory, error) {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	if err := tx.WithContext(ctx).
-		Model(&entity.MotivationCategory{}).
-		Where("id = ?", motivationCategory.ID).
-		Updates(motivationCategory).Error; err != nil {
-		return entity.MotivationCategory{}, err
-	}
-
-	var updatedMotivationCategory entity.MotivationCategory
-	if err := tx.WithContext(ctx).
-		Where("id = ?", motivationCategory.ID).
-		Take(&updatedMotivationCategory).Error; err != nil {
-		return entity.MotivationCategory{}, err
-	}
-
-	return updatedMotivationCategory, nil
-}
-
-func (ar AdminRepository) DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	return tx.WithContext(ctx).Where("id = ?", motivationCategoryID).Delete(&entity.MotivationCategory{}).Error
-}
-
-func (ar *AdminRepository) CreateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	return tx.WithContext(ctx).Create(&motivation).Error
-}
-
 func (ar *AdminRepository) GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error) {
 	if tx == nil {
 		tx = ar.db
@@ -454,7 +330,6 @@ func (ar *AdminRepository) GetAllMotivationWithPagination(ctx context.Context, t
 		},
 	}, err
 }
-
 func (ar *AdminRepository) GetMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) (entity.Motivation, error) {
 	if tx == nil {
 		tx = ar.db
@@ -467,37 +342,6 @@ func (ar *AdminRepository) GetMotivationByID(ctx context.Context, tx *gorm.DB, m
 
 	return motivation, nil
 }
-
-func (ar *AdminRepository) UpdateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) (entity.Motivation, error) {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	if err := tx.WithContext(ctx).
-		Model(&entity.Motivation{}).
-		Where("id = ?", motivation.ID).
-		Updates(motivation).Error; err != nil {
-		return entity.Motivation{}, err
-	}
-
-	var updatedMotivation entity.Motivation
-	if err := tx.WithContext(ctx).
-		Where("id = ?", motivation.ID).
-		Take(&updatedMotivation).Error; err != nil {
-		return entity.Motivation{}, err
-	}
-
-	return updatedMotivation, nil
-}
-
-func (ar AdminRepository) DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	return tx.WithContext(ctx).Where("id = ?", motivationID).Delete(&entity.Motivation{}).Error
-}
-
 func (ar *AdminRepository) GetAllRole(ctx context.Context, tx *gorm.DB) (dto.AllRoleRepositoryResponse, error) {
 	if tx == nil {
 		tx = ar.db
@@ -515,4 +359,113 @@ func (ar *AdminRepository) GetAllRole(ctx context.Context, tx *gorm.DB) (dto.All
 	return dto.AllRoleRepositoryResponse{
 		Roles: roles,
 	}, err
+}
+func (ar *AdminRepository) CheckEmailPsycholog(ctx context.Context, tx *gorm.DB, email string) (entity.Psycholog, bool, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var psycholog entity.Psycholog
+	if err := tx.WithContext(ctx).Preload("Role").Preload("City").Where("email = ?", email).Take(&psycholog).Error; err != nil {
+		return entity.Psycholog{}, false, err
+	}
+
+	return psycholog, true, nil
+}
+
+// Create
+func (ar *AdminRepository) CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&user).Error
+}
+func (ar *AdminRepository) CreateNews(ctx context.Context, tx *gorm.DB, news entity.News) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&news).Error
+}
+func (ar *AdminRepository) CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&motivationCategory).Error
+}
+func (ar *AdminRepository) CreateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&motivation).Error
+}
+func (ar *AdminRepository) CreatePsycholog(ctx context.Context, tx *gorm.DB, psycholog entity.Psycholog) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&psycholog).Error
+}
+
+// Update
+func (ar *AdminRepository) UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", user.ID).Updates(&user).Error
+}
+func (ar *AdminRepository) UpdateNews(ctx context.Context, tx *gorm.DB, news entity.News) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", news.ID).Updates(&news).Error
+}
+func (ar *AdminRepository) UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", motivationCategory.ID).Updates(&motivationCategory).Error
+}
+func (ar *AdminRepository) UpdateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", motivation.ID).Updates(&motivation).Error
+}
+
+// Delete
+func (ar AdminRepository) DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", userID).Delete(&entity.User{}).Error
+}
+func (ar AdminRepository) DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", newsID).Delete(&entity.News{}).Error
+}
+func (ar AdminRepository) DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", motivationCategoryID).Delete(&entity.MotivationCategory{}).Error
+}
+func (ar AdminRepository) DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", motivationID).Delete(&entity.Motivation{}).Error
 }
