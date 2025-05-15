@@ -50,6 +50,7 @@ type (
 
 		// Psycholog
 		CreatePsycholog(ctx context.Context, req dto.CreatePsychologRequest) (dto.PsychologResponse, error)
+		GetAllPsychologWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.PsychologPaginationResponse, error)
 	}
 
 	AdminService struct {
@@ -920,4 +921,50 @@ func (as *AdminService) CreatePsycholog(ctx context.Context, req dto.CreatePsych
 	}
 
 	return res, nil
+}
+func (as *AdminService) GetAllPsychologWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.PsychologPaginationResponse, error) {
+	dataWithPaginate, err := as.adminRepo.GetAllPsychologWithPagination(ctx, nil, req)
+	if err != nil {
+		return dto.PsychologPaginationResponse{}, dto.ErrGetAllPsychologWithPagination
+	}
+
+	var datas []dto.PsychologResponse
+	for _, psycholog := range dataWithPaginate.Psychologs {
+		data := dto.PsychologResponse{
+			ID:          psycholog.ID,
+			Name:        psycholog.Name,
+			STRNumber:   psycholog.STRNumber,
+			Email:       psycholog.Email,
+			Password:    psycholog.Password,
+			WorkYear:    psycholog.WorkYear,
+			Description: psycholog.Description,
+			PhoneNumber: psycholog.PhoneNumber,
+			Image:       psycholog.Image,
+			City: dto.CityResponse{
+				ID:   psycholog.CityID,
+				Name: psycholog.City.Name,
+				Type: psycholog.City.Type,
+				Province: dto.ProvinceResponse{
+					ID:   psycholog.City.ProvinceID,
+					Name: psycholog.City.Province.Name,
+				},
+			},
+			Role: dto.RoleResponse{
+				ID:   psycholog.RoleID,
+				Name: psycholog.Role.Name,
+			},
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.PsychologPaginationResponse{
+		Data: datas,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    dataWithPaginate.Page,
+			PerPage: dataWithPaginate.PerPage,
+			MaxPage: dataWithPaginate.MaxPage,
+			Count:   dataWithPaginate.Count,
+		},
+	}, nil
 }

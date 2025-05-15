@@ -9,6 +9,9 @@ import (
 
 const (
 	// Failed
+	// Admin
+	MESSAGE_FAILED_LOGIN_ADMIN = "failed login admin"
+
 	// Role
 	MESSAGE_FAILED_GET_LIST_ROLE = "failed get all role"
 
@@ -41,9 +44,13 @@ const (
 	MESSAGE_FAILED_DELETE_MOTIVATION     = "failed delete motivation"
 
 	// Psycholog
-	MESSAGE_FAILED_CREATE_PSYCHOLOG = "failed create psycholog"
+	MESSAGE_FAILED_CREATE_PSYCHOLOG   = "failed create psycholog"
+	MESSAGE_FAILED_GET_LIST_PSYCHOLOG = "failed get all psycholog"
 
 	// Success
+	// Admin
+	MESSAGE_SUCCESS_LOGIN_ADMIN = "success login admin"
+
 	// Role
 	MESSAGE_SUCCESS_GET_LIST_ROLE = "success get all role"
 
@@ -76,7 +83,8 @@ const (
 	MESSAGE_SUCCESS_DELETE_MOTIVATION     = "success delete motivation"
 
 	// Psycholog
-	MESSAGE_SUCCESS_CREATE_PSYCHOLOG = "success create psycholog"
+	MESSAGE_SUCCESS_CREATE_PSYCHOLOG   = "success create psycholog"
+	MESSAGE_SUCCESS_GET_LIST_PSYCHOLOG = "success get all psycholog"
 )
 
 var (
@@ -102,6 +110,7 @@ var (
 	ErrRegisterPsycholog                      = errors.New("failed to register psycholog")
 	ErrInvalidSTRNumber                       = errors.New("failed invalid STR Number")
 	ErrInvalidWorkYear                        = errors.New("failed invalid work year")
+	ErrGetAllPsychologWithPagination          = errors.New("failed get list psycholog with pagination")
 )
 
 type (
@@ -284,5 +293,15 @@ type (
 		Image       string       `json:"psy_image"`
 		City        CityResponse `json:"city"`
 		Role        RoleResponse `json:"role"`
+	}
+
+	PsychologPaginationResponse struct {
+		PaginationResponse
+		Data []PsychologResponse `json:"data"`
+	}
+
+	AllPsychologRepositoryResponse struct {
+		PaginationResponse
+		Psychologs []entity.Psycholog
 	}
 )
