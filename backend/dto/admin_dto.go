@@ -94,6 +94,7 @@ const (
 )
 
 var (
+	ErrGetRoleIDFromToken                     = errors.New("failed get role id from token")
 	ErrGetAllUserWithPagination               = errors.New("failed get list user with pagination")
 	ErrDeleteUserByID                         = errors.New("failed delete user by id")
 	ErrFormatBirthdate                        = errors.New("failed parse birthdate input")

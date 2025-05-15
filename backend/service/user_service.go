@@ -18,18 +18,29 @@ import (
 
 type (
 	IUserService interface {
+		// Authentication
 		Register(ctx context.Context, req dto.UserRegisterRequest) (dto.AllUserResponse, error)
 		Login(ctx context.Context, req dto.UserLoginRequest) (dto.UserLoginResponse, error)
 		RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error)
+
+		// Forgot Password
 		SendForgotPasswordEmail(ctx context.Context, req dto.SendForgotPasswordEmailRequest) error
 		ForgotPassword(ctx context.Context, req dto.ForgotPasswordRequest) (dto.ForgotPasswordResponse, error)
 		UpdatePassword(ctx context.Context, req dto.UpdatePasswordRequest) (dto.UpdatePasswordResponse, error)
+
+		// Verification Email
 		SendVerificationEmail(ctx context.Context, req dto.SendVerificationEmailRequest) error
 		VerifyEmail(ctx context.Context, req dto.VerifyEmailRequest) (dto.VerifyEmailResponse, error)
-		GetDetailUser(ctx context.Context) (dto.AllUserResponse, error)
-		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
+
+		// Get Province & City
 		GetAllProvince(ctx context.Context) (dto.ProvincesResponse, error)
 		GetAllCity(ctx context.Context, req dto.CityQueryRequest) (dto.CitiesResponse, error)
+
+		// User
+		GetDetailUser(ctx context.Context) (dto.AllUserResponse, error)
+		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
+
+		// News
 		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
 		GetDetailNews(ctx context.Context, newsID string) (dto.NewsResponse, error)
 	}
@@ -47,6 +58,7 @@ func NewUserService(userRepo repository.IUserRepository, jwtService IJWTService)
 	}
 }
 
+// Authentication
 func (us *UserService) Register(ctx context.Context, req dto.UserRegisterRequest) (dto.AllUserResponse, error) {
 	if len(req.Name) < 5 {
 		return dto.AllUserResponse{}, dto.ErrInvalidName
@@ -93,7 +105,6 @@ func (us *UserService) Register(ctx context.Context, req dto.UserRegisterRequest
 		},
 	}, nil
 }
-
 func (us *UserService) Login(ctx context.Context, req dto.UserLoginRequest) (dto.UserLoginResponse, error) {
 	if !helpers.IsValidEmail(req.Email) {
 		return dto.UserLoginResponse{}, dto.ErrInvalidEmail
@@ -108,13 +119,13 @@ func (us *UserService) Login(ctx context.Context, req dto.UserLoginRequest) (dto
 		return dto.UserLoginResponse{}, dto.ErrEmailNotFound
 	}
 
+	if user.Role.Name != "user" {
+		return dto.UserLoginResponse{}, dto.ErrDeniedAccess
+	}
+
 	checkPassword, err := helpers.CheckPassword(user.Password, []byte(req.Password))
 	if err != nil || !checkPassword {
 		return dto.UserLoginResponse{}, dto.ErrPasswordNotMatch
-	}
-
-	if user.Role.Name != "user" {
-		return dto.UserLoginResponse{}, dto.ErrDeniedAccess
 	}
 
 	permissions, err := us.userRepo.GetPermissionsByRoleID(ctx, nil, user.RoleID.String())
@@ -132,7 +143,6 @@ func (us *UserService) Login(ctx context.Context, req dto.UserLoginRequest) (dto
 		RefreshToken: refreshToken,
 	}, nil
 }
-
 func (us *UserService) RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error) {
 	_, err := us.jwtService.ValidateToken(req.RefreshToken)
 
@@ -172,53 +182,7 @@ func (us *UserService) RefreshToken(ctx context.Context, req dto.RefreshTokenReq
 	return dto.RefreshTokenResponse{AccessToken: accessToken}, nil
 }
 
-func makeVerificationEmail(receiverEmail string) (map[string]string, error) {
-	expired := time.Now().Add(time.Hour * 24).Format("2006-01-02 15:04:05")
-	plainText := fmt.Sprintf("%s_%s", receiverEmail, expired)
-	token, err := utils.AESEncrypt(plainText)
-	if err != nil {
-		return nil, err
-	}
-
-	baseURL := os.Getenv("BASE_URL")
-	verifyEmailRoute := "verify-email"
-	if baseURL == "" {
-		baseURL = "http://127.0.0.1:8000/api/v1/user"
-	}
-
-	verifyLink := baseURL + "/" + verifyEmailRoute + "?token=" + token
-
-	readHTML, err := os.ReadFile("utils/email_template/verification_mail.html")
-	if err != nil {
-		return nil, err
-	}
-
-	data := struct {
-		Email  string
-		Verify string
-	}{
-		Email:  receiverEmail,
-		Verify: verifyLink,
-	}
-
-	tmpl, err := template.New("custom").Parse(string(readHTML))
-	if err != nil {
-		return nil, err
-	}
-
-	var strMail bytes.Buffer
-	if err := tmpl.Execute(&strMail, data); err != nil {
-		return nil, err
-	}
-
-	draftEmail := map[string]string{
-		"subject": "warasin",
-		"body":    strMail.String(),
-	}
-
-	return draftEmail, nil
-}
-
+// Forgot Password
 func makeForgotPasswordEmail(receiverEmail string) (map[string]string, error) {
 	expired := time.Now().Add(time.Hour * 24).Format("2006-01-02 15:04:05")
 	plainText := fmt.Sprintf("%s_%s", receiverEmail, expired)
@@ -265,7 +229,6 @@ func makeForgotPasswordEmail(receiverEmail string) (map[string]string, error) {
 
 	return draftEmail, nil
 }
-
 func (us *UserService) SendForgotPasswordEmail(ctx context.Context, req dto.SendForgotPasswordEmailRequest) error {
 	user, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
 	if err != nil || !flag {
@@ -283,7 +246,6 @@ func (us *UserService) SendForgotPasswordEmail(ctx context.Context, req dto.Send
 
 	return nil
 }
-
 func (us *UserService) ForgotPassword(ctx context.Context, req dto.ForgotPasswordRequest) (dto.ForgotPasswordResponse, error) {
 	decryptedToken, err := utils.AESDecrypt(req.Token)
 	if err != nil {
@@ -316,7 +278,6 @@ func (us *UserService) ForgotPassword(ctx context.Context, req dto.ForgotPasswor
 		Email: email,
 	}, nil
 }
-
 func (us *UserService) UpdatePassword(ctx context.Context, req dto.UpdatePasswordRequest) (dto.UpdatePasswordResponse, error) {
 	user, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
 	if err != nil || !flag {
@@ -343,6 +304,53 @@ func (us *UserService) UpdatePassword(ctx context.Context, req dto.UpdatePasswor
 	}, nil
 }
 
+// Verification Email
+func makeVerificationEmail(receiverEmail string) (map[string]string, error) {
+	expired := time.Now().Add(time.Hour * 24).Format("2006-01-02 15:04:05")
+	plainText := fmt.Sprintf("%s_%s", receiverEmail, expired)
+	token, err := utils.AESEncrypt(plainText)
+	if err != nil {
+		return nil, err
+	}
+
+	baseURL := os.Getenv("BASE_URL")
+	verifyEmailRoute := "verify-email"
+	if baseURL == "" {
+		baseURL = "http://127.0.0.1:8000/api/v1/user"
+	}
+
+	verifyLink := baseURL + "/" + verifyEmailRoute + "?token=" + token
+
+	readHTML, err := os.ReadFile("utils/email_template/verification_mail.html")
+	if err != nil {
+		return nil, err
+	}
+
+	data := struct {
+		Email  string
+		Verify string
+	}{
+		Email:  receiverEmail,
+		Verify: verifyLink,
+	}
+
+	tmpl, err := template.New("custom").Parse(string(readHTML))
+	if err != nil {
+		return nil, err
+	}
+
+	var strMail bytes.Buffer
+	if err := tmpl.Execute(&strMail, data); err != nil {
+		return nil, err
+	}
+
+	draftEmail := map[string]string{
+		"subject": "warasin",
+		"body":    strMail.String(),
+	}
+
+	return draftEmail, nil
+}
 func (us *UserService) SendVerificationEmail(ctx context.Context, req dto.SendVerificationEmailRequest) error {
 	user, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
 	if err != nil || !flag {
@@ -360,7 +368,6 @@ func (us *UserService) SendVerificationEmail(ctx context.Context, req dto.SendVe
 
 	return nil
 }
-
 func (us *UserService) VerifyEmail(ctx context.Context, req dto.VerifyEmailRequest) (dto.VerifyEmailResponse, error) {
 	decryptedToken, err := utils.AESDecrypt(req.Token)
 	if err != nil {
@@ -415,6 +422,50 @@ func (us *UserService) VerifyEmail(ctx context.Context, req dto.VerifyEmailReque
 	}, nil
 }
 
+// Get Province & City
+func (as *UserService) GetAllProvince(ctx context.Context) (dto.ProvincesResponse, error) {
+	data, err := as.userRepo.GetAllProvince(ctx, nil)
+	if err != nil {
+		return dto.ProvincesResponse{}, dto.ErrGetAllProvince
+	}
+
+	var datas []dto.ProvinceResponse
+	for _, province := range data.Provinces {
+		data := dto.ProvinceResponse{
+			ID:   &province.ID,
+			Name: province.Name,
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.ProvincesResponse{
+		Data: datas,
+	}, nil
+}
+func (as *UserService) GetAllCity(ctx context.Context, req dto.CityQueryRequest) (dto.CitiesResponse, error) {
+	data, err := as.userRepo.GetAllCity(ctx, nil, req)
+	if err != nil {
+		return dto.CitiesResponse{}, dto.ErrGetAllProvince
+	}
+
+	var datas []dto.CityResponseCustom
+	for _, city := range data.Cities {
+		data := dto.CityResponseCustom{
+			ID:   &city.ID,
+			Name: city.Name,
+			Type: city.Type,
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.CitiesResponse{
+		Data: datas,
+	}, nil
+}
+
+// User
 func (us *UserService) GetDetailUser(ctx context.Context) (dto.AllUserResponse, error) {
 	token := ctx.Value("Authorization").(string)
 
@@ -461,7 +512,6 @@ func (us *UserService) GetDetailUser(ctx context.Context) (dto.AllUserResponse, 
 		},
 	}, nil
 }
-
 func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error) {
 	token := ctx.Value("Authorization").(string)
 	userID, err := us.jwtService.GetUserIDByToken(token)
@@ -571,49 +621,7 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 	return res, nil
 }
 
-func (as *UserService) GetAllProvince(ctx context.Context) (dto.ProvincesResponse, error) {
-	data, err := as.userRepo.GetAllProvince(ctx, nil)
-	if err != nil {
-		return dto.ProvincesResponse{}, dto.ErrGetAllProvince
-	}
-
-	var datas []dto.ProvinceResponse
-	for _, province := range data.Provinces {
-		data := dto.ProvinceResponse{
-			ID:   &province.ID,
-			Name: province.Name,
-		}
-
-		datas = append(datas, data)
-	}
-
-	return dto.ProvincesResponse{
-		Data: datas,
-	}, nil
-}
-
-func (as *UserService) GetAllCity(ctx context.Context, req dto.CityQueryRequest) (dto.CitiesResponse, error) {
-	data, err := as.userRepo.GetAllCity(ctx, nil, req)
-	if err != nil {
-		return dto.CitiesResponse{}, dto.ErrGetAllProvince
-	}
-
-	var datas []dto.CityResponseCustom
-	for _, city := range data.Cities {
-		data := dto.CityResponseCustom{
-			ID:   &city.ID,
-			Name: city.Name,
-			Type: city.Type,
-		}
-
-		datas = append(datas, data)
-	}
-
-	return dto.CitiesResponse{
-		Data: datas,
-	}, nil
-}
-
+// News
 func (us *UserService) GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error) {
 	dataWithPaginate, err := us.userRepo.GetAllNewsWithPagination(ctx, nil, req)
 	if err != nil {
@@ -643,7 +651,6 @@ func (us *UserService) GetAllNewsWithPagination(ctx context.Context, req dto.Pag
 		},
 	}, nil
 }
-
 func (us *UserService) GetDetailNews(ctx context.Context, newsID string) (dto.NewsResponse, error) {
 	news, err := us.userRepo.GetNewsByID(ctx, nil, newsID)
 	if err != nil {

@@ -10,25 +10,31 @@ import (
 func User(route *gin.Engine, userHandler handler.IUserHandler, jwtService service.IJWTService) {
 	routes := route.Group("/api/v1/user")
 	{
+		// Authentication
 		routes.POST("/register", userHandler.Register)
 		routes.POST("/login", userHandler.Login)
 		routes.POST("/refresh-token", userHandler.RefreshToken)
 
+		// Forgot Password
 		routes.POST("/send-forgot-password-email", userHandler.SendForgotPasswordEmail)
 		routes.GET("/forgot-password", userHandler.ForgotPassword)
 		routes.POST("/update-password", userHandler.UpdatePassword)
 
+		// Verification Email
 		routes.POST("/send-verification-email", userHandler.SendVerificationEmail)
 		routes.GET("/verify-email", userHandler.VerifyEmail)
 
+		// Get Province & City
 		routes.GET("/get-all-province", userHandler.GetAllProvince)
 		routes.GET("/get-all-city", userHandler.GetAllCity)
 
 		routes.Use(middleware.Authentication(jwtService), middleware.RouteAccessControl(jwtService))
 		{
+			// User
 			routes.GET("/get-detail-user", userHandler.GetDetailUser)
 			routes.PATCH("/update-user", userHandler.UpdateUser)
 
+			// News
 			routes.GET("/get-all-news", userHandler.GetAllNews)
 			routes.GET("/get-detail-news/:id", userHandler.GetDetailNews)
 		}

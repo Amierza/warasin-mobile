@@ -20,6 +20,11 @@
     "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
   },
   {
+    "permission_id": "eaf063c7-0dbc-4021-b33d-78475bd11b09",
+    "permission_endpoint": "/api/v1/psycholog/get-detail-psycholog",
+    "role_id": "dc3f6a8e-4875-4297-a285-4f2439595ee2"
+  },
+  {
     "permission_id": "aa4f1680-2e51-44d2-89d3-5d527e83a710",
     "permission_endpoint": "/api/v1/admin/login",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
