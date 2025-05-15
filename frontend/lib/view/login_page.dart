@@ -16,14 +16,6 @@ class _LoginPageState extends State<LoginPage> {
   bool _isObsecure = true;
  final LoginController controller = Get.find<LoginController>(); 
 
-  // final emailController = TextEditingController();
-  // final passwordController = TextEditingController();
-  // @override
-  // void dispose() {
-  //  emailController.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 30),
 
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       "Selamat Datang di Warasin!",
@@ -103,7 +95,6 @@ class _LoginPageState extends State<LoginPage> {
 
                     const SizedBox(height: 10),
 
-                    // Input Password
                     TextFormField(
                       controller: controller.passwordController,
                       obscureText: _isObsecure,
