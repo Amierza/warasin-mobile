@@ -48,6 +48,7 @@ type (
 
 		// Psycholog
 		CreatePsycholog(ctx *gin.Context)
+		GetAllPsycholog(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -72,12 +73,12 @@ func (ah *AdminHandler) Login(ctx *gin.Context) {
 
 	result, err := ah.adminService.Login(ctx, payload)
 	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_LOGIN_USER, err.Error(), nil)
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_LOGIN_ADMIN, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
 		return
 	}
 
-	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_LOGIN_USER, result)
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_LOGIN_ADMIN, result)
 	ctx.JSON(http.StatusOK, res)
 }
 func (ah *AdminHandler) RefreshToken(ctx *gin.Context) {
@@ -527,4 +528,28 @@ func (ah *AdminHandler) CreatePsycholog(ctx *gin.Context) {
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_PSYCHOLOG, result)
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
+}
+func (ah *AdminHandler) GetAllPsycholog(ctx *gin.Context) {
+	var payload dto.PaginationRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.GetAllPsychologWithPagination(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_PSYCHOLOG, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_PSYCHOLOG,
+		Data:     result.Data,
+		Meta:     result.PaginationResponse,
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }

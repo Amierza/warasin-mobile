@@ -47,6 +47,7 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 
 			// CRUD Motivation
 			routes.POST("/create-psycholog", adminHandler.CreatePsycholog)
+			routes.GET("/get-all-psycholog", adminHandler.GetAllPsycholog)
 		}
 	}
 }
