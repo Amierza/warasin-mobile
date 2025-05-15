@@ -50,6 +50,7 @@ type (
 		CreatePsycholog(ctx *gin.Context)
 		GetAllPsycholog(ctx *gin.Context)
 		GetDetailPsycholog(ctx *gin.Context)
+		UpdatePsycholog(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -564,5 +565,26 @@ func (ah *AdminHandler) GetDetailPsycholog(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (ah *AdminHandler) UpdatePsycholog(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+
+	var payload dto.UpdatePsychologRequest
+	payload.ID = idStr
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.UpdatePsycholog(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_PSYCHOLOG, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_PSYCHOLOG, result)
 	ctx.JSON(http.StatusOK, res)
 }
