@@ -11,18 +11,29 @@ import (
 
 type (
 	IUserHandler interface {
+		// Authentication
 		Register(ctx *gin.Context)
 		Login(ctx *gin.Context)
 		RefreshToken(ctx *gin.Context)
+
+		// Forgot Password
 		SendForgotPasswordEmail(ctx *gin.Context)
 		ForgotPassword(ctx *gin.Context)
 		UpdatePassword(ctx *gin.Context)
+
+		// Verification Email
 		SendVerificationEmail(ctx *gin.Context)
 		VerifyEmail(ctx *gin.Context)
-		GetDetailUser(ctx *gin.Context)
-		UpdateUser(ctx *gin.Context)
+
+		// Get Province & City
 		GetAllProvince(ctx *gin.Context)
 		GetAllCity(ctx *gin.Context)
+
+		// User
+		GetDetailUser(ctx *gin.Context)
+		UpdateUser(ctx *gin.Context)
+
+		// News
 		GetAllNews(ctx *gin.Context)
 		GetDetailNews(ctx *gin.Context)
 	}
@@ -38,6 +49,7 @@ func NewUserHandler(userService service.IUserService) *UserHandler {
 	}
 }
 
+// Authentication
 func (uh *UserHandler) Register(ctx *gin.Context) {
 	var payload dto.UserRegisterRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -56,7 +68,6 @@ func (uh *UserHandler) Register(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_REGISTER_USER, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (uh *UserHandler) Login(ctx *gin.Context) {
 	var payload dto.UserLoginRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -75,7 +86,6 @@ func (uh *UserHandler) Login(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_LOGIN_USER, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (uh *UserHandler) RefreshToken(ctx *gin.Context) {
 	var payload dto.RefreshTokenRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -95,6 +105,7 @@ func (uh *UserHandler) RefreshToken(ctx *gin.Context) {
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
 }
 
+// Forgot Password
 func (uh *UserHandler) SendForgotPasswordEmail(ctx *gin.Context) {
 	var payload dto.SendForgotPasswordEmailRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -113,7 +124,6 @@ func (uh *UserHandler) SendForgotPasswordEmail(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_SEND_FORGOT_PASSWORD_EMAIL, nil)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (uh UserHandler) ForgotPassword(ctx *gin.Context) {
 	var payload dto.ForgotPasswordRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -132,7 +142,6 @@ func (uh UserHandler) ForgotPassword(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CHECK_FORGOT_PASSWORD_TOKEN, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (uh *UserHandler) UpdatePassword(ctx *gin.Context) {
 	var payload dto.UpdatePasswordRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -152,6 +161,7 @@ func (uh *UserHandler) UpdatePassword(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+// Verification Email
 func (uh *UserHandler) SendVerificationEmail(ctx *gin.Context) {
 	var payload dto.SendVerificationEmailRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -170,7 +180,6 @@ func (uh *UserHandler) SendVerificationEmail(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_SEND_VERIFICATION_EMAIL, nil)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (uh *UserHandler) VerifyEmail(ctx *gin.Context) {
 	var payload dto.VerifyEmailRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -190,37 +199,7 @@ func (uh *UserHandler) VerifyEmail(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
-func (uh *UserHandler) GetDetailUser(ctx *gin.Context) {
-	result, err := uh.userService.GetDetailUser(ctx)
-	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_USER, err.Error(), nil)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
-		return
-	}
-
-	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_USER, result)
-	ctx.JSON(http.StatusOK, res)
-}
-
-func (uh *UserHandler) UpdateUser(ctx *gin.Context) {
-	var payload dto.UpdateUserRequest
-	if err := ctx.ShouldBind(&payload); err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
-		return
-	}
-
-	result, err := uh.userService.UpdateUser(ctx, payload)
-	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_USER, err.Error(), nil)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
-		return
-	}
-
-	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_USER, result)
-	ctx.JSON(http.StatusOK, res)
-}
-
+// Get Province & City
 func (ah *UserHandler) GetAllProvince(ctx *gin.Context) {
 	result, err := ah.userService.GetAllProvince(ctx.Request.Context())
 	if err != nil {
@@ -237,7 +216,6 @@ func (ah *UserHandler) GetAllProvince(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ah *UserHandler) GetAllCity(ctx *gin.Context) {
 	var payload dto.CityQueryRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -262,6 +240,38 @@ func (ah *UserHandler) GetAllCity(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+// User
+func (uh *UserHandler) GetDetailUser(ctx *gin.Context) {
+	result, err := uh.userService.GetDetailUser(ctx)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_USER, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_USER, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (uh *UserHandler) UpdateUser(ctx *gin.Context) {
+	var payload dto.UpdateUserRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := uh.userService.UpdateUser(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_USER, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_USER, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// News
 func (uh *UserHandler) GetAllNews(ctx *gin.Context) {
 	var payload dto.PaginationRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -286,7 +296,6 @@ func (uh *UserHandler) GetAllNews(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (uh *UserHandler) GetDetailNews(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 	result, err := uh.userService.GetDetailNews(ctx, idStr)

@@ -13,9 +13,8 @@ import (
 
 type (
 	IUserRepository interface {
+		// Get
 		CheckEmail(ctx context.Context, tx *gorm.DB, email string) (entity.User, bool, error)
-		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
-		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
 		GetUserByPassword(ctx context.Context, tx *gorm.DB, password string) (entity.User, error)
 		GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error)
 		GetRoleByName(ctx context.Context, tx *gorm.DB, roleName string) (entity.Role, error)
@@ -26,6 +25,12 @@ type (
 		GetAllCity(ctx context.Context, tx *gorm.DB, req dto.CityQueryRequest) (dto.AllCityRepositoryResponse, error)
 		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
 		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error)
+
+		// Create
+		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
+
+		// Update
+		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
 	}
 
 	UserRepository struct {
@@ -39,6 +44,7 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	}
 }
 
+// Get
 func (ur *UserRepository) CheckEmail(ctx context.Context, tx *gorm.DB, email string) (entity.User, bool, error) {
 	if tx == nil {
 		tx = ur.db
@@ -51,32 +57,6 @@ func (ur *UserRepository) CheckEmail(ctx context.Context, tx *gorm.DB, email str
 
 	return user, true, nil
 }
-
-func (ur *UserRepository) RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error) {
-	if tx == nil {
-		tx = ur.db
-	}
-
-	user.ID = uuid.New()
-	if err := tx.WithContext(ctx).Create(&user).Error; err != nil {
-		return entity.User{}, err
-	}
-
-	return user, nil
-}
-
-func (ur *UserRepository) UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error) {
-	if tx == nil {
-		tx = ur.db
-	}
-
-	if err := tx.WithContext(ctx).Updates(&user).Error; err != nil {
-		return entity.User{}, err
-	}
-
-	return user, nil
-}
-
 func (ur *UserRepository) GetUserByPassword(ctx context.Context, tx *gorm.DB, password string) (entity.User, error) {
 	if tx == nil {
 		tx = ur.db
@@ -89,7 +69,6 @@ func (ur *UserRepository) GetUserByPassword(ctx context.Context, tx *gorm.DB, pa
 
 	return user, nil
 }
-
 func (ur *UserRepository) GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error) {
 	if tx == nil {
 		tx = ur.db
@@ -102,7 +81,6 @@ func (ur *UserRepository) GetUserByID(ctx context.Context, tx *gorm.DB, userID s
 
 	return user, nil
 }
-
 func (ur *UserRepository) GetRoleByName(ctx context.Context, tx *gorm.DB, roleName string) (entity.Role, error) {
 	if tx == nil {
 		tx = ur.db
@@ -115,7 +93,6 @@ func (ur *UserRepository) GetRoleByName(ctx context.Context, tx *gorm.DB, roleNa
 
 	return role, nil
 }
-
 func (ur *UserRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error) {
 	if tx == nil {
 		tx = ur.db
@@ -128,7 +105,6 @@ func (ur *UserRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, roleID s
 
 	return role, nil
 }
-
 func (ur *UserRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error) {
 	if tx == nil {
 		tx = ur.db
@@ -141,7 +117,6 @@ func (ur *UserRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.D
 
 	return endpoints, nil
 }
-
 func (ar *UserRepository) GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error) {
 	if tx == nil {
 		tx = ar.db
@@ -154,7 +129,6 @@ func (ar *UserRepository) GetCityByID(ctx context.Context, tx *gorm.DB, cityID s
 
 	return city, nil
 }
-
 func (ar *UserRepository) GetAllProvince(ctx context.Context, tx *gorm.DB) (dto.AllProvinceRepositoryResponse, error) {
 	if tx == nil {
 		tx = ar.db
@@ -171,7 +145,6 @@ func (ar *UserRepository) GetAllProvince(ctx context.Context, tx *gorm.DB) (dto.
 		Provinces: provinces,
 	}, err
 }
-
 func (ar *UserRepository) GetAllCity(ctx context.Context, tx *gorm.DB, req dto.CityQueryRequest) (dto.AllCityRepositoryResponse, error) {
 	if tx == nil {
 		tx = ar.db
@@ -194,7 +167,6 @@ func (ar *UserRepository) GetAllCity(ctx context.Context, tx *gorm.DB, req dto.C
 		Cities: cities,
 	}, err
 }
-
 func (ur *UserRepository) GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error) {
 	if tx == nil {
 		tx = ur.db
@@ -240,7 +212,6 @@ func (ur *UserRepository) GetAllNewsWithPagination(ctx context.Context, tx *gorm
 		},
 	}, err
 }
-
 func (ur *UserRepository) GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error) {
 	if tx == nil {
 		tx = ur.db
@@ -252,4 +223,31 @@ func (ur *UserRepository) GetNewsByID(ctx context.Context, tx *gorm.DB, newsID s
 	}
 
 	return news, nil
+}
+
+// Create
+func (ur *UserRepository) RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	user.ID = uuid.New()
+	if err := tx.WithContext(ctx).Create(&user).Error; err != nil {
+		return entity.User{}, err
+	}
+
+	return user, nil
+}
+
+// Update
+func (ur *UserRepository) UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	if err := tx.WithContext(ctx).Updates(&user).Error; err != nil {
+		return entity.User{}, err
+	}
+
+	return user, nil
 }

@@ -76,13 +76,13 @@ func (as *AdminService) Login(ctx context.Context, req dto.AdminLoginRequest) (d
 		return dto.AdminLoginResponse{}, dto.ErrEmailNotFound
 	}
 
+	if user.Role.Name != "admin" {
+		return dto.AdminLoginResponse{}, dto.ErrDeniedAccess
+	}
+
 	checkPassword, err := helpers.CheckPassword(user.Password, []byte(req.Password))
 	if err != nil || !checkPassword {
 		return dto.AdminLoginResponse{}, dto.ErrPasswordNotMatch
-	}
-
-	if user.Role.Name != "admin" {
-		return dto.AdminLoginResponse{}, dto.ErrDeniedAccess
 	}
 
 	endpoints, err := as.adminRepo.GetPermissionsByRoleID(ctx, nil, user.RoleID.String())
