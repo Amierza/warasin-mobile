@@ -51,6 +51,7 @@ type (
 		GetAllPsycholog(ctx *gin.Context)
 		GetDetailPsycholog(ctx *gin.Context)
 		UpdatePsycholog(ctx *gin.Context)
+		DeletePsycholog(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -494,7 +495,7 @@ func (ah *AdminHandler) DeleteMotivation(ctx *gin.Context) {
 	idStr := ctx.Param("id")
 
 	var payload dto.DeleteMotivationRequest
-	payload.MotivationID = idStr
+	payload.ID = idStr
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
@@ -586,5 +587,26 @@ func (ah *AdminHandler) UpdatePsycholog(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_PSYCHOLOG, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (ah *AdminHandler) DeletePsycholog(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+
+	var payload dto.DeletePsychologRequest
+	payload.ID = idStr
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.DeletePsycholog(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_DELETE_PSYCHOLOG, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_DELETE_PSYCHOLOG, result)
 	ctx.JSON(http.StatusOK, res)
 }

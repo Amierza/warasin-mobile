@@ -153,5 +153,10 @@
     "permission_id": "d36fbbe7-f5b7-43dd-a0a6-3021a1e98b44",
     "permission_endpoint": "/api/v1/admin/update-psycholog/:id",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "7c0faead-17ab-4f53-8eb5-ec8536d130a6",
+    "permission_endpoint": "/api/v1/admin/delete-psycholog/:id",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]
