@@ -114,6 +114,9 @@ class NewsPage extends StatelessWidget {
                                 title: news.newsTitle,
                                 desc: news.newsBody,
                                 date: news.newsDate,
+                                onTap: () {
+                                  Get.toNamed('/news/${news.newsId}');
+                                },
                               );
                             }).toList(),
                       ),

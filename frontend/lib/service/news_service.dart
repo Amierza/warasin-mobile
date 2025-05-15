@@ -38,4 +38,36 @@ class NewsService {
       return null;
     }
   }
+
+  static Future<dynamic> getDetailNews(String newsId) async{
+    final box = GetStorage();
+    final token = box.read('access_token');
+
+    if (token == null) return null;
+
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/user/get-detail-news/$newsId'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        }
+      );
+
+      print(newsId);
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        if (responseBody['status'] == true) {
+          final newsData = GetDetailNewsResponse.fromJson(responseBody);
+          return newsData;
+        } else {
+          final errorResponse = ErrorResponse.fromJson(responseBody);
+          return errorResponse;
+        }
+      }
+    } catch(error) {
+      print('Error Fetching get detail news : $error');
+      return null;
+    }
+  }
 }
