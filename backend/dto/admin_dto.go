@@ -47,6 +47,7 @@ const (
 	MESSAGE_FAILED_CREATE_PSYCHOLOG     = "failed create psycholog"
 	MESSAGE_FAILED_GET_LIST_PSYCHOLOG   = "failed get all psycholog"
 	MESSAGE_FAILED_GET_DETAIL_PSYCHOLOG = "failed get detail psycholog"
+	MESSAGE_FAILED_UPDATE_PSYCHOLOG     = "failed update psycholog"
 
 	// Success
 	// Admin
@@ -87,6 +88,7 @@ const (
 	MESSAGE_SUCCESS_CREATE_PSYCHOLOG     = "success create psycholog"
 	MESSAGE_SUCCESS_GET_LIST_PSYCHOLOG   = "success get all psycholog"
 	MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG = "success get detail psycholog"
+	MESSAGE_SUCCESS_UPDATE_PSYCHOLOG     = "success update psycholog"
 )
 
 var (
@@ -114,6 +116,7 @@ var (
 	ErrInvalidWorkYear                        = errors.New("failed invalid work year")
 	ErrGetAllPsychologWithPagination          = errors.New("failed get list psycholog with pagination")
 	ErrPsychologNotFound                      = errors.New("failed psycholog not found")
+	ErrGetDataPsychologFromID                 = errors.New("failed get data psycholog from id")
 )
 
 type (
@@ -222,7 +225,7 @@ type (
 
 	UpdateMotivationCategoryRequest struct {
 		ID   string `json:"-"`
-		Name string `json:"name"`
+		Name string `json:"name,omitempty"`
 	}
 
 	DeleteMotivationCategoryRequest struct {
@@ -254,9 +257,9 @@ type (
 
 	UpdateMotivationRequest struct {
 		ID                   string `json:"-"`
-		Author               string `json:"author"`
-		Content              string `json:"content"`
-		MotivationCategoryID string `json:"motivation_category_id"`
+		Author               string `json:"author,omitempty"`
+		Content              string `json:"content,omitempty"`
+		MotivationCategoryID string `json:"motivation_category_id,omitempty"`
 	}
 
 	DeleteMotivationRequest struct {
@@ -306,5 +309,17 @@ type (
 	AllPsychologRepositoryResponse struct {
 		PaginationResponse
 		Psychologs []entity.Psycholog
+	}
+
+	UpdatePsychologRequest struct {
+		ID          string `json:"-"`
+		Name        string `json:"name,omitempty"`
+		STRNumber   string `json:"str_number,omitempty"`
+		Email       string `json:"email,omitempty"`
+		WorkYear    string `json:"work_year,omitempty"`
+		Description string `json:"description,omitempty"`
+		PhoneNumber string `json:"phone_number,omitempty"`
+		Image       string `json:"image,omitempty"`
+		CityID      string `json:"city_id,omitempty"`
 	}
 )

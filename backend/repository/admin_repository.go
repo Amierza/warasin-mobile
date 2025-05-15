@@ -43,6 +43,7 @@ type (
 		UpdateNews(ctx context.Context, tx *gorm.DB, user entity.News) error
 		UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error
 		UpdateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error
+		UpdatePsycholog(ctx context.Context, tx *gorm.DB, psycholog entity.Psycholog) error
 
 		// Delete
 		DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error
@@ -496,6 +497,13 @@ func (ar *AdminRepository) UpdateMotivation(ctx context.Context, tx *gorm.DB, mo
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", motivation.ID).Updates(&motivation).Error
+}
+func (ar *AdminRepository) UpdatePsycholog(ctx context.Context, tx *gorm.DB, psycholog entity.Psycholog) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", psycholog.ID).Updates(&psycholog).Error
 }
 
 // Delete

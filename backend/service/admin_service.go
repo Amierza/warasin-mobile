@@ -52,6 +52,7 @@ type (
 		CreatePsycholog(ctx context.Context, req dto.CreatePsychologRequest) (dto.PsychologResponse, error)
 		GetAllPsychologWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.PsychologPaginationResponse, error)
 		GetDetailPsycholog(ctx context.Context, psychologID string) (dto.PsychologResponse, error)
+		UpdatePsycholog(ctx context.Context, req dto.UpdatePsychologRequest) (dto.PsychologResponse, error)
 	}
 
 	AdminService struct {
@@ -999,4 +1000,101 @@ func (as *AdminService) GetDetailPsycholog(ctx context.Context, psychologID stri
 			Name: psycholog.Role.Name,
 		},
 	}, nil
+}
+func (as *AdminService) UpdatePsycholog(ctx context.Context, req dto.UpdatePsychologRequest) (dto.PsychologResponse, error) {
+	psycholog, err := as.adminRepo.GetPsychologByID(ctx, nil, req.ID)
+	if err != nil {
+		return dto.PsychologResponse{}, dto.ErrGetDataPsychologFromID
+	}
+
+	if req.CityID != "" {
+		city, err := as.adminRepo.GetCityByID(ctx, nil, req.CityID)
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrGetCityByID
+		}
+
+		psycholog.City = city
+	}
+
+	if req.Name != "" {
+		if len(req.Name) < 5 {
+			return dto.PsychologResponse{}, dto.ErrInvalidName
+		}
+
+		psycholog.Name = req.Name
+	}
+
+	if req.STRNumber != "" {
+		if !helpers.IsValidSTRNumber(req.STRNumber) {
+			return dto.PsychologResponse{}, dto.ErrInvalidSTRNumber
+		}
+
+		psycholog.STRNumber = req.STRNumber
+	}
+
+	if req.Email != "" {
+		if !helpers.IsValidEmail(req.Email) {
+			return dto.PsychologResponse{}, dto.ErrInvalidEmail
+		}
+
+		_, flag, err := as.adminRepo.CheckEmailUser(ctx, nil, req.Email)
+		if flag || err == nil {
+			return dto.PsychologResponse{}, dto.ErrEmailAlreadyExists
+		}
+
+		psycholog.Email = req.Email
+	}
+
+	if req.WorkYear != "" {
+		if len(req.WorkYear) < 4 {
+			return dto.PsychologResponse{}, dto.ErrInvalidWorkYear
+		}
+
+		psycholog.WorkYear = req.WorkYear
+	}
+
+	if req.PhoneNumber != "" {
+		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber)
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrFormatPhoneNumber
+		}
+
+		psycholog.PhoneNumber = phoneNumberFormatted
+	}
+
+	if req.Image != "" {
+		psycholog.Image = req.Image
+	}
+
+	err = as.adminRepo.UpdatePsycholog(ctx, nil, psycholog)
+	if err != nil {
+		return dto.PsychologResponse{}, dto.ErrUpdateUser
+	}
+
+	res := dto.PsychologResponse{
+		ID:          psycholog.ID,
+		Name:        psycholog.Name,
+		STRNumber:   psycholog.STRNumber,
+		Email:       psycholog.Email,
+		Password:    psycholog.Password,
+		WorkYear:    psycholog.WorkYear,
+		Description: psycholog.Description,
+		PhoneNumber: psycholog.PhoneNumber,
+		Image:       psycholog.Image,
+		City: dto.CityResponse{
+			ID:   psycholog.CityID,
+			Name: psycholog.City.Name,
+			Type: psycholog.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   psycholog.City.ProvinceID,
+				Name: psycholog.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   psycholog.RoleID,
+			Name: psycholog.Role.Name,
+		},
+	}
+
+	return res, nil
 }
