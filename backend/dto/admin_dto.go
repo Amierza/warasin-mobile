@@ -44,8 +44,9 @@ const (
 	MESSAGE_FAILED_DELETE_MOTIVATION     = "failed delete motivation"
 
 	// Psycholog
-	MESSAGE_FAILED_CREATE_PSYCHOLOG   = "failed create psycholog"
-	MESSAGE_FAILED_GET_LIST_PSYCHOLOG = "failed get all psycholog"
+	MESSAGE_FAILED_CREATE_PSYCHOLOG     = "failed create psycholog"
+	MESSAGE_FAILED_GET_LIST_PSYCHOLOG   = "failed get all psycholog"
+	MESSAGE_FAILED_GET_DETAIL_PSYCHOLOG = "failed get detail psycholog"
 
 	// Success
 	// Admin
@@ -83,8 +84,9 @@ const (
 	MESSAGE_SUCCESS_DELETE_MOTIVATION     = "success delete motivation"
 
 	// Psycholog
-	MESSAGE_SUCCESS_CREATE_PSYCHOLOG   = "success create psycholog"
-	MESSAGE_SUCCESS_GET_LIST_PSYCHOLOG = "success get all psycholog"
+	MESSAGE_SUCCESS_CREATE_PSYCHOLOG     = "success create psycholog"
+	MESSAGE_SUCCESS_GET_LIST_PSYCHOLOG   = "success get all psycholog"
+	MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG = "success get detail psycholog"
 )
 
 var (
@@ -111,6 +113,7 @@ var (
 	ErrInvalidSTRNumber                       = errors.New("failed invalid STR Number")
 	ErrInvalidWorkYear                        = errors.New("failed invalid work year")
 	ErrGetAllPsychologWithPagination          = errors.New("failed get list psycholog with pagination")
+	ErrPsychologNotFound                      = errors.New("failed psycholog not found")
 )
 
 type (

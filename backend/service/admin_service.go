@@ -51,6 +51,7 @@ type (
 		// Psycholog
 		CreatePsycholog(ctx context.Context, req dto.CreatePsychologRequest) (dto.PsychologResponse, error)
 		GetAllPsychologWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.PsychologPaginationResponse, error)
+		GetDetailPsycholog(ctx context.Context, psychologID string) (dto.PsychologResponse, error)
 	}
 
 	AdminService struct {
@@ -965,6 +966,37 @@ func (as *AdminService) GetAllPsychologWithPagination(ctx context.Context, req d
 			PerPage: dataWithPaginate.PerPage,
 			MaxPage: dataWithPaginate.MaxPage,
 			Count:   dataWithPaginate.Count,
+		},
+	}, nil
+}
+func (as *AdminService) GetDetailPsycholog(ctx context.Context, psychologID string) (dto.PsychologResponse, error) {
+	psycholog, err := as.adminRepo.GetPsychologByID(ctx, nil, psychologID)
+	if err != nil {
+		return dto.PsychologResponse{}, dto.ErrPsychologNotFound
+	}
+
+	return dto.PsychologResponse{
+		ID:          psycholog.ID,
+		Name:        psycholog.Name,
+		STRNumber:   psycholog.STRNumber,
+		Email:       psycholog.Email,
+		Password:    psycholog.Password,
+		WorkYear:    psycholog.WorkYear,
+		Description: psycholog.Description,
+		PhoneNumber: psycholog.PhoneNumber,
+		Image:       psycholog.Image,
+		City: dto.CityResponse{
+			ID:   psycholog.CityID,
+			Name: psycholog.City.Name,
+			Type: psycholog.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   psycholog.City.ProvinceID,
+				Name: psycholog.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   psycholog.RoleID,
+			Name: psycholog.Role.Name,
 		},
 	}, nil
 }
