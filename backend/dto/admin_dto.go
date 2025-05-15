@@ -48,6 +48,7 @@ const (
 	MESSAGE_FAILED_GET_LIST_PSYCHOLOG   = "failed get all psycholog"
 	MESSAGE_FAILED_GET_DETAIL_PSYCHOLOG = "failed get detail psycholog"
 	MESSAGE_FAILED_UPDATE_PSYCHOLOG     = "failed update psycholog"
+	MESSAGE_FAILED_DELETE_PSYCHOLOG     = "failed delete psycholog"
 
 	// Success
 	// Admin
@@ -89,6 +90,7 @@ const (
 	MESSAGE_SUCCESS_GET_LIST_PSYCHOLOG   = "success get all psycholog"
 	MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG = "success get detail psycholog"
 	MESSAGE_SUCCESS_UPDATE_PSYCHOLOG     = "success update psycholog"
+	MESSAGE_SUCCESS_DELETE_PSYCHOLOG     = "success delete psycholog"
 )
 
 var (
@@ -117,6 +119,8 @@ var (
 	ErrGetAllPsychologWithPagination          = errors.New("failed get list psycholog with pagination")
 	ErrPsychologNotFound                      = errors.New("failed psycholog not found")
 	ErrGetDataPsychologFromID                 = errors.New("failed get data psycholog from id")
+	ErrUpdatePsycholog                        = errors.New("failed update psycholog")
+	ErrDeletePsycholog                        = errors.New("failed delete psycholog")
 )
 
 type (
@@ -263,7 +267,7 @@ type (
 	}
 
 	DeleteMotivationRequest struct {
-		MotivationID string `json:"-"`
+		ID string `json:"-"`
 	}
 
 	RolePaginationResponse struct {
@@ -321,5 +325,9 @@ type (
 		PhoneNumber string `json:"phone_number,omitempty"`
 		Image       string `json:"image,omitempty"`
 		CityID      string `json:"city_id,omitempty"`
+	}
+
+	DeletePsychologRequest struct {
+		ID string `json:"-"`
 	}
 )

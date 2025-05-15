@@ -53,6 +53,7 @@ type (
 		GetAllPsychologWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.PsychologPaginationResponse, error)
 		GetDetailPsycholog(ctx context.Context, psychologID string) (dto.PsychologResponse, error)
 		UpdatePsycholog(ctx context.Context, req dto.UpdatePsychologRequest) (dto.PsychologResponse, error)
+		DeletePsycholog(ctx context.Context, req dto.DeletePsychologRequest) (dto.PsychologResponse, error)
 	}
 
 	AdminService struct {
@@ -813,12 +814,12 @@ func (as *AdminService) UpdateMotivation(ctx context.Context, req dto.UpdateMoti
 	return res, nil
 }
 func (as *AdminService) DeleteMotivation(ctx context.Context, req dto.DeleteMotivationRequest) (dto.MotivationResponse, error) {
-	deletedMotivation, err := as.adminRepo.GetMotivationByID(ctx, nil, req.MotivationID)
+	deletedMotivation, err := as.adminRepo.GetMotivationByID(ctx, nil, req.ID)
 	if err != nil {
 		return dto.MotivationResponse{}, dto.ErrGetMotivationFromID
 	}
 
-	err = as.adminRepo.DeleteMotivationByID(ctx, nil, req.MotivationID)
+	err = as.adminRepo.DeleteMotivationByID(ctx, nil, req.ID)
 	if err != nil {
 		return dto.MotivationResponse{}, dto.ErrDeleteMotivation
 	}
@@ -1068,7 +1069,7 @@ func (as *AdminService) UpdatePsycholog(ctx context.Context, req dto.UpdatePsych
 
 	err = as.adminRepo.UpdatePsycholog(ctx, nil, psycholog)
 	if err != nil {
-		return dto.PsychologResponse{}, dto.ErrUpdateUser
+		return dto.PsychologResponse{}, dto.ErrUpdatePsycholog
 	}
 
 	res := dto.PsychologResponse{
@@ -1093,6 +1094,44 @@ func (as *AdminService) UpdatePsycholog(ctx context.Context, req dto.UpdatePsych
 		Role: dto.RoleResponse{
 			ID:   psycholog.RoleID,
 			Name: psycholog.Role.Name,
+		},
+	}
+
+	return res, nil
+}
+func (as *AdminService) DeletePsycholog(ctx context.Context, req dto.DeletePsychologRequest) (dto.PsychologResponse, error) {
+	deletedPsycholog, err := as.adminRepo.GetPsychologByID(ctx, nil, req.ID)
+	if err != nil {
+		return dto.PsychologResponse{}, dto.ErrGetDataPsychologFromID
+	}
+
+	err = as.adminRepo.DeletePsychologByID(ctx, nil, req.ID)
+	if err != nil {
+		return dto.PsychologResponse{}, dto.ErrDeletePsycholog
+	}
+
+	res := dto.PsychologResponse{
+		ID:          deletedPsycholog.ID,
+		Name:        deletedPsycholog.Name,
+		STRNumber:   deletedPsycholog.STRNumber,
+		Email:       deletedPsycholog.Email,
+		Password:    deletedPsycholog.Password,
+		WorkYear:    deletedPsycholog.WorkYear,
+		Description: deletedPsycholog.Description,
+		PhoneNumber: deletedPsycholog.PhoneNumber,
+		Image:       deletedPsycholog.Image,
+		City: dto.CityResponse{
+			ID:   deletedPsycholog.CityID,
+			Name: deletedPsycholog.City.Name,
+			Type: deletedPsycholog.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   deletedPsycholog.City.ProvinceID,
+				Name: deletedPsycholog.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   deletedPsycholog.RoleID,
+			Name: deletedPsycholog.Role.Name,
 		},
 	}
 

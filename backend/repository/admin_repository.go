@@ -50,6 +50,7 @@ type (
 		DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error
 		DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error
 		DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error
+		DeletePsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) error
 	}
 
 	AdminRepository struct {
@@ -534,4 +535,11 @@ func (ar AdminRepository) DeleteMotivationByID(ctx context.Context, tx *gorm.DB,
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", motivationID).Delete(&entity.Motivation{}).Error
+}
+func (ar AdminRepository) DeletePsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", psychologID).Delete(&entity.Psycholog{}).Error
 }
