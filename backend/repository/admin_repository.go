@@ -29,6 +29,7 @@ type (
 		GetAllRole(ctx context.Context, tx *gorm.DB) (dto.AllRoleRepositoryResponse, error)
 		CheckEmailPsycholog(ctx context.Context, tx *gorm.DB, email string) (entity.Psycholog, bool, error)
 		GetAllPsychologWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllPsychologRepositoryResponse, error)
+		GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, error)
 
 		// Create
 		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
@@ -416,6 +417,18 @@ func (ar *AdminRepository) GetAllPsychologWithPagination(ctx context.Context, tx
 			Count:   count,
 		},
 	}, err
+}
+func (ar *AdminRepository) GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var psycholog entity.Psycholog
+	if err := tx.WithContext(ctx).Preload("Role").Preload("City.Province").Where("id = ?", psychologID).Take(&psycholog).Error; err != nil {
+		return entity.Psycholog{}, err
+	}
+
+	return psycholog, nil
 }
 
 // Create

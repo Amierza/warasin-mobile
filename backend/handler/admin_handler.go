@@ -49,6 +49,7 @@ type (
 		// Psycholog
 		CreatePsycholog(ctx *gin.Context)
 		GetAllPsycholog(ctx *gin.Context)
+		GetDetailPsycholog(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -551,5 +552,17 @@ func (ah *AdminHandler) GetAllPsycholog(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+func (ah *AdminHandler) GetDetailPsycholog(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := ah.adminService.GetDetailPsycholog(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_PSYCHOLOG, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG, result)
 	ctx.JSON(http.StatusOK, res)
 }
