@@ -4,15 +4,24 @@ import 'package:frontend/widget/logo_widget.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-List<Map<String, dynamic>> form = [
-  {"hintText": "Gender", "icon": Icons.male},
-  {"hintText": "Tanggal Lahir", "icon": Icons.calendar_month_outlined},
-  {"hintText": "Negara", "icon": Icons.location_city_sharp},
-  {"hintText": "Nomer Telepon", "icon": Icons.phone},
-];
-
-class DataCompletenessProfilePage extends StatelessWidget {
+class DataCompletenessProfilePage extends StatefulWidget {
   const DataCompletenessProfilePage({super.key});
+
+  @override
+  State<DataCompletenessProfilePage> createState() =>
+      _DataCompletenessProfilePageState();
+}
+
+class _DataCompletenessProfilePageState
+  extends State<DataCompletenessProfilePage> {
+  DateTime? selectedDate;
+  final TextEditingController dateController = TextEditingController();
+
+  @override
+  void dispose() {
+    dateController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +41,48 @@ class DataCompletenessProfilePage extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Expanded(
-                child: ListView.separated(
-                  itemCount: form.length,
-                  separatorBuilder:
-                      (context, index) => const SizedBox(height: 20),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      child: FormFields(
-                        hintText: form[index]['hintText']!,
-                        icon: form[index]['icon']!,
-                      ),
-                    );
-                  },
+                child: Column(
+                  children: [
+                    FormFields(
+                      hintText: "Gender",
+                      icon: Icons.male,
+                      keyboardType: TextInputType.name,
+                    ),
+                    const SizedBox(height: 20),
+                    FormFields(
+                      hintText: "Tanggal Lahir",
+                      icon: Icons.calendar_month_outlined,
+                      keyboardType: TextInputType.none,
+                      controller: dateController,
+                      onTap: () async {
+                        final picked = await showDatePicker(
+                          context: context,
+                          initialDate: selectedDate ?? DateTime.now(),
+                          firstDate: DateTime(1945),
+                          lastDate: DateTime.now(),
+                        );
+                        if (picked != null) {
+                          setState(() {
+                            selectedDate = picked;
+                            dateController.text =
+                                "${picked.day}/${picked.month}/${picked.year}";
+                          });
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    FormFields(
+                      hintText: "Negara",
+                      icon: Icons.location_city_sharp,
+                      keyboardType: TextInputType.name,
+                    ),
+                    const SizedBox(height: 20),
+                    FormFields(
+                      hintText: "Nomer Telepon",
+                      icon: Icons.phone,
+                      keyboardType: TextInputType.phone,
+                    ),
+                  ],
                 ),
               ),
               SizedBox(
@@ -57,7 +96,7 @@ class DataCompletenessProfilePage extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
                   child: Text(
                     "Mulai",
@@ -80,13 +119,26 @@ class DataCompletenessProfilePage extends StatelessWidget {
 class FormFields extends StatelessWidget {
   final String hintText;
   final IconData icon;
+  final TextInputType keyboardType;
+  final VoidCallback? onTap;
+  final TextEditingController? controller;
 
-  const FormFields({Key? key, required this.hintText, required this.icon})
-    : super(key: key);
+  const FormFields({
+    Key? key,
+    required this.hintText,
+    required this.icon,
+    required this.keyboardType,
+    this.onTap,
+    this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
+      readOnly: onTap != null,
+      onTap: onTap,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hintText,
         filled: true,

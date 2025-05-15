@@ -75,6 +75,7 @@ class RegisterController extends GetxController {
         );
       }
     } catch (err) {
+      print('TErjadi ERror $err');
       showCustomDialog(
         context: context, 
         icon: Icons.cancel, 

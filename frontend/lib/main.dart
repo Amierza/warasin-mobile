@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:frontend/controller/header_controller.dart';
 import 'package:frontend/controller/login_controller.dart';
+import 'package:frontend/controller/register_controller.dart';
+import 'package:frontend/middleware/middleware.dart';
 import 'package:frontend/view/concultation_page.dart';
 import 'package:frontend/view/data_completeness_feels_page.dart';
 import 'package:frontend/view/data_completeness_greetings_page.dart';
@@ -19,11 +23,34 @@ import 'package:frontend/view/register_page.dart';
 import 'package:frontend/view/splash_page.dart';
 import 'package:frontend/view/terapiin_page.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
-  Get.lazyPut<LoginController>(() => LoginController(), fenix: false);
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await dotenv.load(fileName: ".env.local");
+  } catch (e) {
+    print("Gagal load .env: $e");
+  }
+
+  try {
+    await GetStorage.init();
+  } catch (e) {
+    print("Gagal init GetStorage: $e");
+  }
+
+  runApp(await buildApp());
 }
+
+Future<Widget> buildApp() async {
+  Get.lazyPut<RegisterController>(() => RegisterController(), fenix: false);
+  Get.lazyPut<LoginController>(() => LoginController(), fenix: false);
+  Get.lazyPut<HeaderController>(() => HeaderController(), fenix: false);
+
+  return const MyApp();
+}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -33,27 +60,98 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Warasin Mental Health Application',
       debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (context) => const SplashPage(),
-        '/login': (context) => const LoginPage(),
-        '/register': (context) => const RegisterPage(),
-        '/forget_password': (context) => const ForgetPasswordEmailPage(),
-        '/data_completeness_greetings': (context) => const DataCompletenessGreetingsPage(),
-        '/data_completeness_feels': (context) => const DataCompletenessFeelsPage(),
-        '/data_completeness_problems': (context) => const DataCompletenessProblemsPage(),
-        '/data_completeness_supports': (context) => const DataCompletenessSupportsPage(),
-        '/data_completeness_profile': (context) => const DataCompletenessProfilePage(),
-        '/home': (context) => const HomePage(),
-        '/terapiin': (context) => const TerapiinPage(),
-        '/forget_password_password': (context) => const ForgetPasswordPaswordPage(),
-        '/concultation': (context) => const ConcultationPage(),
-        '/news': (context) => const NewsPage(),
-        '/news_detail': (context) => const NewsDetailPage(),
-        '/concultation_detail': (context) => const DetailConcultationPage(),
-        '/history_consultation': (context) => const HistoryConsultationPage(),
-        '/profile': (context) => const ProfilePage(),
-      },
+      getPages: [
+        GetPage(
+          name: '/',
+          page: () => const SplashPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/login',
+          page: () => const LoginPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/register',
+          page: () => const RegisterPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/forget_password',
+          page: () => const ForgetPasswordEmailPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/data_completeness_greetings',
+          page: () => const DataCompletenessGreetingsPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/data_completeness_feels',
+          page: () => const DataCompletenessFeelsPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/data_completeness_problems',
+          page: () => const DataCompletenessProblemsPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/data_completeness_supports',
+          page: () => const DataCompletenessSupportsPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/data_completeness_profile',
+          page: () => const DataCompletenessProfilePage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/home',
+          page: () => const HomePage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/terapiin',
+          page: () => const TerapiinPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/forget_password_password',
+          page: () => const ForgetPasswordPaswordPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/concultation',
+          page: () => const ConcultationPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/news',
+          page: () => const NewsPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/news/:id',
+          page: () => const NewsDetailPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/concultation_detail',
+          page: () => const DetailConcultationPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/history_consultation',
+          page: () => const HistoryConsultationPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/profile',
+          page: () => const ProfilePage(),
+          middlewares: [AuthMiddleware()],
+        ),
+      ],
     );
   }
 }
-

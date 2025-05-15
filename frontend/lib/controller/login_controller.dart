@@ -5,7 +5,7 @@ import 'package:frontend/service/api_service.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:frontend/widget/dialog_auth.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   var isEmail = true.obs;
@@ -14,6 +14,7 @@ class LoginController extends GetxController {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final storage = GetStorage();
 
   void login(context) async {
     if (emailController.text.isEmpty || !emailController.text.isEmail) {
@@ -45,8 +46,12 @@ class LoginController extends GetxController {
 
         if (responseData.containsKey('data')) {
           final data = responseData['data'];
-          if (data != null && data.containsKey('access_token')) {
+          if (data.containsKey('access_token')) {
             final accessToken = data['access_token'];
+            final refreshToken = data['refresh_token'];
+
+            storage.write('access_token', accessToken);
+            storage.write('refresh_token', refreshToken);
 
             showCustomDialog(
               context: context,
@@ -62,8 +67,6 @@ class LoginController extends GetxController {
               },
               backgroundColor: successColor,
             );
-            final prefs = await SharedPreferences.getInstance();
-            await prefs.setString('access_token', accessToken);
           } else {
             showCustomDialog(
               context: context,
@@ -107,7 +110,7 @@ class LoginController extends GetxController {
         context: context,
         icon: Icons.cancel,
         title: 'Login Gagal',
-        message: "Oops..! Terjadi kesalahan: $err",
+        message: "Oops..! Terjadi kesalahan $err",
         onPressed: () {
           Navigator.of(context).pop();
         },

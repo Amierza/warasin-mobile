@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme.dart';
-
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -11,20 +12,21 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>{
-  
+class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
 
-    Timer(const Duration(seconds: 2), (){
-      Navigator.pushNamedAndRemoveUntil(
-        context, '/login', (route) => false
-        );
-      },
-    );
+    final token = GetStorage().read('access_token');
+    Future.delayed(Duration(seconds: 2), () {
+      if (token != null) {
+        Get.offAllNamed('/home');
+      } else {
+        Get.offAllNamed('/login');
+      }
+    });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,10 +40,8 @@ class _SplashPageState extends State<SplashPage>{
               height: 144,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                    'assets/logo-white.png',
-                  ),
-                )
+                  image: AssetImage('assets/logo-white.png'),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -51,7 +51,7 @@ class _SplashPageState extends State<SplashPage>{
                 fontSize: 30,
                 fontWeight: extraBold,
               ),
-            )
+            ),
           ],
         ),
       ),

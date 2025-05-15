@@ -21,7 +21,7 @@ class HistoryConsultationPage extends StatelessWidget {
             ),
           ),
           title: Text(
-            "Hisori Konsultasi",
+            "Histori Konsultasi",
             style: GoogleFonts.poppins(
               color: backgroundColor,
               fontWeight: bold,

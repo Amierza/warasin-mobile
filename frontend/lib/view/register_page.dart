@@ -36,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 30),
 
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
                       "Selamat Datang di Warasin!",
