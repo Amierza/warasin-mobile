@@ -11,8 +11,12 @@ import (
 
 type (
 	IPsychologService interface {
+		// Authentication
 		Login(ctx context.Context, req dto.PsychologLoginRequest) (dto.PsychologLoginResponse, error)
 		RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error)
+
+		// Psycholog
+		GetDetailPsycholog(ctx context.Context) (dto.PsychologResponse, error)
 	}
 
 	PsychologService struct {
@@ -28,6 +32,7 @@ func NewPsychologService(psychologRepo repository.IPsychologRepository, jwtServi
 	}
 }
 
+// Authentication
 func (ps *PsychologService) Login(ctx context.Context, req dto.PsychologLoginRequest) (dto.PsychologLoginResponse, error) {
 	if !helpers.IsValidEmail(req.Email) {
 		return dto.PsychologLoginResponse{}, dto.ErrInvalidEmail
@@ -40,6 +45,10 @@ func (ps *PsychologService) Login(ctx context.Context, req dto.PsychologLoginReq
 	psycholog, flag, err := ps.psychologRepo.CheckEmail(ctx, nil, req.Email)
 	if !flag || err != nil {
 		return dto.PsychologLoginResponse{}, dto.ErrEmailNotFound
+	}
+
+	if psycholog.Role.Name != "psycholog" {
+		return dto.PsychologLoginResponse{}, dto.ErrDeniedAccess
 	}
 
 	checkPassword, err := helpers.CheckPassword(psycholog.Password, []byte(req.Password))
@@ -62,7 +71,6 @@ func (ps *PsychologService) Login(ctx context.Context, req dto.PsychologLoginReq
 		RefreshToken: refreshToken,
 	}, nil
 }
-
 func (ps *PsychologService) RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error) {
 	_, err := ps.jwtService.ValidateToken(req.RefreshToken)
 
@@ -102,4 +110,44 @@ func (ps *PsychologService) RefreshToken(ctx context.Context, req dto.RefreshTok
 	}
 
 	return dto.RefreshTokenResponse{AccessToken: accessToken}, nil
+}
+
+// Psycholog
+func (ps *PsychologService) GetDetailPsycholog(ctx context.Context) (dto.PsychologResponse, error) {
+	token := ctx.Value("Authorization").(string)
+
+	psychologId, err := ps.jwtService.GetUserIDByToken(token)
+	if err != nil {
+		return dto.PsychologResponse{}, dto.ErrGetPsychologIDFromToken
+	}
+
+	psycholog, err := ps.psychologRepo.GetPsychologByID(ctx, nil, psychologId)
+	if err != nil {
+		return dto.PsychologResponse{}, dto.ErrUserNotFound
+	}
+
+	return dto.PsychologResponse{
+		ID:          psycholog.ID,
+		Name:        psycholog.Name,
+		STRNumber:   psycholog.STRNumber,
+		Email:       psycholog.Email,
+		Password:    psycholog.Password,
+		WorkYear:    psycholog.WorkYear,
+		Description: psycholog.Description,
+		PhoneNumber: psycholog.PhoneNumber,
+		Image:       psycholog.Image,
+		City: dto.CityResponse{
+			ID:   psycholog.CityID,
+			Name: psycholog.City.Name,
+			Type: psycholog.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   psycholog.City.ProvinceID,
+				Name: psycholog.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   psycholog.RoleID,
+			Name: psycholog.Role.Name,
+		},
+	}, nil
 }

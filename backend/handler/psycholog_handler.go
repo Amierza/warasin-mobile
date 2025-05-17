@@ -11,8 +11,12 @@ import (
 
 type (
 	IPsychologHandler interface {
+		// Authentication
 		Login(ctx *gin.Context)
 		RefreshToken(ctx *gin.Context)
+
+		// Psycholog
+		GetDetailPsycholog(ctx *gin.Context)
 	}
 
 	PsychologHandler struct {
@@ -26,6 +30,7 @@ func NewPsychologHandler(psychologService service.IPsychologService) *PsychologH
 	}
 }
 
+// Authentication
 func (ph *PsychologHandler) Login(ctx *gin.Context) {
 	var payload dto.PsychologLoginRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -44,7 +49,6 @@ func (ph *PsychologHandler) Login(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_LOGIN_PSYCHOLOG, result)
 	ctx.JSON(http.StatusOK, res)
 }
-
 func (ph *PsychologHandler) RefreshToken(ctx *gin.Context) {
 	var payload dto.RefreshTokenRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
@@ -62,4 +66,17 @@ func (ph *PsychologHandler) RefreshToken(ctx *gin.Context) {
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_REFRESH_TOKEN, result)
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
+}
+
+// Psycholog
+func (ph *PsychologHandler) GetDetailPsycholog(ctx *gin.Context) {
+	result, err := ph.psychologService.GetDetailPsycholog(ctx)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_PSYCHOLOG, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG, result)
+	ctx.JSON(http.StatusOK, res)
 }

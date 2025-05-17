@@ -1,5 +1,7 @@
 package dto
 
+import "errors"
+
 const (
 	// failed
 	MESSAGE_FAILED_LOGIN_PSYCHOLOG = "failed login psycholog"
@@ -8,7 +10,9 @@ const (
 	MESSAGE_SUCCESS_LOGIN_PSYCHOLOG = "success login psycholog"
 )
 
-var ()
+var (
+	ErrGetPsychologIDFromToken = errors.New("failed get psycholog id from token")
+)
 
 type (
 	PsychologLoginRequest struct {
