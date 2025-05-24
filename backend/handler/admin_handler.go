@@ -55,6 +55,9 @@ type (
 
 		// Consultation
 		GetAllConsultation(ctx *gin.Context)
+
+		// Language Master
+		GetAllPsychologLanguage(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -627,17 +630,30 @@ func (ah *AdminHandler) GetAllConsultation(ctx *gin.Context) {
 
 	result, err := ah.adminService.GetAllConsultationWithPagination(ctx.Request.Context(), payload)
 	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_PSYCHOLOG, err.Error(), nil)
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_CONSULTATION, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
 		return
 	}
 
 	res := utils.Response{
 		Status:   true,
-		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_PSYCHOLOG,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_CONSULTATION,
 		Data:     result.Data,
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+
+// Language Master
+func (ah *AdminHandler) GetAllPsychologLanguage(ctx *gin.Context) {
+	result, err := ah.adminService.GetAllPsychologLanguage(ctx.Request.Context())
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER, result)
 	ctx.JSON(http.StatusOK, res)
 }

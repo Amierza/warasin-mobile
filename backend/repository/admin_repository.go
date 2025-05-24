@@ -33,6 +33,7 @@ type (
 		GetAllPsychologWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllPsychologRepositoryResponse, error)
 		GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllConsultationRepositoryResponse, error)
+		GetAllPsychologLanguage(ctx context.Context, tx *gorm.DB) (dto.AllPsychologLanguageRepositoryResponse, error)
 
 		// Create
 		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
@@ -504,6 +505,24 @@ func (ar *AdminRepository) GetAllConsultationWithPagination(ctx context.Context,
 			MaxPage: totalPage,
 			Count:   count,
 		},
+	}, err
+}
+func (ar *AdminRepository) GetAllPsychologLanguage(ctx context.Context, tx *gorm.DB) (dto.AllPsychologLanguageRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var (
+		psychologLanguages []entity.PsychologLanguage
+		err                error
+	)
+
+	if err := tx.WithContext(ctx).Model(&entity.PsychologLanguage{}).Preload("Psycholog.Role").Preload("Psycholog.City.Province").Preload("LanguageMaster").Order("created_at DESC").Find(&psychologLanguages).Error; err != nil {
+		return dto.AllPsychologLanguageRepositoryResponse{}, err
+	}
+
+	return dto.AllPsychologLanguageRepositoryResponse{
+		PsychologLanguages: psychologLanguages,
 	}, err
 }
 
