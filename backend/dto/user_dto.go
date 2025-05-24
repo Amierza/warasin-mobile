@@ -3,7 +3,6 @@ package dto
 import (
 	"errors"
 
-	"github.com/Amierza/warasin-mobile/backend/entity"
 	"github.com/google/uuid"
 )
 
@@ -25,8 +24,6 @@ const (
 	MESSAGE_FAILED_REFRESH_TOKEN               = "failed refresh token"
 	MESSAGE_FAILED_INAVLID_ENPOINTS_TOKEN      = "failed invalid endpoints in token"
 	MESSAGE_FAILED_INAVLID_ROUTE_FORMAT_TOKEN  = "failed invalid route format in token"
-	MESSAGE_FAILED_GET_LIST_PROVINCE           = "failed get list province"
-	MESSAGE_FAILED_GET_LIST_CITY               = "failed get list city"
 
 	// success
 	MESSAGE_SUCCESS_REGISTER_USER               = "success register user"
@@ -37,8 +34,6 @@ const (
 	MESSAGE_SUCCESS_UPDATE_PASSWORD             = "success to update password"
 	MESSAGE_SUCCESS_CHECK_FORGOT_PASSWORD_TOKEN = "success to check forgot password token"
 	MESSAGE_SUCCESS_REFRESH_TOKEN               = "success refresh token"
-	MESSAGE_SUCCESS_GET_LIST_PROVINCE           = "success get list province"
-	MESSAGE_SUCCESS_GET_LIST_CITY               = "success get list city"
 )
 
 var (
@@ -73,9 +68,7 @@ var (
 	ErrGetRoleFromID           = errors.New("failed get role by role id")
 	ErrGetPermissionsByRoleID  = errors.New("failed get all permission by role id")
 	ErrGetDataUserFromID       = errors.New("failed get data user by id")
-	ErrGetCityByID             = errors.New("failed get city by id")
 	ErrFormatPhoneNumber       = errors.New("failed standarize phone number input")
-	ErrGetAllProvince          = errors.New("failed get list province")
 )
 
 type (
@@ -137,18 +130,6 @@ type (
 		IsVerified bool   `json:"is_verified"`
 	}
 
-	ProvinceResponse struct {
-		ID   *uuid.UUID `json:"province_id"`
-		Name string     `json:"province_name"`
-	}
-
-	CityResponse struct {
-		ID       *uuid.UUID       `json:"city_id"`
-		Name     string           `json:"city_name"`
-		Type     string           `json:"city_type"`
-		Province ProvinceResponse `json:"province"`
-	}
-
 	RoleResponse struct {
 		ID   *uuid.UUID `json:"role_id"`
 		Name string     `json:"role_name"`
@@ -163,10 +144,10 @@ type (
 		Gender      *bool        `json:"user_gender"`
 		Birthdate   string       `json:"user_birth_date"`
 		PhoneNumber string       `json:"user_phone_number"`
+		IsVerified  *bool        `json:"is_verified"`
 		Data01      int          `json:"user_data01"`
 		Data02      int          `json:"user_data02"`
 		Data03      int          `json:"user_data03"`
-		IsVerified  bool         `json:"is_verified"`
 		City        CityResponse `json:"city"`
 		Role        RoleResponse `json:"role"`
 	}
@@ -177,31 +158,5 @@ type (
 
 	RefreshTokenResponse struct {
 		AccessToken string `json:"access_token"`
-	}
-
-	ProvincesResponse struct {
-		Data []ProvinceResponse `json:"data"`
-	}
-
-	CityResponseCustom struct {
-		ID   *uuid.UUID `json:"city_id"`
-		Name string     `json:"city_name"`
-		Type string     `json:"city_type"`
-	}
-
-	CityQueryRequest struct {
-		ProvinceID string `json:"province_id" form:"province_id"`
-	}
-
-	CitiesResponse struct {
-		Data []CityResponseCustom `json:"data"`
-	}
-
-	AllProvinceRepositoryResponse struct {
-		Provinces []entity.Province
-	}
-
-	AllCityRepositoryResponse struct {
-		Cities []entity.City
 	}
 )

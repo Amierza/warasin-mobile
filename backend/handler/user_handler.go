@@ -25,10 +25,6 @@ type (
 		SendVerificationEmail(ctx *gin.Context)
 		VerifyEmail(ctx *gin.Context)
 
-		// Get Province & City
-		GetAllProvince(ctx *gin.Context)
-		GetAllCity(ctx *gin.Context)
-
 		// User
 		GetDetailUser(ctx *gin.Context)
 		UpdateUser(ctx *gin.Context)
@@ -39,13 +35,15 @@ type (
 	}
 
 	UserHandler struct {
-		userService service.IUserService
+		userService   service.IUserService
+		masterService service.IMasterService
 	}
 )
 
-func NewUserHandler(userService service.IUserService) *UserHandler {
+func NewUserHandler(userService service.IUserService, masterService service.IMasterService) *UserHandler {
 	return &UserHandler{
-		userService: userService,
+		userService:   userService,
+		masterService: masterService,
 	}
 }
 
@@ -124,7 +122,7 @@ func (uh *UserHandler) SendForgotPasswordEmail(ctx *gin.Context) {
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_SEND_FORGOT_PASSWORD_EMAIL, nil)
 	ctx.JSON(http.StatusOK, res)
 }
-func (uh UserHandler) ForgotPassword(ctx *gin.Context) {
+func (uh *UserHandler) ForgotPassword(ctx *gin.Context) {
 	var payload dto.ForgotPasswordRequest
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
@@ -196,47 +194,6 @@ func (uh *UserHandler) VerifyEmail(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_VERIFY_EMAIL, result)
-	ctx.JSON(http.StatusOK, res)
-}
-
-// Get Province & City
-func (ah *UserHandler) GetAllProvince(ctx *gin.Context) {
-	result, err := ah.userService.GetAllProvince(ctx.Request.Context())
-	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_PROVINCE, err.Error(), nil)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
-		return
-	}
-
-	res := utils.Response{
-		Status:   true,
-		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_PROVINCE,
-		Data:     result.Data,
-	}
-
-	ctx.JSON(http.StatusOK, res)
-}
-func (ah *UserHandler) GetAllCity(ctx *gin.Context) {
-	var payload dto.CityQueryRequest
-	if err := ctx.ShouldBind(&payload); err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
-		return
-	}
-
-	result, err := ah.userService.GetAllCity(ctx.Request.Context(), payload)
-	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_CITY, err.Error(), nil)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
-		return
-	}
-
-	res := utils.Response{
-		Status:   true,
-		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_CITY,
-		Data:     result.Data,
-	}
-
 	ctx.JSON(http.StatusOK, res)
 }
 

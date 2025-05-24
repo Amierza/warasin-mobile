@@ -32,10 +32,6 @@ type (
 		SendVerificationEmail(ctx context.Context, req dto.SendVerificationEmailRequest) error
 		VerifyEmail(ctx context.Context, req dto.VerifyEmailRequest) (dto.VerifyEmailResponse, error)
 
-		// Get Province & City
-		GetAllProvince(ctx context.Context) (dto.ProvincesResponse, error)
-		GetAllCity(ctx context.Context, req dto.CityQueryRequest) (dto.CitiesResponse, error)
-
 		// User
 		GetDetailUser(ctx context.Context) (dto.AllUserResponse, error)
 		UpdateUser(ctx context.Context, req dto.UpdateUserRequest) (dto.AllUserResponse, error)
@@ -47,13 +43,15 @@ type (
 
 	UserService struct {
 		userRepo   repository.IUserRepository
+		masterRepo repository.IMasterRepository
 		jwtService IJWTService
 	}
 )
 
-func NewUserService(userRepo repository.IUserRepository, jwtService IJWTService) *UserService {
+func NewUserService(userRepo repository.IUserRepository, masterRepo repository.IMasterRepository, jwtService IJWTService) *UserService {
 	return &UserService{
 		userRepo:   userRepo,
+		masterRepo: masterRepo,
 		jwtService: jwtService,
 	}
 }
@@ -281,12 +279,16 @@ func (us *UserService) ForgotPassword(ctx context.Context, req dto.ForgotPasswor
 func (us *UserService) UpdatePassword(ctx context.Context, req dto.UpdatePasswordRequest) (dto.UpdatePasswordResponse, error) {
 	user, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
 	if err != nil || !flag {
-		return dto.UpdatePasswordResponse{}, dto.ErrUserNotFound
+		return dto.UpdatePasswordResponse{}, dto.ErrEmailNotFound
+	}
+
+	if len(req.Password) < 8 {
+		return dto.UpdatePasswordResponse{}, dto.ErrInvalidPassword
 	}
 
 	oldPassword := user.Password
 
-	newPassword, err := helpers.HashPassword(user.Password)
+	newPassword, err := helpers.HashPassword(req.Password)
 	if err != nil {
 		return dto.UpdatePasswordResponse{}, dto.ErrHashPassword
 	}
@@ -404,13 +406,14 @@ func (us *UserService) VerifyEmail(ctx context.Context, req dto.VerifyEmailReque
 		return dto.VerifyEmailResponse{}, dto.ErrUserNotFound
 	}
 
-	if user.IsVerified {
+	if *user.IsVerified {
 		return dto.VerifyEmailResponse{}, dto.ErrEmailALreadyVerified
 	}
 
+	trueValue := true
 	updatedUser, err := us.userRepo.UpdateUser(ctx, nil, entity.User{
 		ID:         user.ID,
-		IsVerified: true,
+		IsVerified: &trueValue,
 	})
 	if err != nil {
 		return dto.VerifyEmailResponse{}, dto.ErrUpdateUser
@@ -418,50 +421,7 @@ func (us *UserService) VerifyEmail(ctx context.Context, req dto.VerifyEmailReque
 
 	return dto.VerifyEmailResponse{
 		Email:      email,
-		IsVerified: updatedUser.IsVerified,
-	}, nil
-}
-
-// Get Province & City
-func (as *UserService) GetAllProvince(ctx context.Context) (dto.ProvincesResponse, error) {
-	data, err := as.userRepo.GetAllProvince(ctx, nil)
-	if err != nil {
-		return dto.ProvincesResponse{}, dto.ErrGetAllProvince
-	}
-
-	var datas []dto.ProvinceResponse
-	for _, province := range data.Provinces {
-		data := dto.ProvinceResponse{
-			ID:   &province.ID,
-			Name: province.Name,
-		}
-
-		datas = append(datas, data)
-	}
-
-	return dto.ProvincesResponse{
-		Data: datas,
-	}, nil
-}
-func (as *UserService) GetAllCity(ctx context.Context, req dto.CityQueryRequest) (dto.CitiesResponse, error) {
-	data, err := as.userRepo.GetAllCity(ctx, nil, req)
-	if err != nil {
-		return dto.CitiesResponse{}, dto.ErrGetAllProvince
-	}
-
-	var datas []dto.CityResponseCustom
-	for _, city := range data.Cities {
-		data := dto.CityResponseCustom{
-			ID:   &city.ID,
-			Name: city.Name,
-			Type: city.Type,
-		}
-
-		datas = append(datas, data)
-	}
-
-	return dto.CitiesResponse{
-		Data: datas,
+		IsVerified: *updatedUser.IsVerified,
 	}, nil
 }
 
@@ -522,7 +482,7 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 	}
 
 	if req.CityID != nil {
-		city, err := us.userRepo.GetCityByID(ctx, nil, req.CityID.String())
+		city, err := us.masterRepo.GetCityByID(ctx, nil, req.CityID.String())
 		if err != nil {
 			return dto.AllUserResponse{}, dto.ErrGetCityByID
 		}
@@ -558,6 +518,8 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 		}
 
 		user.Email = req.Email
+		falseValue := false
+		user.IsVerified = &falseValue
 	}
 
 	if req.Image != "" {
@@ -591,13 +553,18 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 	}
 
 	res := dto.AllUserResponse{
-		ID:          updatedUser.ID,
-		Name:        updatedUser.Name,
-		Email:       updatedUser.Email,
-		Password:    updatedUser.Password,
-		Image:       updatedUser.Image,
-		Gender:      updatedUser.Gender,
-		Birthdate:   updatedUser.Birthdate.String(),
+		ID:       updatedUser.ID,
+		Name:     updatedUser.Name,
+		Email:    updatedUser.Email,
+		Password: updatedUser.Password,
+		Image:    updatedUser.Image,
+		Gender:   updatedUser.Gender,
+		Birthdate: func() string {
+			if updatedUser.Birthdate != nil {
+				return updatedUser.Birthdate.Format("2006-01-02")
+			}
+			return ""
+		}(),
 		PhoneNumber: updatedUser.PhoneNumber,
 		Data01:      updatedUser.Data01,
 		Data02:      updatedUser.Data02,

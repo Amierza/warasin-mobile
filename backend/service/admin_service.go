@@ -58,13 +58,15 @@ type (
 
 	AdminService struct {
 		adminRepo  repository.IAdminRepository
+		masterRepo repository.IMasterRepository
 		jwtService IJWTService
 	}
 )
 
-func NewAdminService(adminRepo repository.IAdminRepository, jwtService IJWTService) *AdminService {
+func NewAdminService(adminRepo repository.IAdminRepository, masterRepo repository.IMasterRepository, jwtService IJWTService) *AdminService {
 	return &AdminService{
 		adminRepo:  adminRepo,
+		masterRepo: masterRepo,
 		jwtService: jwtService,
 	}
 }
@@ -189,7 +191,7 @@ func (as *AdminService) CreateUser(ctx context.Context, req dto.CreateUserReques
 		return dto.AllUserResponse{}, dto.ErrFormatPhoneNumber
 	}
 
-	city, err := as.adminRepo.GetCityByID(ctx, nil, req.CityID.String())
+	city, err := as.masterRepo.GetCityByID(ctx, nil, req.CityID.String())
 	if err != nil {
 		return dto.AllUserResponse{}, dto.ErrGetCityByID
 	}
@@ -343,7 +345,7 @@ func (as *AdminService) UpdateUser(ctx context.Context, req dto.UpdateUserReques
 	}
 
 	if req.CityID != nil {
-		city, err := as.adminRepo.GetCityByID(ctx, nil, req.CityID.String())
+		city, err := as.masterRepo.GetCityByID(ctx, nil, req.CityID.String())
 		if err != nil {
 			return dto.AllUserResponse{}, dto.ErrGetCityByID
 		}
@@ -412,13 +414,18 @@ func (as *AdminService) UpdateUser(ctx context.Context, req dto.UpdateUserReques
 	}
 
 	res := dto.AllUserResponse{
-		ID:          user.ID,
-		Name:        user.Name,
-		Email:       user.Email,
-		Password:    user.Password,
-		Image:       user.Image,
-		Gender:      user.Gender,
-		Birthdate:   user.Birthdate.String(),
+		ID:       user.ID,
+		Name:     user.Name,
+		Email:    user.Email,
+		Password: user.Password,
+		Image:    user.Image,
+		Gender:   user.Gender,
+		Birthdate: func() string {
+			if user.Birthdate != nil {
+				return user.Birthdate.Format("2006-01-02")
+			}
+			return ""
+		}(),
 		PhoneNumber: user.PhoneNumber,
 		Data01:      user.Data01,
 		Data02:      user.Data02,
@@ -483,6 +490,11 @@ func (as *AdminService) DeleteUser(ctx context.Context, req dto.DeleteUserReques
 
 // News
 func (as *AdminService) CreateNews(ctx context.Context, req dto.CreateNewsRequest) (dto.NewsResponse, error) {
+	flag, _, err := as.adminRepo.GetNewsByTitle(ctx, nil, req.Title)
+	if flag {
+		return dto.NewsResponse{}, dto.ErrNewsTitleAlreadyExists
+	}
+
 	news := entity.News{
 		ID:    uuid.New(),
 		Image: req.Image,
@@ -491,7 +503,7 @@ func (as *AdminService) CreateNews(ctx context.Context, req dto.CreateNewsReques
 		Date:  req.Date,
 	}
 
-	err := as.adminRepo.CreateNews(ctx, nil, news)
+	err = as.adminRepo.CreateNews(ctx, nil, news)
 	if err != nil {
 		return dto.NewsResponse{}, dto.ErrCreateNews
 	}
@@ -559,6 +571,9 @@ func (as *AdminService) UpdateNews(ctx context.Context, req dto.UpdateNewsReques
 		news.Image = req.Image
 	}
 	if req.Title != "" {
+		if req.Title == news.Title {
+			return dto.NewsResponse{}, dto.ErrNewsTitleAlreadyExists
+		}
 		news.Title = req.Title
 	}
 	if req.Body != "" {
@@ -607,12 +622,17 @@ func (as *AdminService) DeleteNews(ctx context.Context, req dto.DeleteNewsReques
 
 // Motivation Category
 func (as *AdminService) CreateMotivationCategory(ctx context.Context, req dto.CreateMotivationCategoryRequest) (dto.MotivationCategoryResponse, error) {
+	flag, _, err := as.adminRepo.GetMotivationCategoryByName(ctx, nil, req.Name)
+	if flag {
+		return dto.MotivationCategoryResponse{}, dto.ErrMotivationCategoryNameAlreadyExists
+	}
+
 	motivationCategory := entity.MotivationCategory{
 		ID:   uuid.New(),
 		Name: req.Name,
 	}
 
-	err := as.adminRepo.CreateMotivationCategory(ctx, nil, motivationCategory)
+	err = as.adminRepo.CreateMotivationCategory(ctx, nil, motivationCategory)
 	if err != nil {
 		return dto.MotivationCategoryResponse{}, dto.ErrCreateMotivationCategory
 	}
@@ -668,6 +688,9 @@ func (as *AdminService) UpdateMotivationCategory(ctx context.Context, req dto.Up
 	}
 
 	if req.Name != "" {
+		if req.Name == motivationCategory.Name {
+			return dto.MotivationCategoryResponse{}, dto.ErrMotivationCategoryNameAlreadyExists
+		}
 		motivationCategory.Name = req.Name
 	}
 
@@ -707,6 +730,11 @@ func (as *AdminService) CreateMotivation(ctx context.Context, req dto.CreateMoti
 	motivationCategory, err := as.adminRepo.GetMotivationCategoryByID(ctx, nil, req.MotivationCategoryID.String())
 	if err != nil {
 		return dto.MotivationResponse{}, dto.ErrGetMotivationCategoryFromID
+	}
+
+	flag, _, err := as.adminRepo.GetMotivationByContent(ctx, nil, req.Content)
+	if flag {
+		return dto.MotivationResponse{}, dto.ErrMotivationContentAlreadyExists
 	}
 
 	motivation := entity.Motivation{
@@ -790,6 +818,9 @@ func (as *AdminService) UpdateMotivation(ctx context.Context, req dto.UpdateMoti
 		motivation.Author = req.Author
 	}
 	if req.Content != "" {
+		if motivation.Content == req.Content {
+			return dto.MotivationResponse{}, dto.ErrMotivationContentAlreadyExists
+		}
 		motivation.Content = req.Content
 	}
 	if req.Author != "" {
@@ -869,7 +900,7 @@ func (as *AdminService) CreatePsycholog(ctx context.Context, req dto.CreatePsych
 		return dto.PsychologResponse{}, dto.ErrFormatPhoneNumber
 	}
 
-	city, err := as.adminRepo.GetCityByID(ctx, nil, req.CityID.String())
+	city, err := as.masterRepo.GetCityByID(ctx, nil, req.CityID.String())
 	if err != nil {
 		return dto.PsychologResponse{}, dto.ErrGetCityByID
 	}
@@ -1009,7 +1040,7 @@ func (as *AdminService) UpdatePsycholog(ctx context.Context, req dto.UpdatePsych
 	}
 
 	if req.CityID != "" {
-		city, err := as.adminRepo.GetCityByID(ctx, nil, req.CityID)
+		city, err := as.masterRepo.GetCityByID(ctx, nil, req.CityID)
 		if err != nil {
 			return dto.PsychologResponse{}, dto.ErrGetCityByID
 		}
@@ -1052,6 +1083,10 @@ func (as *AdminService) UpdatePsycholog(ctx context.Context, req dto.UpdatePsych
 		}
 
 		psycholog.WorkYear = req.WorkYear
+	}
+
+	if req.Description != "" {
+		psycholog.Description = req.Description
 	}
 
 	if req.PhoneNumber != "" {

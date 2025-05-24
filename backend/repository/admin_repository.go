@@ -18,14 +18,16 @@ type (
 		GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error)
 		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
 		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
-		GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error)
 		GetAllUserWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserRepositoryResponse, error)
 		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
 		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error)
+		GetNewsByTitle(ctx context.Context, tx *gorm.DB, title string) (bool, entity.News, error)
 		GetAllMotivationCategoryWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationCategoryRepositoryResponse, error)
 		GetMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) (entity.MotivationCategory, error)
+		GetMotivationCategoryByName(ctx context.Context, tx *gorm.DB, motivationCategoryName string) (bool, entity.MotivationCategory, error)
 		GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error)
 		GetMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) (entity.Motivation, error)
+		GetMotivationByContent(ctx context.Context, tx *gorm.DB, content string) (bool, entity.Motivation, error)
 		GetAllRole(ctx context.Context, tx *gorm.DB) (dto.AllRoleRepositoryResponse, error)
 		CheckEmailPsycholog(ctx context.Context, tx *gorm.DB, email string) (entity.Psycholog, bool, error)
 		GetAllPsychologWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllPsychologRepositoryResponse, error)
@@ -112,18 +114,6 @@ func (ar *AdminRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.
 	}
 
 	return endpoints, nil
-}
-func (ar *AdminRepository) GetCityByID(ctx context.Context, tx *gorm.DB, cityID string) (entity.City, error) {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	var city entity.City
-	if err := tx.WithContext(ctx).Preload("Province").Where("id = ?", cityID).Take(&city).Error; err != nil {
-		return entity.City{}, err
-	}
-
-	return city, nil
 }
 func (ar *AdminRepository) GetAllUserWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserRepositoryResponse, error) {
 	if tx == nil {
@@ -234,6 +224,18 @@ func (ar *AdminRepository) GetNewsByID(ctx context.Context, tx *gorm.DB, newsID 
 
 	return news, nil
 }
+func (ar *AdminRepository) GetNewsByTitle(ctx context.Context, tx *gorm.DB, title string) (bool, entity.News, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var news entity.News
+	if err := tx.WithContext(ctx).Where("title = ?", title).Take(&news).Error; err != nil {
+		return false, entity.News{}, err
+	}
+
+	return true, news, nil
+}
 func (ar *AdminRepository) GetAllMotivationCategoryWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationCategoryRepositoryResponse, error) {
 	if tx == nil {
 		tx = ar.db
@@ -290,6 +292,18 @@ func (ar *AdminRepository) GetMotivationCategoryByID(ctx context.Context, tx *go
 
 	return motivationCategory, nil
 }
+func (ar *AdminRepository) GetMotivationCategoryByName(ctx context.Context, tx *gorm.DB, motivationCategoryName string) (bool, entity.MotivationCategory, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var motivationCategory entity.MotivationCategory
+	if err := tx.WithContext(ctx).Where("name = ?", motivationCategoryName).Take(&motivationCategory).Error; err != nil {
+		return false, entity.MotivationCategory{}, err
+	}
+
+	return true, motivationCategory, nil
+}
 func (ar *AdminRepository) GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error) {
 	if tx == nil {
 		tx = ar.db
@@ -345,6 +359,18 @@ func (ar *AdminRepository) GetMotivationByID(ctx context.Context, tx *gorm.DB, m
 	}
 
 	return motivation, nil
+}
+func (ar *AdminRepository) GetMotivationByContent(ctx context.Context, tx *gorm.DB, content string) (bool, entity.Motivation, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var motivation entity.Motivation
+	if err := tx.WithContext(ctx).Preload("MotivationCategory").Where("content = ?", content).Take(&motivation).Error; err != nil {
+		return false, entity.Motivation{}, err
+	}
+
+	return true, motivation, nil
 }
 func (ar *AdminRepository) GetAllRole(ctx context.Context, tx *gorm.DB) (dto.AllRoleRepositoryResponse, error) {
 	if tx == nil {
