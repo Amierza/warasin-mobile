@@ -18,15 +18,11 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, jwtService servic
 		// Forgot Password
 		routes.POST("/send-forgot-password-email", userHandler.SendForgotPasswordEmail)
 		routes.GET("/forgot-password", userHandler.ForgotPassword)
-		routes.POST("/update-password", userHandler.UpdatePassword)
+		routes.PATCH("/update-password", userHandler.UpdatePassword)
 
 		// Verification Email
 		routes.POST("/send-verification-email", userHandler.SendVerificationEmail)
 		routes.GET("/verify-email", userHandler.VerifyEmail)
-
-		// Get Province & City
-		routes.GET("/get-all-province", userHandler.GetAllProvince)
-		routes.GET("/get-all-city", userHandler.GetAllCity)
 
 		routes.Use(middleware.Authentication(jwtService), middleware.RouteAccessControl(jwtService))
 		{

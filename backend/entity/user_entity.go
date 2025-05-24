@@ -20,7 +20,7 @@ type User struct {
 	Data01      int        `json:"user_data01,omitempty"`
 	Data02      int        `json:"user_data02,omitempty"`
 	Data03      int        `json:"user_data03,omitempty"`
-	IsVerified  bool       `json:"user_is_verified"`
+	IsVerified  *bool      `json:"user_is_verified"`
 
 	CityID *uuid.UUID `gorm:"type:uuid" json:"city_id"`
 	City   City       `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`

@@ -21,13 +21,15 @@ type (
 
 	PsychologService struct {
 		psychologRepo repository.IPsychologRepository
+		masterRepo    repository.IMasterRepository
 		jwtService    IJWTService
 	}
 )
 
-func NewPsychologService(psychologRepo repository.IPsychologRepository, jwtService IJWTService) *PsychologService {
+func NewPsychologService(psychologRepo repository.IPsychologRepository, masterRepo repository.IMasterRepository, jwtService IJWTService) *PsychologService {
 	return &PsychologService{
 		psychologRepo: psychologRepo,
+		masterRepo:    masterRepo,
 		jwtService:    jwtService,
 	}
 }
