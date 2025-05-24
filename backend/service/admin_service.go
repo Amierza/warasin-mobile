@@ -817,14 +817,24 @@ func (as *AdminService) UpdateMotivation(ctx context.Context, req dto.UpdateMoti
 	if req.Author != "" {
 		motivation.Author = req.Author
 	}
+
 	if req.Content != "" {
 		if motivation.Content == req.Content {
 			return dto.MotivationResponse{}, dto.ErrMotivationContentAlreadyExists
 		}
 		motivation.Content = req.Content
 	}
+
 	if req.Author != "" {
 		motivation.Author = req.Author
+	}
+
+	if req.MotivationCategoryID != "" {
+		motivationCategory, err := as.adminRepo.GetMotivationCategoryByID(ctx, nil, req.MotivationCategoryID)
+		if err != nil {
+			return dto.MotivationResponse{}, dto.ErrGetMotivationCategoryFromID
+		}
+		motivation.MotivationCategoryID = &motivationCategory.ID
 	}
 
 	err = as.adminRepo.UpdateMotivation(ctx, nil, motivation)
