@@ -53,6 +53,9 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 			routes.GET("/get-detail-psycholog/:id", adminHandler.GetDetailPsycholog)
 			routes.PATCH("/update-psycholog/:id", adminHandler.UpdatePsycholog)
 			routes.DELETE("/delete-psycholog/:id", adminHandler.DeletePsycholog)
+
+			// Consultation
+			routes.GET("/get-all-consultation", adminHandler.GetAllConsultation)
 		}
 	}
 }

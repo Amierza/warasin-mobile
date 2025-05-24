@@ -52,6 +52,9 @@ type (
 		GetDetailPsycholog(ctx *gin.Context)
 		UpdatePsycholog(ctx *gin.Context)
 		DeletePsycholog(ctx *gin.Context)
+
+		// Consultation
+		GetAllConsultation(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -610,5 +613,31 @@ func (ah *AdminHandler) DeletePsycholog(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_DELETE_PSYCHOLOG, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// Consultation
+func (ah *AdminHandler) GetAllConsultation(ctx *gin.Context) {
+	var payload dto.PaginationRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.GetAllConsultationWithPagination(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_PSYCHOLOG, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_PSYCHOLOG,
+		Data:     result.Data,
+		Meta:     result.PaginationResponse,
+	}
+
 	ctx.JSON(http.StatusOK, res)
 }

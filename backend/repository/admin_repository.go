@@ -32,6 +32,7 @@ type (
 		CheckEmailPsycholog(ctx context.Context, tx *gorm.DB, email string) (entity.Psycholog, bool, error)
 		GetAllPsychologWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllPsychologRepositoryResponse, error)
 		GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, error)
+		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllConsultationRepositoryResponse, error)
 
 		// Create
 		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
@@ -457,6 +458,53 @@ func (ar *AdminRepository) GetPsychologByID(ctx context.Context, tx *gorm.DB, ps
 	}
 
 	return psycholog, nil
+}
+func (ar *AdminRepository) GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllConsultationRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var consultations []entity.Consulation
+	var err error
+	var count int64
+
+	if req.PerPage == 0 {
+		req.PerPage = 10
+	}
+
+	if req.Page == 0 {
+		req.Page = 1
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.Consulation{}).
+		Preload("User.Role").
+		Preload("User.City.Province").
+		Preload("Psycholog.Role").
+		Preload("Psycholog.City.Province")
+
+	if req.Search != "" {
+		query = query.Where("rate = ?", req.Search)
+	}
+
+	if err := query.Count(&count).Error; err != nil {
+		return dto.AllConsultationRepositoryResponse{}, err
+	}
+
+	if err := query.Order("created_at DESC").Scopes(Paginate(req.Page, req.PerPage)).Find(&consultations).Error; err != nil {
+		return dto.AllConsultationRepositoryResponse{}, err
+	}
+
+	totalPage := int64(math.Ceil(float64(count) / float64(req.PerPage)))
+
+	return dto.AllConsultationRepositoryResponse{
+		Consultations: consultations,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    req.Page,
+			PerPage: req.PerPage,
+			MaxPage: totalPage,
+			Count:   count,
+		},
+	}, err
 }
 
 // Create
