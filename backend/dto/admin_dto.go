@@ -50,6 +50,12 @@ const (
 	MESSAGE_FAILED_UPDATE_PSYCHOLOG     = "failed update psycholog"
 	MESSAGE_FAILED_DELETE_PSYCHOLOG     = "failed delete psycholog"
 
+	// Consultation
+	MESSAGE_FAILED_GET_LIST_CONSULTATION = "failed get all consultation"
+
+	// Language Master
+	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER = "failed get all psycholog language master"
+
 	// Success
 	// Admin
 	MESSAGE_SUCCESS_LOGIN_ADMIN = "success login admin"
@@ -91,6 +97,12 @@ const (
 	MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG = "success get detail psycholog"
 	MESSAGE_SUCCESS_UPDATE_PSYCHOLOG     = "success update psycholog"
 	MESSAGE_SUCCESS_DELETE_PSYCHOLOG     = "success delete psycholog"
+
+	// Consultation
+	MESSAGE_SUCCESS_GET_LIST_CONSULTATION = "success get all consultation"
+
+	// Lannguage
+	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER = "success get all psycholog language master"
 )
 
 var (
@@ -129,6 +141,7 @@ var (
 	ErrUpdatePsycholog                        = errors.New("failed update psycholog")
 	ErrDeletePsycholog                        = errors.New("failed delete psycholog")
 	ErrGetAllConsultationWithPagination       = errors.New("failed get list consultation with pagination")
+	ErrGetAllPsychologLanguage                = errors.New("failed all psycholog language")
 )
 
 type (
@@ -356,5 +369,24 @@ type (
 	ConsultationPaginationResponse struct {
 		PaginationResponse
 		Data []ConsultationResponse `json:"data"`
+	}
+
+	LanguageMasterResponse struct {
+		ID   *uuid.UUID `json:"lang_id"`
+		Name string     `json:"lang_name"`
+	}
+
+	PsychologLanguageResponse struct {
+		ID             *uuid.UUID             `json:"psy_lang_id"`
+		Psycholog      PsychologResponse      `json:"psycholog"`
+		LanguageMaster LanguageMasterResponse `json:"language"`
+	}
+
+	AllPsychologLanguageRepositoryResponse struct {
+		PsychologLanguages []entity.PsychologLanguage
+	}
+
+	AllPsychologLanguageResponse struct {
+		Data []PsychologLanguageResponse `json:"data"`
 	}
 )

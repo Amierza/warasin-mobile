@@ -168,5 +168,10 @@
     "permission_id": "1592544f-6a91-40dc-bb07-36a4e861364d",
     "permission_endpoint": "/api/v1/admin/get-all-consultation",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "d62a102a-2d23-4216-bd34-5263a8d919c8",
+    "permission_endpoint": "/api/v1/admin/get-all-psycholog-language",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]
