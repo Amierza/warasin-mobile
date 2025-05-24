@@ -128,6 +128,7 @@ var (
 	ErrGetDataPsychologFromID                 = errors.New("failed get data psycholog from id")
 	ErrUpdatePsycholog                        = errors.New("failed update psycholog")
 	ErrDeletePsycholog                        = errors.New("failed delete psycholog")
+	ErrGetAllConsultationWithPagination       = errors.New("failed get list consultation with pagination")
 )
 
 type (
@@ -190,7 +191,7 @@ type (
 		Image string    `json:"news_image"`
 		Title string    `json:"news_title"`
 		Body  string    `json:"news_body"`
-		Date  string    `gorm:"type:date" json:"news_date"`
+		Date  string    `json:"news_date"`
 	}
 
 	NewsPaginationResponse struct {
@@ -336,5 +337,24 @@ type (
 
 	DeletePsychologRequest struct {
 		ID string `json:"-"`
+	}
+
+	AllConsultationRepositoryResponse struct {
+		PaginationResponse
+		Consultations []entity.Consulation
+	}
+
+	ConsultationResponse struct {
+		ID        uuid.UUID         `json:"consul_id"`
+		Date      string            `json:"consul_date"`
+		Rate      int               `json:"consul_rate"`
+		Comment   string            `json:"consul_comment"`
+		User      AllUserResponse   `json:"user"`
+		Psycholog PsychologResponse `json:"psycholog"`
+	}
+
+	ConsultationPaginationResponse struct {
+		PaginationResponse
+		Data []ConsultationResponse `json:"data"`
 	}
 )

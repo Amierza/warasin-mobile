@@ -54,6 +54,7 @@ type (
 		GetDetailPsycholog(ctx context.Context, psychologID string) (dto.PsychologResponse, error)
 		UpdatePsycholog(ctx context.Context, req dto.UpdatePsychologRequest) (dto.PsychologResponse, error)
 		DeletePsycholog(ctx context.Context, req dto.DeletePsychologRequest) (dto.PsychologResponse, error)
+		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error)
 	}
 
 	AdminService struct {
@@ -817,14 +818,24 @@ func (as *AdminService) UpdateMotivation(ctx context.Context, req dto.UpdateMoti
 	if req.Author != "" {
 		motivation.Author = req.Author
 	}
+
 	if req.Content != "" {
 		if motivation.Content == req.Content {
 			return dto.MotivationResponse{}, dto.ErrMotivationContentAlreadyExists
 		}
 		motivation.Content = req.Content
 	}
+
 	if req.Author != "" {
 		motivation.Author = req.Author
+	}
+
+	if req.MotivationCategoryID != "" {
+		motivationCategory, err := as.adminRepo.GetMotivationCategoryByID(ctx, nil, req.MotivationCategoryID)
+		if err != nil {
+			return dto.MotivationResponse{}, dto.ErrGetMotivationCategoryFromID
+		}
+		motivation.MotivationCategoryID = &motivationCategory.ID
 	}
 
 	err = as.adminRepo.UpdateMotivation(ctx, nil, motivation)
@@ -1171,4 +1182,83 @@ func (as *AdminService) DeletePsycholog(ctx context.Context, req dto.DeletePsych
 	}
 
 	return res, nil
+}
+
+// Consultation
+func (as *AdminService) GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error) {
+	dataWithPaginate, err := as.adminRepo.GetAllConsultationWithPagination(ctx, nil, req)
+	if err != nil {
+		return dto.ConsultationPaginationResponse{}, dto.ErrGetAllConsultationWithPagination
+	}
+
+	var datas []dto.ConsultationResponse
+	for _, consultation := range dataWithPaginate.Consultations {
+		data := dto.ConsultationResponse{
+			ID:      consultation.ID,
+			Date:    consultation.Date.String(),
+			Rate:    consultation.Rate,
+			Comment: consultation.Comment,
+			User: dto.AllUserResponse{
+				ID:          consultation.User.ID,
+				Name:        consultation.User.Name,
+				Email:       consultation.User.Email,
+				Password:    consultation.User.Password,
+				Birthdate:   consultation.User.Birthdate.String(),
+				PhoneNumber: consultation.User.PhoneNumber,
+				Data01:      consultation.User.Data01,
+				Data02:      consultation.User.Data02,
+				Data03:      consultation.User.Data03,
+				IsVerified:  consultation.User.IsVerified,
+				City: dto.CityResponse{
+					ID:   &consultation.User.City.ID,
+					Name: consultation.User.City.Name,
+					Type: consultation.User.City.Type,
+					Province: dto.ProvinceResponse{
+						ID:   consultation.User.City.ProvinceID,
+						Name: consultation.User.City.Province.Name,
+					},
+				},
+				Role: dto.RoleResponse{
+					ID:   &consultation.User.Role.ID,
+					Name: consultation.User.Role.Name,
+				},
+			},
+			Psycholog: dto.PsychologResponse{
+				ID:          consultation.Psycholog.ID,
+				Name:        consultation.Psycholog.Name,
+				STRNumber:   consultation.Psycholog.STRNumber,
+				Email:       consultation.Psycholog.Email,
+				Password:    consultation.Psycholog.Password,
+				WorkYear:    consultation.Psycholog.WorkYear,
+				Description: consultation.Psycholog.Description,
+				PhoneNumber: consultation.Psycholog.PhoneNumber,
+				Image:       consultation.Psycholog.Image,
+				City: dto.CityResponse{
+					ID:   &consultation.Psycholog.City.ID,
+					Name: consultation.Psycholog.City.Name,
+					Type: consultation.Psycholog.City.Type,
+					Province: dto.ProvinceResponse{
+						ID:   &consultation.Psycholog.City.Province.ID,
+						Name: consultation.Psycholog.City.Province.Name,
+					},
+				},
+				Role: dto.RoleResponse{
+					ID:   &consultation.Psycholog.Role.ID,
+					Name: consultation.Psycholog.Role.Name,
+				},
+			},
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.ConsultationPaginationResponse{
+		Data: datas,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    dataWithPaginate.Page,
+			PerPage: dataWithPaginate.PerPage,
+			MaxPage: dataWithPaginate.MaxPage,
+			Count:   dataWithPaginate.Count,
+		},
+	}, nil
 }
