@@ -55,13 +55,15 @@ type (
 	}
 
 	AdminHandler struct {
-		adminService service.IAdminService
+		adminService  service.IAdminService
+		masterService service.IMasterService
 	}
 )
 
-func NewAdminHandler(adminService service.IAdminService) *AdminHandler {
+func NewAdminHandler(adminService service.IAdminService, masterService service.IMasterService) *AdminHandler {
 	return &AdminHandler{
-		adminService: adminService,
+		adminService:  adminService,
+		masterService: masterService,
 	}
 }
 

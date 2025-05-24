@@ -26,17 +26,21 @@ func main() {
 	var (
 		jwtService = service.NewJWTService()
 
+		masterRepo    = repository.NewMasterRepository(db)
+		masterService = service.NewMasterService(masterRepo, jwtService)
+		masterHandler = handler.NewMasterHandler(masterService)
+
 		userRepo    = repository.NewUserRepository(db)
-		userService = service.NewUserService(userRepo, jwtService)
-		userHandler = handler.NewUserHandler(userService)
+		userService = service.NewUserService(userRepo, masterRepo, jwtService)
+		userHandler = handler.NewUserHandler(userService, masterService)
 
 		adminRepo    = repository.NewAdminRepository(db)
-		adminService = service.NewAdminService(adminRepo, jwtService)
-		adminHandler = handler.NewAdminHandler(adminService)
+		adminService = service.NewAdminService(adminRepo, masterRepo, jwtService)
+		adminHandler = handler.NewAdminHandler(adminService, masterService)
 
 		psyRepo    = repository.NewPsychologRepository(db)
-		psyService = service.NewPsychologService(psyRepo, jwtService)
-		psyHandler = handler.NewPsychologHandler(psyService)
+		psyService = service.NewPsychologService(psyRepo, masterRepo, jwtService)
+		psyHandler = handler.NewPsychologHandler(psyService, masterService)
 	)
 
 	server := gin.Default()
@@ -45,6 +49,7 @@ func main() {
 	routes.User(server, userHandler, jwtService)
 	routes.Admin(server, adminHandler, jwtService)
 	routes.Psycholog(server, psyHandler, jwtService)
+	routes.Master(server, masterHandler, jwtService)
 
 	server.Static("/assets", "./assets")
 

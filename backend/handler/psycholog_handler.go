@@ -21,12 +21,14 @@ type (
 
 	PsychologHandler struct {
 		psychologService service.IPsychologService
+		masterRepo       service.IMasterService
 	}
 )
 
-func NewPsychologHandler(psychologService service.IPsychologService) *PsychologHandler {
+func NewPsychologHandler(psychologService service.IPsychologService, masterRepo service.IMasterService) *PsychologHandler {
 	return &PsychologHandler{
 		psychologService: psychologService,
+		masterRepo:       masterRepo,
 	}
 }
 
