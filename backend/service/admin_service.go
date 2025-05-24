@@ -54,7 +54,12 @@ type (
 		GetDetailPsycholog(ctx context.Context, psychologID string) (dto.PsychologResponse, error)
 		UpdatePsycholog(ctx context.Context, req dto.UpdatePsychologRequest) (dto.PsychologResponse, error)
 		DeletePsycholog(ctx context.Context, req dto.DeletePsychologRequest) (dto.PsychologResponse, error)
+
+		// Consultation
 		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error)
+
+		// Language Master
+		GetAllPsychologLanguage(ctx context.Context) (dto.AllPsychologLanguageResponse, error)
 	}
 
 	AdminService struct {
@@ -1260,5 +1265,54 @@ func (as *AdminService) GetAllConsultationWithPagination(ctx context.Context, re
 			MaxPage: dataWithPaginate.MaxPage,
 			Count:   dataWithPaginate.Count,
 		},
+	}, nil
+}
+
+// Language Master
+func (as *AdminService) GetAllPsychologLanguage(ctx context.Context) (dto.AllPsychologLanguageResponse, error) {
+	data, err := as.adminRepo.GetAllPsychologLanguage(ctx, nil)
+	if err != nil {
+		return dto.AllPsychologLanguageResponse{}, dto.ErrGetAllPsychologLanguage
+	}
+
+	var datas []dto.PsychologLanguageResponse
+	for _, psychologLanguage := range data.PsychologLanguages {
+		data := dto.PsychologLanguageResponse{
+			ID: &psychologLanguage.ID,
+			Psycholog: dto.PsychologResponse{
+				ID:          psychologLanguage.Psycholog.ID,
+				Name:        psychologLanguage.Psycholog.Name,
+				STRNumber:   psychologLanguage.Psycholog.STRNumber,
+				Email:       psychologLanguage.Psycholog.Email,
+				Password:    psychologLanguage.Psycholog.Password,
+				WorkYear:    psychologLanguage.Psycholog.WorkYear,
+				Description: psychologLanguage.Psycholog.Description,
+				PhoneNumber: psychologLanguage.Psycholog.PhoneNumber,
+				Image:       psychologLanguage.Psycholog.Image,
+				City: dto.CityResponse{
+					ID:   &psychologLanguage.Psycholog.City.ID,
+					Name: psychologLanguage.Psycholog.City.Name,
+					Type: psychologLanguage.Psycholog.City.Type,
+					Province: dto.ProvinceResponse{
+						ID:   &psychologLanguage.Psycholog.City.Province.ID,
+						Name: psychologLanguage.Psycholog.City.Province.Name,
+					},
+				},
+				Role: dto.RoleResponse{
+					ID:   &psychologLanguage.Psycholog.Role.ID,
+					Name: psychologLanguage.Psycholog.Role.Name,
+				},
+			},
+			LanguageMaster: dto.LanguageMasterResponse{
+				ID:   &psychologLanguage.LanguageMaster.ID,
+				Name: psychologLanguage.LanguageMaster.Name,
+			},
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.AllPsychologLanguageResponse{
+		Data: datas,
 	}, nil
 }

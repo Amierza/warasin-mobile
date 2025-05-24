@@ -56,6 +56,9 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 
 			// Consultation
 			routes.GET("/get-all-consultation", adminHandler.GetAllConsultation)
+
+			// Language Master
+			routes.GET("/get-all-psycholog-language", adminHandler.GetAllPsychologLanguage)
 		}
 	}
 }
