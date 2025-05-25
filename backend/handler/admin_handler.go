@@ -58,6 +58,9 @@ type (
 
 		// Language Master
 		GetAllPsychologLanguage(ctx *gin.Context)
+
+		// User Motivation
+		GetAllUserMotivation(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -655,5 +658,18 @@ func (ah *AdminHandler) GetAllPsychologLanguage(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// User Motivation
+func (ah *AdminHandler) GetAllUserMotivation(ctx *gin.Context) {
+	result, err := ah.adminService.GetAllUserMotivation(ctx.Request.Context())
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_MOTIVATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_MOTIVATION, result)
 	ctx.JSON(http.StatusOK, res)
 }

@@ -34,6 +34,7 @@ type (
 		GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllConsultationRepositoryResponse, error)
 		GetAllPsychologLanguage(ctx context.Context, tx *gorm.DB) (dto.AllPsychologLanguageRepositoryResponse, error)
+		GetAllUserMotivation(ctx context.Context, tx *gorm.DB) (dto.AllUserMotivationRepositoryResponse, error)
 
 		// Create
 		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
@@ -525,6 +526,24 @@ func (ar *AdminRepository) GetAllPsychologLanguage(ctx context.Context, tx *gorm
 		PsychologLanguages: psychologLanguages,
 	}, err
 }
+func (ar *AdminRepository) GetAllUserMotivation(ctx context.Context, tx *gorm.DB) (dto.AllUserMotivationRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var (
+		userMotivations []entity.UserMotivation
+		err             error
+	)
+
+	if err := tx.WithContext(ctx).Model(&entity.UserMotivation{}).Preload("User.Role").Preload("User.City.Province").Preload("Motivation.MotivationCategory").Order("created_at DESC").Find(&userMotivations).Error; err != nil {
+		return dto.AllUserMotivationRepositoryResponse{}, err
+	}
+
+	return dto.AllUserMotivationRepositoryResponse{
+		UserMotivations: userMotivations,
+	}, err
+}
 
 // Create
 func (ar *AdminRepository) CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error {
@@ -590,7 +609,7 @@ func (ar *AdminRepository) UpdateMotivation(ctx context.Context, tx *gorm.DB, mo
 		tx = ar.db
 	}
 
-	return tx.WithContext(ctx).Where("id = ?", motivation.ID).Updates(&motivation).Error
+	return tx.WithContext(ctx).Select("author", "content", "motivation_category_id").Where("id = ?", motivation.ID).Updates(&motivation).Error
 }
 func (ar *AdminRepository) UpdatePsycholog(ctx context.Context, tx *gorm.DB, psycholog entity.Psycholog) error {
 	if tx == nil {
