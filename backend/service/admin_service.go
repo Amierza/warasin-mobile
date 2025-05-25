@@ -60,6 +60,9 @@ type (
 
 		// Language Master
 		GetAllPsychologLanguage(ctx context.Context) (dto.AllPsychologLanguageResponse, error)
+
+		// User Motivation
+		GetAllUserMotivation(ctx context.Context) (dto.AllUserMotivationResponse, error)
 	}
 
 	AdminService struct {
@@ -841,6 +844,7 @@ func (as *AdminService) UpdateMotivation(ctx context.Context, req dto.UpdateMoti
 			return dto.MotivationResponse{}, dto.ErrGetMotivationCategoryFromID
 		}
 		motivation.MotivationCategoryID = &motivationCategory.ID
+		motivation.MotivationCategory.Name = motivationCategory.Name
 	}
 
 	err = as.adminRepo.UpdateMotivation(ctx, nil, motivation)
@@ -853,7 +857,7 @@ func (as *AdminService) UpdateMotivation(ctx context.Context, req dto.UpdateMoti
 		Author:  motivation.Author,
 		Content: motivation.Content,
 		MotivationCategory: dto.MotivationCategoryResponse{
-			ID:   &motivation.MotivationCategory.ID,
+			ID:   motivation.MotivationCategoryID,
 			Name: motivation.MotivationCategory.Name,
 		},
 	}
@@ -1313,6 +1317,63 @@ func (as *AdminService) GetAllPsychologLanguage(ctx context.Context) (dto.AllPsy
 	}
 
 	return dto.AllPsychologLanguageResponse{
+		Data: datas,
+	}, nil
+}
+
+// User Motivation
+func (as *AdminService) GetAllUserMotivation(ctx context.Context) (dto.AllUserMotivationResponse, error) {
+	data, err := as.adminRepo.GetAllUserMotivation(ctx, nil)
+	if err != nil {
+		return dto.AllUserMotivationResponse{}, dto.ErrGetAllUserMotivation
+	}
+
+	var datas []dto.UserMotivationResponse
+	for _, userMotivation := range data.UserMotivations {
+		data := dto.UserMotivationResponse{
+			ID:          &userMotivation.ID,
+			DisplayDate: userMotivation.DisplayDate.String(),
+			Reaction:    userMotivation.Reaction,
+			User: dto.AllUserResponse{
+				ID:          userMotivation.User.ID,
+				Name:        userMotivation.User.Name,
+				Email:       userMotivation.User.Email,
+				Password:    userMotivation.User.Password,
+				Birthdate:   userMotivation.User.Birthdate.String(),
+				PhoneNumber: userMotivation.User.PhoneNumber,
+				Data01:      userMotivation.User.Data01,
+				Data02:      userMotivation.User.Data02,
+				Data03:      userMotivation.User.Data03,
+				IsVerified:  userMotivation.User.IsVerified,
+				City: dto.CityResponse{
+					ID:   &userMotivation.User.City.ID,
+					Name: userMotivation.User.City.Name,
+					Type: userMotivation.User.City.Type,
+					Province: dto.ProvinceResponse{
+						ID:   userMotivation.User.City.ProvinceID,
+						Name: userMotivation.User.City.Province.Name,
+					},
+				},
+				Role: dto.RoleResponse{
+					ID:   &userMotivation.User.Role.ID,
+					Name: userMotivation.User.Role.Name,
+				},
+			},
+			Motivation: dto.MotivationResponse{
+				ID:      &userMotivation.Motivation.ID,
+				Author:  userMotivation.Motivation.Author,
+				Content: userMotivation.Motivation.Content,
+				MotivationCategory: dto.MotivationCategoryResponse{
+					ID:   &userMotivation.Motivation.MotivationCategory.ID,
+					Name: userMotivation.Motivation.MotivationCategory.Name,
+				},
+			},
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.AllUserMotivationResponse{
 		Data: datas,
 	}, nil
 }
