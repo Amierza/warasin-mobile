@@ -56,6 +56,9 @@ const (
 	// Language Master
 	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER = "failed get all psycholog language master"
 
+	// User Motivation
+	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "failed get all user motivation"
+
 	// Success
 	// Admin
 	MESSAGE_SUCCESS_LOGIN_ADMIN = "success login admin"
@@ -103,6 +106,9 @@ const (
 
 	// Lannguage
 	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER = "success get all psycholog language master"
+
+	// User Motivation
+	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "success get all user motivation"
 )
 
 var (
@@ -142,6 +148,7 @@ var (
 	ErrDeletePsycholog                        = errors.New("failed delete psycholog")
 	ErrGetAllConsultationWithPagination       = errors.New("failed get list consultation with pagination")
 	ErrGetAllPsychologLanguage                = errors.New("failed all psycholog language")
+	ErrGetAllUserMotivation                   = errors.New("failed all user motivation")
 )
 
 type (
@@ -388,5 +395,21 @@ type (
 
 	AllPsychologLanguageResponse struct {
 		Data []PsychologLanguageResponse `json:"data"`
+	}
+
+	AllUserMotivationRepositoryResponse struct {
+		UserMotivations []entity.UserMotivation
+	}
+
+	UserMotivationResponse struct {
+		ID          *uuid.UUID         `json:"user_mot_id"`
+		DisplayDate string             `json:"user_mot_display_date"`
+		Reaction    int                `json:"user_mot_reaction"`
+		User        AllUserResponse    `json:"user"`
+		Motivation  MotivationResponse `json:"motivation"`
+	}
+
+	AllUserMotivationResponse struct {
+		Data []UserMotivationResponse `json:"data"`
 	}
 )
