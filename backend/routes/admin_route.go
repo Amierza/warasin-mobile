@@ -54,14 +54,11 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 			routes.PATCH("/update-psycholog/:id", adminHandler.UpdatePsycholog)
 			routes.DELETE("/delete-psycholog/:id", adminHandler.DeletePsycholog)
 
-			// Consultation
-			routes.GET("/get-all-consultation", adminHandler.GetAllConsultation)
-
-			// Language Master
-			routes.GET("/get-all-psycholog-language", adminHandler.GetAllPsychologLanguage)
-
 			// User Motivation
 			routes.GET("/get-all-user-motivation", adminHandler.GetAllUserMotivation)
+
+			// Consultation
+			routes.GET("/get-all-consultation", adminHandler.GetAllConsultation)
 		}
 	}
 }

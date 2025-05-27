@@ -59,6 +59,9 @@ const (
 	// User Motivation
 	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "failed get all user motivation"
 
+	// User News
+	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_NEWS = "failed get all user news"
+
 	// Success
 	// Admin
 	MESSAGE_SUCCESS_LOGIN_ADMIN = "success login admin"
@@ -109,6 +112,9 @@ const (
 
 	// User Motivation
 	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "success get all user motivation"
+
+	// User News
+	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_NEWS = "success get all user news"
 )
 
 var (
@@ -149,6 +155,7 @@ var (
 	ErrGetAllConsultationWithPagination       = errors.New("failed get list consultation with pagination")
 	ErrGetAllPsychologLanguage                = errors.New("failed all psycholog language")
 	ErrGetAllUserMotivation                   = errors.New("failed all user motivation")
+	ErrGetAllUserNews                         = errors.New("failed all user news")
 )
 
 type (
@@ -207,11 +214,12 @@ type (
 	}
 
 	NewsResponse struct {
-		ID    uuid.UUID `json:"news_id"`
-		Image string    `json:"news_image"`
-		Title string    `json:"news_title"`
-		Body  string    `json:"news_body"`
-		Date  string    `json:"news_date"`
+		ID       *uuid.UUID `json:"news_id"`
+		Image    string     `json:"news_image"`
+		Title    string     `json:"news_title"`
+		Body     string     `json:"news_body"`
+		Date     string     `json:"news_date"`
+		ReadDate string     `json:"news_read_date,omitempty"`
 	}
 
 	NewsPaginationResponse struct {
@@ -275,6 +283,8 @@ type (
 		Author             string                     `json:"motivation_author"`
 		Content            string                     `json:"motivation_content"`
 		MotivationCategory MotivationCategoryResponse `json:"motivation_category"`
+		DisplayDate        string                     `json:"motivation_display_date,omitempty"`
+		Reaction           int                        `json:"user_motivation_reaction,omitempty"`
 	}
 
 	MotivationPaginationResponse struct {
@@ -319,18 +329,40 @@ type (
 		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id"`
 	}
 
+	LanguageMasterResponse struct {
+		ID   *uuid.UUID `json:"lang_id"`
+		Name string     `json:"lang_name"`
+	}
+
+	SpecializationResponse struct {
+		ID          *uuid.UUID `json:"spe_id"`
+		Name        string     `json:"spe_name"`
+		Description string     `json:"spe_desc"`
+	}
+
+	EducationResponse struct {
+		ID             *uuid.UUID `json:"edu_id"`
+		Degree         string     `json:"edu_degree"`
+		Major          string     `json:"edu_major"`
+		Institution    string     `json:"edu_institution"`
+		GraduationYear string     `json:"edu_graduation_year"`
+	}
+
 	PsychologResponse struct {
-		ID          uuid.UUID    `json:"psy_id"`
-		Name        string       `json:"psy_name"`
-		STRNumber   string       `json:"psy_str_number"`
-		Email       string       `json:"psy_email"`
-		Password    string       `json:"psy_password"`
-		WorkYear    string       `json:"psy_work_year"`
-		Description string       `json:"psy_description"`
-		PhoneNumber string       `json:"psy_phone_number"`
-		Image       string       `json:"psy_image"`
-		City        CityResponse `json:"city"`
-		Role        RoleResponse `json:"role"`
+		ID              uuid.UUID                `json:"psy_id"`
+		Name            string                   `json:"psy_name"`
+		STRNumber       string                   `json:"psy_str_number"`
+		Email           string                   `json:"psy_email"`
+		Password        string                   `json:"psy_password"`
+		WorkYear        string                   `json:"psy_work_year"`
+		Description     string                   `json:"psy_description"`
+		PhoneNumber     string                   `json:"psy_phone_number"`
+		Image           string                   `json:"psy_image"`
+		City            CityResponse             `json:"city"`
+		Role            RoleResponse             `json:"role"`
+		LanguageMasters []LanguageMasterResponse `json:"language"`
+		Specializations []SpecializationResponse `json:"specialization"`
+		Educations      []EducationResponse      `json:"education"`
 	}
 
 	PsychologPaginationResponse struct {
@@ -378,38 +410,19 @@ type (
 		Data []ConsultationResponse `json:"data"`
 	}
 
-	LanguageMasterResponse struct {
-		ID   *uuid.UUID `json:"lang_id"`
-		Name string     `json:"lang_name"`
-	}
-
-	PsychologLanguageResponse struct {
-		ID             *uuid.UUID             `json:"psy_lang_id"`
-		Psycholog      PsychologResponse      `json:"psycholog"`
-		LanguageMaster LanguageMasterResponse `json:"language"`
-	}
-
-	AllPsychologLanguageRepositoryResponse struct {
-		PsychologLanguages []entity.PsychologLanguage
-	}
-
-	AllPsychologLanguageResponse struct {
-		Data []PsychologLanguageResponse `json:"data"`
+	UserMotivationResponse struct {
+		ID         *uuid.UUID           `json:"user_mot_id"`
+		User       AllUserResponse      `json:"user"`
+		Motivation []MotivationResponse `json:"motivations"`
 	}
 
 	AllUserMotivationRepositoryResponse struct {
+		PaginationResponse
 		UserMotivations []entity.UserMotivation
 	}
 
-	UserMotivationResponse struct {
-		ID          *uuid.UUID         `json:"user_mot_id"`
-		DisplayDate string             `json:"user_mot_display_date"`
-		Reaction    int                `json:"user_mot_reaction"`
-		User        AllUserResponse    `json:"user"`
-		Motivation  MotivationResponse `json:"motivation"`
-	}
-
-	AllUserMotivationResponse struct {
+	UserMotivationPaginationResponse struct {
+		PaginationResponse
 		Data []UserMotivationResponse `json:"data"`
 	}
 )

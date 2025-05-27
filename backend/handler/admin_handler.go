@@ -53,14 +53,11 @@ type (
 		UpdatePsycholog(ctx *gin.Context)
 		DeletePsycholog(ctx *gin.Context)
 
-		// Consultation
-		GetAllConsultation(ctx *gin.Context)
-
-		// Language Master
-		GetAllPsychologLanguage(ctx *gin.Context)
-
 		// User Motivation
 		GetAllUserMotivation(ctx *gin.Context)
+
+		// Consultation
+		GetAllConsultation(ctx *gin.Context)
 	}
 
 	AdminHandler struct {
@@ -622,6 +619,26 @@ func (ah *AdminHandler) DeletePsycholog(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 
+// User Motivation
+func (ah *AdminHandler) GetAllUserMotivation(ctx *gin.Context) {
+	var payload dto.PaginationRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.GetAllUserMotivationWithPagination(ctx.Request.Context(), payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_MOTIVATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_MOTIVATION, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
 // Consultation
 func (ah *AdminHandler) GetAllConsultation(ctx *gin.Context) {
 	var payload dto.PaginationRequest
@@ -645,31 +662,5 @@ func (ah *AdminHandler) GetAllConsultation(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
-	ctx.JSON(http.StatusOK, res)
-}
-
-// Language Master
-func (ah *AdminHandler) GetAllPsychologLanguage(ctx *gin.Context) {
-	result, err := ah.adminService.GetAllPsychologLanguage(ctx.Request.Context())
-	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER, err.Error(), nil)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
-		return
-	}
-
-	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER, result)
-	ctx.JSON(http.StatusOK, res)
-}
-
-// User Motivation
-func (ah *AdminHandler) GetAllUserMotivation(ctx *gin.Context) {
-	result, err := ah.adminService.GetAllUserMotivation(ctx.Request.Context())
-	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_MOTIVATION, err.Error(), nil)
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
-		return
-	}
-
-	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_MOTIVATION, result)
 	ctx.JSON(http.StatusOK, res)
 }
