@@ -153,7 +153,6 @@ var (
 	ErrUpdatePsycholog                        = errors.New("failed update psycholog")
 	ErrDeletePsycholog                        = errors.New("failed delete psycholog")
 	ErrGetAllConsultationWithPagination       = errors.New("failed get list consultation with pagination")
-	ErrGetAllPsychologLanguage                = errors.New("failed all psycholog language")
 	ErrGetAllUserMotivation                   = errors.New("failed all user motivation")
 	ErrGetAllUserNews                         = errors.New("failed all user news")
 )
@@ -283,8 +282,6 @@ type (
 		Author             string                     `json:"motivation_author"`
 		Content            string                     `json:"motivation_content"`
 		MotivationCategory MotivationCategoryResponse `json:"motivation_category"`
-		DisplayDate        string                     `json:"motivation_display_date,omitempty"`
-		Reaction           int                        `json:"user_motivation_reaction,omitempty"`
 	}
 
 	MotivationPaginationResponse struct {
@@ -391,6 +388,41 @@ type (
 		ID string `json:"-"`
 	}
 
+	UserMotivationResponse struct {
+		ID          *uuid.UUID         `json:"user_mot_id"`
+		DisplayDate string             `json:"user_mot_date"`
+		Reaction    int                `json:"user_mot_reaction"`
+		User        AllUserResponse    `json:"user"`
+		Motivation  MotivationResponse `json:"motivation"`
+	}
+
+	AllUserMotivationRepositoryResponse struct {
+		PaginationResponse
+		UserMotivations []entity.UserMotivation
+	}
+
+	UserMotivationPaginationResponse struct {
+		PaginationResponse
+		Data []UserMotivationResponse `json:"data"`
+	}
+
+	UserNewsResponse struct {
+		ID   *uuid.UUID      `json:"user_news_id"`
+		Date string          `json:"user_news_date"`
+		User AllUserResponse `json:"user"`
+		News NewsResponse    `json:"news"`
+	}
+
+	AllUserNewsRepositoryResponse struct {
+		PaginationResponse
+		UserNews []entity.NewsDetail
+	}
+
+	UserNewsPaginationResponse struct {
+		PaginationResponse
+		Data []UserNewsResponse `json:"data"`
+	}
+
 	AllConsultationRepositoryResponse struct {
 		PaginationResponse
 		Consultations []entity.Consulation
@@ -408,21 +440,5 @@ type (
 	ConsultationPaginationResponse struct {
 		PaginationResponse
 		Data []ConsultationResponse `json:"data"`
-	}
-
-	UserMotivationResponse struct {
-		ID         *uuid.UUID           `json:"user_mot_id"`
-		User       AllUserResponse      `json:"user"`
-		Motivation []MotivationResponse `json:"motivations"`
-	}
-
-	AllUserMotivationRepositoryResponse struct {
-		PaginationResponse
-		UserMotivations []entity.UserMotivation
-	}
-
-	UserMotivationPaginationResponse struct {
-		PaginationResponse
-		Data []UserMotivationResponse `json:"data"`
 	}
 )

@@ -57,6 +57,9 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 			// User Motivation
 			routes.GET("/get-all-user-motivation", adminHandler.GetAllUserMotivation)
 
+			// User Motivation
+			routes.GET("/get-all-user-news", adminHandler.GetAllUserNews)
+
 			// Consultation
 			routes.GET("/get-all-consultation", adminHandler.GetAllConsultation)
 		}
