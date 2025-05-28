@@ -32,9 +32,8 @@ type (
 		CheckEmailPsycholog(ctx context.Context, tx *gorm.DB, email string) (entity.Psycholog, bool, error)
 		GetAllPsychologWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllPsychologRepositoryResponse, error)
 		GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, error)
+		GetAllUserMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserMotivationRepositoryResponse, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllConsultationRepositoryResponse, error)
-		GetAllPsychologLanguage(ctx context.Context, tx *gorm.DB) (dto.AllPsychologLanguageRepositoryResponse, error)
-		GetAllUserMotivation(ctx context.Context, tx *gorm.DB) (dto.AllUserMotivationRepositoryResponse, error)
 
 		// Create
 		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
@@ -422,11 +421,16 @@ func (ar *AdminRepository) GetAllPsychologWithPagination(ctx context.Context, tx
 		req.Page = 1
 	}
 
-	query := tx.WithContext(ctx).Model(&entity.Psycholog{}).Preload("Role").Preload("City.Province")
+	query := tx.WithContext(ctx).Model(&entity.Psycholog{}).
+		Preload("Role").
+		Preload("City.Province").
+		Preload("PsychologLanguages.LanguageMaster").
+		Preload("PsychologSpecializations.Specialization").
+		Preload("Educations")
 
 	if req.Search != "" {
 		searchValue := "%" + strings.ToLower(req.Search) + "%"
-		query = query.Where("LOWER(name) LIKE ?", searchValue)
+		query = query.Where("LOWER(name) LIKE ? OR LOWER(email) LIKE ?", searchValue, searchValue)
 	}
 
 	if err := query.Count(&count).Error; err != nil {
@@ -455,11 +459,67 @@ func (ar *AdminRepository) GetPsychologByID(ctx context.Context, tx *gorm.DB, ps
 	}
 
 	var psycholog entity.Psycholog
-	if err := tx.WithContext(ctx).Preload("Role").Preload("City.Province").Where("id = ?", psychologID).Take(&psycholog).Error; err != nil {
+	query := tx.WithContext(ctx).
+		Preload("Role").
+		Preload("City.Province").
+		Preload("PsychologLanguages.LanguageMaster").
+		Preload("PsychologSpecializations.Specialization").
+		Preload("Educations")
+
+	if err := query.Where("id = ?", psychologID).Take(&psycholog).Error; err != nil {
 		return entity.Psycholog{}, err
 	}
 
 	return psycholog, nil
+}
+func (ar *AdminRepository) GetAllUserMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserMotivationRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var (
+		userMotivations []entity.UserMotivation
+		err             error
+		count           int64
+	)
+
+	if req.PerPage == 0 {
+		req.PerPage = 10
+	}
+
+	if req.Page == 0 {
+		req.Page = 1
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.UserMotivation{}).
+		Preload("User.Role").
+		Preload("User.City.Province").
+		Preload("Motivation.MotivationCategory")
+
+	// if req.Search != "" {
+	// 	searchValue := "%" + strings.ToLower(req.Search) + "%"
+	// 	query = query.Where("LOWER(name) LIKE ?", searchValue)
+	// }
+
+	if err := query.Count(&count).Error; err != nil {
+		return dto.AllUserMotivationRepositoryResponse{}, err
+	}
+
+	if err := query.Order("created_at DESC").Scopes(Paginate(req.Page, req.PerPage)).Find(&userMotivations).Error; err != nil {
+		return dto.AllUserMotivationRepositoryResponse{}, err
+	}
+
+	totalPage := int64(math.Ceil(float64(count) / float64(req.PerPage)))
+
+	return dto.AllUserMotivationRepositoryResponse{
+		UserMotivations: userMotivations,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    req.Page,
+			PerPage: req.PerPage,
+			MaxPage: totalPage,
+			Count:   count,
+		},
+	}, err
 }
 func (ar *AdminRepository) GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllConsultationRepositoryResponse, error) {
 	if tx == nil {
@@ -484,9 +544,9 @@ func (ar *AdminRepository) GetAllConsultationWithPagination(ctx context.Context,
 		Preload("Psycholog.Role").
 		Preload("Psycholog.City.Province")
 
-	if req.Search != "" {
-		query = query.Where("rate = ?", req.Search)
-	}
+	// if req.Search != "" {
+	// 	query = query.Where("rate = ?", req.Search)
+	// }
 
 	if err := query.Count(&count).Error; err != nil {
 		return dto.AllConsultationRepositoryResponse{}, err
@@ -506,42 +566,6 @@ func (ar *AdminRepository) GetAllConsultationWithPagination(ctx context.Context,
 			MaxPage: totalPage,
 			Count:   count,
 		},
-	}, err
-}
-func (ar *AdminRepository) GetAllPsychologLanguage(ctx context.Context, tx *gorm.DB) (dto.AllPsychologLanguageRepositoryResponse, error) {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	var (
-		psychologLanguages []entity.PsychologLanguage
-		err                error
-	)
-
-	if err := tx.WithContext(ctx).Model(&entity.PsychologLanguage{}).Preload("Psycholog.Role").Preload("Psycholog.City.Province").Preload("LanguageMaster").Order("created_at DESC").Find(&psychologLanguages).Error; err != nil {
-		return dto.AllPsychologLanguageRepositoryResponse{}, err
-	}
-
-	return dto.AllPsychologLanguageRepositoryResponse{
-		PsychologLanguages: psychologLanguages,
-	}, err
-}
-func (ar *AdminRepository) GetAllUserMotivation(ctx context.Context, tx *gorm.DB) (dto.AllUserMotivationRepositoryResponse, error) {
-	if tx == nil {
-		tx = ar.db
-	}
-
-	var (
-		userMotivations []entity.UserMotivation
-		err             error
-	)
-
-	if err := tx.WithContext(ctx).Model(&entity.UserMotivation{}).Preload("User.Role").Preload("User.City.Province").Preload("Motivation.MotivationCategory").Order("created_at DESC").Find(&userMotivations).Error; err != nil {
-		return dto.AllUserMotivationRepositoryResponse{}, err
-	}
-
-	return dto.AllUserMotivationRepositoryResponse{
-		UserMotivations: userMotivations,
 	}, err
 }
 
@@ -620,35 +644,35 @@ func (ar *AdminRepository) UpdatePsycholog(ctx context.Context, tx *gorm.DB, psy
 }
 
 // Delete
-func (ar AdminRepository) DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error {
+func (ar *AdminRepository) DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error {
 	if tx == nil {
 		tx = ar.db
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", userID).Delete(&entity.User{}).Error
 }
-func (ar AdminRepository) DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error {
+func (ar *AdminRepository) DeleteNewsByID(ctx context.Context, tx *gorm.DB, newsID string) error {
 	if tx == nil {
 		tx = ar.db
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", newsID).Delete(&entity.News{}).Error
 }
-func (ar AdminRepository) DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error {
+func (ar *AdminRepository) DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error {
 	if tx == nil {
 		tx = ar.db
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", motivationCategoryID).Delete(&entity.MotivationCategory{}).Error
 }
-func (ar AdminRepository) DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error {
+func (ar *AdminRepository) DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error {
 	if tx == nil {
 		tx = ar.db
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", motivationID).Delete(&entity.Motivation{}).Error
 }
-func (ar AdminRepository) DeletePsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) error {
+func (ar *AdminRepository) DeletePsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) error {
 	if tx == nil {
 		tx = ar.db
 	}

@@ -55,14 +55,11 @@ type (
 		UpdatePsycholog(ctx context.Context, req dto.UpdatePsychologRequest) (dto.PsychologResponse, error)
 		DeletePsycholog(ctx context.Context, req dto.DeletePsychologRequest) (dto.PsychologResponse, error)
 
+		// User Motivation
+		GetAllUserMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserMotivationPaginationResponse, error)
+
 		// Consultation
 		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error)
-
-		// Language Master
-		GetAllPsychologLanguage(ctx context.Context) (dto.AllPsychologLanguageResponse, error)
-
-		// User Motivation
-		GetAllUserMotivation(ctx context.Context) (dto.AllUserMotivationResponse, error)
 	}
 
 	AdminService struct {
@@ -518,7 +515,7 @@ func (as *AdminService) CreateNews(ctx context.Context, req dto.CreateNewsReques
 	}
 
 	res := dto.NewsResponse{
-		ID:    news.ID,
+		ID:    &news.ID,
 		Image: news.Image,
 		Title: news.Title,
 		Body:  news.Body,
@@ -536,7 +533,7 @@ func (as *AdminService) GetAllNewsWithPagination(ctx context.Context, req dto.Pa
 	var datas []dto.NewsResponse
 	for _, news := range dataWithPaginate.News {
 		data := dto.NewsResponse{
-			ID:    news.ID,
+			ID:    &news.ID,
 			Image: news.Image,
 			Title: news.Title,
 			Body:  news.Body,
@@ -563,7 +560,7 @@ func (as *AdminService) GetDetailNews(ctx context.Context, newsID string) (dto.N
 	}
 
 	return dto.NewsResponse{
-		ID:    news.ID,
+		ID:    &news.ID,
 		Image: news.Image,
 		Title: news.Title,
 		Body:  news.Body,
@@ -598,7 +595,7 @@ func (as *AdminService) UpdateNews(ctx context.Context, req dto.UpdateNewsReques
 	}
 
 	res := dto.NewsResponse{
-		ID:    news.ID,
+		ID:    &news.ID,
 		Image: news.Image,
 		Title: news.Title,
 		Body:  news.Body,
@@ -619,7 +616,7 @@ func (as *AdminService) DeleteNews(ctx context.Context, req dto.DeleteNewsReques
 	}
 
 	res := dto.NewsResponse{
-		ID:    deletedNews.ID,
+		ID:    &deletedNews.ID,
 		Image: deletedNews.Image,
 		Title: deletedNews.Title,
 		Body:  deletedNews.Body,
@@ -983,6 +980,7 @@ func (as *AdminService) GetAllPsychologWithPagination(ctx context.Context, req d
 	}
 
 	var datas []dto.PsychologResponse
+
 	for _, psycholog := range dataWithPaginate.Psychologs {
 		data := dto.PsychologResponse{
 			ID:          psycholog.ID,
@@ -1009,6 +1007,34 @@ func (as *AdminService) GetAllPsychologWithPagination(ctx context.Context, req d
 			},
 		}
 
+		// LanguageMasters
+		for _, lang := range psycholog.PsychologLanguages {
+			data.LanguageMasters = append(data.LanguageMasters, dto.LanguageMasterResponse{
+				ID:   &lang.LanguageMaster.ID,
+				Name: lang.LanguageMaster.Name,
+			})
+		}
+
+		// Specializations
+		for _, spec := range psycholog.PsychologSpecializations {
+			data.Specializations = append(data.Specializations, dto.SpecializationResponse{
+				ID:          &spec.Specialization.ID,
+				Name:        spec.Specialization.Name,
+				Description: spec.Specialization.Description,
+			})
+		}
+
+		// Educations
+		for _, edu := range psycholog.Educations {
+			data.Educations = append(data.Educations, dto.EducationResponse{
+				ID:             &edu.ID,
+				Degree:         edu.Degree,
+				Major:          edu.Major,
+				Institution:    edu.Institution,
+				GraduationYear: edu.GraduationYear,
+			})
+		}
+
 		datas = append(datas, data)
 	}
 
@@ -1028,7 +1054,7 @@ func (as *AdminService) GetDetailPsycholog(ctx context.Context, psychologID stri
 		return dto.PsychologResponse{}, dto.ErrPsychologNotFound
 	}
 
-	return dto.PsychologResponse{
+	data := dto.PsychologResponse{
 		ID:          psycholog.ID,
 		Name:        psycholog.Name,
 		STRNumber:   psycholog.STRNumber,
@@ -1051,7 +1077,37 @@ func (as *AdminService) GetDetailPsycholog(ctx context.Context, psychologID stri
 			ID:   psycholog.RoleID,
 			Name: psycholog.Role.Name,
 		},
-	}, nil
+	}
+
+	// LanguageMasters
+	for _, lang := range psycholog.PsychologLanguages {
+		data.LanguageMasters = append(data.LanguageMasters, dto.LanguageMasterResponse{
+			ID:   &lang.LanguageMaster.ID,
+			Name: lang.LanguageMaster.Name,
+		})
+	}
+
+	// Specializations
+	for _, spec := range psycholog.PsychologSpecializations {
+		data.Specializations = append(data.Specializations, dto.SpecializationResponse{
+			ID:          &spec.Specialization.ID,
+			Name:        spec.Specialization.Name,
+			Description: spec.Specialization.Description,
+		})
+	}
+
+	// Educations
+	for _, edu := range psycholog.Educations {
+		data.Educations = append(data.Educations, dto.EducationResponse{
+			ID:             &edu.ID,
+			Degree:         edu.Degree,
+			Major:          edu.Major,
+			Institution:    edu.Institution,
+			GraduationYear: edu.GraduationYear,
+		})
+	}
+
+	return data, nil
 }
 func (as *AdminService) UpdatePsycholog(ctx context.Context, req dto.UpdatePsychologRequest) (dto.PsychologResponse, error) {
 	psycholog, err := as.adminRepo.GetPsychologByID(ctx, nil, req.ID)
@@ -1193,6 +1249,81 @@ func (as *AdminService) DeletePsycholog(ctx context.Context, req dto.DeletePsych
 	return res, nil
 }
 
+// User Motivation
+func (as *AdminService) GetAllUserMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserMotivationPaginationResponse, error) {
+	dataWithPaginate, err := as.adminRepo.GetAllUserMotivationWithPagination(ctx, nil, req)
+	if err != nil {
+		return dto.UserMotivationPaginationResponse{}, dto.ErrGetAllUserMotivation
+	}
+
+	userMotivationMap := make(map[string]*dto.UserMotivationResponse)
+
+	for _, userMotivation := range dataWithPaginate.UserMotivations {
+		userID := userMotivation.User.ID.String()
+
+		motivation := dto.MotivationResponse{
+			ID:      &userMotivation.Motivation.ID,
+			Author:  userMotivation.Motivation.Author,
+			Content: userMotivation.Motivation.Content,
+			MotivationCategory: dto.MotivationCategoryResponse{
+				ID:   &userMotivation.Motivation.MotivationCategory.ID,
+				Name: userMotivation.Motivation.MotivationCategory.Name,
+			},
+			DisplayDate: userMotivation.DisplayDate.String(),
+			Reaction:    userMotivation.Reaction,
+		}
+
+		if existing, found := userMotivationMap[userID]; found {
+			existing.Motivation = append(existing.Motivation, motivation)
+		} else {
+			userMotivationMap[userID] = &dto.UserMotivationResponse{
+				ID: &userMotivation.ID,
+				User: dto.AllUserResponse{
+					ID:          userMotivation.User.ID,
+					Name:        userMotivation.User.Name,
+					Email:       userMotivation.User.Email,
+					Password:    userMotivation.User.Password,
+					Birthdate:   userMotivation.User.Birthdate.String(),
+					PhoneNumber: userMotivation.User.PhoneNumber,
+					Data01:      userMotivation.User.Data01,
+					Data02:      userMotivation.User.Data02,
+					Data03:      userMotivation.User.Data03,
+					IsVerified:  userMotivation.User.IsVerified,
+					City: dto.CityResponse{
+						ID:   &userMotivation.User.City.ID,
+						Name: userMotivation.User.City.Name,
+						Type: userMotivation.User.City.Type,
+						Province: dto.ProvinceResponse{
+							ID:   userMotivation.User.City.ProvinceID,
+							Name: userMotivation.User.City.Province.Name,
+						},
+					},
+					Role: dto.RoleResponse{
+						ID:   &userMotivation.User.Role.ID,
+						Name: userMotivation.User.Role.Name,
+					},
+				},
+				Motivation: []dto.MotivationResponse{motivation},
+			}
+		}
+	}
+
+	var result []dto.UserMotivationResponse
+	for _, val := range userMotivationMap {
+		result = append(result, *val)
+	}
+
+	return dto.UserMotivationPaginationResponse{
+		Data: result,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    dataWithPaginate.Page,
+			PerPage: dataWithPaginate.PerPage,
+			MaxPage: dataWithPaginate.MaxPage,
+			Count:   dataWithPaginate.Count,
+		},
+	}, nil
+}
+
 // Consultation
 func (as *AdminService) GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error) {
 	dataWithPaginate, err := as.adminRepo.GetAllConsultationWithPagination(ctx, nil, req)
@@ -1269,111 +1400,5 @@ func (as *AdminService) GetAllConsultationWithPagination(ctx context.Context, re
 			MaxPage: dataWithPaginate.MaxPage,
 			Count:   dataWithPaginate.Count,
 		},
-	}, nil
-}
-
-// Language Master
-func (as *AdminService) GetAllPsychologLanguage(ctx context.Context) (dto.AllPsychologLanguageResponse, error) {
-	data, err := as.adminRepo.GetAllPsychologLanguage(ctx, nil)
-	if err != nil {
-		return dto.AllPsychologLanguageResponse{}, dto.ErrGetAllPsychologLanguage
-	}
-
-	var datas []dto.PsychologLanguageResponse
-	for _, psychologLanguage := range data.PsychologLanguages {
-		data := dto.PsychologLanguageResponse{
-			ID: &psychologLanguage.ID,
-			Psycholog: dto.PsychologResponse{
-				ID:          psychologLanguage.Psycholog.ID,
-				Name:        psychologLanguage.Psycholog.Name,
-				STRNumber:   psychologLanguage.Psycholog.STRNumber,
-				Email:       psychologLanguage.Psycholog.Email,
-				Password:    psychologLanguage.Psycholog.Password,
-				WorkYear:    psychologLanguage.Psycholog.WorkYear,
-				Description: psychologLanguage.Psycholog.Description,
-				PhoneNumber: psychologLanguage.Psycholog.PhoneNumber,
-				Image:       psychologLanguage.Psycholog.Image,
-				City: dto.CityResponse{
-					ID:   &psychologLanguage.Psycholog.City.ID,
-					Name: psychologLanguage.Psycholog.City.Name,
-					Type: psychologLanguage.Psycholog.City.Type,
-					Province: dto.ProvinceResponse{
-						ID:   &psychologLanguage.Psycholog.City.Province.ID,
-						Name: psychologLanguage.Psycholog.City.Province.Name,
-					},
-				},
-				Role: dto.RoleResponse{
-					ID:   &psychologLanguage.Psycholog.Role.ID,
-					Name: psychologLanguage.Psycholog.Role.Name,
-				},
-			},
-			LanguageMaster: dto.LanguageMasterResponse{
-				ID:   &psychologLanguage.LanguageMaster.ID,
-				Name: psychologLanguage.LanguageMaster.Name,
-			},
-		}
-
-		datas = append(datas, data)
-	}
-
-	return dto.AllPsychologLanguageResponse{
-		Data: datas,
-	}, nil
-}
-
-// User Motivation
-func (as *AdminService) GetAllUserMotivation(ctx context.Context) (dto.AllUserMotivationResponse, error) {
-	data, err := as.adminRepo.GetAllUserMotivation(ctx, nil)
-	if err != nil {
-		return dto.AllUserMotivationResponse{}, dto.ErrGetAllUserMotivation
-	}
-
-	var datas []dto.UserMotivationResponse
-	for _, userMotivation := range data.UserMotivations {
-		data := dto.UserMotivationResponse{
-			ID:          &userMotivation.ID,
-			DisplayDate: userMotivation.DisplayDate.String(),
-			Reaction:    userMotivation.Reaction,
-			User: dto.AllUserResponse{
-				ID:          userMotivation.User.ID,
-				Name:        userMotivation.User.Name,
-				Email:       userMotivation.User.Email,
-				Password:    userMotivation.User.Password,
-				Birthdate:   userMotivation.User.Birthdate.String(),
-				PhoneNumber: userMotivation.User.PhoneNumber,
-				Data01:      userMotivation.User.Data01,
-				Data02:      userMotivation.User.Data02,
-				Data03:      userMotivation.User.Data03,
-				IsVerified:  userMotivation.User.IsVerified,
-				City: dto.CityResponse{
-					ID:   &userMotivation.User.City.ID,
-					Name: userMotivation.User.City.Name,
-					Type: userMotivation.User.City.Type,
-					Province: dto.ProvinceResponse{
-						ID:   userMotivation.User.City.ProvinceID,
-						Name: userMotivation.User.City.Province.Name,
-					},
-				},
-				Role: dto.RoleResponse{
-					ID:   &userMotivation.User.Role.ID,
-					Name: userMotivation.User.Role.Name,
-				},
-			},
-			Motivation: dto.MotivationResponse{
-				ID:      &userMotivation.Motivation.ID,
-				Author:  userMotivation.Motivation.Author,
-				Content: userMotivation.Motivation.Content,
-				MotivationCategory: dto.MotivationCategoryResponse{
-					ID:   &userMotivation.Motivation.MotivationCategory.ID,
-					Name: userMotivation.Motivation.MotivationCategory.Name,
-				},
-			},
-		}
-
-		datas = append(datas, data)
-	}
-
-	return dto.AllUserMotivationResponse{
-		Data: datas,
 	}, nil
 }

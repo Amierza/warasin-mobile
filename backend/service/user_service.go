@@ -598,7 +598,7 @@ func (us *UserService) GetAllNewsWithPagination(ctx context.Context, req dto.Pag
 	var datas []dto.NewsResponse
 	for _, news := range dataWithPaginate.News {
 		data := dto.NewsResponse{
-			ID:    news.ID,
+			ID:    &news.ID,
 			Image: news.Image,
 			Title: news.Title,
 			Body:  news.Body,
@@ -625,7 +625,7 @@ func (us *UserService) GetDetailNews(ctx context.Context, newsID string) (dto.Ne
 	}
 
 	return dto.NewsResponse{
-		ID:    news.ID,
+		ID:    &news.ID,
 		Image: news.Image,
 		Title: news.Title,
 		Body:  news.Body,
