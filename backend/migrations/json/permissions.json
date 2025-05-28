@@ -165,13 +165,18 @@
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
-    "permission_id": "1592544f-6a91-40dc-bb07-36a4e861364d",
-    "permission_endpoint": "/api/v1/admin/get-all-consultation",
+    "permission_id": "0efbd4b0-d02e-476a-a496-594fc9e31364",
+    "permission_endpoint": "/api/v1/admin/get-all-user-motivation",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
-    "permission_id": "0efbd4b0-d02e-476a-a496-594fc9e31364",
-    "permission_endpoint": "/api/v1/admin/get-all-user-motivation",
+    "permission_id": "c60d0f32-0bb3-44e4-8dcf-a8150849d6d0",
+    "permission_endpoint": "/api/v1/admin/get-all-user-news",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
+    "permission_id": "1592544f-6a91-40dc-bb07-36a4e861364d",
+    "permission_endpoint": "/api/v1/admin/get-all-consultation",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   }
 ]

@@ -33,6 +33,7 @@ type (
 		GetAllPsychologWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllPsychologRepositoryResponse, error)
 		GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, error)
 		GetAllUserMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserMotivationRepositoryResponse, error)
+		GetAllUserNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserNewsRepositoryResponse, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllConsultationRepositoryResponse, error)
 
 		// Create
@@ -513,6 +514,50 @@ func (ar *AdminRepository) GetAllUserMotivationWithPagination(ctx context.Contex
 
 	return dto.AllUserMotivationRepositoryResponse{
 		UserMotivations: userMotivations,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    req.Page,
+			PerPage: req.PerPage,
+			MaxPage: totalPage,
+			Count:   count,
+		},
+	}, err
+}
+func (ar *AdminRepository) GetAllUserNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserNewsRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var (
+		userNews []entity.NewsDetail
+		err      error
+		count    int64
+	)
+
+	if req.PerPage == 0 {
+		req.PerPage = 10
+	}
+
+	if req.Page == 0 {
+		req.Page = 1
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.NewsDetail{}).
+		Preload("User.Role").
+		Preload("User.City.Province").
+		Preload("News")
+
+	if err := query.Count(&count).Error; err != nil {
+		return dto.AllUserNewsRepositoryResponse{}, err
+	}
+
+	if err := query.Order("created_at DESC").Scopes(Paginate(req.Page, req.PerPage)).Find(&userNews).Error; err != nil {
+		return dto.AllUserNewsRepositoryResponse{}, err
+	}
+
+	totalPage := int64(math.Ceil(float64(count) / float64(req.PerPage)))
+
+	return dto.AllUserNewsRepositoryResponse{
+		UserNews: userNews,
 		PaginationResponse: dto.PaginationResponse{
 			Page:    req.Page,
 			PerPage: req.PerPage,
