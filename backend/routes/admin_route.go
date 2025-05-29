@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService service.IJWTService) {
+func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, masterHandler handler.IMasterHandler, jwtService service.IJWTService) {
 	routes := route.Group("/api/v1/admin")
 	{
 		// Authentication
@@ -50,8 +50,8 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, jwtService ser
 			// CRUD Psycholog
 			routes.POST("/create-psycholog", adminHandler.CreatePsycholog)
 			routes.GET("/get-all-psycholog", adminHandler.GetAllPsycholog)
-			routes.GET("/get-detail-psycholog/:id", adminHandler.GetDetailPsycholog)
-			routes.PATCH("/update-psycholog/:id", adminHandler.UpdatePsycholog)
+			routes.GET("/get-detail-psycholog/:id", masterHandler.GetDetailPsycholog)
+			routes.PATCH("/update-psycholog/:id", masterHandler.UpdatePsycholog)
 			routes.DELETE("/delete-psycholog/:id", adminHandler.DeletePsycholog)
 
 			// User Motivation

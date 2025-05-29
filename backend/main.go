@@ -46,9 +46,9 @@ func main() {
 	server := gin.Default()
 	server.Use(middleware.CORSMiddleware())
 
-	routes.User(server, userHandler, jwtService)
-	routes.Admin(server, adminHandler, jwtService)
-	routes.Psycholog(server, psyHandler, jwtService)
+	routes.User(server, userHandler, masterHandler, jwtService)
+	routes.Admin(server, adminHandler, masterHandler, jwtService)
+	routes.Psycholog(server, psyHandler, masterHandler, jwtService)
 	routes.Master(server, masterHandler, jwtService)
 
 	server.Static("/assets", "./assets")
