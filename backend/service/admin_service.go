@@ -58,6 +58,9 @@ type (
 		// User Motivation
 		GetAllUserMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserMotivationPaginationResponse, error)
 
+		// User News
+		GetAllUserNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserNewsPaginationResponse, error)
+
 		// Consultation
 		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error)
 	}
@@ -1253,68 +1256,130 @@ func (as *AdminService) DeletePsycholog(ctx context.Context, req dto.DeletePsych
 func (as *AdminService) GetAllUserMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserMotivationPaginationResponse, error) {
 	dataWithPaginate, err := as.adminRepo.GetAllUserMotivationWithPagination(ctx, nil, req)
 	if err != nil {
-		return dto.UserMotivationPaginationResponse{}, dto.ErrGetAllUserMotivation
+		return dto.UserMotivationPaginationResponse{}, dto.ErrGetAllPsychologWithPagination
 	}
 
-	userMotivationMap := make(map[string]*dto.UserMotivationResponse)
+	var datas []dto.UserMotivationResponse
 
 	for _, userMotivation := range dataWithPaginate.UserMotivations {
-		userID := userMotivation.User.ID.String()
-
-		motivation := dto.MotivationResponse{
-			ID:      &userMotivation.Motivation.ID,
-			Author:  userMotivation.Motivation.Author,
-			Content: userMotivation.Motivation.Content,
-			MotivationCategory: dto.MotivationCategoryResponse{
-				ID:   &userMotivation.Motivation.MotivationCategory.ID,
-				Name: userMotivation.Motivation.MotivationCategory.Name,
-			},
-			DisplayDate: userMotivation.DisplayDate.String(),
-			Reaction:    userMotivation.Reaction,
-		}
-
-		if existing, found := userMotivationMap[userID]; found {
-			existing.Motivation = append(existing.Motivation, motivation)
-		} else {
-			userMotivationMap[userID] = &dto.UserMotivationResponse{
-				ID: &userMotivation.ID,
-				User: dto.AllUserResponse{
-					ID:          userMotivation.User.ID,
-					Name:        userMotivation.User.Name,
-					Email:       userMotivation.User.Email,
-					Password:    userMotivation.User.Password,
-					Birthdate:   userMotivation.User.Birthdate.String(),
-					PhoneNumber: userMotivation.User.PhoneNumber,
-					Data01:      userMotivation.User.Data01,
-					Data02:      userMotivation.User.Data02,
-					Data03:      userMotivation.User.Data03,
-					IsVerified:  userMotivation.User.IsVerified,
-					City: dto.CityResponse{
-						ID:   &userMotivation.User.City.ID,
-						Name: userMotivation.User.City.Name,
-						Type: userMotivation.User.City.Type,
-						Province: dto.ProvinceResponse{
-							ID:   userMotivation.User.City.ProvinceID,
-							Name: userMotivation.User.City.Province.Name,
-						},
-					},
-					Role: dto.RoleResponse{
-						ID:   &userMotivation.User.Role.ID,
-						Name: userMotivation.User.Role.Name,
+		data := dto.UserMotivationResponse{
+			ID: &userMotivation.ID,
+			User: dto.AllUserResponse{
+				ID:       userMotivation.User.ID,
+				Name:     userMotivation.User.Name,
+				Email:    userMotivation.User.Email,
+				Password: userMotivation.User.Password,
+				Image:    userMotivation.User.Image,
+				Gender:   userMotivation.User.Gender,
+				Birthdate: func(t *time.Time) string {
+					if t != nil {
+						return t.Format("2006-01-02")
+					}
+					return ""
+				}(userMotivation.User.Birthdate),
+				PhoneNumber: userMotivation.User.PhoneNumber,
+				Data01:      userMotivation.User.Data01,
+				Data02:      userMotivation.User.Data02,
+				Data03:      userMotivation.User.Data03,
+				IsVerified:  userMotivation.User.IsVerified,
+				City: dto.CityResponse{
+					ID:   userMotivation.User.CityID,
+					Name: userMotivation.User.City.Name,
+					Type: userMotivation.User.City.Type,
+					Province: dto.ProvinceResponse{
+						ID:   userMotivation.User.City.ProvinceID,
+						Name: userMotivation.User.City.Province.Name,
 					},
 				},
-				Motivation: []dto.MotivationResponse{motivation},
-			}
+				Role: dto.RoleResponse{
+					ID:   userMotivation.User.RoleID,
+					Name: userMotivation.User.Role.Name,
+				},
+			},
+			Motivation: dto.MotivationResponse{
+				ID:      &userMotivation.Motivation.ID,
+				Author:  userMotivation.Motivation.Author,
+				Content: userMotivation.Motivation.Content,
+				MotivationCategory: dto.MotivationCategoryResponse{
+					ID:   &userMotivation.Motivation.MotivationCategory.ID,
+					Name: userMotivation.Motivation.MotivationCategory.Name,
+				},
+			},
 		}
-	}
 
-	var result []dto.UserMotivationResponse
-	for _, val := range userMotivationMap {
-		result = append(result, *val)
+		datas = append(datas, data)
 	}
 
 	return dto.UserMotivationPaginationResponse{
-		Data: result,
+		Data: datas,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    dataWithPaginate.Page,
+			PerPage: dataWithPaginate.PerPage,
+			MaxPage: dataWithPaginate.MaxPage,
+			Count:   dataWithPaginate.Count,
+		},
+	}, nil
+}
+
+// User News
+func (as *AdminService) GetAllUserNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserNewsPaginationResponse, error) {
+	dataWithPaginate, err := as.adminRepo.GetAllUserNewsWithPagination(ctx, nil, req)
+	if err != nil {
+		return dto.UserNewsPaginationResponse{}, dto.ErrGetAllNewsWithPagination
+	}
+
+	var datas []dto.UserNewsResponse
+
+	for _, userNews := range dataWithPaginate.UserNews {
+		data := dto.UserNewsResponse{
+			ID:   &userNews.ID,
+			Date: userNews.Date,
+			User: dto.AllUserResponse{
+				ID:       userNews.User.ID,
+				Name:     userNews.User.Name,
+				Email:    userNews.User.Email,
+				Password: userNews.User.Password,
+				Image:    userNews.User.Image,
+				Gender:   userNews.User.Gender,
+				Birthdate: func(t *time.Time) string {
+					if t != nil {
+						return t.Format("2006-01-02")
+					}
+					return ""
+				}(userNews.User.Birthdate),
+				PhoneNumber: userNews.User.PhoneNumber,
+				Data01:      userNews.User.Data01,
+				Data02:      userNews.User.Data02,
+				Data03:      userNews.User.Data03,
+				IsVerified:  userNews.User.IsVerified,
+				City: dto.CityResponse{
+					ID:   userNews.User.CityID,
+					Name: userNews.User.City.Name,
+					Type: userNews.User.City.Type,
+					Province: dto.ProvinceResponse{
+						ID:   userNews.User.City.ProvinceID,
+						Name: userNews.User.City.Province.Name,
+					},
+				},
+				Role: dto.RoleResponse{
+					ID:   userNews.User.RoleID,
+					Name: userNews.User.Role.Name,
+				},
+			},
+			News: dto.NewsResponse{
+				ID:    &userNews.News.ID,
+				Image: userNews.News.Image,
+				Title: userNews.News.Title,
+				Body:  userNews.News.Body,
+				Date:  userNews.News.Date,
+			},
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.UserNewsPaginationResponse{
+		Data: datas,
 		PaginationResponse: dto.PaginationResponse{
 			Page:    dataWithPaginate.Page,
 			PerPage: dataWithPaginate.PerPage,
