@@ -10,10 +10,8 @@ import (
 type (
 	IPsychologRepository interface {
 		// Get
-		CheckEmail(ctx context.Context, tx *gorm.DB, email string) (entity.Psycholog, bool, error)
 		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
 		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
-		GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, error)
 	}
 
 	PsychologRepository struct {
@@ -28,18 +26,6 @@ func NewPsychologRepository(db *gorm.DB) *PsychologRepository {
 }
 
 // Get
-func (pr *PsychologRepository) CheckEmail(ctx context.Context, tx *gorm.DB, email string) (entity.Psycholog, bool, error) {
-	if tx == nil {
-		tx = pr.db
-	}
-
-	var psycholog entity.Psycholog
-	if err := tx.WithContext(ctx).Preload("Role").Preload("City").Where("email = ?", email).Take(&psycholog).Error; err != nil {
-		return entity.Psycholog{}, false, err
-	}
-
-	return psycholog, true, nil
-}
 func (pr *PsychologRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error) {
 	if tx == nil {
 		tx = pr.db
@@ -63,16 +49,4 @@ func (pr *PsychologRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, rol
 	}
 
 	return role, nil
-}
-func (pr *PsychologRepository) GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, error) {
-	if tx == nil {
-		tx = pr.db
-	}
-
-	var psycholog entity.Psycholog
-	if err := tx.WithContext(ctx).Preload("Role").Preload("City.Province").Where("id = ?", psychologID).Take(&psycholog).Error; err != nil {
-		return entity.Psycholog{}, err
-	}
-
-	return psycholog, nil
 }

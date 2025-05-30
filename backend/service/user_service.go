@@ -407,7 +407,7 @@ func (us *UserService) VerifyEmail(ctx context.Context, req dto.VerifyEmailReque
 	}
 
 	if *user.IsVerified {
-		return dto.VerifyEmailResponse{}, dto.ErrEmailALreadyVerified
+		return dto.VerifyEmailResponse{}, dto.ErrEmailAlreadyVerified
 	}
 
 	trueValue := true
@@ -478,7 +478,7 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 
 	user, err := us.userRepo.GetUserByID(ctx, nil, userID)
 	if err != nil {
-		return dto.AllUserResponse{}, dto.ErrGetDataUserFromID
+		return dto.AllUserResponse{}, dto.ErrGetUserFromID
 	}
 
 	if req.CityID != nil {
