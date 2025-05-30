@@ -217,6 +217,20 @@ var (
 	ErrGetAllUserMotivation = errors.New("failed all user motivation")
 	// User News
 	ErrGetAllUserNews = errors.New("failed all user news")
+	// Language Master
+	ErrLanguageMasterNotFound = errors.New("failed language master not found")
+	// Psycholog Language
+	ErrDeletePsychologLanguageByPsychologID = errors.New("failed delete psycholog language by psycholog id")
+	ErrCreatePsychologLanguages             = errors.New("failed create psycholog languages")
+	// Specialization
+	ErrSpecializationNotFound = errors.New("failed specialization not found")
+	// Psycholog Specialization
+	ErrDeletePsychologSpecializationByPsychologID = errors.New("failed delete psycholog specialization by psycholog id")
+	ErrCreatePsychologSpecializations             = errors.New("failed create psycholog specializations")
+	// Education
+	ErrEducationIsExists            = errors.New("failed education is exists")
+	ErrDeleteEducationByPsychologID = errors.New("failed delete education by psycholog id")
+	ErrCreateEducations             = errors.New("failed create educations")
 )
 
 type (
@@ -499,15 +513,18 @@ type (
 		Psychologs []entity.Psycholog
 	}
 	UpdatePsychologRequest struct {
-		ID          string `json:"-"`
-		Name        string `json:"name,omitempty"`
-		STRNumber   string `json:"str_number,omitempty"`
-		Email       string `json:"email,omitempty"`
-		WorkYear    string `json:"work_year,omitempty"`
-		Description string `json:"description,omitempty"`
-		PhoneNumber string `json:"phone_number,omitempty"`
-		Image       string `json:"image,omitempty"`
-		CityID      string `json:"city_id,omitempty"`
+		ID                string              `json:"-"`
+		Name              string              `json:"name,omitempty"`
+		STRNumber         string              `json:"str_number,omitempty"`
+		Email             string              `json:"email,omitempty"`
+		WorkYear          string              `json:"work_year,omitempty"`
+		Description       string              `json:"description,omitempty"`
+		PhoneNumber       string              `json:"phone_number,omitempty"`
+		Image             string              `json:"image,omitempty"`
+		CityID            string              `json:"city_id,omitempty"`
+		LanguageMasterIDs []string            `json:"language_master,omitempty"`
+		SpecializationIDs []string            `json:"specialization,omitempty"`
+		Educations        []EducationResponse `json:"education,omitempty"`
 	}
 	DeletePsychologRequest struct {
 		ID string `json:"-"`

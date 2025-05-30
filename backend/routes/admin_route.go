@@ -50,8 +50,8 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, masterHandler 
 			// CRUD Psycholog
 			routes.POST("/create-psycholog", adminHandler.CreatePsycholog)
 			routes.GET("/get-all-psycholog", adminHandler.GetAllPsycholog)
-			routes.GET("/get-detail-psycholog/:id", masterHandler.GetDetailPsycholog)
-			routes.PATCH("/update-psycholog/:id", masterHandler.UpdatePsycholog)
+			routes.GET("/get-detail-psycholog/:id", masterHandler.GetDetailPsycholog) // master
+			routes.PATCH("/update-psycholog/:id", adminHandler.UpdatePsycholog)
 			routes.DELETE("/delete-psycholog/:id", adminHandler.DeletePsycholog)
 
 			// User Motivation

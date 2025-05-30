@@ -49,6 +49,7 @@ type (
 		// Psycholog
 		CreatePsycholog(ctx *gin.Context)
 		GetAllPsycholog(ctx *gin.Context)
+		UpdatePsycholog(ctx *gin.Context)
 		DeletePsycholog(ctx *gin.Context)
 
 		// User Motivation
@@ -563,6 +564,26 @@ func (ah *AdminHandler) GetAllPsycholog(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+func (ah *AdminHandler) UpdatePsycholog(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	var payload dto.UpdatePsychologRequest
+	payload.ID = idStr
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ah.adminService.UpdatePsycholog(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_PSYCHOLOG, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_PSYCHOLOG, result)
 	ctx.JSON(http.StatusOK, res)
 }
 func (ah *AdminHandler) DeletePsycholog(ctx *gin.Context) {
