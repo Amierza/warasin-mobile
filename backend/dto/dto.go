@@ -8,127 +8,193 @@ import (
 )
 
 const (
-	// Failed
-	// Admin
-	MESSAGE_FAILED_LOGIN_ADMIN = "failed login admin"
-
+	// ====================================== Failed ======================================
+	MESSAGE_FAILED_GET_DATA_FROM_BODY = "failed get data from body"
+	// Middleware
+	MESSAGE_FAILED_PROSES_REQUEST             = "failed proses request"
+	MESSAGE_FAILED_ACCESS_DENIED              = "failed access denied"
+	MESSAGE_FAILED_TOKEN_NOT_FOUND            = "failed token not found"
+	MESSAGE_FAILED_TOKEN_NOT_VALID            = "failed token not valid"
+	MESSAGE_FAILED_TOKEN_DENIED_ACCESS        = "failed token denied access"
+	MESSAGE_FAILED_INAVLID_ENPOINTS_TOKEN     = "failed invalid endpoints in token"
+	MESSAGE_FAILED_INAVLID_ROUTE_FORMAT_TOKEN = "failed invalid route format in token"
+	// Authentication
+	MESSAGE_FAILED_REGISTER_USER = "failed register user"
+	MESSAGE_FAILED_LOGIN_USER    = "failed login user"
+	MESSAGE_FAILED_REFRESH_TOKEN = "failed refresh token"
+	MESSAGE_FAILED_LOGIN_ADMIN   = "failed login admin"
+	// Send Email
+	MESSAGE_FAILED_SEND_VERIFICATION_EMAIL     = "failed to send verification email"
+	MESSAGE_FAILED_VERIFY_EMAIL                = "failed to verify email"
+	MESSAGE_FAILED_SEND_FORGOT_PASSWORD_EMAIL  = "failed to send forgot password email"
+	MESSAGE_FAILED_CHECK_FORGOT_PASSWORD_TOKEN = "failed to check forgot password token"
+	// City & Province
+	MESSAGE_FAILED_GET_LIST_CITY     = "failed get list city"
+	MESSAGE_FAILED_GET_LIST_PROVINCE = "failed get list province"
 	// Role
 	MESSAGE_FAILED_GET_LIST_ROLE = "failed get all role"
-
 	// User
 	MESSAGE_FAILED_CREATE_USER     = "failed create user"
 	MESSAGE_FAILED_GET_DETAIL_USER = "failed get detail user"
 	MESSAGE_FAILED_GET_LIST_USER   = "failed get list user"
 	MESSAGE_FAILED_UPDATE_USER     = "failed update user"
 	MESSAGE_FAILED_DELETE_USER     = "failed delete user"
-
+	MESSAGE_FAILED_UPDATE_PASSWORD = "failed to update password"
 	// News
 	MESSAGE_FAILED_CREATE_NEWS     = "failed create news"
 	MESSAGE_FAILED_GET_LIST_NEWS   = "failed get list news"
 	MESSAGE_FAILED_GET_DETAIL_NEWS = "failed get detail news"
 	MESSAGE_FAILED_UPDATE_NEWS     = "failed update news"
 	MESSAGE_FAILED_DELETE_NEWS     = "failed delete news"
-
 	// Motivation Category
 	MESSAGE_FAILED_CREATE_MOTIVATION_CATEGORY     = "failed create motivation category"
 	MESSAGE_FAILED_GET_LIST_MOTIVATION_CATEGORY   = "failed get list motivation category"
 	MESSAGE_FAILED_GET_DETAIL_MOTIVATION_CATEGORY = "failed get detail motivation category"
 	MESSAGE_FAILED_UPDATE_MOTIVATION_CATEGORY     = "failed update motivation category"
 	MESSAGE_FAILED_DELETE_MOTIVATION_CATEGORY     = "failed delete motivation category"
-
 	// Motivation
 	MESSAGE_FAILED_CREATE_MOTIVATION     = "failed create motivation"
 	MESSAGE_FAILED_GET_LIST_MOTIVATION   = "failed get all motivation"
 	MESSAGE_FAILED_GET_DETAIL_MOTIVATION = "failed get detail motivation"
 	MESSAGE_FAILED_UPDATE_MOTIVATION     = "failed update motivation"
 	MESSAGE_FAILED_DELETE_MOTIVATION     = "failed delete motivation"
-
 	// Psycholog
+	MESSAGE_FAILED_LOGIN_PSYCHOLOG      = "failed login psycholog"
 	MESSAGE_FAILED_CREATE_PSYCHOLOG     = "failed create psycholog"
 	MESSAGE_FAILED_GET_LIST_PSYCHOLOG   = "failed get all psycholog"
 	MESSAGE_FAILED_GET_DETAIL_PSYCHOLOG = "failed get detail psycholog"
 	MESSAGE_FAILED_UPDATE_PSYCHOLOG     = "failed update psycholog"
 	MESSAGE_FAILED_DELETE_PSYCHOLOG     = "failed delete psycholog"
-
+	// User Motivation
+	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "failed get all user motivation"
+	// User News
+	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_NEWS = "failed get all user news"
 	// Consultation
 	MESSAGE_FAILED_GET_LIST_CONSULTATION = "failed get all consultation"
 
-	// Language Master
-	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER = "failed get all psycholog language master"
-
-	// User Motivation
-	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "failed get all user motivation"
-
-	// User News
-	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_NEWS = "failed get all user news"
-
-	// Success
-	// Admin
-	MESSAGE_SUCCESS_LOGIN_ADMIN = "success login admin"
-
+	// ====================================== Success ======================================
+	// Authentication
+	MESSAGE_SUCCESS_REGISTER_USER = "success register user"
+	MESSAGE_SUCCESS_LOGIN_USER    = "success login user"
+	MESSAGE_SUCCESS_LOGIN_ADMIN   = "success login admin"
+	MESSAGE_SUCCESS_REFRESH_TOKEN = "success refresh token"
+	// Send Email
+	MESSAGE_SUCCESS_SEND_VERIFICATION_EMAIL     = "success to send verification email"
+	MESSAGE_SUCCESS_VERIFY_EMAIL                = "success to verify email"
+	MESSAGE_SUCCESS_SEND_FORGOT_PASSWORD_EMAIL  = "success to send forgot password email"
+	MESSAGE_SUCCESS_CHECK_FORGOT_PASSWORD_TOKEN = "success to check forgot password token"
+	// City & Province
+	MESSAGE_SUCCESS_GET_LIST_CITY     = "success get list city"
+	MESSAGE_SUCCESS_GET_LIST_PROVINCE = "success get list province"
 	// Role
 	MESSAGE_SUCCESS_GET_LIST_ROLE = "success get all role"
-
 	// User
 	MESSAGE_SUCCESS_CREATE_USER     = "success create user"
 	MESSAGE_SUCCESS_GET_DETAIL_USER = "success get detail user"
 	MESSAGE_SUCCESS_GET_LIST_USER   = "success get list user"
 	MESSAGE_SUCCESS_UPDATE_USER     = "success update user"
 	MESSAGE_SUCCESS_DELETE_USER     = "success delete user"
-
+	MESSAGE_SUCCESS_UPDATE_PASSWORD = "success to update password"
 	// News
 	MESSAGE_SUCCESS_CREATE_NEWS     = "success create news"
 	MESSAGE_SUCCESS_GET_LIST_NEWS   = "success get list news"
 	MESSAGE_SUCCESS_GET_DETAIL_NEWS = "success get detail news"
 	MESSAGE_SUCCESS_UPDATE_NEWS     = "success update news"
 	MESSAGE_SUCCESS_DELETE_NEWS     = "success delete news"
-
 	// Motivation Category
 	MESSAGE_SUCCESS_CREATE_MOTIVATION_CATEGORY     = "success create motivation category"
 	MESSAGE_SUCCESS_GET_LIST_MOTIVATION_CATEGORY   = "success get list motivation category"
 	MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION_CATEGORY = "success get detail motivation category"
 	MESSAGE_SUCCESS_UPDATE_MOTIVATION_CATEGORY     = "success update motivation category"
 	MESSAGE_SUCCESS_DELETE_MOTIVATION_CATEGORY     = "success delete motivation category"
-
 	// Motivation
 	MESSAGE_SUCCESS_CREATE_MOTIVATION     = "success create motivation"
 	MESSAGE_SUCCESS_GET_LIST_MOTIVATION   = "success get all motivation"
 	MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION = "success get detail motivation"
 	MESSAGE_SUCCESS_UPDATE_MOTIVATION     = "success update motivation"
 	MESSAGE_SUCCESS_DELETE_MOTIVATION     = "success delete motivation"
-
 	// Psycholog
+	MESSAGE_SUCCESS_LOGIN_PSYCHOLOG      = "success login psycholog"
 	MESSAGE_SUCCESS_CREATE_PSYCHOLOG     = "success create psycholog"
 	MESSAGE_SUCCESS_GET_LIST_PSYCHOLOG   = "success get all psycholog"
 	MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG = "success get detail psycholog"
 	MESSAGE_SUCCESS_UPDATE_PSYCHOLOG     = "success update psycholog"
 	MESSAGE_SUCCESS_DELETE_PSYCHOLOG     = "success delete psycholog"
-
-	// Consultation
-	MESSAGE_SUCCESS_GET_LIST_CONSULTATION = "success get all consultation"
-
-	// Lannguage
-	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_LANGUAGE_MASTER = "success get all psycholog language master"
-
 	// User Motivation
 	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "success get all user motivation"
-
 	// User News
 	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_NEWS = "success get all user news"
+	// Consultation
+	MESSAGE_SUCCESS_GET_LIST_CONSULTATION = "success get all consultation"
 )
 
 var (
-	ErrGetRoleIDFromToken                     = errors.New("failed get role id from token")
-	ErrGetAllUserWithPagination               = errors.New("failed get list user with pagination")
-	ErrDeleteUserByID                         = errors.New("failed delete user by id")
-	ErrFormatBirthdate                        = errors.New("failed parse birthdate input")
-	ErrCreateNews                             = errors.New("failed create news")
-	ErrGetAllNewsWithPagination               = errors.New("failed get list news with pagination")
-	ErrGetNewsFromID                          = errors.New("failed to get news data from id")
-	ErrGetNewsFromTitle                       = errors.New("failed to get news data from title")
-	ErrNewsTitleAlreadyExists                 = errors.New("failed news title already exists")
-	ErrUpdateNews                             = errors.New("failed update news")
-	ErrDeleteNews                             = errors.New("failed delete news")
+	// Middleware
+	ErrDeniedAccess           = errors.New("denied access")
+	ErrGetPermissionsByRoleID = errors.New("failed get all permission by role id")
+	// Input Validation
+	ErrFormatBirthdate   = errors.New("failed parse birthdate input")
+	ErrInvalidSTRNumber  = errors.New("failed invalid STR Number")
+	ErrInvalidWorkYear   = errors.New("failed invalid work year")
+	ErrInvalidName       = errors.New("failed invalid name")
+	ErrInvalidEmail      = errors.New("failed invalid email")
+	ErrInvalidPassword   = errors.New("failed invalid password")
+	ErrFormatPhoneNumber = errors.New("failed standarize phone number input")
+	// Authentication
+	ErrRegisterUser = errors.New("failed to register user")
+	// Email
+	ErrEmailAlreadyExists      = errors.New("email already exists")
+	ErrEmailNotFound           = errors.New("email not found")
+	ErrMakeVerificationEmail   = errors.New("failed to make verification email")
+	ErrMakeForgotPasswordEmail = errors.New("failed to make forgot password email")
+	ErrSendEmail               = errors.New("failed to send email")
+	ErrEmailAlreadyVerified    = errors.New("email is already verfied")
+	// Password
+	ErrPasswordNotMatch = errors.New("password not match")
+	ErrHashPassword     = errors.New("failed to hash password")
+	// Token
+	ErrGenerateToken           = errors.New("failed to generate token")
+	ErrGenerateAccessToken     = errors.New("failed to generate access token")
+	ErrGenerateRefreshToken    = errors.New("failed to generate refresh token")
+	ErrUnexpectedSigningMethod = errors.New("unexpected signing method")
+	ErrDecryptToken            = errors.New("failed to decrypt token")
+	ErrTokenInvalid            = errors.New("token invalid")
+	ErrValidateToken           = errors.New("failed to validate token")
+	ErrParsingExpiredTime      = errors.New("failed to parsing expired time")
+	ErrTokenExpired            = errors.New("token expired")
+	// City & Province
+	ErrGetCityByID    = errors.New("failed get city by id")
+	ErrGetAllProvince = errors.New("failed get list province")
+	// Role
+	ErrGetRoleIDFromToken = errors.New("failed get role id from token")
+	ErrGetRoleFromToken   = errors.New("failed get role from token")
+	ErrGetRoleFromName    = errors.New("failed get role by role name")
+	ErrGetRoleFromID      = errors.New("failed get role by role id")
+	// Psycholog
+	ErrGetPsychologIDFromToken       = errors.New("failed get psycholog id from token")
+	ErrRegisterPsycholog             = errors.New("failed to register psycholog")
+	ErrGetAllPsychologWithPagination = errors.New("failed get list psycholog with pagination")
+	ErrPsychologNotFound             = errors.New("failed psycholog not found")
+	ErrGetPsychologFromID            = errors.New("failed get` psycholog from id")
+	ErrUpdatePsycholog               = errors.New("failed update psycholog")
+	ErrDeletePsycholog               = errors.New("failed delete psycholog")
+	// User
+	ErrUserNotFound             = errors.New("user not found")
+	ErrGetAllUserWithPagination = errors.New("failed get list user with pagination")
+	ErrUpdateUser               = errors.New("failed to update user")
+	ErrDeleteUserByID           = errors.New("failed delete user by id")
+	ErrGetUserByPassword        = errors.New("failed to get user by password")
+	ErrGetUserIDFromToken       = errors.New("failed get user id from token")
+	ErrGetUserFromID            = errors.New("failed get user by id")
+	// News
+	ErrCreateNews               = errors.New("failed create news")
+	ErrGetAllNewsWithPagination = errors.New("failed get list news with pagination")
+	ErrGetNewsFromID            = errors.New("failed to get news data from id")
+	ErrGetNewsFromTitle         = errors.New("failed to get news data from title")
+	ErrNewsTitleAlreadyExists   = errors.New("failed news title already exists")
+	ErrUpdateNews               = errors.New("failed update news")
+	ErrDeleteNews               = errors.New("failed delete news")
+	// Motivation Category
 	ErrCreateMotivationCategory               = errors.New("failed create motivation category")
 	ErrGetAllMotivationCategoryWithPagination = errors.New("failed get list motivation category with pagination")
 	ErrGetMotivationCategoryFromID            = errors.New("failed get motivation category data from id")
@@ -136,48 +202,148 @@ var (
 	ErrMotivationCategoryNameAlreadyExists    = errors.New("failed motivation category name is exists")
 	ErrUpdateMotivationCategory               = errors.New("failed update motivation category")
 	ErrDeleteMotivationCategory               = errors.New("failed delete motivation category")
-	ErrCreateMotivation                       = errors.New("failed create motivation")
-	ErrGetAllMotivationWithPagination         = errors.New("failed get list motivation with pagination")
-	ErrGetMotivationFromID                    = errors.New("failed get motivation data from id")
-	ErrGetMotivationFromContent               = errors.New("failed to get motivation data from content")
-	ErrMotivationContentAlreadyExists         = errors.New("failed motivation content already exists")
-	ErrDeleteMotivation                       = errors.New("failed delete motivation")
-	ErrUpdateMotivation                       = errors.New("failed update motivation")
-	ErrMotivationNotFound                     = errors.New("failed motivation not found")
-	ErrRegisterPsycholog                      = errors.New("failed to register psycholog")
-	ErrInvalidSTRNumber                       = errors.New("failed invalid STR Number")
-	ErrInvalidWorkYear                        = errors.New("failed invalid work year")
-	ErrGetAllPsychologWithPagination          = errors.New("failed get list psycholog with pagination")
-	ErrPsychologNotFound                      = errors.New("failed psycholog not found")
-	ErrGetDataPsychologFromID                 = errors.New("failed get data psycholog from id")
-	ErrUpdatePsycholog                        = errors.New("failed update psycholog")
-	ErrDeletePsycholog                        = errors.New("failed delete psycholog")
-	ErrGetAllConsultationWithPagination       = errors.New("failed get list consultation with pagination")
-	ErrGetAllUserMotivation                   = errors.New("failed all user motivation")
-	ErrGetAllUserNews                         = errors.New("failed all user news")
+	// Motivation
+	ErrCreateMotivation               = errors.New("failed create motivation")
+	ErrGetAllMotivationWithPagination = errors.New("failed get list motivation with pagination")
+	ErrGetMotivationFromID            = errors.New("failed get motivation data from id")
+	ErrGetMotivationFromContent       = errors.New("failed to get motivation data from content")
+	ErrMotivationContentAlreadyExists = errors.New("failed motivation content already exists")
+	ErrDeleteMotivation               = errors.New("failed delete motivation")
+	ErrUpdateMotivation               = errors.New("failed update motivation")
+	ErrMotivationNotFound             = errors.New("failed motivation not found")
+	// Consultation
+	ErrGetAllConsultationWithPagination = errors.New("failed get list consultation with pagination")
+	// User motivation
+	ErrGetAllUserMotivation = errors.New("failed all user motivation")
+	// User News
+	ErrGetAllUserNews = errors.New("failed all user news")
 )
 
 type (
+	// Role
+	RolePaginationResponse struct {
+		Data []RoleResponse `json:"data"`
+	}
+	AllRoleRepositoryResponse struct {
+		Roles []entity.Role
+	}
+	RoleResponse struct {
+		ID   *uuid.UUID `json:"role_id"`
+		Name string     `json:"role_name"`
+	}
+	// Email
+	SendForgotPasswordEmailRequest struct {
+		Email string `json:"email" form:"email" binding:"required"`
+	}
+	ForgotPasswordRequest struct {
+		Token string `json:"token" form:"token" binding:"required"`
+	}
+	ForgotPasswordResponse struct {
+		Email string `json:"email" form:"email" binding:"required"`
+	}
+	SendVerificationEmailRequest struct {
+		Email string `json:"email" form:"email" binding:"required"`
+	}
+	VerifyEmailRequest struct {
+		Token string `json:"token" form:"token" binding:"required"`
+	}
+	VerifyEmailResponse struct {
+		Email      string `json:"email"`
+		IsVerified bool   `json:"is_verified"`
+	}
+	// City & Province
+	ProvinceResponse struct {
+		ID   *uuid.UUID `json:"province_id"`
+		Name string     `json:"province_name"`
+	}
+	CityResponse struct {
+		ID       *uuid.UUID       `json:"city_id"`
+		Name     string           `json:"city_name"`
+		Type     string           `json:"city_type"`
+		Province ProvinceResponse `json:"province"`
+	}
+	ProvincesResponse struct {
+		Data []ProvinceResponse `json:"data"`
+	}
+	CityResponseCustom struct {
+		ID   *uuid.UUID `json:"city_id"`
+		Name string     `json:"city_name"`
+		Type string     `json:"city_type"`
+	}
+	CityQueryRequest struct {
+		ProvinceID string `json:"province_id" form:"province_id"`
+	}
+	CitiesResponse struct {
+		Data []CityResponseCustom `json:"data"`
+	}
+	AllProvinceRepositoryResponse struct {
+		Provinces []entity.Province
+	}
+	AllCityRepositoryResponse struct {
+		Cities []entity.City
+	}
+	// Authentication
+	UserRegisterRequest struct {
+		Name     string `json:"name" form:"name" validate:"required,min=5"`
+		Email    string `json:"email" form:"email" validate:"required,email"`
+		Password string `json:"password" form:"password" validate:"required,min=8"`
+	}
+	UserLoginRequest struct {
+		Email    string `json:"email" form:"email"`
+		Password string `json:"password" form:"password"`
+	}
+	UserLoginResponse struct {
+		AccessToken  string `json:"access_token"`
+		RefreshToken string `json:"refresh_token"`
+	}
 	AdminLoginRequest struct {
 		Email    string `json:"email" form:"email"`
 		Password string `json:"password" form:"password"`
 	}
-
 	AdminLoginResponse struct {
 		AccessToken  string `json:"access_token"`
 		RefreshToken string `json:"refresh_token"`
 	}
+	PsychologLoginRequest struct {
+		Email    string `json:"email" form:"email"`
+		Password string `json:"password" form:"password"`
+	}
+	PsychologLoginResponse struct {
+		AccessToken  string `json:"access_token"`
+		RefreshToken string `json:"refresh_token"`
+	}
+	RefreshTokenRequest struct {
+		RefreshToken string `json:"refresh_token"`
+	}
 
+	RefreshTokenResponse struct {
+		AccessToken string `json:"access_token"`
+	}
+	// User
+	AllUserResponse struct {
+		ID          uuid.UUID    `json:"user_id"`
+		Name        string       `json:"user_name"`
+		Email       string       `json:"user_email"`
+		Password    string       `json:"user_password"`
+		Image       string       `json:"user_image"`
+		Gender      *bool        `json:"user_gender"`
+		Birthdate   string       `json:"user_birth_date"`
+		PhoneNumber string       `json:"user_phone_number"`
+		IsVerified  *bool        `json:"is_verified"`
+		Data01      int          `json:"user_data01"`
+		Data02      int          `json:"user_data02"`
+		Data03      int          `json:"user_data03"`
+		City        CityResponse `json:"city"`
+		Role        RoleResponse `json:"role"`
+	}
 	UserPaginationResponse struct {
 		PaginationResponse
 		Data []AllUserResponse `json:"data"`
 	}
-
 	AllUserRepositoryResponse struct {
 		PaginationResponse
 		Users []entity.User
 	}
-
 	CreateUserRequest struct {
 		Name        string     `json:"name"`
 		Email       string     `json:"email"`
@@ -188,7 +354,6 @@ type (
 		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id"`
 		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id"`
 	}
-
 	UpdateUserRequest struct {
 		ID          string     `json:"-"`
 		Name        string     `json:"name,omitempty"`
@@ -200,18 +365,24 @@ type (
 		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id,omitempty"`
 		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id,omitempty"`
 	}
-
 	DeleteUserRequest struct {
 		UserID string `json:"-"`
 	}
-
+	UpdatePasswordRequest struct {
+		Email    string `json:"email" form:"email" binding:"required"`
+		Password string `json:"password" form:"password" binding:"required"`
+	}
+	UpdatePasswordResponse struct {
+		OldPassword string `json:"old_password" form:"old_password" binding:"required"`
+		NewPassword string `json:"new_password" form:"new_password" binding:"required"`
+	}
+	// News
 	CreateNewsRequest struct {
 		Image string `json:"image"`
 		Title string `json:"title"`
 		Body  string `json:"body"`
 		Date  string `gorm:"type:date" json:"date"`
 	}
-
 	NewsResponse struct {
 		ID       *uuid.UUID `json:"news_id"`
 		Image    string     `json:"news_image"`
@@ -220,17 +391,14 @@ type (
 		Date     string     `json:"news_date"`
 		ReadDate string     `json:"news_read_date,omitempty"`
 	}
-
 	NewsPaginationResponse struct {
 		PaginationResponse
 		Data []NewsResponse `json:"data"`
 	}
-
 	AllNewsRepositoryResponse struct {
 		PaginationResponse
 		News []entity.News
 	}
-
 	UpdateNewsRequest struct {
 		ID    string `json:"-"`
 		Image string `json:"image,omitempty"`
@@ -238,81 +406,62 @@ type (
 		Body  string `json:"body,omitempty"`
 		Date  string `gorm:"type:date" json:"date,omitempty"`
 	}
-
 	DeleteNewsRequest struct {
 		NewsID string `json:"-"`
 	}
-
+	// Motivation Category
 	CreateMotivationCategoryRequest struct {
 		Name string `json:"name"`
 	}
-
 	MotivationCategoryResponse struct {
 		ID   *uuid.UUID `json:"motivation_category_id"`
 		Name string     `json:"motivation_category_name"`
 	}
-
 	MotivationCategoryPaginationResponse struct {
 		PaginationResponse
 		Data []MotivationCategoryResponse `json:"data"`
 	}
-
 	AllMotivationCategoryRepositoryResponse struct {
 		PaginationResponse
 		MotivationCategories []entity.MotivationCategory
 	}
-
 	UpdateMotivationCategoryRequest struct {
 		ID   string `json:"-"`
 		Name string `json:"name,omitempty"`
 	}
-
 	DeleteMotivationCategoryRequest struct {
 		MotivationCategoryID string `json:"-"`
 	}
-
+	// Motivation
 	CreateMotivationRequest struct {
 		Author               string     `json:"author"`
 		Content              string     `json:"content"`
 		MotivationCategoryID *uuid.UUID `json:"motivation_category_id"`
 	}
-
 	MotivationResponse struct {
 		ID                 *uuid.UUID                 `json:"motivation_id"`
 		Author             string                     `json:"motivation_author"`
 		Content            string                     `json:"motivation_content"`
 		MotivationCategory MotivationCategoryResponse `json:"motivation_category"`
 	}
-
 	MotivationPaginationResponse struct {
 		PaginationResponse
 		Data []MotivationResponse `json:"data"`
 	}
-
 	AllMotivationRepositoryResponse struct {
 		PaginationResponse
 		Motivations []entity.Motivation
 	}
-
 	UpdateMotivationRequest struct {
 		ID                   string `json:"-"`
 		Author               string `json:"author,omitempty"`
 		Content              string `json:"content,omitempty"`
 		MotivationCategoryID string `json:"motivation_category_id,omitempty"`
 	}
-
 	DeleteMotivationRequest struct {
 		ID string `json:"-"`
 	}
-
-	RolePaginationResponse struct {
-		Data []RoleResponse `json:"data"`
-	}
-
-	AllRoleRepositoryResponse struct {
-		Roles []entity.Role
-	}
-
+	// Psycholog
 	CreatePsychologRequest struct {
 		Name        string     `json:"name"`
 		STRNumber   string     `json:"str_number"`
@@ -325,26 +474,6 @@ type (
 		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id"`
 		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id"`
 	}
-
-	LanguageMasterResponse struct {
-		ID   *uuid.UUID `json:"lang_id"`
-		Name string     `json:"lang_name"`
-	}
-
-	SpecializationResponse struct {
-		ID          *uuid.UUID `json:"spe_id"`
-		Name        string     `json:"spe_name"`
-		Description string     `json:"spe_desc"`
-	}
-
-	EducationResponse struct {
-		ID             *uuid.UUID `json:"edu_id"`
-		Degree         string     `json:"edu_degree"`
-		Major          string     `json:"edu_major"`
-		Institution    string     `json:"edu_institution"`
-		GraduationYear string     `json:"edu_graduation_year"`
-	}
-
 	PsychologResponse struct {
 		ID              uuid.UUID                `json:"psy_id"`
 		Name            string                   `json:"psy_name"`
@@ -361,17 +490,14 @@ type (
 		Specializations []SpecializationResponse `json:"specialization"`
 		Educations      []EducationResponse      `json:"education"`
 	}
-
 	PsychologPaginationResponse struct {
 		PaginationResponse
 		Data []PsychologResponse `json:"data"`
 	}
-
 	AllPsychologRepositoryResponse struct {
 		PaginationResponse
 		Psychologs []entity.Psycholog
 	}
-
 	UpdatePsychologRequest struct {
 		ID          string `json:"-"`
 		Name        string `json:"name,omitempty"`
@@ -383,11 +509,29 @@ type (
 		Image       string `json:"image,omitempty"`
 		CityID      string `json:"city_id,omitempty"`
 	}
-
 	DeletePsychologRequest struct {
 		ID string `json:"-"`
 	}
-
+	// Language Master
+	LanguageMasterResponse struct {
+		ID   *uuid.UUID `json:"lang_id"`
+		Name string     `json:"lang_name"`
+	}
+	// Specialization
+	SpecializationResponse struct {
+		ID          *uuid.UUID `json:"spe_id"`
+		Name        string     `json:"spe_name"`
+		Description string     `json:"spe_desc"`
+	}
+	// Education
+	EducationResponse struct {
+		ID             *uuid.UUID `json:"edu_id"`
+		Degree         string     `json:"edu_degree"`
+		Major          string     `json:"edu_major"`
+		Institution    string     `json:"edu_institution"`
+		GraduationYear string     `json:"edu_graduation_year"`
+	}
+	// User Motivation
 	UserMotivationResponse struct {
 		ID          *uuid.UUID         `json:"user_mot_id"`
 		DisplayDate string             `json:"user_mot_date"`
@@ -395,39 +539,34 @@ type (
 		User        AllUserResponse    `json:"user"`
 		Motivation  MotivationResponse `json:"motivation"`
 	}
-
 	AllUserMotivationRepositoryResponse struct {
 		PaginationResponse
 		UserMotivations []entity.UserMotivation
 	}
-
 	UserMotivationPaginationResponse struct {
 		PaginationResponse
 		Data []UserMotivationResponse `json:"data"`
 	}
-
+	// User News
 	UserNewsResponse struct {
 		ID   *uuid.UUID      `json:"user_news_id"`
 		Date string          `json:"user_news_date"`
 		User AllUserResponse `json:"user"`
 		News NewsResponse    `json:"news"`
 	}
-
 	AllUserNewsRepositoryResponse struct {
 		PaginationResponse
 		UserNews []entity.NewsDetail
 	}
-
 	UserNewsPaginationResponse struct {
 		PaginationResponse
 		Data []UserNewsResponse `json:"data"`
 	}
-
+	// Consulation
 	AllConsultationRepositoryResponse struct {
 		PaginationResponse
 		Consultations []entity.Consulation
 	}
-
 	ConsultationResponse struct {
 		ID        uuid.UUID         `json:"consul_id"`
 		Date      string            `json:"consul_date"`
@@ -436,7 +575,6 @@ type (
 		User      AllUserResponse   `json:"user"`
 		Psycholog PsychologResponse `json:"psycholog"`
 	}
-
 	ConsultationPaginationResponse struct {
 		PaginationResponse
 		Data []ConsultationResponse `json:"data"`

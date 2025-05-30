@@ -7,14 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Psycholog(route *gin.Engine, psychologHandler handler.IPsychologHandler, jwtService service.IJWTService) {
+func Psycholog(route *gin.Engine, psychologHandler handler.IPsychologHandler, masterHandler handler.IMasterHandler, jwtService service.IJWTService) {
 	routes := route.Group("/api/v1/psycholog")
 	{
 		routes.POST("/login", psychologHandler.Login)
 		routes.POST("/refresh-token", psychologHandler.RefreshToken)
 		routes.Use(middleware.Authentication(jwtService), middleware.RouteAccessControl(jwtService))
 		{
-			routes.GET("/get-detail-psycholog", psychologHandler.GetDetailPsycholog)
+			routes.GET("/get-detail-psycholog", masterHandler.GetDetailPsycholog)
+			routes.PATCH("/update-psycholog", masterHandler.UpdatePsycholog)
 		}
 	}
 }

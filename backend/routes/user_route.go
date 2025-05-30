@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func User(route *gin.Engine, userHandler handler.IUserHandler, jwtService service.IJWTService) {
+func User(route *gin.Engine, userHandler handler.IUserHandler, masterHandler handler.IMasterHandler, jwtService service.IJWTService) {
 	routes := route.Group("/api/v1/user")
 	{
 		// Authentication

@@ -14,6 +14,10 @@ type (
 		// Get Province & City
 		GetAllProvince(ctx *gin.Context)
 		GetAllCity(ctx *gin.Context)
+
+		// Psycholog
+		GetDetailPsycholog(ctx *gin.Context)
+		UpdatePsycholog(ctx *gin.Context)
 	}
 
 	MasterHandler struct {
@@ -65,5 +69,42 @@ func (mh *MasterHandler) GetAllCity(ctx *gin.Context) {
 		Data:     result.Data,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+
+// Psycholog
+func (mh *MasterHandler) GetDetailPsycholog(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := mh.masterService.GetDetailPsycholog(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_PSYCHOLOG, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (mh *MasterHandler) UpdatePsycholog(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	var payload dto.UpdatePsychologRequest
+	if idStr != "" {
+		payload.ID = idStr
+	}
+
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := mh.masterService.UpdatePsycholog(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_PSYCHOLOG, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_PSYCHOLOG, result)
 	ctx.JSON(http.StatusOK, res)
 }
