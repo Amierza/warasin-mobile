@@ -15,7 +15,6 @@ func Psycholog(route *gin.Engine, psychologHandler handler.IPsychologHandler, ma
 		routes.Use(middleware.Authentication(jwtService), middleware.RouteAccessControl(jwtService))
 		{
 			routes.GET("/get-detail-psycholog", masterHandler.GetDetailPsycholog)
-			routes.PATCH("/update-psycholog", masterHandler.UpdatePsycholog)
 		}
 	}
 }
