@@ -58,6 +58,12 @@ type (
 		// User News
 		GetAllUserNews(ctx *gin.Context)
 
+		// Language Master
+		GetAllLanguageMaster(ctx *gin.Context)
+
+		// Specialization
+		GetAllSpecialization(ctx *gin.Context)
+
 		// Consultation
 		GetAllConsultation(ctx *gin.Context)
 	}
@@ -645,6 +651,32 @@ func (ah *AdminHandler) GetAllUserNews(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_NEWS, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// Language Master
+func (ah *AdminHandler) GetAllLanguageMaster(ctx *gin.Context) {
+	result, err := ah.adminService.GetAllLanguageMaster(ctx)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_ALL_LANGUAGE_MASTER, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_ALL_LANGUAGE_MASTER, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// Specialization
+func (ah *AdminHandler) GetAllSpecialization(ctx *gin.Context) {
+	result, err := ah.adminService.GetAllSpecialization(ctx)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_ALL_SPECIALIZATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_ALL_SPECIALIZATION, result)
 	ctx.JSON(http.StatusOK, res)
 }
 

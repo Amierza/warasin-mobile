@@ -73,6 +73,8 @@ const (
 	MESSAGE_FAILED_GET_LIST_CONSULTATION = "failed get all consultation"
 	// Language Master
 	MESSAGE_FAILED_GET_ALL_LANGUAGE_MASTER = "failed get all language master"
+	// Specialization
+	MESSAGE_FAILED_GET_ALL_SPECIALIZATION = "failed get all specialization"
 
 	// ====================================== Success ======================================
 	// Authentication
@@ -130,6 +132,8 @@ const (
 	MESSAGE_SUCCESS_GET_LIST_CONSULTATION = "success get all consultation"
 	// Language Master
 	MESSAGE_SUCCESS_GET_ALL_LANGUAGE_MASTER = "success get all language master"
+	// Specialization
+	MESSAGE_SUCCESS_GET_ALL_SPECIALIZATION = "success get all specialization"
 )
 
 var (
@@ -543,13 +547,19 @@ type (
 		LanguageMasters []entity.LanguageMaster
 	}
 	AllLanguageMasterResponse struct {
-		LanguageMaster []LanguageMasterResponse `json:"language_master"`
+		LanguageMasters []LanguageMasterResponse `json:"language_master"`
 	}
 	// Specialization
 	SpecializationResponse struct {
 		ID          *uuid.UUID `json:"spe_id"`
 		Name        string     `json:"spe_name"`
 		Description string     `json:"spe_desc"`
+	}
+	AllSpecializationRepositoryResponse struct {
+		Specializations []entity.Specialization
+	}
+	AllSpecializationResponse struct {
+		Specializations []SpecializationResponse `json:"specialization"`
 	}
 	// Education
 	EducationResponse struct {

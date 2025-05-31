@@ -36,6 +36,8 @@ type (
 		GetLanguageMasterByID(ctx context.Context, tx *gorm.DB, languageMasterID string) (entity.LanguageMaster, bool, error)
 		GetSpecializationByID(ctx context.Context, tx *gorm.DB, specializationID string) (entity.Specialization, bool, error)
 		GetEducationByID(ctx context.Context, tx *gorm.DB, eduID string) (entity.Education, bool, error)
+		GetAllLanguageMaster(ctx context.Context, tx *gorm.DB) (dto.AllLanguageMasterRepositoryResponse, error)
+		GetAllSpecialization(ctx context.Context, tx *gorm.DB) (dto.AllSpecializationRepositoryResponse, error)
 
 		// Create
 		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
@@ -624,6 +626,42 @@ func (ar *AdminRepository) GetEducationByID(ctx context.Context, tx *gorm.DB, ed
 	}
 
 	return education, true, nil
+}
+func (ar *AdminRepository) GetAllLanguageMaster(ctx context.Context, tx *gorm.DB) (dto.AllLanguageMasterRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var (
+		languageMasters []entity.LanguageMaster
+		err             error
+	)
+
+	if err = tx.WithContext(ctx).Order("created_at DESC").Find(&languageMasters).Error; err != nil {
+		return dto.AllLanguageMasterRepositoryResponse{}, err
+	}
+
+	return dto.AllLanguageMasterRepositoryResponse{
+		LanguageMasters: languageMasters,
+	}, nil
+}
+func (ar *AdminRepository) GetAllSpecialization(ctx context.Context, tx *gorm.DB) (dto.AllSpecializationRepositoryResponse, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var (
+		specializations []entity.Specialization
+		err             error
+	)
+
+	if err = tx.WithContext(ctx).Order("created_at DESC").Find(&specializations).Error; err != nil {
+		return dto.AllSpecializationRepositoryResponse{}, err
+	}
+
+	return dto.AllSpecializationRepositoryResponse{
+		Specializations: specializations,
+	}, nil
 }
 
 // Create
