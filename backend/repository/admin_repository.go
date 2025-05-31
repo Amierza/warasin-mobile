@@ -33,6 +33,9 @@ type (
 		GetAllUserMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserMotivationRepositoryResponse, error)
 		GetAllUserNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllUserNewsRepositoryResponse, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllConsultationRepositoryResponse, error)
+		GetLanguageMasterByID(ctx context.Context, tx *gorm.DB, languageMasterID string) (entity.LanguageMaster, bool, error)
+		GetSpecializationByID(ctx context.Context, tx *gorm.DB, specializationID string) (entity.Specialization, bool, error)
+		GetEducationByID(ctx context.Context, tx *gorm.DB, eduID string) (entity.Education, bool, error)
 
 		// Create
 		CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
@@ -40,12 +43,16 @@ type (
 		CreateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error
 		CreateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error
 		CreatePsycholog(ctx context.Context, tx *gorm.DB, psycholog entity.Psycholog) error
+		CreatePsychologLanguages(ctx context.Context, tx *gorm.DB, psychologLanguages []entity.PsychologLanguage) error
+		CreatePsychologSpecializations(ctx context.Context, tx *gorm.DB, psychologSpecializations []entity.PsychologSpecialization) error
+		CreateEducations(ctx context.Context, tx *gorm.DB, educations []entity.Education) error
 
 		// Update
 		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) error
 		UpdateNews(ctx context.Context, tx *gorm.DB, user entity.News) error
 		UpdateMotivationCategory(ctx context.Context, tx *gorm.DB, motivationCategory entity.MotivationCategory) error
 		UpdateMotivation(ctx context.Context, tx *gorm.DB, motivation entity.Motivation) error
+		UpdatePsycholog(ctx context.Context, tx *gorm.DB, psycholog entity.Psycholog) error
 
 		// Delete
 		DeleteUserByID(ctx context.Context, tx *gorm.DB, userID string) error
@@ -53,6 +60,9 @@ type (
 		DeleteMotivationCategoryByID(ctx context.Context, tx *gorm.DB, motivationCategoryID string) error
 		DeleteMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) error
 		DeletePsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) error
+		DeletePsychologLanguageByPsychologID(ctx context.Context, tx *gorm.DB, psychologID string) error
+		DeletePsychologSpecializationByPsychologID(ctx context.Context, tx *gorm.DB, psychologID string) error
+		DeleteEducationByPsychologID(ctx context.Context, tx *gorm.DB, psychologID string) error
 	}
 
 	AdminRepository struct {
@@ -579,6 +589,42 @@ func (ar *AdminRepository) GetAllConsultationWithPagination(ctx context.Context,
 		},
 	}, err
 }
+func (ar *AdminRepository) GetLanguageMasterByID(ctx context.Context, tx *gorm.DB, languageMasterID string) (entity.LanguageMaster, bool, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var languageMaster entity.LanguageMaster
+	if err := tx.WithContext(ctx).Where("id = ?", languageMasterID).Take(&languageMaster).Error; err != nil {
+		return entity.LanguageMaster{}, false, err
+	}
+
+	return languageMaster, true, nil
+}
+func (ar *AdminRepository) GetSpecializationByID(ctx context.Context, tx *gorm.DB, specializationID string) (entity.Specialization, bool, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var specialization entity.Specialization
+	if err := tx.WithContext(ctx).Where("id = ?", specializationID).Take(&specialization).Error; err != nil {
+		return entity.Specialization{}, false, err
+	}
+
+	return specialization, true, nil
+}
+func (ar *AdminRepository) GetEducationByID(ctx context.Context, tx *gorm.DB, educationID string) (entity.Education, bool, error) {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	var education entity.Education
+	if err := tx.WithContext(ctx).Where("id = ?", educationID).Take(&education).Error; err != nil {
+		return entity.Education{}, false, err
+	}
+
+	return education, true, nil
+}
 
 // Create
 func (ar *AdminRepository) CreateUser(ctx context.Context, tx *gorm.DB, user entity.User) error {
@@ -616,6 +662,27 @@ func (ar *AdminRepository) CreatePsycholog(ctx context.Context, tx *gorm.DB, psy
 
 	return tx.WithContext(ctx).Create(&psycholog).Error
 }
+func (ar *AdminRepository) CreatePsychologLanguages(ctx context.Context, tx *gorm.DB, psychologLanguages []entity.PsychologLanguage) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&psychologLanguages).Error
+}
+func (ar *AdminRepository) CreatePsychologSpecializations(ctx context.Context, tx *gorm.DB, psychologSpecializations []entity.PsychologSpecialization) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(&psychologSpecializations).Error
+}
+func (ar *AdminRepository) CreateEducations(ctx context.Context, tx *gorm.DB, educations []entity.Education) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Create(educations).Error
+}
 
 // Update
 func (ar *AdminRepository) UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) error {
@@ -645,6 +712,13 @@ func (ar *AdminRepository) UpdateMotivation(ctx context.Context, tx *gorm.DB, mo
 	}
 
 	return tx.WithContext(ctx).Select("author", "content", "motivation_category_id").Where("id = ?", motivation.ID).Updates(&motivation).Error
+}
+func (ar *AdminRepository) UpdatePsycholog(ctx context.Context, tx *gorm.DB, psycholog entity.Psycholog) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", psycholog.ID).Updates(&psycholog).Error
 }
 
 // Delete
@@ -682,4 +756,25 @@ func (ar *AdminRepository) DeletePsychologByID(ctx context.Context, tx *gorm.DB,
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", psychologID).Delete(&entity.Psycholog{}).Error
+}
+func (ar *AdminRepository) DeletePsychologLanguageByPsychologID(ctx context.Context, tx *gorm.DB, psychologID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("psycholog_id = ?", psychologID).Delete(&entity.PsychologLanguage{}).Error
+}
+func (ar *AdminRepository) DeletePsychologSpecializationByPsychologID(ctx context.Context, tx *gorm.DB, psychologID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("psycholog_id = ?", psychologID).Delete(&entity.PsychologSpecialization{}).Error
+}
+func (ar *AdminRepository) DeleteEducationByPsychologID(ctx context.Context, tx *gorm.DB, psychologID string) error {
+	if tx == nil {
+		tx = ar.db
+	}
+
+	return tx.WithContext(ctx).Where("psycholog_id = ?", psychologID).Delete(&entity.Education{}).Error
 }

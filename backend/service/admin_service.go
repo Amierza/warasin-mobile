@@ -51,6 +51,7 @@ type (
 		// Psycholog
 		CreatePsycholog(ctx context.Context, req dto.CreatePsychologRequest) (dto.PsychologResponse, error)
 		GetAllPsychologWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.PsychologPaginationResponse, error)
+		UpdatePsycholog(ctx context.Context, req dto.UpdatePsychologRequest) (dto.PsychologResponse, error)
 		DeletePsycholog(ctx context.Context, req dto.DeletePsychologRequest) (dto.PsychologResponse, error)
 
 		// User Motivation
@@ -1048,6 +1049,226 @@ func (as *AdminService) GetAllPsychologWithPagination(ctx context.Context, req d
 			Count:   dataWithPaginate.Count,
 		},
 	}, nil
+}
+func (as *AdminService) UpdatePsycholog(ctx context.Context, req dto.UpdatePsychologRequest) (dto.PsychologResponse, error) {
+	psycholog, flag, err := as.masterRepo.GetPsychologByID(ctx, nil, req.ID)
+	if err != nil || !flag {
+		return dto.PsychologResponse{}, dto.ErrPsychologNotFound
+	}
+
+	if req.Name != "" {
+		if len(req.Name) < 5 {
+			return dto.PsychologResponse{}, dto.ErrInvalidName
+		}
+
+		psycholog.Name = req.Name
+	}
+
+	if req.STRNumber != "" {
+		if !helpers.IsValidSTRNumber(req.STRNumber) {
+			return dto.PsychologResponse{}, dto.ErrInvalidSTRNumber
+		}
+
+		psycholog.STRNumber = req.STRNumber
+	}
+
+	if req.Email != "" {
+		if !helpers.IsValidEmail(req.Email) {
+			return dto.PsychologResponse{}, dto.ErrInvalidEmail
+		}
+
+		_, flag, err := as.masterRepo.GetPsychologByEmail(ctx, nil, req.Email)
+		if flag || err == nil {
+			return dto.PsychologResponse{}, dto.ErrEmailAlreadyExists
+		}
+
+		psycholog.Email = req.Email
+	}
+
+	if req.WorkYear != "" {
+		if len(req.WorkYear) < 4 {
+			return dto.PsychologResponse{}, dto.ErrInvalidWorkYear
+		}
+
+		psycholog.WorkYear = req.WorkYear
+	}
+
+	if req.Description != "" {
+		psycholog.Description = req.Description
+	}
+
+	if req.PhoneNumber != "" {
+		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber)
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrFormatPhoneNumber
+		}
+
+		psycholog.PhoneNumber = phoneNumberFormatted
+	}
+
+	if req.Image != "" {
+		psycholog.Image = req.Image
+	}
+
+	if req.CityID != "" {
+		city, err := as.masterRepo.GetCityByID(ctx, nil, req.CityID)
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrGetCityByID
+		}
+
+		psycholog.City = city
+	}
+
+	if len(req.LanguageMasterIDs) > 0 {
+		err := as.adminRepo.DeletePsychologLanguageByPsychologID(ctx, nil, psycholog.ID.String())
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrDeletePsychologLanguageByPsychologID
+		}
+
+		var newLangs []entity.PsychologLanguage
+
+		for _, langID := range req.LanguageMasterIDs {
+			languageMaster, found, err := as.adminRepo.GetLanguageMasterByID(ctx, nil, langID)
+			if err != nil || !found {
+				return dto.PsychologResponse{}, dto.ErrLanguageMasterNotFound
+			}
+
+			newLangs = append(newLangs, entity.PsychologLanguage{
+				ID:               uuid.New(),
+				PsychologID:      &psycholog.ID,
+				LanguageMasterID: &languageMaster.ID,
+			})
+		}
+
+		err = as.adminRepo.CreatePsychologLanguages(ctx, nil, newLangs)
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrCreatePsychologLanguages
+		}
+
+		psycholog.PsychologLanguages = newLangs
+	}
+
+	if len(req.SpecializationIDs) > 0 {
+		err := as.adminRepo.DeletePsychologSpecializationByPsychologID(ctx, nil, psycholog.ID.String())
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrDeletePsychologSpecializationByPsychologID
+		}
+
+		var newSpecializations []entity.PsychologSpecialization
+
+		for _, speID := range req.SpecializationIDs {
+			specialization, found, err := as.adminRepo.GetSpecializationByID(ctx, nil, speID)
+			if err != nil || !found {
+				return dto.PsychologResponse{}, dto.ErrSpecializationNotFound
+			}
+
+			newSpecializations = append(newSpecializations, entity.PsychologSpecialization{
+				ID:               uuid.New(),
+				PsychologID:      &psycholog.ID,
+				SpecializationID: &specialization.ID,
+			})
+		}
+
+		err = as.adminRepo.CreatePsychologSpecializations(ctx, nil, newSpecializations)
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrCreatePsychologSpecializations
+		}
+
+		psycholog.PsychologSpecializations = newSpecializations
+	}
+
+	if len(req.Educations) > 0 {
+		err := as.adminRepo.DeleteEducationByPsychologID(ctx, nil, psycholog.ID.String())
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrDeleteEducationByPsychologID
+		}
+
+		var newEducations []entity.Education
+		for _, newEducation := range req.Educations {
+			newEducations = append(newEducations, entity.Education{
+				ID:             uuid.New(),
+				Degree:         newEducation.Degree,
+				Major:          newEducation.Major,
+				Institution:    newEducation.Institution,
+				GraduationYear: newEducation.GraduationYear,
+			})
+		}
+
+		err = as.adminRepo.CreateEducations(ctx, nil, newEducations)
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrCreateEducations
+		}
+
+		psycholog.Educations = newEducations
+	}
+
+	err = as.adminRepo.UpdatePsycholog(ctx, nil, psycholog)
+	if err != nil {
+		return dto.PsychologResponse{}, dto.ErrUpdatePsycholog
+	}
+
+	psycholog, found, err := as.masterRepo.GetPsychologByID(ctx, nil, req.ID)
+	if err != nil || !found {
+		return dto.PsychologResponse{}, dto.ErrPsychologNotFound
+	}
+
+	var languageMasters []dto.LanguageMasterResponse
+	for _, lang := range psycholog.PsychologLanguages {
+		languageMasters = append(languageMasters, dto.LanguageMasterResponse{
+			ID:   &lang.LanguageMaster.ID,
+			Name: lang.LanguageMaster.Name,
+		})
+	}
+
+	var specializations []dto.SpecializationResponse
+	for _, spe := range psycholog.PsychologSpecializations {
+		specializations = append(specializations, dto.SpecializationResponse{
+			ID:          &spe.Specialization.ID,
+			Name:        spe.Specialization.Name,
+			Description: spe.Specialization.Description,
+		})
+	}
+
+	var educations []dto.EducationResponse
+	for _, edu := range psycholog.Educations {
+		educations = append(educations, dto.EducationResponse{
+			ID:             &edu.ID,
+			Degree:         edu.Degree,
+			Major:          edu.Major,
+			Institution:    edu.Institution,
+			GraduationYear: edu.GraduationYear,
+		})
+	}
+
+	res := dto.PsychologResponse{
+		ID:          psycholog.ID,
+		Name:        psycholog.Name,
+		STRNumber:   psycholog.STRNumber,
+		Email:       psycholog.Email,
+		Password:    psycholog.Password,
+		WorkYear:    psycholog.WorkYear,
+		Description: psycholog.Description,
+		PhoneNumber: psycholog.PhoneNumber,
+		Image:       psycholog.Image,
+		City: dto.CityResponse{
+			ID:   psycholog.CityID,
+			Name: psycholog.City.Name,
+			Type: psycholog.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   psycholog.City.ProvinceID,
+				Name: psycholog.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   psycholog.RoleID,
+			Name: psycholog.Role.Name,
+		},
+		LanguageMasters: languageMasters,
+		Specializations: specializations,
+		Educations:      educations,
+	}
+
+	return res, nil
 }
 func (as *AdminService) DeletePsycholog(ctx context.Context, req dto.DeletePsychologRequest) (dto.PsychologResponse, error) {
 	deletedPsycholog, flag, err := as.masterRepo.GetPsychologByID(ctx, nil, req.ID)

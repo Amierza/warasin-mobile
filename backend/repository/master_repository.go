@@ -20,7 +20,6 @@ type (
 		// Psycholog
 		GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, bool, error)
 		GetPsychologByEmail(ctx context.Context, tx *gorm.DB, email string) (entity.Psycholog, bool, error)
-		UpdatePsycholog(ctx context.Context, tx *gorm.DB, psycholog entity.Psycholog) error
 	}
 
 	MasterRepository struct {
@@ -139,11 +138,4 @@ func (mr *MasterRepository) GetPsychologByEmail(ctx context.Context, tx *gorm.DB
 	}
 
 	return psycholog, true, nil
-}
-func (mr *MasterRepository) UpdatePsycholog(ctx context.Context, tx *gorm.DB, psycholog entity.Psycholog) error {
-	if tx == nil {
-		tx = mr.db
-	}
-
-	return tx.WithContext(ctx).Where("id = ?", psycholog.ID).Updates(&psycholog).Error
 }
