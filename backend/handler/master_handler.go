@@ -17,6 +17,9 @@ type (
 
 		// Psycholog
 		GetDetailPsycholog(ctx *gin.Context)
+
+		// Language Master
+		GetAllLanguageMaster(ctx *gin.Context)
 	}
 
 	MasterHandler struct {
@@ -82,5 +85,18 @@ func (mh *MasterHandler) GetDetailPsycholog(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// Language Master
+func (mh *MasterHandler) GetAllLanguageMaster(ctx *gin.Context) {
+	result, err := mh.masterService.GetAllLanguageMaster(ctx)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_ALL_LANGUAGE_MASTER, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_ALL_LANGUAGE_MASTER, result)
 	ctx.JSON(http.StatusOK, res)
 }

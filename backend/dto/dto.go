@@ -71,6 +71,8 @@ const (
 	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_NEWS = "failed get all user news"
 	// Consultation
 	MESSAGE_FAILED_GET_LIST_CONSULTATION = "failed get all consultation"
+	// Language Master
+	MESSAGE_FAILED_GET_ALL_LANGUAGE_MASTER = "failed get all language master"
 
 	// ====================================== Success ======================================
 	// Authentication
@@ -126,6 +128,8 @@ const (
 	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_NEWS = "success get all user news"
 	// Consultation
 	MESSAGE_SUCCESS_GET_LIST_CONSULTATION = "success get all consultation"
+	// Language Master
+	MESSAGE_SUCCESS_GET_ALL_LANGUAGE_MASTER = "success get all language master"
 )
 
 var (
@@ -219,6 +223,7 @@ var (
 	ErrGetAllUserNews = errors.New("failed all user news")
 	// Language Master
 	ErrLanguageMasterNotFound = errors.New("failed language master not found")
+	ErrGetAllLanguageMaster   = errors.New("failed get all language master")
 	// Psycholog Language
 	ErrDeletePsychologLanguageByPsychologID = errors.New("failed delete psycholog language by psycholog id")
 	ErrCreatePsychologLanguages             = errors.New("failed create psycholog languages")
@@ -533,6 +538,12 @@ type (
 	LanguageMasterResponse struct {
 		ID   *uuid.UUID `json:"lang_id"`
 		Name string     `json:"lang_name"`
+	}
+	AllLanguageMasterRepositoryResponse struct {
+		LanguageMasters []entity.LanguageMaster
+	}
+	AllLanguageMasterResponse struct {
+		LanguageMaster []LanguageMasterResponse `json:"language_master"`
 	}
 	// Specialization
 	SpecializationResponse struct {
