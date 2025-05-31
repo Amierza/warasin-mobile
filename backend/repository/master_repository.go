@@ -20,8 +20,6 @@ type (
 		// Psycholog
 		GetPsychologByID(ctx context.Context, tx *gorm.DB, psychologID string) (entity.Psycholog, bool, error)
 		GetPsychologByEmail(ctx context.Context, tx *gorm.DB, email string) (entity.Psycholog, bool, error)
-		// Language Master
-		GetAllLanguageMaster(ctx context.Context, tx *gorm.DB) (dto.AllLanguageMasterRepositoryResponse, error)
 	}
 
 	MasterRepository struct {
@@ -140,24 +138,4 @@ func (mr *MasterRepository) GetPsychologByEmail(ctx context.Context, tx *gorm.DB
 	}
 
 	return psycholog, true, nil
-}
-
-// Language Master
-func (mr *MasterRepository) GetAllLanguageMaster(ctx context.Context, tx *gorm.DB) (dto.AllLanguageMasterRepositoryResponse, error) {
-	if tx == nil {
-		tx = mr.db
-	}
-
-	var (
-		languageMasters []entity.LanguageMaster
-		err             error
-	)
-
-	if err = tx.WithContext(ctx).Order("created_at DESC").Find(&languageMasters).Error; err != nil {
-		return dto.AllLanguageMasterRepositoryResponse{}, err
-	}
-
-	return dto.AllLanguageMasterRepositoryResponse{
-		LanguageMasters: languageMasters,
-	}, nil
 }

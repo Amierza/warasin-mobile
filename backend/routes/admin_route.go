@@ -61,7 +61,10 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, masterHandler 
 			routes.GET("/get-all-user-news", adminHandler.GetAllUserNews)
 
 			// Language Master
-			routes.GET("/get-all-language-master", masterHandler.GetAllLanguageMaster)
+			routes.GET("/get-all-language-master", adminHandler.GetAllLanguageMaster)
+
+			// Specialization
+			routes.GET("/get-all-specialization", adminHandler.GetAllSpecialization)
 
 			// Consultation
 			routes.GET("/get-all-consultation", adminHandler.GetAllConsultation)

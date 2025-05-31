@@ -15,9 +15,6 @@ type (
 
 		// Psycholog
 		GetDetailPsycholog(ctx context.Context, psychologID string) (dto.PsychologResponse, error)
-
-		// Language Master
-		GetAllLanguageMaster(ctx context.Context) (dto.AllLanguageMasterResponse, error)
 	}
 
 	MasterService struct {
@@ -158,22 +155,4 @@ func (ms *MasterService) GetDetailPsycholog(ctx context.Context, psychologID str
 	}
 
 	return data, nil
-}
-func (ms *MasterService) GetAllLanguageMaster(ctx context.Context) (dto.AllLanguageMasterResponse, error) {
-	data, err := ms.masterRepo.GetAllLanguageMaster(ctx, nil)
-	if err != nil {
-		return dto.AllLanguageMasterResponse{}, dto.ErrGetAllLanguageMaster
-	}
-
-	var datas []dto.LanguageMasterResponse
-	for _, languageMaster := range data.LanguageMasters {
-		datas = append(datas, dto.LanguageMasterResponse{
-			ID:   &languageMaster.ID,
-			Name: languageMaster.Name,
-		})
-	}
-
-	return dto.AllLanguageMasterResponse{
-		LanguageMaster: datas,
-	}, nil
 }

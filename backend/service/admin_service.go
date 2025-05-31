@@ -60,6 +60,12 @@ type (
 		// User News
 		GetAllUserNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.UserNewsPaginationResponse, error)
 
+		// Language Master
+		GetAllLanguageMaster(ctx context.Context) (dto.AllLanguageMasterResponse, error)
+
+		// Specialization
+		GetAllSpecialization(ctx context.Context) (dto.AllSpecializationResponse, error)
+
 		// Consultation
 		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error)
 	}
@@ -1443,6 +1449,47 @@ func (as *AdminService) GetAllUserNewsWithPagination(ctx context.Context, req dt
 			MaxPage: dataWithPaginate.MaxPage,
 			Count:   dataWithPaginate.Count,
 		},
+	}, nil
+}
+
+// Language Master
+func (as *AdminService) GetAllLanguageMaster(ctx context.Context) (dto.AllLanguageMasterResponse, error) {
+	data, err := as.adminRepo.GetAllLanguageMaster(ctx, nil)
+	if err != nil {
+		return dto.AllLanguageMasterResponse{}, dto.ErrGetAllLanguageMaster
+	}
+
+	var datas []dto.LanguageMasterResponse
+	for _, languageMaster := range data.LanguageMasters {
+		datas = append(datas, dto.LanguageMasterResponse{
+			ID:   &languageMaster.ID,
+			Name: languageMaster.Name,
+		})
+	}
+
+	return dto.AllLanguageMasterResponse{
+		LanguageMasters: datas,
+	}, nil
+}
+
+// Specialization
+func (as *AdminService) GetAllSpecialization(ctx context.Context) (dto.AllSpecializationResponse, error) {
+	data, err := as.adminRepo.GetAllSpecialization(ctx, nil)
+	if err != nil {
+		return dto.AllSpecializationResponse{}, dto.ErrGetAllLanguageMaster
+	}
+
+	var datas []dto.SpecializationResponse
+	for _, specialization := range data.Specializations {
+		datas = append(datas, dto.SpecializationResponse{
+			ID:          &specialization.ID,
+			Name:        specialization.Name,
+			Description: specialization.Description,
+		})
+	}
+
+	return dto.AllSpecializationResponse{
+		Specializations: datas,
 	}, nil
 }
 
