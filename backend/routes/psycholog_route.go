@@ -14,6 +14,7 @@ func Psycholog(route *gin.Engine, psychologHandler handler.IPsychologHandler, ma
 		routes.POST("/refresh-token", psychologHandler.RefreshToken)
 		routes.Use(middleware.Authentication(jwtService), middleware.RouteAccessControl(jwtService))
 		{
+			// Psycholog
 			routes.GET("/get-detail-psycholog", masterHandler.GetDetailPsycholog)
 		}
 	}

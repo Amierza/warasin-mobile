@@ -180,6 +180,11 @@
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
   },
   {
+    "permission_id": "b523d45d-bf4b-454c-aac2-5a253e5503f6",
+    "permission_endpoint": "/api/v1/admin/get-all-language-master",
+    "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
+  },
+  {
     "permission_id": "1592544f-6a91-40dc-bb07-36a4e861364d",
     "permission_endpoint": "/api/v1/admin/get-all-consultation",
     "role_id": "d96b99e9-1346-49e5-920b-8eab44e2c6f4"
