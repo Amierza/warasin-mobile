@@ -11,6 +11,7 @@ type Consulation struct {
 	Date    *time.Time `gorm:"type:date" json:"consul_date"`
 	Rate    int        `json:"consul_rate"`
 	Comment string     `json:"consul_comment"`
+	Status  int        `json:"consul_status"` // 0: upcoming 1: canceled 2: done
 
 	UserID      *uuid.UUID `gorm:"type:uuid" json:"user_id"`
 	User        User       `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`

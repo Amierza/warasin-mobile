@@ -26,7 +26,7 @@
   },
   {
     "permission_id": "4e32702b-457e-4cb0-8d61-c71765d3e7ff",
-    "permission_endpoint": "/api/v1/psycholog/update-psycholog",
+    "permission_endpoint": "/api/v1/psycholog/get-all-consultation",
     "role_id": "dc3f6a8e-4875-4297-a285-4f2439595ee2"
   },
   {

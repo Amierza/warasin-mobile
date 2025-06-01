@@ -16,6 +16,9 @@ func Psycholog(route *gin.Engine, psychologHandler handler.IPsychologHandler, ma
 		{
 			// Psycholog
 			routes.GET("/get-detail-psycholog", masterHandler.GetDetailPsycholog)
+
+			// Consultation
+			routes.GET("/get-all-consultation", psychologHandler.GetAllConsultation)
 		}
 	}
 }
