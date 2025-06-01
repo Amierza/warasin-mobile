@@ -67,7 +67,7 @@ type (
 		GetAllSpecialization(ctx context.Context) (dto.AllSpecializationResponse, error)
 
 		// Consultation
-		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error)
+		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForAdmin, error)
 	}
 
 	AdminService struct {
@@ -1494,15 +1494,15 @@ func (as *AdminService) GetAllSpecialization(ctx context.Context) (dto.AllSpecia
 }
 
 // Consultation
-func (as *AdminService) GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error) {
+func (as *AdminService) GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForAdmin, error) {
 	dataWithPaginate, err := as.adminRepo.GetAllConsultationWithPagination(ctx, nil, req)
 	if err != nil {
-		return dto.ConsultationPaginationResponse{}, dto.ErrGetAllConsultationWithPagination
+		return dto.ConsultationPaginationResponseForAdmin{}, dto.ErrGetAllConsultationWithPagination
 	}
 
-	var datas []dto.ConsultationResponse
+	var datas []dto.ConsultationResponseForAdmin
 	for _, consultation := range dataWithPaginate.Consultations {
-		data := dto.ConsultationResponse{
+		data := dto.ConsultationResponseForAdmin{
 			ID:      consultation.ID,
 			Date:    consultation.Date.String(),
 			Rate:    consultation.Rate,
@@ -1561,7 +1561,7 @@ func (as *AdminService) GetAllConsultationWithPagination(ctx context.Context, re
 		datas = append(datas, data)
 	}
 
-	return dto.ConsultationPaginationResponse{
+	return dto.ConsultationPaginationResponseForAdmin{
 		Data: datas,
 		PaginationResponse: dto.PaginationResponse{
 			Page:    dataWithPaginate.Page,
