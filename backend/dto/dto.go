@@ -605,16 +605,31 @@ type (
 		PaginationResponse
 		Consultations []entity.Consulation
 	}
-	ConsultationResponse struct {
+	ConsultationResponseForAdmin struct {
 		ID        uuid.UUID         `json:"consul_id"`
 		Date      string            `json:"consul_date"`
 		Rate      int               `json:"consul_rate"`
 		Comment   string            `json:"consul_comment"`
-		User      AllUserResponse   `json:"user"`
 		Psycholog PsychologResponse `json:"psycholog"`
+		User      AllUserResponse   `json:"user"`
 	}
-	ConsultationPaginationResponse struct {
+	ConsultationPaginationResponseForAdmin struct {
 		PaginationResponse
-		Data []ConsultationResponse `json:"data"`
+		Data []ConsultationResponseForAdmin `json:"data"`
+	}
+	ConsultationResponseForPsycholog struct {
+		ID      uuid.UUID       `json:"consul_id"`
+		Date    string          `json:"consul_date"`
+		Rate    int             `json:"consul_rate"`
+		Comment string          `json:"consul_comment"`
+		User    AllUserResponse `json:"user"`
+	}
+	AllConsultationResponseForPsycholog struct {
+		Psycholog    PsychologResponse                  `json:"psycholog"`
+		Consultation []ConsultationResponseForPsycholog `json:"consultation"`
+	}
+	ConsultationPaginationResponseForPsycholog struct {
+		PaginationResponse
+		Data AllConsultationResponseForPsycholog `json:"data"`
 	}
 )
