@@ -20,6 +20,7 @@ func Psycholog(route *gin.Engine, psychologHandler handler.IPsychologHandler, ma
 			// Practice
 			routes.POST("/create-practice", psychologHandler.CreatePractice)
 			routes.GET("/get-all-practice", psychologHandler.GetAllPractice)
+			routes.PATCH("/update-practice/:id", psychologHandler.UpdatePractice)
 
 			// Practice
 			routes.GET("/get-all-available-slot", psychologHandler.GetAllAvailableSlot)
