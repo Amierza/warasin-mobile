@@ -35,6 +35,7 @@ type (
 
 		// Consultation
 		CreateConsultation(ctx *gin.Context)
+		GetAllConsultation(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -286,5 +287,29 @@ func (uh *UserHandler) CreateConsultation(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_CONSULTATION, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (uh *UserHandler) GetAllConsultation(ctx *gin.Context) {
+	var payload dto.PaginationRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := uh.userService.GetAllConsultationWithPagination(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_CONSULTATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_CONSULTATION,
+		Data:     result.Data,
+		Meta:     result.PaginationResponse,
+	}
+
 	ctx.JSON(http.StatusOK, res)
 }
