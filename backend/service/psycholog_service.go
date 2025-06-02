@@ -26,7 +26,7 @@ type (
 		GetAllAvailableSlot(ctx context.Context) (dto.AllAvailableSlotResponse, error)
 
 		// Consultation
-		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForPsycholog, error)
+		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error)
 		UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequest, consulID string) (dto.ConsultationResponse, error)
 	}
 
@@ -469,17 +469,17 @@ func (ps *PsychologService) GetAllAvailableSlot(ctx context.Context) (dto.AllAva
 }
 
 // Consultation
-func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForPsycholog, error) {
+func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponse, error) {
 	token := ctx.Value("Authorization").(string)
 
 	psyID, err := ps.jwtService.GetUserIDByToken(token)
 	if err != nil {
-		return dto.ConsultationPaginationResponseForPsycholog{}, dto.ErrGetPsychologFromID
+		return dto.ConsultationPaginationResponse{}, dto.ErrGetPsychologFromID
 	}
 
 	dataWithPaginate, err := ps.psychologRepo.GetAllConsultationWithPagination(ctx, nil, req, psyID)
 	if err != nil {
-		return dto.ConsultationPaginationResponseForPsycholog{}, dto.ErrGetAllConsultationWithPagination
+		return dto.ConsultationPaginationResponse{}, dto.ErrGetAllConsultationWithPagination
 	}
 
 	var (
@@ -543,7 +543,7 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 	for _, consultation := range dataWithPaginate.Consultations {
 		dayName, err := helpers.GetDayName(consultation.Date)
 		if err != nil {
-			return dto.ConsultationPaginationResponseForPsycholog{}, dto.ErrParseConsultationDate
+			return dto.ConsultationPaginationResponse{}, dto.ErrParseConsultationDate
 		}
 
 		var practiceSchedules []dto.PracticeScheduleResponse
@@ -613,7 +613,7 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 		Consultation: consultations,
 	}
 
-	return dto.ConsultationPaginationResponseForPsycholog{
+	return dto.ConsultationPaginationResponse{
 		Data: datas,
 		PaginationResponse: dto.PaginationResponse{
 			Page:    dataWithPaginate.Page,

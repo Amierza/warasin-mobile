@@ -714,7 +714,7 @@ type (
 		Psycholog    PsychologResponse      `json:"psycholog"`
 		Consultation []ConsultationResponse `json:"consultation"`
 	}
-	ConsultationPaginationResponseForPsycholog struct {
+	ConsultationPaginationResponse struct {
 		PaginationResponse
 		Data AllConsultationResponse `json:"data"`
 	}
@@ -725,5 +725,27 @@ type (
 		Date            string `json:"consul_date"`
 		AvailableSlotID string `json:"slot_id"`
 		PracticeID      string `json:"prac_id"`
+	}
+	ConsultationResponseForUser struct {
+		ID            uuid.UUID             `json:"consul_id"`
+		Date          string                `json:"consul_date"`
+		Rate          int                   `json:"consul_rate"`
+		Comment       string                `json:"consul_comment"`
+		Status        int                   `json:"consul_status"`
+		Psycholog     PsychologResponse     `json:"psycholog"`
+		AvailableSlot AvailableSlotResponse `json:"available_slot"`
+		Practice      PracticeResponse      `json:"practice"`
+	}
+	AllConsultationRepositoryResponseForUser struct {
+		PaginationResponse
+		Consultations []entity.Consultation
+	}
+	AllConsultationResponseForUser struct {
+		User         AllUserResponse               `json:"user"`
+		Consultation []ConsultationResponseForUser `json:"consultation"`
+	}
+	ConsultationPaginationResponseForUser struct {
+		PaginationResponse
+		Data AllConsultationResponseForUser `json:"data"`
 	}
 )

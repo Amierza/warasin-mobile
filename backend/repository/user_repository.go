@@ -24,6 +24,7 @@ type (
 		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, bool, error)
 		GetPracticeByID(ctx context.Context, tx *gorm.DB, pracID string) (entity.Practice, bool, error)
 		GetAvailableSlotByID(ctx context.Context, tx *gorm.DB, slotID string) (entity.AvailableSlot, bool, error)
+		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, userID string) (dto.AllConsultationRepositoryResponseForUser, error)
 
 		// Create
 		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
@@ -206,6 +207,53 @@ func (ur *UserRepository) GetAvailableSlotByID(ctx context.Context, tx *gorm.DB,
 	}
 
 	return slot, true, nil
+}
+func (ur *UserRepository) GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, userID string) (dto.AllConsultationRepositoryResponseForUser, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var consultations []entity.Consultation
+	var err error
+	var count int64
+
+	if req.PerPage == 0 {
+		req.PerPage = 10
+	}
+
+	if req.Page == 0 {
+		req.Page = 1
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.Consultation{}).Where("user_id = ?", &userID).
+		Preload("User.Role").
+		Preload("User.City.Province").
+		Preload("AvailableSlot.Psycholog.Role").
+		Preload("AvailableSlot.Psycholog.City.Province").
+		Preload("AvailableSlot.Psycholog.PsychologLanguages.LanguageMaster").
+		Preload("AvailableSlot.Psycholog.PsychologSpecializations.Specialization").
+		Preload("AvailableSlot.Psycholog.Educations").
+		Preload("Practice.PracticeSchedules")
+
+	if err := query.Count(&count).Error; err != nil {
+		return dto.AllConsultationRepositoryResponseForUser{}, err
+	}
+
+	if err := query.Order("created_at DESC").Scopes(Paginate(req.Page, req.PerPage)).Find(&consultations).Error; err != nil {
+		return dto.AllConsultationRepositoryResponseForUser{}, err
+	}
+
+	totalPage := int64(math.Ceil(float64(count) / float64(req.PerPage)))
+
+	return dto.AllConsultationRepositoryResponseForUser{
+		Consultations: consultations,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    req.Page,
+			PerPage: req.PerPage,
+			MaxPage: totalPage,
+			Count:   count,
+		},
+	}, err
 }
 
 // Create

@@ -43,6 +43,7 @@ type (
 
 		// Consultation
 		CreateConsultation(ctx context.Context, req dto.CreateConsultationRequest) (dto.ConsultationResponse, error)
+		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForUser, error)
 	}
 
 	UserService struct {
@@ -751,5 +752,161 @@ func (us *UserService) CreateConsultation(ctx context.Context, req dto.CreateCon
 		User:          user,
 		AvailableSlot: availableSlot,
 		Practice:      practice,
+	}, nil
+}
+
+// Consultation
+func (us *UserService) GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForUser, error) {
+	token := ctx.Value("Authorization").(string)
+
+	userID, err := us.jwtService.GetUserIDByToken(token)
+	if err != nil {
+		return dto.ConsultationPaginationResponseForUser{}, dto.ErrGetUserIDFromToken
+	}
+
+	dataWithPaginate, err := us.userRepo.GetAllConsultationWithPagination(ctx, nil, req, userID)
+	if err != nil {
+		return dto.ConsultationPaginationResponseForUser{}, dto.ErrGetAllConsultationWithPagination
+	}
+
+	var (
+		user          dto.AllUserResponse
+		consultations []dto.ConsultationResponseForUser
+	)
+
+	user = dto.AllUserResponse{
+		ID:          dataWithPaginate.Consultations[0].User.ID,
+		Name:        dataWithPaginate.Consultations[0].User.Name,
+		Email:       dataWithPaginate.Consultations[0].User.Email,
+		Password:    dataWithPaginate.Consultations[0].User.Password,
+		Birthdate:   dataWithPaginate.Consultations[0].User.Birthdate.String(),
+		PhoneNumber: dataWithPaginate.Consultations[0].User.PhoneNumber,
+		Data01:      dataWithPaginate.Consultations[0].User.Data01,
+		Data02:      dataWithPaginate.Consultations[0].User.Data02,
+		Data03:      dataWithPaginate.Consultations[0].User.Data03,
+		IsVerified:  dataWithPaginate.Consultations[0].User.IsVerified,
+		City: dto.CityResponse{
+			ID:   &dataWithPaginate.Consultations[0].User.City.ID,
+			Name: dataWithPaginate.Consultations[0].User.City.Name,
+			Type: dataWithPaginate.Consultations[0].User.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   dataWithPaginate.Consultations[0].User.City.ProvinceID,
+				Name: dataWithPaginate.Consultations[0].User.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   &dataWithPaginate.Consultations[0].User.Role.ID,
+			Name: dataWithPaginate.Consultations[0].User.Role.Name,
+		},
+	}
+
+	for _, consultation := range dataWithPaginate.Consultations {
+		dayName, err := helpers.GetDayName(consultation.Date)
+		if err != nil {
+			return dto.ConsultationPaginationResponseForUser{}, dto.ErrParseConsultationDate
+		}
+
+		var practiceSchedules []dto.PracticeScheduleResponse
+		for _, pracSch := range consultation.Practice.PracticeSchedules {
+			if dayName == pracSch.Day {
+				practiceSchedules = append(practiceSchedules, dto.PracticeScheduleResponse{
+					ID:    pracSch.ID,
+					Day:   pracSch.Day,
+					Open:  pracSch.Open,
+					Close: pracSch.Close,
+				})
+			}
+		}
+
+		data := dto.ConsultationResponseForUser{
+			ID:      consultation.ID,
+			Date:    consultation.Date,
+			Rate:    consultation.Rate,
+			Comment: consultation.Comment,
+			Status:  consultation.Status,
+			Psycholog: dto.PsychologResponse{
+				ID:          consultation.AvailableSlot.Psycholog.ID,
+				Name:        consultation.AvailableSlot.Psycholog.Name,
+				STRNumber:   consultation.AvailableSlot.Psycholog.STRNumber,
+				Email:       consultation.AvailableSlot.Psycholog.Email,
+				Password:    consultation.AvailableSlot.Psycholog.Password,
+				WorkYear:    consultation.AvailableSlot.Psycholog.WorkYear,
+				Description: consultation.AvailableSlot.Psycholog.Description,
+				PhoneNumber: consultation.AvailableSlot.Psycholog.PhoneNumber,
+				Image:       consultation.AvailableSlot.Psycholog.Image,
+				City: dto.CityResponse{
+					ID:   consultation.AvailableSlot.Psycholog.CityID,
+					Name: consultation.AvailableSlot.Psycholog.City.Name,
+					Type: consultation.AvailableSlot.Psycholog.City.Type,
+					Province: dto.ProvinceResponse{
+						ID:   consultation.AvailableSlot.Psycholog.City.ProvinceID,
+						Name: consultation.AvailableSlot.Psycholog.City.Province.Name,
+					},
+				},
+				Role: dto.RoleResponse{
+					ID:   consultation.AvailableSlot.Psycholog.RoleID,
+					Name: consultation.AvailableSlot.Psycholog.Role.Name,
+				},
+			},
+			AvailableSlot: dto.AvailableSlotResponse{
+				ID:       consultation.AvailableSlot.ID,
+				Start:    consultation.AvailableSlot.Start,
+				End:      consultation.AvailableSlot.End,
+				IsBooked: consultation.AvailableSlot.IsBooked,
+			},
+			Practice: dto.PracticeResponse{
+				ID:                consultation.Practice.ID,
+				Type:              consultation.Practice.Type,
+				Name:              consultation.Practice.Name,
+				Address:           consultation.Practice.Address,
+				PhoneNumber:       consultation.Practice.PhoneNumber,
+				PracticeSchedules: practiceSchedules,
+			},
+		}
+
+		// LanguageMasters
+		for _, lang := range consultation.AvailableSlot.Psycholog.PsychologLanguages {
+			data.Psycholog.LanguageMasters = append(data.Psycholog.LanguageMasters, dto.LanguageMasterResponse{
+				ID:   &lang.LanguageMaster.ID,
+				Name: lang.LanguageMaster.Name,
+			})
+		}
+
+		// Specializations
+		for _, spec := range consultation.AvailableSlot.Psycholog.PsychologSpecializations {
+			data.Psycholog.Specializations = append(data.Psycholog.Specializations, dto.SpecializationResponse{
+				ID:          &spec.Specialization.ID,
+				Name:        spec.Specialization.Name,
+				Description: spec.Specialization.Description,
+			})
+		}
+
+		// Educations
+		for _, edu := range consultation.AvailableSlot.Psycholog.Educations {
+			data.Psycholog.Educations = append(data.Psycholog.Educations, dto.EducationResponse{
+				ID:             &edu.ID,
+				Degree:         edu.Degree,
+				Major:          edu.Major,
+				Institution:    edu.Institution,
+				GraduationYear: edu.GraduationYear,
+			})
+		}
+
+		consultations = append(consultations, data)
+	}
+
+	datas := dto.AllConsultationResponseForUser{
+		User:         user,
+		Consultation: consultations,
+	}
+
+	return dto.ConsultationPaginationResponseForUser{
+		Data: datas,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    dataWithPaginate.Page,
+			PerPage: dataWithPaginate.PerPage,
+			MaxPage: dataWithPaginate.MaxPage,
+			Count:   dataWithPaginate.Count,
+		},
 	}, nil
 }
