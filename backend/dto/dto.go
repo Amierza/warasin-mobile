@@ -71,6 +71,7 @@ const (
 	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_NEWS = "failed get all user news"
 	// Consultation
 	MESSAGE_FAILED_GET_LIST_CONSULTATION = "failed get all consultation"
+	MESSAGE_FAILED_UPDATE_CONSULTATION   = "failed update consultation"
 	// Language Master
 	MESSAGE_FAILED_GET_ALL_LANGUAGE_MASTER = "failed get all language master"
 	// Specialization
@@ -137,6 +138,7 @@ const (
 	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_NEWS = "success get all user news"
 	// Consultation
 	MESSAGE_SUCCESS_GET_LIST_CONSULTATION = "success get all consultation"
+	MESSAGE_SUCCESS_UPDATE_CONSULTATION   = "success update consultation"
 	// Language Master
 	MESSAGE_SUCCESS_GET_ALL_LANGUAGE_MASTER = "success get all language master"
 	// Specialization
@@ -151,8 +153,9 @@ const (
 )
 
 var (
-	// UUID
-	ErrParseUUID = errors.New("failed parse uuid")
+	// Parse
+	ErrParseUUID             = errors.New("failed parse uuid")
+	ErrParseConsultationDate = errors.New("failed parse consultation date")
 	// Middleware
 	ErrDeniedAccess           = errors.New("denied access")
 	ErrGetPermissionsByRoleID = errors.New("failed get all permission by role id")
@@ -239,6 +242,8 @@ var (
 	ErrMotivationNotFound             = errors.New("failed motivation not found")
 	// Consultation
 	ErrGetAllConsultationWithPagination = errors.New("failed get list consultation with pagination")
+	ErrConsultationNotFound             = errors.New("failed consultation not founc")
+	ErrUpdateConsultation               = errors.New("failed update consultation")
 	// User motivation
 	ErrGetAllUserMotivation = errors.New("failed all user motivation")
 	// User News
@@ -686,6 +691,7 @@ type (
 	}
 	ConsultationResponseForPsycholog struct {
 		ID            uuid.UUID             `json:"consul_id"`
+		Date          string                `json:"consul_date"`
 		Rate          int                   `json:"consul_rate"`
 		Comment       string                `json:"consul_comment"`
 		Status        int                   `json:"consul_status"`
@@ -700,5 +706,8 @@ type (
 	ConsultationPaginationResponseForPsycholog struct {
 		PaginationResponse
 		Data AllConsultationResponseForPsycholog `json:"data"`
+	}
+	UpdateConsultationRequest struct {
+		Status *int `json:"status"`
 	}
 )

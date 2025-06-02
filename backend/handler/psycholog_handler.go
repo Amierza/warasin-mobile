@@ -26,6 +26,7 @@ type (
 
 		// Consultation
 		GetAllConsultation(ctx *gin.Context)
+		UpdateConsultation(ctx *gin.Context)
 	}
 
 	PsychologHandler struct {
@@ -177,5 +178,24 @@ func (ph *PsychologHandler) GetAllConsultation(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+func (ph *PsychologHandler) UpdateConsultation(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	var payload dto.UpdateConsultationRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ph.psychologService.UpdateConsultation(ctx, payload, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_CONSULTATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_CONSULTATION, result)
 	ctx.JSON(http.StatusOK, res)
 }

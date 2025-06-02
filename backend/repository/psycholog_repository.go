@@ -18,6 +18,7 @@ type (
 		GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllAvailableSlotRepositoryResponse, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, psychologID string) (dto.AllConsultationRepositoryResponse, error)
 		GetPracticeByID(ctx context.Context, tx *gorm.DB, practiceID string) (entity.Practice, bool, error)
+		GetConsultationByID(ctx context.Context, tx *gorm.DB, consulID string) (entity.Consultation, bool, error)
 
 		// POST / Create
 		CreatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error
@@ -25,6 +26,7 @@ type (
 
 		// PATCH / Update
 		UpdatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error
+		UpdateConsultation(ctx context.Context, tx *gorm.DB, consultation entity.Consultation) error
 
 		// DELETE / Delete
 		DeletePracticeSchedule(ctx context.Context, tx *gorm.DB, practiceID string) error
@@ -130,12 +132,15 @@ func (pr *PsychologRepository) GetAllConsultationWithPagination(ctx context.Cont
 	}
 
 	query := tx.WithContext(ctx).Model(&entity.Consultation{}).Where("available_slots.psycholog_id = ?", &psychologID).
+		Joins("JOIN available_slots ON consultations.available_slot_id = available_slots.id").
 		Preload("User.Role").
 		Preload("User.City.Province").
 		Preload("AvailableSlot.Psycholog.Role").
 		Preload("AvailableSlot.Psycholog.City.Province").
-		Preload("Practice.PracticeSchedules").
-		Joins("JOIN available_slots ON consultations.available_slot_id = available_slots.id")
+		Preload("AvailableSlot.Psycholog.PsychologLanguages.LanguageMaster").
+		Preload("AvailableSlot.Psycholog.PsychologSpecializations.Specialization").
+		Preload("AvailableSlot.Psycholog.Educations").
+		Preload("Practice.PracticeSchedules")
 
 	if err := query.Count(&count).Error; err != nil {
 		return dto.AllConsultationRepositoryResponse{}, err
@@ -171,6 +176,28 @@ func (pr *PsychologRepository) GetPracticeByID(ctx context.Context, tx *gorm.DB,
 
 	return practice, true, nil
 }
+func (pr *PsychologRepository) GetConsultationByID(ctx context.Context, tx *gorm.DB, consulID string) (entity.Consultation, bool, error) {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.Consultation{}).
+		Preload("User.Role").
+		Preload("User.City.Province").
+		Preload("AvailableSlot.Psycholog.Role").
+		Preload("AvailableSlot.Psycholog.City.Province").
+		Preload("AvailableSlot.Psycholog.PsychologLanguages.LanguageMaster").
+		Preload("AvailableSlot.Psycholog.PsychologSpecializations.Specialization").
+		Preload("AvailableSlot.Psycholog.Educations").
+		Preload("Practice.PracticeSchedules")
+
+	var consultation entity.Consultation
+	if err := query.Where("id = ?", consulID).Take(&consultation).Error; err != nil {
+		return entity.Consultation{}, false, err
+	}
+
+	return consultation, true, nil
+}
 
 // Post / Create
 func (pr *PsychologRepository) CreatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error {
@@ -195,6 +222,13 @@ func (pr *PsychologRepository) UpdatePractice(ctx context.Context, tx *gorm.DB, 
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", practice.ID).Updates(&practice).Error
+}
+func (pr *PsychologRepository) UpdateConsultation(ctx context.Context, tx *gorm.DB, consultation entity.Consultation) error {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", consultation.ID).Updates(&consultation).Error
 }
 
 // DELETE / Delete
