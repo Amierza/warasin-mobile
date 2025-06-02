@@ -750,4 +750,12 @@ type (
 		PaginationResponse
 		Data AllConsultationResponseForUser `json:"data"`
 	}
+	UpdateConsultationRequestForUser struct {
+		ID              string `json:"-"`
+		Date            string `json:"consul_date,omitempty"`
+		Rate            *int   `json:"consul_rate,omitempty"`
+		Comment         string `json:"consul_comment,omitempty"`
+		AvailableSlotID string `json:"slot_id,omitempty"`
+		PracticeID      string `json:"prac_id,omitempty"`
+	}
 )
