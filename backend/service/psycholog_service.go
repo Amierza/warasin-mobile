@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"log"
 
 	"github.com/Amierza/warasin-mobile/backend/dto"
 	"github.com/Amierza/warasin-mobile/backend/entity"
@@ -28,6 +27,7 @@ type (
 
 		// Consultation
 		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForPsycholog, error)
+		UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequest, consulID string) (dto.ConsultationResponseForPsycholog, error)
 	}
 
 	PsychologService struct {
@@ -105,8 +105,6 @@ func (ps *PsychologService) RefreshToken(ctx context.Context, req dto.RefreshTok
 	if err != nil {
 		return dto.RefreshTokenResponse{}, dto.ErrGetRoleFromID
 	}
-
-	log.Println(role.Name)
 
 	if role.Name != "psycholog" {
 		return dto.RefreshTokenResponse{}, dto.ErrDeniedAccess
@@ -514,9 +512,55 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 		},
 	}
 
+	// LanguageMasters
+	for _, lang := range dataWithPaginate.Consultations[0].AvailableSlot.Psycholog.PsychologLanguages {
+		psycholog.LanguageMasters = append(psycholog.LanguageMasters, dto.LanguageMasterResponse{
+			ID:   &lang.LanguageMaster.ID,
+			Name: lang.LanguageMaster.Name,
+		})
+	}
+
+	// Specializations
+	for _, spec := range dataWithPaginate.Consultations[0].AvailableSlot.Psycholog.PsychologSpecializations {
+		psycholog.Specializations = append(psycholog.Specializations, dto.SpecializationResponse{
+			ID:          &spec.Specialization.ID,
+			Name:        spec.Specialization.Name,
+			Description: spec.Specialization.Description,
+		})
+	}
+
+	// Educations
+	for _, edu := range dataWithPaginate.Consultations[0].AvailableSlot.Psycholog.Educations {
+		psycholog.Educations = append(psycholog.Educations, dto.EducationResponse{
+			ID:             &edu.ID,
+			Degree:         edu.Degree,
+			Major:          edu.Major,
+			Institution:    edu.Institution,
+			GraduationYear: edu.GraduationYear,
+		})
+	}
+
 	for _, consultation := range dataWithPaginate.Consultations {
+		dayName, err := helpers.GetDayName(consultation.Date)
+		if err != nil {
+			return dto.ConsultationPaginationResponseForPsycholog{}, dto.ErrParseConsultationDate
+		}
+
+		var practiceSchedules []dto.PracticeScheduleResponse
+		for _, pracSch := range consultation.Practice.PracticeSchedules {
+			if dayName == pracSch.Day {
+				practiceSchedules = append(practiceSchedules, dto.PracticeScheduleResponse{
+					ID:    pracSch.ID,
+					Day:   pracSch.Day,
+					Open:  pracSch.Open,
+					Close: pracSch.Close,
+				})
+			}
+		}
+
 		data := dto.ConsultationResponseForPsycholog{
 			ID:      consultation.ID,
+			Date:    consultation.Date,
 			Rate:    consultation.Rate,
 			Comment: consultation.Comment,
 			Status:  consultation.Status,
@@ -552,11 +596,12 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 				IsBooked: consultation.AvailableSlot.IsBooked,
 			},
 			Practice: dto.PracticeResponse{
-				ID:          consultation.Practice.ID,
-				Type:        consultation.Practice.Type,
-				Name:        psycholog.Name,
-				Address:     consultation.Practice.Address,
-				PhoneNumber: consultation.Practice.PhoneNumber,
+				ID:                consultation.Practice.ID,
+				Type:              consultation.Practice.Type,
+				Name:              consultation.Practice.Name,
+				Address:           consultation.Practice.Address,
+				PhoneNumber:       consultation.Practice.PhoneNumber,
+				PracticeSchedules: practiceSchedules,
 			},
 		}
 
@@ -577,4 +622,85 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 			Count:   dataWithPaginate.Count,
 		},
 	}, nil
+}
+func (ps *PsychologService) UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequest, consulID string) (dto.ConsultationResponseForPsycholog, error) {
+	consul, flag, err := ps.psychologRepo.GetConsultationByID(ctx, nil, consulID)
+	if err != nil || !flag {
+		return dto.ConsultationResponseForPsycholog{}, dto.ErrConsultationNotFound
+	}
+
+	if req.Status != nil {
+		consul.Status = *req.Status
+	}
+
+	dayName, err := helpers.GetDayName(consul.Date)
+	if err != nil {
+		return dto.ConsultationResponseForPsycholog{}, dto.ErrParseConsultationDate
+	}
+
+	var practiceSchedules []dto.PracticeScheduleResponse
+	for _, pracSch := range consul.Practice.PracticeSchedules {
+		if dayName == pracSch.Day {
+			practiceSchedules = append(practiceSchedules, dto.PracticeScheduleResponse{
+				ID:    pracSch.ID,
+				Day:   pracSch.Day,
+				Open:  pracSch.Open,
+				Close: pracSch.Close,
+			})
+		}
+	}
+
+	data := dto.ConsultationResponseForPsycholog{
+		ID:      consul.ID,
+		Date:    consul.Date,
+		Rate:    consul.Rate,
+		Comment: consul.Comment,
+		Status:  consul.Status,
+		User: dto.AllUserResponse{
+			ID:          consul.User.ID,
+			Name:        consul.User.Name,
+			Email:       consul.User.Email,
+			Password:    consul.User.Password,
+			Birthdate:   consul.User.Birthdate.String(),
+			PhoneNumber: consul.User.PhoneNumber,
+			Data01:      consul.User.Data01,
+			Data02:      consul.User.Data02,
+			Data03:      consul.User.Data03,
+			IsVerified:  consul.User.IsVerified,
+			City: dto.CityResponse{
+				ID:   &consul.User.City.ID,
+				Name: consul.User.City.Name,
+				Type: consul.User.City.Type,
+				Province: dto.ProvinceResponse{
+					ID:   consul.User.City.ProvinceID,
+					Name: consul.User.City.Province.Name,
+				},
+			},
+			Role: dto.RoleResponse{
+				ID:   &consul.User.Role.ID,
+				Name: consul.User.Role.Name,
+			},
+		},
+		AvailableSlot: dto.AvailableSlotResponse{
+			ID:       consul.AvailableSlot.ID,
+			Start:    consul.AvailableSlot.Start,
+			End:      consul.AvailableSlot.End,
+			IsBooked: consul.AvailableSlot.IsBooked,
+		},
+		Practice: dto.PracticeResponse{
+			ID:                consul.Practice.ID,
+			Type:              consul.Practice.Type,
+			Name:              consul.Practice.Name,
+			Address:           consul.Practice.Address,
+			PhoneNumber:       consul.Practice.PhoneNumber,
+			PracticeSchedules: practiceSchedules,
+		},
+	}
+
+	err = ps.psychologRepo.UpdateConsultation(ctx, nil, consul)
+	if err != nil {
+		return dto.ConsultationResponseForPsycholog{}, dto.ErrUpdateConsultation
+	}
+
+	return data, nil
 }

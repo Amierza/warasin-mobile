@@ -28,6 +28,7 @@ func Psycholog(route *gin.Engine, psychologHandler handler.IPsychologHandler, ma
 
 			// Consultation
 			routes.GET("/get-all-consultation", psychologHandler.GetAllConsultation)
+			routes.PATCH("/update-consultation/:id", psychologHandler.UpdateConsultation)
 		}
 	}
 }
