@@ -13,7 +13,7 @@ func Migrate(db *gorm.DB) error {
 		&entity.City{},
 		&entity.User{},
 		&entity.Psycholog{},
-		&entity.Consulation{},
+		&entity.Consultation{},
 		&entity.Education{},
 
 		&entity.MotivationCategory{},

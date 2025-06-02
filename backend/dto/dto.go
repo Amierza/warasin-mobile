@@ -75,6 +75,10 @@ const (
 	MESSAGE_FAILED_GET_ALL_LANGUAGE_MASTER = "failed get all language master"
 	// Specialization
 	MESSAGE_FAILED_GET_ALL_SPECIALIZATION = "failed get all specialization"
+	// Practice
+	MESSAGE_FAILED_GET_LIST_PRACTICE = "failed get all practice"
+	// Available Slot
+	MESSAGE_FAILED_GET_LIST_AVAILABLE_SLOT = "failed get all available slot"
 
 	// ====================================== Success ======================================
 	// Authentication
@@ -134,6 +138,10 @@ const (
 	MESSAGE_SUCCESS_GET_ALL_LANGUAGE_MASTER = "success get all language master"
 	// Specialization
 	MESSAGE_SUCCESS_GET_ALL_SPECIALIZATION = "success get all specialization"
+	// Practice
+	MESSAGE_SUCCESS_GET_LIST_PRACTICE = "success get all practice"
+	// Available Slot
+	MESSAGE_SUCCESS_GET_LIST_AVAILABLE_SLOT = "success get all available slot"
 )
 
 var (
@@ -240,6 +248,10 @@ var (
 	ErrEducationIsExists            = errors.New("failed education is exists")
 	ErrDeleteEducationByPsychologID = errors.New("failed delete education by psycholog id")
 	ErrCreateEducations             = errors.New("failed create educations")
+	// Practice
+	ErrGetAllPractice = errors.New("failed get all practice")
+	// Available Slot
+	ErrGetAllAvailableSlot = errors.New("failed get all available slot")
 )
 
 type (
@@ -404,7 +416,7 @@ type (
 		Image string `json:"image"`
 		Title string `json:"title"`
 		Body  string `json:"body"`
-		Date  string `gorm:"type:date" json:"date"`
+		Date  string `json:"date"`
 	}
 	NewsResponse struct {
 		ID       *uuid.UUID `json:"news_id"`
@@ -600,29 +612,55 @@ type (
 		PaginationResponse
 		Data []UserNewsResponse `json:"data"`
 	}
+	// Practice
+	PracticeScheduleResponse struct {
+		ID    uuid.UUID `json:"prac_sched_id"`
+		Day   string    `json:"prac_sched_day"`
+		Open  string    `json:"prac_sched_open"`
+		Close string    `json:"prac_sched_close"`
+	}
+	PracticeResponse struct {
+		ID                uuid.UUID                  `json:"prac_id"`
+		Type              string                     `json:"prac_type"`
+		Name              string                     `json:"prac_name"`
+		Address           string                     `json:"prac_address"`
+		PhoneNumber       string                     `json:"prac_phone_number"`
+		PracticeSchedules []PracticeScheduleResponse `json:"practice_schedule"`
+	}
+	AllPracticeRepositoryResponse struct {
+		Practices []entity.Practice
+	}
+	AllPracticeResponse struct {
+		Psycholog PsychologResponse  `json:"psycholog"`
+		Practices []PracticeResponse `json:"practice"`
+	}
+	// Available Slot
+	AvailableSlotResponse struct {
+		ID       uuid.UUID `json:"slot_id"`
+		Start    string    `json:"slot_start"`
+		End      string    `json:"slot_end"`
+		IsBooked bool      `json:"slot_is_booked"`
+	}
+	AllAvailableSlotRepositoryResponse struct {
+		AvailableSlots []entity.AvailableSlot
+	}
+	AllAvailableSlotResponse struct {
+		Psycholog      PsychologResponse       `json:"psycholog"`
+		AvailableSlots []AvailableSlotResponse `json:"available_slot"`
+	}
 	// Consulation
 	AllConsultationRepositoryResponse struct {
 		PaginationResponse
-		Consultations []entity.Consulation
-	}
-	ConsultationResponseForAdmin struct {
-		ID        uuid.UUID         `json:"consul_id"`
-		Date      string            `json:"consul_date"`
-		Rate      int               `json:"consul_rate"`
-		Comment   string            `json:"consul_comment"`
-		Psycholog PsychologResponse `json:"psycholog"`
-		User      AllUserResponse   `json:"user"`
-	}
-	ConsultationPaginationResponseForAdmin struct {
-		PaginationResponse
-		Data []ConsultationResponseForAdmin `json:"data"`
+		Consultations []entity.Consultation
 	}
 	ConsultationResponseForPsycholog struct {
-		ID      uuid.UUID       `json:"consul_id"`
-		Date    string          `json:"consul_date"`
-		Rate    int             `json:"consul_rate"`
-		Comment string          `json:"consul_comment"`
-		User    AllUserResponse `json:"user"`
+		ID            uuid.UUID             `json:"consul_id"`
+		Rate          int                   `json:"consul_rate"`
+		Comment       string                `json:"consul_comment"`
+		Status        int                   `json:"consul_status"`
+		User          AllUserResponse       `json:"user"`
+		AvailableSlot AvailableSlotResponse `json:"available_slot"`
+		Practice      PracticeResponse      `json:"practice"`
 	}
 	AllConsultationResponseForPsycholog struct {
 		Psycholog    PsychologResponse                  `json:"psycholog"`
