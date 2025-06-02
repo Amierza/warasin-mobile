@@ -6,7 +6,7 @@ import (
 
 type Practice struct {
 	ID          uuid.UUID `gorm:"type:uuid;primaryKey" json:"prac_id"`
-	Type        string    `json:"prac_type"`
+	Type        string    `json:"prac_type"` // Online / Offline
 	Name        string    `json:"prac_name"`
 	Address     string    `json:"prac_address"`
 	PhoneNumber string    `json:"prac_phone_number"`
@@ -15,7 +15,7 @@ type Practice struct {
 	Psycholog   Psycholog  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 
 	PracticeSchedules []PracticeSchedule `gorm:"foreignKey:PracticeID"`
-	AvailableSlots    []AvailableSlot    `gorm:"foreignKey:PracticeID"`
+	Consuls           []Consultation     `gorm:"foreignKey:PracticeID"`
 
 	TimeStamp
 }

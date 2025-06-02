@@ -27,8 +27,8 @@ type User struct {
 	RoleID *uuid.UUID `gorm:"type:uuid" json:"role_id"`
 	Role   Role       `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 
-	Consuls     []Consulation `gorm:"foreignKey:UserID"`
-	NewsDetails []NewsDetail  `gorm:"foreignKey:UserID"`
+	Consuls     []Consultation `gorm:"foreignKey:UserID"`
+	NewsDetails []NewsDetail   `gorm:"foreignKey:UserID"`
 
 	TimeStamp
 }

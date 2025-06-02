@@ -14,7 +14,9 @@ type (
 		// Get
 		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
 		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
-		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, psyID string) (dto.AllConsultationRepositoryResponse, error)
+		GetAllPractice(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllPracticeRepositoryResponse, error)
+		GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllAvailableSlotRepositoryResponse, error)
+		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, psychologID string) (dto.AllConsultationRepositoryResponse, error)
 	}
 
 	PsychologRepository struct {
@@ -53,14 +55,57 @@ func (pr *PsychologRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, rol
 
 	return role, nil
 }
-
-// Consultation
-func (pr *PsychologRepository) GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, psyID string) (dto.AllConsultationRepositoryResponse, error) {
+func (pr *PsychologRepository) GetAllPractice(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllPracticeRepositoryResponse, error) {
 	if tx == nil {
 		tx = pr.db
 	}
 
-	var consultations []entity.Consulation
+	var (
+		practices []entity.Practice
+		err       error
+	)
+
+	query := tx.WithContext(ctx).Model(&entity.Practice{}).Where("psycholog_id = ?", psyID).
+		Preload("Psycholog.Role").
+		Preload("Psycholog.City.Province").
+		Preload("PracticeSchedules")
+
+	if err := query.Order("created_at DESC").Find(&practices).Error; err != nil {
+		return dto.AllPracticeRepositoryResponse{}, err
+	}
+
+	return dto.AllPracticeRepositoryResponse{
+		Practices: practices,
+	}, err
+}
+func (pr *PsychologRepository) GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllAvailableSlotRepositoryResponse, error) {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	var (
+		availableSlots []entity.AvailableSlot
+		err            error
+	)
+
+	query := tx.WithContext(ctx).Model(&entity.AvailableSlot{}).Where("psycholog_id = ?", psyID).
+		Preload("Psycholog.Role").
+		Preload("Psycholog.City.Province")
+
+	if err := query.Order("created_at DESC").Find(&availableSlots).Error; err != nil {
+		return dto.AllAvailableSlotRepositoryResponse{}, err
+	}
+
+	return dto.AllAvailableSlotRepositoryResponse{
+		AvailableSlots: availableSlots,
+	}, err
+}
+func (pr *PsychologRepository) GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, psychologID string) (dto.AllConsultationRepositoryResponse, error) {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	var consultations []entity.Consultation
 	var err error
 	var count int64
 
@@ -72,15 +117,13 @@ func (pr *PsychologRepository) GetAllConsultationWithPagination(ctx context.Cont
 		req.Page = 1
 	}
 
-	query := tx.WithContext(ctx).Model(&entity.Consulation{}).Where("psycholog_id = ?", psyID).
+	query := tx.WithContext(ctx).Model(&entity.Consultation{}).Where("available_slots.psycholog_id = ?", &psychologID).
 		Preload("User.Role").
 		Preload("User.City.Province").
-		Preload("Psycholog.Role").
-		Preload("Psycholog.City.Province")
-
-	// if req.Search != "" {
-	// 	query = query.Where("rate = ?", req.Search)
-	// }
+		Preload("AvailableSlot.Psycholog.Role").
+		Preload("AvailableSlot.Psycholog.City.Province").
+		Preload("Practice.PracticeSchedules").
+		Joins("JOIN available_slots ON consultations.available_slot_id = available_slots.id")
 
 	if err := query.Count(&count).Error; err != nil {
 		return dto.AllConsultationRepositoryResponse{}, err

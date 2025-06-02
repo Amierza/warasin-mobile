@@ -31,11 +31,6 @@ func Seed(db *gorm.DB) error {
 		return err
 	}
 
-	err = SeedFromJSON[entity.Consulation](db, "./migrations/json/consulations.json", entity.Consulation{}, "UserID", "PsychologID")
-	if err != nil {
-		return err
-	}
-
 	err = SeedFromJSON[entity.Education](db, "./migrations/json/educations.json", entity.Education{}, "PsychologID", "Major", "Degree", "Institution")
 	if err != nil {
 		return err
@@ -91,6 +86,11 @@ func Seed(db *gorm.DB) error {
 		return err
 	}
 
+	err = SeedFromJSON[entity.AvailableSlot](db, "./migrations/json/available_slots.json", entity.AvailableSlot{}, "PsychologID", "Start")
+	if err != nil {
+		return err
+	}
+
 	err = SeedFromJSON[entity.Practice](db, "./migrations/json/practices.json", entity.Practice{}, "PsychologID", "Name")
 	if err != nil {
 		return err
@@ -101,7 +101,7 @@ func Seed(db *gorm.DB) error {
 		return err
 	}
 
-	err = SeedFromJSON[entity.AvailableSlot](db, "./migrations/json/available_slots.json", entity.AvailableSlot{}, "PracticeID", "Date")
+	err = SeedFromJSON[entity.Consultation](db, "./migrations/json/consultations.json", entity.Consultation{}, "UserID", "PracticeID", "AvailableSlotID")
 	if err != nil {
 		return err
 	}

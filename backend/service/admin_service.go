@@ -65,9 +65,6 @@ type (
 
 		// Specialization
 		GetAllSpecialization(ctx context.Context) (dto.AllSpecializationResponse, error)
-
-		// Consultation
-		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForAdmin, error)
 	}
 
 	AdminService struct {
@@ -1490,84 +1487,5 @@ func (as *AdminService) GetAllSpecialization(ctx context.Context) (dto.AllSpecia
 
 	return dto.AllSpecializationResponse{
 		Specializations: datas,
-	}, nil
-}
-
-// Consultation
-func (as *AdminService) GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForAdmin, error) {
-	dataWithPaginate, err := as.adminRepo.GetAllConsultationWithPagination(ctx, nil, req)
-	if err != nil {
-		return dto.ConsultationPaginationResponseForAdmin{}, dto.ErrGetAllConsultationWithPagination
-	}
-
-	var datas []dto.ConsultationResponseForAdmin
-	for _, consultation := range dataWithPaginate.Consultations {
-		data := dto.ConsultationResponseForAdmin{
-			ID:      consultation.ID,
-			Date:    consultation.Date.String(),
-			Rate:    consultation.Rate,
-			Comment: consultation.Comment,
-			User: dto.AllUserResponse{
-				ID:          consultation.User.ID,
-				Name:        consultation.User.Name,
-				Email:       consultation.User.Email,
-				Password:    consultation.User.Password,
-				Birthdate:   consultation.User.Birthdate.String(),
-				PhoneNumber: consultation.User.PhoneNumber,
-				Data01:      consultation.User.Data01,
-				Data02:      consultation.User.Data02,
-				Data03:      consultation.User.Data03,
-				IsVerified:  consultation.User.IsVerified,
-				City: dto.CityResponse{
-					ID:   &consultation.User.City.ID,
-					Name: consultation.User.City.Name,
-					Type: consultation.User.City.Type,
-					Province: dto.ProvinceResponse{
-						ID:   consultation.User.City.ProvinceID,
-						Name: consultation.User.City.Province.Name,
-					},
-				},
-				Role: dto.RoleResponse{
-					ID:   &consultation.User.Role.ID,
-					Name: consultation.User.Role.Name,
-				},
-			},
-			Psycholog: dto.PsychologResponse{
-				ID:          consultation.Psycholog.ID,
-				Name:        consultation.Psycholog.Name,
-				STRNumber:   consultation.Psycholog.STRNumber,
-				Email:       consultation.Psycholog.Email,
-				Password:    consultation.Psycholog.Password,
-				WorkYear:    consultation.Psycholog.WorkYear,
-				Description: consultation.Psycholog.Description,
-				PhoneNumber: consultation.Psycholog.PhoneNumber,
-				Image:       consultation.Psycholog.Image,
-				City: dto.CityResponse{
-					ID:   &consultation.Psycholog.City.ID,
-					Name: consultation.Psycholog.City.Name,
-					Type: consultation.Psycholog.City.Type,
-					Province: dto.ProvinceResponse{
-						ID:   &consultation.Psycholog.City.Province.ID,
-						Name: consultation.Psycholog.City.Province.Name,
-					},
-				},
-				Role: dto.RoleResponse{
-					ID:   &consultation.Psycholog.Role.ID,
-					Name: consultation.Psycholog.Role.Name,
-				},
-			},
-		}
-
-		datas = append(datas, data)
-	}
-
-	return dto.ConsultationPaginationResponseForAdmin{
-		Data: datas,
-		PaginationResponse: dto.PaginationResponse{
-			Page:    dataWithPaginate.Page,
-			PerPage: dataWithPaginate.PerPage,
-			MaxPage: dataWithPaginate.MaxPage,
-			Count:   dataWithPaginate.Count,
-		},
 	}, nil
 }
