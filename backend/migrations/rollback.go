@@ -26,7 +26,7 @@ func Rollback(db *gorm.DB) error {
 		&entity.MotivationCategory{},
 
 		&entity.Education{},
-		&entity.Consulation{},
+		&entity.Consultation{},
 		&entity.Psycholog{},
 		&entity.User{},
 		&entity.City{},

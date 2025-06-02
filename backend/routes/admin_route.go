@@ -65,9 +65,6 @@ func Admin(route *gin.Engine, adminHandler handler.IAdminHandler, masterHandler 
 
 			// Specialization
 			routes.GET("/get-all-specialization", adminHandler.GetAllSpecialization)
-
-			// Consultation
-			routes.GET("/get-all-consultation", adminHandler.GetAllConsultation)
 		}
 	}
 }

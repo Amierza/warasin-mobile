@@ -1,122 +1,177 @@
 [
   {
-    "slot_id": "a64b62fd-24ad-4671-9f4a-d1cf04e5ffb5",
-    "slot_date": "2025-04-20",
-    "slot_start": "2025-04-20T09:00:00Z",
-    "slot_end": "2025-04-20T10:00:00Z",
+    "slot_id": "a1b2c3d4-e5f6-4abc-8def-123456789012",
+    "slot_start": "08:00",
+    "slot_end": "09:00",
     "slot_is_booked": false,
-    "prac_id": "5d8fa850-6eaf-4d56-8286-2f31b56a52b2"
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f"
   },
   {
-    "slot_id": "b24b7d5e-4783-404d-b6c4-3272d1a931b1",
-    "slot_date": "2025-04-22",
-    "slot_start": "2025-04-22T13:00:00Z",
-    "slot_end": "2025-04-22T14:00:00Z",
+    "slot_id": "b2c3d4e5-f6a7-4bcd-9ef1-234567890123",
+    "slot_start": "09:00",
+    "slot_end": "10:00",
     "slot_is_booked": true,
-    "prac_id": "5d8fa850-6eaf-4d56-8286-2f31b56a52b2"
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f"
   },
   {
-    "slot_id": "342c5735-8d32-490b-bd82-c1dbda832f2f",
-    "slot_date": "2025-04-24",
-    "slot_start": "2025-04-24T10:00:00Z",
-    "slot_end": "2025-04-24T11:00:00Z",
-    "slot_is_booked": false,
-    "prac_id": "5d8fa850-6eaf-4d56-8286-2f31b56a52b2"
-  },
-  {
-    "slot_id": "2b5db34c-79d9-4c87-938e-0c1053465ebf",
-    "slot_date": "2025-04-20",
-    "slot_start": "2025-04-20T08:00:00Z",
-    "slot_end": "2025-04-20T09:00:00Z",
-    "slot_is_booked": false,
-    "prac_id": "31d8f7f3-8a42-4c99-85ca-c6cc55c9c1f9"
-  },
-  {
-    "slot_id": "af5d8f56-3df2-4bb7-b961-4b720b5b5e56",
-    "slot_date": "2025-04-22",
-    "slot_start": "2025-04-22T11:00:00Z",
-    "slot_end": "2025-04-22T12:00:00Z",
+    "slot_id": "c3d4e5f6-a7b8-4cde-af12-345678901234",
+    "slot_start": "10:00",
+    "slot_end": "11:00",
     "slot_is_booked": true,
-    "prac_id": "31d8f7f3-8a42-4c99-85ca-c6cc55c9c1f9"
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f"
   },
   {
-    "slot_id": "ea2df3b7-48fe-4671-b1b5-c2e3d5375c66",
-    "slot_date": "2025-04-24",
-    "slot_start": "2025-04-24T14:00:00Z",
-    "slot_end": "2025-04-24T15:00:00Z",
-    "slot_is_booked": false,
-    "prac_id": "31d8f7f3-8a42-4c99-85ca-c6cc55c9c1f9"
-  },
-  {
-    "slot_id": "bbb02d97-d1a2-4ed4-b4e5-7c493177f01d",
-    "slot_date": "2025-04-20",
-    "slot_start": "2025-04-20T10:00:00Z",
-    "slot_end": "2025-04-20T11:00:00Z",
-    "slot_is_booked": false,
-    "prac_id": "f84db3b4-5a90-4041-9fd0-2c547fb45be5"
-  },
-  {
-    "slot_id": "6e2740bc-cd88-48f1-85d7-207adcbba9a0",
-    "slot_date": "2025-04-22",
-    "slot_start": "2025-04-22T08:00:00Z",
-    "slot_end": "2025-04-22T09:00:00Z",
-    "slot_is_booked": false,
-    "prac_id": "f84db3b4-5a90-4041-9fd0-2c547fb45be5"
-  },
-  {
-    "slot_id": "156b42fe-b03a-45f9-8241-16c4989b7f1f",
-    "slot_date": "2025-04-24",
-    "slot_start": "2025-04-24T09:00:00Z",
-    "slot_end": "2025-04-24T10:00:00Z",
+    "slot_id": "d4e5f6a7-b8c9-4def-b123-456789012345",
+    "slot_start": "13:00",
+    "slot_end": "14:00",
     "slot_is_booked": true,
-    "prac_id": "f84db3b4-5a90-4041-9fd0-2c547fb45be5"
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f"
   },
   {
-    "slot_id": "d2b04509-c3ea-4d1b-88b4-78b9cf5202b0",
-    "slot_date": "2025-04-20",
-    "slot_start": "2025-04-20T08:00:00Z",
-    "slot_end": "2025-04-20T09:00:00Z",
-    "slot_is_booked": false,
-    "prac_id": "d7c3b98f-c39c-48f2-9c53-68c49fbbf0a9"
-  },
-  {
-    "slot_id": "4a68e0fd-e799-41d4-a8b8-18ff1a4b04fc",
-    "slot_date": "2025-04-22",
-    "slot_start": "2025-04-22T10:00:00Z",
-    "slot_end": "2025-04-22T11:00:00Z",
+    "slot_id": "e5f6a7b8-c9d0-4ef1-8234-567890123456",
+    "slot_start": "14:00",
+    "slot_end": "15:00",
     "slot_is_booked": true,
-    "prac_id": "d7c3b98f-c39c-48f2-9c53-68c49fbbf0a9"
+    "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f"
   },
   {
-    "slot_id": "9cf7e81a-b17b-4635-b9b2-57ca52211880",
-    "slot_date": "2025-04-24",
-    "slot_start": "2025-04-24T13:00:00Z",
-    "slot_end": "2025-04-24T14:00:00Z",
+    "slot_id": "f6a7b8c9-d0e1-4f12-9345-678901234567",
+    "slot_start": "08:00",
+    "slot_end": "09:00",
     "slot_is_booked": false,
-    "prac_id": "d7c3b98f-c39c-48f2-9c53-68c49fbbf0a9"
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
   },
   {
-    "slot_id": "429a6c47-d836-4f32-86c6-b5c7be6ffb43",
-    "slot_date": "2025-04-20",
-    "slot_start": "2025-04-20T09:00:00Z",
-    "slot_end": "2025-04-20T10:00:00Z",
+    "slot_id": "a7b8c9d0-e1f2-4123-a456-789012345678",
+    "slot_start": "09:00",
+    "slot_end": "10:00",
     "slot_is_booked": true,
-    "prac_id": "a76df1e7-4d73-44d7-b27c-439fe2f66e2e"
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
   },
   {
-    "slot_id": "973f3f7f-597f-4ef0-b344-e7a01454c4f1",
-    "slot_date": "2025-04-22",
-    "slot_start": "2025-04-22T12:00:00Z",
-    "slot_end": "2025-04-22T13:00:00Z",
-    "slot_is_booked": false,
-    "prac_id": "a76df1e7-4d73-44d7-b27c-439fe2f66e2e"
+    "slot_id": "b8c9d0e1-f2a3-4234-b567-890123456789",
+    "slot_start": "10:00",
+    "slot_end": "11:00",
+    "slot_is_booked": true,
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
   },
   {
-    "slot_id": "25e4a6fa-2ac9-465d-8e2d-08736f92b2b3",
-    "slot_date": "2025-04-24",
-    "slot_start": "2025-04-24T08:30:00Z",
-    "slot_end": "2025-04-24T09:30:00Z",
+    "slot_id": "c9d0e1f2-a3b4-4345-8678-901234567890",
+    "slot_start": "13:00",
+    "slot_end": "14:00",
+    "slot_is_booked": true,
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
+  },
+  {
+    "slot_id": "d0e1f2a3-b4c5-4456-9789-012345678901",
+    "slot_start": "14:00",
+    "slot_end": "15:00",
+    "slot_is_booked": true,
+    "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
+  },
+  {
+    "slot_id": "e1f2a3b4-c5d6-4567-a890-123456789012",
+    "slot_start": "08:00",
+    "slot_end": "09:00",
     "slot_is_booked": false,
-    "prac_id": "a76df1e7-4d73-44d7-b27c-439fe2f66e2e"
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
+  },
+  {
+    "slot_id": "f2a3b4c5-d6e7-4678-b901-234567890123",
+    "slot_start": "09:00",
+    "slot_end": "10:00",
+    "slot_is_booked": true,
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
+  },
+  {
+    "slot_id": "a3b4c5d6-e7f8-4789-8012-345678901234",
+    "slot_start": "10:00",
+    "slot_end": "11:00",
+    "slot_is_booked": true,
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
+  },
+  {
+    "slot_id": "b4c5d6e7-f8a9-4890-9123-456789012345",
+    "slot_start": "13:00",
+    "slot_end": "14:00",
+    "slot_is_booked": true,
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
+  },
+  {
+    "slot_id": "c5d6e7f8-a9b0-4901-a234-567890123456",
+    "slot_start": "14:00",
+    "slot_end": "15:00",
+    "slot_is_booked": true,
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
+  },
+  {
+    "slot_id": "d6e7f8a9-b0c1-4012-b345-678901234567",
+    "slot_start": "08:00",
+    "slot_end": "09:00",
+    "slot_is_booked": false,
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76"
+  },
+  {
+    "slot_id": "e7f8a9b0-c1d2-4123-8456-789012345678",
+    "slot_start": "09:00",
+    "slot_end": "10:00",
+    "slot_is_booked": true,
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76"
+  },
+  {
+    "slot_id": "f8a9b0c1-d2e3-4234-9567-890123456789",
+    "slot_start": "10:00",
+    "slot_end": "11:00",
+    "slot_is_booked": true,
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76"
+  },
+  {
+    "slot_id": "a9b0c1d2-e3f4-4345-a678-901234567890",
+    "slot_start": "13:00",
+    "slot_end": "14:00",
+    "slot_is_booked": true,
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76"
+  },
+  {
+    "slot_id": "b0c1d2e3-f4a5-4456-b789-012345678901",
+    "slot_start": "14:00",
+    "slot_end": "15:00",
+    "slot_is_booked": true,
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76"
+  },
+  {
+    "slot_id": "c1d2e3f4-a5b6-4567-8890-123456789012",
+    "slot_start": "08:00",
+    "slot_end": "09:00",
+    "slot_is_booked": false,
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
+  },
+  {
+    "slot_id": "d2e3f4a5-b6c7-4678-9901-234567890123",
+    "slot_start": "09:00",
+    "slot_end": "10:00",
+    "slot_is_booked": true,
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
+  },
+  {
+    "slot_id": "e3f4a5b6-c7d8-4789-a012-345678901234",
+    "slot_start": "10:00",
+    "slot_end": "11:00",
+    "slot_is_booked": true,
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
+  },
+  {
+    "slot_id": "f4a5b6c7-d8e9-4890-b123-456789012345",
+    "slot_start": "13:00",
+    "slot_end": "14:00",
+    "slot_is_booked": true,
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
+  },
+  {
+    "slot_id": "a5b6c7d8-e9f0-4901-8234-567890123456",
+    "slot_start": "14:00",
+    "slot_end": "15:00",
+    "slot_is_booked": true,
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
   }
 ]

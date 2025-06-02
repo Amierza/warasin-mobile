@@ -15,6 +15,12 @@ type (
 		Login(ctx *gin.Context)
 		RefreshToken(ctx *gin.Context)
 
+		// Practice
+		GetAllPractice(ctx *gin.Context)
+
+		// Available Slot
+		GetAllAvailableSlot(ctx *gin.Context)
+
 		// Consultation
 		GetAllConsultation(ctx *gin.Context)
 	}
@@ -68,6 +74,32 @@ func (ph *PsychologHandler) RefreshToken(ctx *gin.Context) {
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_REFRESH_TOKEN, result)
 	ctx.AbortWithStatusJSON(http.StatusOK, res)
+}
+
+// Practice
+func (ph *PsychologHandler) GetAllPractice(ctx *gin.Context) {
+	result, err := ph.psychologService.GetAllPractice(ctx)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_PRACTICE, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_PRACTICE, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// Available Slot
+func (ph *PsychologHandler) GetAllAvailableSlot(ctx *gin.Context) {
+	result, err := ph.psychologService.GetAllAvailableSlot(ctx)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_AVAILABLE_SLOT, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_AVAILABLE_SLOT, result)
+	ctx.JSON(http.StatusOK, res)
 }
 
 // Consultation
