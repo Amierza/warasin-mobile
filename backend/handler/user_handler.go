@@ -36,6 +36,7 @@ type (
 		// Consultation
 		CreateConsultation(ctx *gin.Context)
 		GetAllConsultation(ctx *gin.Context)
+		GetDetailConsultation(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -311,5 +312,17 @@ func (uh *UserHandler) GetAllConsultation(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+func (uh *UserHandler) GetDetailConsultation(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := uh.userService.GetDetailConsultation(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_CONSULTATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_CONSULTATION, result)
 	ctx.JSON(http.StatusOK, res)
 }
