@@ -27,7 +27,7 @@ type (
 
 		// Consultation
 		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForPsycholog, error)
-		UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequest, consulID string) (dto.ConsultationResponseForPsycholog, error)
+		UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequest, consulID string) (dto.ConsultationResponse, error)
 	}
 
 	PsychologService struct {
@@ -484,7 +484,7 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 
 	var (
 		psycholog     dto.PsychologResponse
-		consultations []dto.ConsultationResponseForPsycholog
+		consultations []dto.ConsultationResponse
 	)
 
 	psycholog = dto.PsychologResponse{
@@ -558,7 +558,7 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 			}
 		}
 
-		data := dto.ConsultationResponseForPsycholog{
+		data := dto.ConsultationResponse{
 			ID:      consultation.ID,
 			Date:    consultation.Date,
 			Rate:    consultation.Rate,
@@ -608,7 +608,7 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 		consultations = append(consultations, data)
 	}
 
-	datas := dto.AllConsultationResponseForPsycholog{
+	datas := dto.AllConsultationResponse{
 		Psycholog:    psycholog,
 		Consultation: consultations,
 	}
@@ -623,10 +623,10 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 		},
 	}, nil
 }
-func (ps *PsychologService) UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequest, consulID string) (dto.ConsultationResponseForPsycholog, error) {
+func (ps *PsychologService) UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequest, consulID string) (dto.ConsultationResponse, error) {
 	consul, flag, err := ps.psychologRepo.GetConsultationByID(ctx, nil, consulID)
 	if err != nil || !flag {
-		return dto.ConsultationResponseForPsycholog{}, dto.ErrConsultationNotFound
+		return dto.ConsultationResponse{}, dto.ErrConsultationNotFound
 	}
 
 	if req.Status != nil {
@@ -635,7 +635,7 @@ func (ps *PsychologService) UpdateConsultation(ctx context.Context, req dto.Upda
 
 	dayName, err := helpers.GetDayName(consul.Date)
 	if err != nil {
-		return dto.ConsultationResponseForPsycholog{}, dto.ErrParseConsultationDate
+		return dto.ConsultationResponse{}, dto.ErrParseConsultationDate
 	}
 
 	var practiceSchedules []dto.PracticeScheduleResponse
@@ -650,7 +650,7 @@ func (ps *PsychologService) UpdateConsultation(ctx context.Context, req dto.Upda
 		}
 	}
 
-	data := dto.ConsultationResponseForPsycholog{
+	data := dto.ConsultationResponse{
 		ID:      consul.ID,
 		Date:    consul.Date,
 		Rate:    consul.Rate,
@@ -699,7 +699,7 @@ func (ps *PsychologService) UpdateConsultation(ctx context.Context, req dto.Upda
 
 	err = ps.psychologRepo.UpdateConsultation(ctx, nil, consul)
 	if err != nil {
-		return dto.ConsultationResponseForPsycholog{}, dto.ErrUpdateConsultation
+		return dto.ConsultationResponse{}, dto.ErrUpdateConsultation
 	}
 
 	return data, nil

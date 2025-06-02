@@ -14,6 +14,7 @@ import (
 	"github.com/Amierza/warasin-mobile/backend/helpers"
 	"github.com/Amierza/warasin-mobile/backend/repository"
 	"github.com/Amierza/warasin-mobile/backend/utils"
+	"github.com/google/uuid"
 )
 
 type (
@@ -39,6 +40,9 @@ type (
 		// News
 		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
 		GetDetailNews(ctx context.Context, newsID string) (dto.NewsResponse, error)
+
+		// Consultation
+		CreateConsultation(ctx context.Context, req dto.CreateConsultationRequest) (dto.ConsultationResponse, error)
 	}
 
 	UserService struct {
@@ -70,12 +74,12 @@ func (us *UserService) Register(ctx context.Context, req dto.UserRegisterRequest
 		return dto.AllUserResponse{}, dto.ErrInvalidPassword
 	}
 
-	role, err := us.userRepo.GetRoleByName(ctx, nil, "user")
+	role, _, err := us.userRepo.GetRoleByName(ctx, nil, "user")
 	if err != nil {
 		return dto.AllUserResponse{}, dto.ErrGetRoleFromName
 	}
 
-	_, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
+	_, flag, err := us.userRepo.GetUserByEmail(ctx, nil, req.Email)
 	if flag || err == nil {
 		return dto.AllUserResponse{}, dto.ErrEmailAlreadyExists
 	}
@@ -112,7 +116,7 @@ func (us *UserService) Login(ctx context.Context, req dto.UserLoginRequest) (dto
 		return dto.UserLoginResponse{}, dto.ErrInvalidPassword
 	}
 
-	user, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
+	user, flag, err := us.userRepo.GetUserByEmail(ctx, nil, req.Email)
 	if !flag || err != nil {
 		return dto.UserLoginResponse{}, dto.ErrEmailNotFound
 	}
@@ -126,7 +130,7 @@ func (us *UserService) Login(ctx context.Context, req dto.UserLoginRequest) (dto
 		return dto.UserLoginResponse{}, dto.ErrPasswordNotMatch
 	}
 
-	permissions, err := us.userRepo.GetPermissionsByRoleID(ctx, nil, user.RoleID.String())
+	permissions, _, err := us.userRepo.GetPermissionsByRoleID(ctx, nil, user.RoleID.String())
 	if err != nil {
 		return dto.UserLoginResponse{}, dto.ErrGetPermissionsByRoleID
 	}
@@ -158,7 +162,7 @@ func (us *UserService) RefreshToken(ctx context.Context, req dto.RefreshTokenReq
 		return dto.RefreshTokenResponse{}, dto.ErrGetRoleFromToken
 	}
 
-	role, err := us.userRepo.GetRoleByID(ctx, nil, roleID)
+	role, _, err := us.userRepo.GetRoleByID(ctx, nil, roleID)
 	if err != nil {
 		return dto.RefreshTokenResponse{}, dto.ErrGetRoleFromID
 	}
@@ -167,7 +171,7 @@ func (us *UserService) RefreshToken(ctx context.Context, req dto.RefreshTokenReq
 		return dto.RefreshTokenResponse{}, dto.ErrDeniedAccess
 	}
 
-	endpoints, err := us.userRepo.GetPermissionsByRoleID(ctx, nil, roleID)
+	endpoints, _, err := us.userRepo.GetPermissionsByRoleID(ctx, nil, roleID)
 	if err != nil {
 		return dto.RefreshTokenResponse{}, dto.ErrGetPermissionsByRoleID
 	}
@@ -228,7 +232,7 @@ func makeForgotPasswordEmail(receiverEmail string) (map[string]string, error) {
 	return draftEmail, nil
 }
 func (us *UserService) SendForgotPasswordEmail(ctx context.Context, req dto.SendForgotPasswordEmailRequest) error {
-	user, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
+	user, flag, err := us.userRepo.GetUserByEmail(ctx, nil, req.Email)
 	if err != nil || !flag {
 		return dto.ErrEmailNotFound
 	}
@@ -277,7 +281,7 @@ func (us *UserService) ForgotPassword(ctx context.Context, req dto.ForgotPasswor
 	}, nil
 }
 func (us *UserService) UpdatePassword(ctx context.Context, req dto.UpdatePasswordRequest) (dto.UpdatePasswordResponse, error) {
-	user, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
+	user, flag, err := us.userRepo.GetUserByEmail(ctx, nil, req.Email)
 	if err != nil || !flag {
 		return dto.UpdatePasswordResponse{}, dto.ErrEmailNotFound
 	}
@@ -354,7 +358,7 @@ func makeVerificationEmail(receiverEmail string) (map[string]string, error) {
 	return draftEmail, nil
 }
 func (us *UserService) SendVerificationEmail(ctx context.Context, req dto.SendVerificationEmailRequest) error {
-	user, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
+	user, flag, err := us.userRepo.GetUserByEmail(ctx, nil, req.Email)
 	if err != nil || !flag {
 		return dto.ErrEmailNotFound
 	}
@@ -401,7 +405,7 @@ func (us *UserService) VerifyEmail(ctx context.Context, req dto.VerifyEmailReque
 		}, dto.ErrTokenExpired
 	}
 
-	user, flag, err := us.userRepo.CheckEmail(ctx, nil, email)
+	user, flag, err := us.userRepo.GetUserByEmail(ctx, nil, email)
 	if !flag || err != nil {
 		return dto.VerifyEmailResponse{}, dto.ErrUserNotFound
 	}
@@ -434,8 +438,8 @@ func (us *UserService) GetDetailUser(ctx context.Context) (dto.AllUserResponse, 
 		return dto.AllUserResponse{}, dto.ErrGetUserIDFromToken
 	}
 
-	user, err := us.userRepo.GetUserByID(ctx, nil, userId)
-	if err != nil {
+	user, flag, err := us.userRepo.GetUserByID(ctx, nil, userId)
+	if err != nil || !flag {
 		return dto.AllUserResponse{}, dto.ErrUserNotFound
 	}
 
@@ -476,8 +480,8 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 	token := ctx.Value("Authorization").(string)
 	userID, err := us.jwtService.GetUserIDByToken(token)
 
-	user, err := us.userRepo.GetUserByID(ctx, nil, userID)
-	if err != nil {
+	user, flag, err := us.userRepo.GetUserByID(ctx, nil, userID)
+	if err != nil || !flag {
 		return dto.AllUserResponse{}, dto.ErrGetUserFromID
 	}
 
@@ -491,7 +495,7 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 	}
 
 	if req.RoleID != nil {
-		role, err := us.userRepo.GetRoleByID(ctx, nil, req.RoleID.String())
+		role, _, err := us.userRepo.GetRoleByID(ctx, nil, req.RoleID.String())
 		if err != nil {
 			return dto.AllUserResponse{}, dto.ErrGetRoleFromID
 		}
@@ -512,7 +516,7 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 			return dto.AllUserResponse{}, dto.ErrInvalidEmail
 		}
 
-		_, flag, err := us.userRepo.CheckEmail(ctx, nil, req.Email)
+		_, flag, err := us.userRepo.GetUserByEmail(ctx, nil, req.Email)
 		if flag || err == nil {
 			return dto.AllUserResponse{}, dto.ErrEmailAlreadyExists
 		}
@@ -619,7 +623,7 @@ func (us *UserService) GetAllNewsWithPagination(ctx context.Context, req dto.Pag
 	}, nil
 }
 func (us *UserService) GetDetailNews(ctx context.Context, newsID string) (dto.NewsResponse, error) {
-	news, err := us.userRepo.GetNewsByID(ctx, nil, newsID)
+	news, _, err := us.userRepo.GetNewsByID(ctx, nil, newsID)
 	if err != nil {
 		return dto.NewsResponse{}, dto.ErrGetNewsFromID
 	}
@@ -630,5 +634,122 @@ func (us *UserService) GetDetailNews(ctx context.Context, newsID string) (dto.Ne
 		Title: news.Title,
 		Body:  news.Body,
 		Date:  news.Date,
+	}, nil
+}
+
+// Consultation
+func (us *UserService) CreateConsultation(ctx context.Context, req dto.CreateConsultationRequest) (dto.ConsultationResponse, error) {
+	token := ctx.Value("Authorization").(string)
+
+	userID, err := us.jwtService.GetUserIDByToken(token)
+	if err != nil {
+		return dto.ConsultationResponse{}, dto.ErrGetUserIDFromToken
+	}
+
+	u, flag, err := us.userRepo.GetUserByID(ctx, nil, userID)
+	if err != nil || !flag {
+		return dto.ConsultationResponse{}, dto.ErrUserNotFound
+	}
+
+	a, flag, err := us.userRepo.GetAvailableSlotByID(ctx, nil, req.AvailableSlotID)
+	if err != nil || !flag {
+		return dto.ConsultationResponse{}, dto.ErrAvailableSlotNotFound
+	}
+
+	p, flag, err := us.userRepo.GetPracticeByID(ctx, nil, req.PracticeID)
+	if err != nil || !flag {
+		return dto.ConsultationResponse{}, dto.ErrPracticeNotFound
+	}
+
+	consultation := entity.Consultation{
+		ID:              uuid.New(),
+		Date:            req.Date,
+		Rate:            0,
+		Comment:         "",
+		Status:          0,
+		UserID:          &u.ID,
+		PracticeID:      &p.ID,
+		AvailableSlotID: &a.ID,
+	}
+
+	err = us.userRepo.CreateConsultation(ctx, nil, consultation)
+	if err != nil {
+		return dto.ConsultationResponse{}, dto.ErrCreateConsultation
+	}
+
+	a.IsBooked = true
+	err = us.userRepo.UpdateStatusBookSlot(ctx, nil, a.ID, a.IsBooked)
+	if err != nil {
+		return dto.ConsultationResponse{}, dto.ErrUpdateStatusBookSlot
+	}
+
+	user := dto.AllUserResponse{
+		ID:          u.ID,
+		Name:        u.Name,
+		Email:       u.Email,
+		Password:    u.Password,
+		Birthdate:   u.Birthdate.String(),
+		PhoneNumber: u.PhoneNumber,
+		Data01:      u.Data01,
+		Data02:      u.Data02,
+		Data03:      u.Data03,
+		IsVerified:  u.IsVerified,
+		City: dto.CityResponse{
+			ID:   &u.City.ID,
+			Name: u.City.Name,
+			Type: u.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   u.City.ProvinceID,
+				Name: u.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   &u.Role.ID,
+			Name: u.Role.Name,
+		},
+	}
+
+	availableSlot := dto.AvailableSlotResponse{
+		ID:       a.ID,
+		Start:    a.Start,
+		End:      a.End,
+		IsBooked: a.IsBooked,
+	}
+
+	practice := dto.PracticeResponse{
+		ID:          p.ID,
+		Type:        p.Type,
+		Name:        p.Name,
+		Address:     p.Address,
+		PhoneNumber: p.PhoneNumber,
+	}
+
+	dayName, err := helpers.GetDayName(consultation.Date)
+	if err != nil {
+		return dto.ConsultationResponse{}, dto.ErrParseConsultationDate
+	}
+
+	var matchedSchedules []dto.PracticeScheduleResponse
+	for _, prac := range p.PracticeSchedules {
+		if dayName == prac.Day {
+			matchedSchedules = append(matchedSchedules, dto.PracticeScheduleResponse{
+				ID:    prac.ID,
+				Day:   prac.Day,
+				Open:  prac.Open,
+				Close: prac.Close,
+			})
+		}
+	}
+	practice.PracticeSchedules = matchedSchedules
+
+	return dto.ConsultationResponse{
+		ID:            consultation.ID,
+		Date:          consultation.Date,
+		Rate:          consultation.Rate,
+		Comment:       consultation.Comment,
+		Status:        consultation.Status,
+		User:          user,
+		AvailableSlot: availableSlot,
+		Practice:      practice,
 	}, nil
 }
