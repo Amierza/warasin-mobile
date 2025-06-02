@@ -25,6 +25,7 @@ type (
 		GetPracticeByID(ctx context.Context, tx *gorm.DB, pracID string) (entity.Practice, bool, error)
 		GetAvailableSlotByID(ctx context.Context, tx *gorm.DB, slotID string) (entity.AvailableSlot, bool, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, userID string) (dto.AllConsultationRepositoryResponseForUser, error)
+		GetConsultationByID(ctx context.Context, tx *gorm.DB, consulID string) (entity.Consultation, bool, error)
 
 		// Create
 		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
@@ -254,6 +255,28 @@ func (ur *UserRepository) GetAllConsultationWithPagination(ctx context.Context, 
 			Count:   count,
 		},
 	}, err
+}
+func (ur *UserRepository) GetConsultationByID(ctx context.Context, tx *gorm.DB, consulID string) (entity.Consultation, bool, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.Consultation{}).Where("id = ?", &consulID).
+		Preload("User.Role").
+		Preload("User.City.Province").
+		Preload("AvailableSlot.Psycholog.Role").
+		Preload("AvailableSlot.Psycholog.City.Province").
+		Preload("AvailableSlot.Psycholog.PsychologLanguages.LanguageMaster").
+		Preload("AvailableSlot.Psycholog.PsychologSpecializations.Specialization").
+		Preload("AvailableSlot.Psycholog.Educations").
+		Preload("Practice.PracticeSchedules")
+
+	var consultation entity.Consultation
+	if err := query.Order("created_at DESC").Find(&consultation).Error; err != nil {
+		return entity.Consultation{}, false, err
+	}
+
+	return consultation, false, nil
 }
 
 // Create

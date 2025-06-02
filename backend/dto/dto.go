@@ -70,9 +70,10 @@ const (
 	// User News
 	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_NEWS = "failed get all user news"
 	// Consultation
-	MESSAGE_FAILED_CREATE_CONSULTATION   = "failed create consultation"
-	MESSAGE_FAILED_GET_LIST_CONSULTATION = "failed get all consultation"
-	MESSAGE_FAILED_UPDATE_CONSULTATION   = "failed update consultation"
+	MESSAGE_FAILED_CREATE_CONSULTATION     = "failed create consultation"
+	MESSAGE_FAILED_GET_LIST_CONSULTATION   = "failed get all consultation"
+	MESSAGE_FAILED_GET_DETAIL_CONSULTATION = "failed get detail consultation"
+	MESSAGE_FAILED_UPDATE_CONSULTATION     = "failed update consultation"
 	// Language Master
 	MESSAGE_FAILED_GET_ALL_LANGUAGE_MASTER = "failed get all language master"
 	// Specialization
@@ -138,9 +139,10 @@ const (
 	// User News
 	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_NEWS = "success get all user news"
 	// Consultation
-	MESSAGE_SUCCESS_CREATE_CONSULTATION   = "success create consultation"
-	MESSAGE_SUCCESS_GET_LIST_CONSULTATION = "success get all consultation"
-	MESSAGE_SUCCESS_UPDATE_CONSULTATION   = "success update consultation"
+	MESSAGE_SUCCESS_CREATE_CONSULTATION     = "success create consultation"
+	MESSAGE_SUCCESS_GET_LIST_CONSULTATION   = "success get all consultation"
+	MESSAGE_SUCCESS_GET_DETAIL_CONSULTATION = "success get detail consultation"
+	MESSAGE_SUCCESS_UPDATE_CONSULTATION     = "success update consultation"
 	// Language Master
 	MESSAGE_SUCCESS_GET_ALL_LANGUAGE_MASTER = "success get all language master"
 	// Specialization
