@@ -11,12 +11,16 @@ import (
 
 type (
 	IPsychologRepository interface {
-		// Get
+		// Get / Read
 		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
 		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
 		GetAllPractice(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllPracticeRepositoryResponse, error)
 		GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllAvailableSlotRepositoryResponse, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, psychologID string) (dto.AllConsultationRepositoryResponse, error)
+
+		// Post / Create
+		CreatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error
+		CreatePracticeSchedule(ctx context.Context, tx *gorm.DB, schedules []entity.PracticeSchedule) error
 	}
 
 	PsychologRepository struct {
@@ -144,4 +148,20 @@ func (pr *PsychologRepository) GetAllConsultationWithPagination(ctx context.Cont
 			Count:   count,
 		},
 	}, err
+}
+
+// Post / Create
+func (pr *PsychologRepository) CreatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	return tx.WithContext(ctx).Create(&practice).Error
+}
+func (pr *PsychologRepository) CreatePracticeSchedule(ctx context.Context, tx *gorm.DB, schedules []entity.PracticeSchedule) error {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	return tx.WithContext(ctx).Create(&schedules).Error
 }

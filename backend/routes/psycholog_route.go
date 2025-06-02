@@ -18,6 +18,7 @@ func Psycholog(route *gin.Engine, psychologHandler handler.IPsychologHandler, ma
 			routes.GET("/get-detail-psycholog", masterHandler.GetDetailPsycholog)
 
 			// Practice
+			routes.POST("/create-practice", psychologHandler.CreatePractice)
 			routes.GET("/get-all-practice", psychologHandler.GetAllPractice)
 
 			// Practice

@@ -5,8 +5,10 @@ import (
 	"log"
 
 	"github.com/Amierza/warasin-mobile/backend/dto"
+	"github.com/Amierza/warasin-mobile/backend/entity"
 	"github.com/Amierza/warasin-mobile/backend/helpers"
 	"github.com/Amierza/warasin-mobile/backend/repository"
+	"github.com/google/uuid"
 )
 
 type (
@@ -16,6 +18,7 @@ type (
 		RefreshToken(ctx context.Context, req dto.RefreshTokenRequest) (dto.RefreshTokenResponse, error)
 
 		// Practice
+		CreatePractice(ctx context.Context, req dto.CreatePracticeRequest) (dto.PracticeResponse, error)
 		GetAllPractice(ctx context.Context) (dto.AllPracticeResponse, error)
 
 		// Available Slot
@@ -121,6 +124,94 @@ func (ps *PsychologService) RefreshToken(ctx context.Context, req dto.RefreshTok
 }
 
 // Practice
+func (ps *PsychologService) CreatePractice(ctx context.Context, req dto.CreatePracticeRequest) (dto.PracticeResponse, error) {
+	token := ctx.Value("Authorization").(string)
+
+	psyID, err := ps.jwtService.GetUserIDByToken(token)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrGetPsychologIDFromToken
+	}
+
+	psychologID, err := uuid.Parse(psyID)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrParseUUID
+	}
+
+	if len(req.Name) < 5 {
+		return dto.PracticeResponse{}, dto.ErrInvalidPracticeName
+	}
+
+	phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber, false)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrFormatPhoneNumber
+	}
+
+	practice := entity.Practice{
+		ID:          uuid.New(),
+		Type:        req.Type,
+		Name:        req.Name,
+		Address:     req.Address,
+		PhoneNumber: phoneNumberFormatted,
+		PsychologID: &psychologID,
+	}
+
+	err = ps.psychologRepo.CreatePractice(ctx, nil, practice)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrCreatePractice
+	}
+
+	var schedules []entity.PracticeSchedule
+	switch req.Type {
+	case "Konsultasi Online":
+		days := []string{"Thursday", "Friday", "Saturday"}
+		for _, day := range days {
+			schedules = append(schedules, entity.PracticeSchedule{
+				ID:         uuid.New(),
+				Day:        day,
+				Open:       "07:00",
+				Close:      "18:00",
+				PracticeID: &practice.ID,
+			})
+		}
+	case "Praktek Klinik":
+		days := []string{"Monday", "Tuesday", "Wednesday"}
+		for _, day := range days {
+			schedules = append(schedules, entity.PracticeSchedule{
+				ID:         uuid.New(),
+				Day:        day,
+				Open:       "07:00",
+				Close:      "18:00",
+				PracticeID: &practice.ID,
+			})
+		}
+	default:
+		return dto.PracticeResponse{}, dto.ErrAddPracticeSchedule
+	}
+
+	var practiceSchedules []dto.PracticeScheduleResponse
+	for _, schedule := range schedules {
+		practiceSchedules = append(practiceSchedules, dto.PracticeScheduleResponse{
+			ID:    schedule.ID,
+			Day:   schedule.Day,
+			Open:  schedule.Open,
+			Close: schedule.Close,
+		})
+	}
+
+	err = ps.psychologRepo.CreatePracticeSchedule(ctx, nil, schedules)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrCreatePracticeSchedule
+	}
+
+	return dto.PracticeResponse{
+		ID:                practice.ID,
+		Type:              practice.Type,
+		Name:              practice.Name,
+		Address:           practice.Address,
+		PhoneNumber:       phoneNumberFormatted,
+		PracticeSchedules: practiceSchedules,
+	}, nil
+}
 func (ps *PsychologService) GetAllPractice(ctx context.Context) (dto.AllPracticeResponse, error) {
 	token := ctx.Value("Authorization").(string)
 
