@@ -21,6 +21,7 @@ func Psycholog(route *gin.Engine, psychologHandler handler.IPsychologHandler, ma
 			routes.POST("/create-practice", psychologHandler.CreatePractice)
 			routes.GET("/get-all-practice", psychologHandler.GetAllPractice)
 			routes.PATCH("/update-practice/:id", psychologHandler.UpdatePractice)
+			routes.DELETE("/delete-practice/:id", psychologHandler.DeletePractice)
 
 			// Practice
 			routes.GET("/get-all-available-slot", psychologHandler.GetAllAvailableSlot)
