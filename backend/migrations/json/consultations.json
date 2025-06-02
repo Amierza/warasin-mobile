@@ -1,82 +1,82 @@
 [
   {
-    "consul_id": "0ea21c85-f391-4b69-84b9-17fddf1fdc10",
+    "consul_id": "a1b2c3d4-e5f6-4890-abcd-123456789abc",
     "consul_date": "2025-06-02",
     "consul_rate": 5,
     "consul_comment": "Sangat membantu",
     "consul_status": 2,
     "user_id": "e7c3be62-6e20-4e21-a83d-daa9b95c591b",
     "prac_id": "5d8fa850-6eaf-4d56-8286-2f31b56a52b2",
-    "slot_id": "a1b2c3d4-e5f6-4abc-8def-123456789012"
-  },
-  {
-    "consul_id": "48f1e2f4-55ff-4b90-8e3a-3c99f6973552",
-    "consul_date": "2025-06-02",
-    "consul_rate": 4,
-    "consul_comment": "Bagus, tapi kurang mendalam",
-    "consul_status": 2,
-    "user_id": "4578adad-bfc2-42e2-b9ef-3782d1fcd028",
-    "prac_id": "5d8fa850-6eaf-4d56-8286-2f31b56a52b2",
     "slot_id": "b2c3d4e5-f6a7-4bcd-9ef1-234567890123"
   },
   {
-    "consul_id": "dfb98c62-9d69-4374-86d6-d8c01eab209f",
-    "consul_date": "2025-06-02",
-    "consul_rate": 0,
-    "consul_comment": "",
+    "consul_id": "b2c3d4e5-f6a7-4801-bcde-23456789abcd",
+    "consul_date": "2025-06-04",
+    "consul_rate": null,
+    "consul_comment": null,
     "consul_status": 0,
-    "user_id": "a1d42b16-4c86-40d3-90c4-6b8e12be36e0",
-    "prac_id": "5d8fa850-6eaf-4d56-8286-2f31b56a52b2",
-    "slot_id": "c3d4e5f6-a7b8-4cde-af12-345678901234"
-  },
-  {
-    "consul_id": "9e0d3c9f-f888-4067-a2bd-7fd4a4c6f8f6",
-    "consul_date": "2025-06-02",
-    "consul_rate": 0,
-    "consul_comment": "Batal karena urusan mendadak",
-    "consul_status": 1,
-    "user_id": "76e7a6d3-7f7c-4f0d-98f7-5c5e80f328a9",
+    "user_id": "4578adad-bfc2-42e2-b9ef-3782d1fcd028",
     "prac_id": "5d8fa850-6eaf-4d56-8286-2f31b56a52b2",
     "slot_id": "d4e5f6a7-b8c9-4def-b123-456789012345"
   },
   {
-    "consul_id": "b02067a6-1491-4974-bcce-8d19ecf68d93",
-    "consul_date": "2025-06-05",
-    "consul_rate": 0,
-    "consul_comment": "",
-    "consul_status": 0,
-    "user_id": "e7c3be62-6e20-4e21-a83d-daa9b95c591b",
-    "prac_id": "f84db3b4-5a90-4041-9fd0-2c547fb45be5",
-    "slot_id": "e5f6a7b8-c9d0-4ef1-8234-567890123456"
-  },
-  {
-    "consul_id": "fc2a9fa2-bb2d-4126-bcc1-1602ef30eb2b",
-    "consul_date": "2025-06-09",
+    "consul_id": "c3d4e5f6-a7b8-4012-9def-3456789abcde",
+    "consul_date": "2025-06-02",
     "consul_rate": 4,
     "consul_comment": "Cukup informatif",
     "consul_status": 2,
-    "user_id": "4578adad-bfc2-42e2-b9ef-3782d1fcd028",
-    "prac_id": "31d8f7f3-8a42-4c99-85ca-c6cc55c9c1f9",
-    "slot_id": "f6a7b8c9-d0e1-4f12-9345-678901234567"
-  },
-  {
-    "consul_id": "4b8e1e1f-7f0f-4b55-b735-5dceddc1c9e7",
-    "consul_date": "2025-06-09",
-    "consul_rate": 0,
-    "consul_comment": "",
-    "consul_status": 0,
     "user_id": "a1d42b16-4c86-40d3-90c4-6b8e12be36e0",
     "prac_id": "31d8f7f3-8a42-4c99-85ca-c6cc55c9c1f9",
-    "slot_id": "a7b8c9d0-e1f2-4123-a456-789012345678"
+    "slot_id": "d0e1f2a3-b4c5-4456-9789-012345678901"
   },
   {
-    "consul_id": "81bd5cbd-1fd6-4f3b-9fd2-73e7558864f7",
-    "consul_date": "2025-06-09",
-    "consul_rate": 0,
-    "consul_comment": "Konsultasi dibatalkan karena alasan teknis",
-    "consul_status": 1,
+    "consul_id": "d4e5f6a7-b8c9-4123-8ef0-456789abcdef",
+    "consul_date": "2025-06-03",
+    "consul_rate": 1,
+    "consul_comment": "Tidak menyelesaikan masalah",
+    "consul_status": 2,
+    "user_id": "e7c3be62-6e20-4e21-a83d-daa9b95c591b",
+    "prac_id": "c4f0e3a5-6b7d-4e89-9c3a-f5a6b7c8d9e0",
+    "slot_id": "d6e7f8a9-b0c1-4012-b345-678901234567"
+  },
+  {
+    "consul_id": "e5f6a7b8-c9d0-4234-9f01-56789abcdef0",
+    "consul_date": "2025-06-03",
+    "consul_rate": 2,
+    "consul_comment": "Bagus, tetapi masih belum ada solusi",
+    "consul_status": 2,
+    "user_id": "4578adad-bfc2-42e2-b9ef-3782d1fcd028",
+    "prac_id": "c4f0e3a5-6b7d-4e89-9c3a-f5a6b7c8d9e0",
+    "slot_id": "e7f8a9b0-c1d2-4123-c456-789012345678"
+  },
+  {
+    "consul_id": "f6a7b8c9-d0e1-4345-a012-6789abcdef01",
+    "consul_date": "2025-06-03",
+    "consul_rate": null,
+    "consul_comment": null,
+    "consul_status": 0,
+    "user_id": "a1d42b16-4c86-40d3-90c4-6b8e12be36e0",
+    "prac_id": "c4f0e3a5-6b7d-4e89-9c3a-f5a6b7c8d9e0",
+    "slot_id": "f8a9b0c1-d2e3-4234-9567-890123456789"
+  },
+  {
+    "consul_id": "a7b8c9d0-e1f2-4456-b123-789abcdef012",
+    "consul_date": "2025-06-03",
+    "consul_rate": 5,
+    "consul_comment": "Sangat termotivasi",
+    "consul_status": 2,
     "user_id": "76e7a6d3-7f7c-4f0d-98f7-5c5e80f328a9",
-    "prac_id": "31d8f7f3-8a42-4c99-85ca-c6cc55c9c1f9",
-    "slot_id": "b8c9d0e1-f2a3-4234-b567-890123456789"
+    "prac_id": "c4f0e3a5-6b7d-4e89-9c3a-f5a6b7c8d9e0",
+    "slot_id": "a9b0c1d2-e3f4-4345-a678-901234567890"
+  },
+  {
+    "consul_id": "b8c9d0e1-f2a3-4567-8234-89abcdef0123",
+    "consul_date": "2025-06-04",
+    "consul_rate": null,
+    "consul_comment": null,
+    "consul_status": 0,
+    "user_id": "4578adad-bfc2-42e2-b9ef-3782d1fcd028",
+    "prac_id": "e6b2a5c7-8d9f-4a0b-be5c-b7c8d9e0f1a2",
+    "slot_id": "d2e3f4a5-b6c7-4678-9901-234567890123"
   }
 ]

@@ -82,5 +82,131 @@
     "prac_sched_open": "07:00",
     "prac_sched_close": "18:00",
     "prac_id": "d7c3b98f-c39c-48f2-9c53-68c49fbbf0a9"
+  },
+  {
+    "prac_sched_id": "1a2b3c4d-5e6f-7890-abcd-123456789abc",
+    "prac_sched_day": "Monday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "a2f8c9d1-3e7b-4c56-9a18-f2e3d4c5b6a7"
+  },
+  {
+    "prac_sched_id": "2b3c4d5e-6f78-9012-bcde-23456789abcd",
+    "prac_sched_day": "Tuesday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "a2f8c9d1-3e7b-4c56-9a18-f2e3d4c5b6a7"
+  },
+  {
+    "prac_sched_id": "3c4d5e6f-7890-1234-cdef-3456789abcde",
+    "prac_sched_day": "Wednesday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "a2f8c9d1-3e7b-4c56-9a18-f2e3d4c5b6a7"
+  },
+  {
+    "prac_sched_id": "4d5e6f78-9012-3456-def0-456789abcdef",
+    "prac_sched_day": "Thursday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "b3e9d2f4-5a6c-4d78-8b29-e4f5a6b7c8d9"
+  },
+  {
+    "prac_sched_id": "5e6f7890-1234-5678-ef01-56789abcdef0",
+    "prac_sched_day": "Friday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "b3e9d2f4-5a6c-4d78-8b29-e4f5a6b7c8d9"
+  },
+  {
+    "prac_sched_id": "6f789012-3456-789a-f012-6789abcdef01",
+    "prac_sched_day": "Saturday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "b3e9d2f4-5a6c-4d78-8b29-e4f5a6b7c8d9"
+  },
+  {
+    "prac_sched_id": "789a0123-4567-89ab-0123-789abcdef012",
+    "prac_sched_day": "Monday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "c4f0e3a5-6b7d-4e89-9c3a-f5a6b7c8d9e0"
+  },
+  {
+    "prac_sched_id": "89ab1234-5678-9abc-1234-89abcdef0123",
+    "prac_sched_day": "Tuesday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "c4f0e3a5-6b7d-4e89-9c3a-f5a6b7c8d9e0"
+  },
+  {
+    "prac_sched_id": "9abc2345-6789-abcd-2345-9abcdef01234",
+    "prac_sched_day": "Wednesday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "c4f0e3a5-6b7d-4e89-9c3a-f5a6b7c8d9e0"
+  },
+  {
+    "prac_sched_id": "abcd3456-789a-bcde-3456-abcdef012345",
+    "prac_sched_day": "Thursday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "d5a1f4b6-7c8e-4f9a-ad4b-a6b7c8d9e0f1"
+  },
+  {
+    "prac_sched_id": "bcde4567-89ab-cdef-4567-bcdef0123456",
+    "prac_sched_day": "Friday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "d5a1f4b6-7c8e-4f9a-ad4b-a6b7c8d9e0f1"
+  },
+  {
+    "prac_sched_id": "cdef5678-9abc-def0-5678-cdef01234567",
+    "prac_sched_day": "Saturday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "d5a1f4b6-7c8e-4f9a-ad4b-a6b7c8d9e0f1"
+  },
+  {
+    "prac_sched_id": "def06789-abcd-ef01-6789-def012345678",
+    "prac_sched_day": "Monday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "e6b2a5c7-8d9f-4a0b-be5c-b7c8d9e0f1a2"
+  },
+  {
+    "prac_sched_id": "ef0178ab-bcde-f012-78ab-ef0123456789",
+    "prac_sched_day": "Tuesday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "e6b2a5c7-8d9f-4a0b-be5c-b7c8d9e0f1a2"
+  },
+  {
+    "prac_sched_id": "f01289bc-cdef-0123-89bc-f01234567890",
+    "prac_sched_day": "Wednesday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "e6b2a5c7-8d9f-4a0b-be5c-b7c8d9e0f1a2"
+  },
+  {
+    "prac_sched_id": "01239acd-def0-1234-9acd-012345678901",
+    "prac_sched_day": "Thursday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "f7c3b6d8-9e0a-4b1c-cf6d-c8d9e0f1a2b3"
+  },
+  {
+    "prac_sched_id": "1234abde-ef01-2345-abde-123456789012",
+    "prac_sched_day": "Friday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "f7c3b6d8-9e0a-4b1c-cf6d-c8d9e0f1a2b3"
+  },
+  {
+    "prac_sched_id": "2345bcef-f012-3456-bcef-234567890123",
+    "prac_sched_day": "Saturday",
+    "prac_sched_open": "07:00",
+    "prac_sched_close": "18:00",
+    "prac_id": "f7c3b6d8-9e0a-4b1c-cf6d-c8d9e0f1a2b3"
   }
 ]

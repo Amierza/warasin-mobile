@@ -16,6 +16,7 @@ type (
 		RefreshToken(ctx *gin.Context)
 
 		// Practice
+		CreatePractice(ctx *gin.Context)
 		GetAllPractice(ctx *gin.Context)
 
 		// Available Slot
@@ -77,6 +78,24 @@ func (ph *PsychologHandler) RefreshToken(ctx *gin.Context) {
 }
 
 // Practice
+func (ph *PsychologHandler) CreatePractice(ctx *gin.Context) {
+	var payload dto.CreatePracticeRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ph.psychologService.CreatePractice(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_CREATE_PRACTICE, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_PRACTICE, result)
+	ctx.JSON(http.StatusOK, res)
+}
 func (ph *PsychologHandler) GetAllPractice(ctx *gin.Context) {
 	result, err := ph.psychologService.GetAllPractice(ctx)
 	if err != nil {

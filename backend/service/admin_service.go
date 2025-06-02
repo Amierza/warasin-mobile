@@ -197,7 +197,7 @@ func (as *AdminService) CreateUser(ctx context.Context, req dto.CreateUserReques
 		return dto.AllUserResponse{}, dto.ErrFormatBirthdate
 	}
 
-	phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber)
+	phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber, true)
 	if err != nil {
 		return dto.AllUserResponse{}, dto.ErrFormatPhoneNumber
 	}
@@ -411,7 +411,7 @@ func (as *AdminService) UpdateUser(ctx context.Context, req dto.UpdateUserReques
 	}
 
 	if req.PhoneNumber != "" {
-		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber)
+		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber, true)
 		if err != nil {
 			return dto.AllUserResponse{}, dto.ErrFormatPhoneNumber
 		}
@@ -917,7 +917,7 @@ func (as *AdminService) CreatePsycholog(ctx context.Context, req dto.CreatePsych
 		return dto.PsychologResponse{}, dto.ErrInvalidPassword
 	}
 
-	phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber)
+	phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber, true)
 	if err != nil {
 		return dto.PsychologResponse{}, dto.ErrFormatPhoneNumber
 	}
@@ -1101,7 +1101,7 @@ func (as *AdminService) UpdatePsycholog(ctx context.Context, req dto.UpdatePsych
 	}
 
 	if req.PhoneNumber != "" {
-		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber)
+		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber, true)
 		if err != nil {
 			return dto.PsychologResponse{}, dto.ErrFormatPhoneNumber
 		}

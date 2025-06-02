@@ -6,7 +6,7 @@ import (
 
 type Practice struct {
 	ID          uuid.UUID `gorm:"type:uuid;primaryKey" json:"prac_id"`
-	Type        string    `json:"prac_type"` // Online / Offline
+	Type        string    `json:"prac_type"` // Konsultasi Online / Praktek Klinik
 	Name        string    `json:"prac_name"`
 	Address     string    `json:"prac_address"`
 	PhoneNumber string    `json:"prac_phone_number"`
