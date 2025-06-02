@@ -37,6 +37,7 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, masterHandler han
 			// Consultation
 			routes.POST("create-consultation", userHandler.CreateConsultation)
 			routes.GET("get-all-consultation", userHandler.GetAllConsultation)
+			routes.GET("get-detail-consultation/:id", userHandler.GetDetailConsultation)
 		}
 	}
 }
