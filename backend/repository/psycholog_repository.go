@@ -11,16 +11,24 @@ import (
 
 type (
 	IPsychologRepository interface {
-		// Get / Read
-		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
-		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
+		// GET / Read
+		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, bool, error)
+		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, bool, error)
 		GetAllPractice(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllPracticeRepositoryResponse, error)
 		GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllAvailableSlotRepositoryResponse, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, psychologID string) (dto.AllConsultationRepositoryResponse, error)
+		GetPracticeByID(ctx context.Context, tx *gorm.DB, practiceID string) (entity.Practice, bool, error)
 
-		// Post / Create
+		// POST / Create
 		CreatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error
 		CreatePracticeSchedule(ctx context.Context, tx *gorm.DB, schedules []entity.PracticeSchedule) error
+
+		// PATCH / Update
+		UpdatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error
+
+		// DELETE / Delete
+		DeletePracticeSchedule(ctx context.Context, tx *gorm.DB, practiceID string) error
+		DeletePracticeByID(ctx context.Context, tx *gorm.DB, practiceID string) error
 	}
 
 	PsychologRepository struct {
@@ -35,29 +43,29 @@ func NewPsychologRepository(db *gorm.DB) *PsychologRepository {
 }
 
 // Get
-func (pr *PsychologRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error) {
+func (pr *PsychologRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, bool, error) {
 	if tx == nil {
 		tx = pr.db
 	}
 
 	var endpoints []string
 	if err := tx.WithContext(ctx).Table("permissions").Where("role_id = ?", roleID).Pluck("endpoint", &endpoints).Error; err != nil {
-		return []string{}, err
+		return []string{}, false, err
 	}
 
-	return endpoints, nil
+	return endpoints, true, nil
 }
-func (pr *PsychologRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error) {
+func (pr *PsychologRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, bool, error) {
 	if tx == nil {
 		tx = pr.db
 	}
 
 	var role entity.Role
 	if err := tx.WithContext(ctx).Where("id = ?", roleID).Take(&role).Error; err != nil {
-		return entity.Role{}, err
+		return entity.Role{}, false, err
 	}
 
-	return role, nil
+	return role, true, nil
 }
 func (pr *PsychologRepository) GetAllPractice(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllPracticeRepositoryResponse, error) {
 	if tx == nil {
@@ -149,6 +157,20 @@ func (pr *PsychologRepository) GetAllConsultationWithPagination(ctx context.Cont
 		},
 	}, err
 }
+func (pr *PsychologRepository) GetPracticeByID(ctx context.Context, tx *gorm.DB, practiceID string) (entity.Practice, bool, error) {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.Practice{}).Preload("PracticeSchedules")
+
+	var practice entity.Practice
+	if err := query.Where("id = ?", practiceID).Take(&practice).Error; err != nil {
+		return entity.Practice{}, false, err
+	}
+
+	return practice, true, nil
+}
 
 // Post / Create
 func (pr *PsychologRepository) CreatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error {
@@ -164,4 +186,29 @@ func (pr *PsychologRepository) CreatePracticeSchedule(ctx context.Context, tx *g
 	}
 
 	return tx.WithContext(ctx).Create(&schedules).Error
+}
+
+// PATCH / Update
+func (pr *PsychologRepository) UpdatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", practice.ID).Updates(&practice).Error
+}
+
+// DELETE / Delete
+func (pr *PsychologRepository) DeletePracticeSchedule(ctx context.Context, tx *gorm.DB, practiceID string) error {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	return tx.WithContext(ctx).Where("practice_id = ?", practiceID).Delete(&entity.PracticeSchedule{}).Error
+}
+func (pr *PsychologRepository) DeletePracticeByID(ctx context.Context, tx *gorm.DB, practiceID string) error {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", practiceID).Delete(&entity.Practice{}).Error
 }

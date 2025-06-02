@@ -20,6 +20,8 @@ type (
 		// Practice
 		CreatePractice(ctx context.Context, req dto.CreatePracticeRequest) (dto.PracticeResponse, error)
 		GetAllPractice(ctx context.Context) (dto.AllPracticeResponse, error)
+		UpdatePractice(ctx context.Context, req dto.UpdatePracticeRequest, practiceID string) (dto.PracticeResponse, error)
+		DeletePractice(ctx context.Context, practiceID string) (dto.PracticeResponse, error)
 
 		// Available Slot
 		GetAllAvailableSlot(ctx context.Context) (dto.AllAvailableSlotResponse, error)
@@ -67,7 +69,7 @@ func (ps *PsychologService) Login(ctx context.Context, req dto.PsychologLoginReq
 		return dto.PsychologLoginResponse{}, dto.ErrPasswordNotMatch
 	}
 
-	permissions, err := ps.psychologRepo.GetPermissionsByRoleID(ctx, nil, psycholog.RoleID.String())
+	permissions, _, err := ps.psychologRepo.GetPermissionsByRoleID(ctx, nil, psycholog.RoleID.String())
 	if err != nil {
 		return dto.PsychologLoginResponse{}, dto.ErrGetPermissionsByRoleID
 	}
@@ -99,7 +101,7 @@ func (ps *PsychologService) RefreshToken(ctx context.Context, req dto.RefreshTok
 		return dto.RefreshTokenResponse{}, dto.ErrGetRoleFromToken
 	}
 
-	role, err := ps.psychologRepo.GetRoleByID(ctx, nil, roleID)
+	role, _, err := ps.psychologRepo.GetRoleByID(ctx, nil, roleID)
 	if err != nil {
 		return dto.RefreshTokenResponse{}, dto.ErrGetRoleFromID
 	}
@@ -110,7 +112,7 @@ func (ps *PsychologService) RefreshToken(ctx context.Context, req dto.RefreshTok
 		return dto.RefreshTokenResponse{}, dto.ErrDeniedAccess
 	}
 
-	endpoints, err := ps.psychologRepo.GetPermissionsByRoleID(ctx, nil, roleID)
+	endpoints, _, err := ps.psychologRepo.GetPermissionsByRoleID(ctx, nil, roleID)
 	if err != nil {
 		return dto.RefreshTokenResponse{}, dto.ErrGetPermissionsByRoleID
 	}
@@ -277,6 +279,138 @@ func (ps *PsychologService) GetAllPractice(ctx context.Context) (dto.AllPractice
 		Psycholog: psycholog,
 		Practices: practices,
 	}, nil
+}
+func (ps *PsychologService) UpdatePractice(ctx context.Context, req dto.UpdatePracticeRequest, practiceID string) (dto.PracticeResponse, error) {
+	prac, flag, err := ps.psychologRepo.GetPracticeByID(ctx, nil, practiceID)
+	if err != nil || !flag {
+		return dto.PracticeResponse{}, dto.ErrPracticeNotFound
+	}
+
+	if req.Type != "" {
+		err = ps.psychologRepo.DeletePracticeSchedule(ctx, nil, practiceID)
+		if err != nil {
+			return dto.PracticeResponse{}, dto.ErrDeletePracticeSchedules
+		}
+
+		var schedules []entity.PracticeSchedule
+		switch req.Type {
+		case "Konsultasi Online":
+			days := []string{"Thursday", "Friday", "Saturday"}
+			for _, day := range days {
+				schedules = append(schedules, entity.PracticeSchedule{
+					ID:         uuid.New(),
+					Day:        day,
+					Open:       "07:00",
+					Close:      "18:00",
+					PracticeID: &prac.ID,
+				})
+			}
+			prac.Type = req.Type
+		case "Praktek Klinik":
+			days := []string{"Monday", "Tuesday", "Wednesday"}
+			for _, day := range days {
+				schedules = append(schedules, entity.PracticeSchedule{
+					ID:         uuid.New(),
+					Day:        day,
+					Open:       "07:00",
+					Close:      "18:00",
+					PracticeID: &prac.ID,
+				})
+			}
+			prac.Type = req.Type
+		default:
+			return dto.PracticeResponse{}, dto.ErrAddPracticeSchedule
+		}
+
+		err = ps.psychologRepo.CreatePracticeSchedule(ctx, nil, schedules)
+		if err != nil {
+			return dto.PracticeResponse{}, dto.ErrCreatePracticeSchedule
+		}
+
+		prac.PracticeSchedules = schedules
+	}
+
+	if req.Name != "" {
+		if len(req.Name) < 5 {
+			return dto.PracticeResponse{}, dto.ErrInvalidPracticeName
+		}
+
+		prac.Name = req.Name
+	}
+
+	if req.Address != "" {
+		prac.Address = req.Address
+	}
+
+	if req.PhoneNumber != "" {
+		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber, false)
+		if err != nil {
+			return dto.PracticeResponse{}, dto.ErrFormatPhoneNumber
+		}
+
+		prac.PhoneNumber = phoneNumberFormatted
+	}
+
+	err = ps.psychologRepo.UpdatePractice(ctx, nil, prac)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrUpdatePractice
+	}
+
+	var practiceSchedules []dto.PracticeScheduleResponse
+	for _, sch := range prac.PracticeSchedules {
+		practiceSchedules = append(practiceSchedules, dto.PracticeScheduleResponse{
+			ID:    sch.ID,
+			Day:   sch.Day,
+			Open:  sch.Open,
+			Close: sch.Close,
+		})
+	}
+
+	return dto.PracticeResponse{
+		ID:                prac.ID,
+		Type:              prac.Type,
+		Name:              prac.Name,
+		Address:           prac.Address,
+		PhoneNumber:       prac.PhoneNumber,
+		PracticeSchedules: practiceSchedules,
+	}, nil
+}
+func (ps *PsychologService) DeletePractice(ctx context.Context, practiceID string) (dto.PracticeResponse, error) {
+	deletedPractice, flag, err := ps.psychologRepo.GetPracticeByID(ctx, nil, practiceID)
+	if err != nil || !flag {
+		return dto.PracticeResponse{}, dto.ErrPracticeNotFound
+	}
+
+	err = ps.psychologRepo.DeletePracticeSchedule(ctx, nil, practiceID)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrDeletePracticeSchedules
+	}
+
+	err = ps.psychologRepo.DeletePracticeByID(ctx, nil, practiceID)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrDeletePractice
+	}
+
+	var practiceSchedules []dto.PracticeScheduleResponse
+	for _, sch := range deletedPractice.PracticeSchedules {
+		practiceSchedules = append(practiceSchedules, dto.PracticeScheduleResponse{
+			ID:    sch.ID,
+			Day:   sch.Day,
+			Open:  sch.Open,
+			Close: sch.Close,
+		})
+	}
+
+	res := dto.PracticeResponse{
+		ID:                deletedPractice.ID,
+		Type:              deletedPractice.Type,
+		Name:              deletedPractice.Name,
+		Address:           deletedPractice.Address,
+		PhoneNumber:       deletedPractice.PhoneNumber,
+		PracticeSchedules: practiceSchedules,
+	}
+
+	return res, nil
 }
 
 // Available Slot

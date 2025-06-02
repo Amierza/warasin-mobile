@@ -18,6 +18,8 @@ type (
 		// Practice
 		CreatePractice(ctx *gin.Context)
 		GetAllPractice(ctx *gin.Context)
+		UpdatePractice(ctx *gin.Context)
+		DeletePractice(ctx *gin.Context)
 
 		// Available Slot
 		GetAllAvailableSlot(ctx *gin.Context)
@@ -105,6 +107,37 @@ func (ph *PsychologHandler) GetAllPractice(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_PRACTICE, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (ph *PsychologHandler) UpdatePractice(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	var payload dto.UpdatePracticeRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := ph.psychologService.UpdatePractice(ctx, payload, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_PRACTICE, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_PRACTICE, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (ph *PsychologHandler) DeletePractice(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := ph.psychologService.DeletePractice(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_DELETE_PRACTICE, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_DELETE_PRACTICE, result)
 	ctx.JSON(http.StatusOK, res)
 }
 

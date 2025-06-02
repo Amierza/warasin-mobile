@@ -35,6 +35,16 @@
     "role_id": "dc3f6a8e-4875-4297-a285-4f2439595ee2"
   },
   {
+    "permission_id": "405c3ff1-545e-44b7-9978-12a1f2f19621",
+    "permission_endpoint": "/api/v1/psycholog/update-practice/:id",
+    "role_id": "dc3f6a8e-4875-4297-a285-4f2439595ee2"
+  },
+  {
+    "permission_id": "89506458-7564-43b9-a534-97efa4459150",
+    "permission_endpoint": "/api/v1/psycholog/delete-practice/:id",
+    "role_id": "dc3f6a8e-4875-4297-a285-4f2439595ee2"
+  },
+  {
     "permission_id": "f19424f4-c3d9-4060-b264-33a4b57d72df",
     "permission_endpoint": "/api/v1/psycholog/get-all-available-slot",
     "role_id": "dc3f6a8e-4875-4297-a285-4f2439595ee2"
