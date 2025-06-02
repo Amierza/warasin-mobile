@@ -78,6 +78,7 @@ const (
 	// Practice
 	MESSAGE_FAILED_CREATE_PRACTICE   = "failed create practice"
 	MESSAGE_FAILED_GET_LIST_PRACTICE = "failed get all practice"
+	MESSAGE_FAILED_UPDATE_PRACTICE   = "failed update practice"
 	// Available Slot
 	MESSAGE_FAILED_GET_LIST_AVAILABLE_SLOT = "failed get all available slot"
 
@@ -142,6 +143,7 @@ const (
 	// Practice
 	MESSAGE_SUCCESS_CREATE_PRACTICE   = "success create practice"
 	MESSAGE_SUCCESS_GET_LIST_PRACTICE = "success get all practice"
+	MESSAGE_SUCCESS_UPDATE_PRACTICE   = "success update practice"
 	// Available Slot
 	MESSAGE_SUCCESS_GET_LIST_AVAILABLE_SLOT = "success get all available slot"
 )
@@ -255,11 +257,14 @@ var (
 	ErrDeleteEducationByPsychologID = errors.New("failed delete education by psycholog id")
 	ErrCreateEducations             = errors.New("failed create educations")
 	// Practice
-	ErrCreatePractice = errors.New("failed create practice")
-	ErrGetAllPractice = errors.New("failed get all practice")
+	ErrPracticeNotFound = errors.New("failed practice not found")
+	ErrCreatePractice   = errors.New("failed create practice")
+	ErrGetAllPractice   = errors.New("failed get all practice")
+	ErrUpdatePractice   = errors.New("failed update practice")
 	// Practice Schedule
-	ErrAddPracticeSchedule    = errors.New("failed add practice schedule")
-	ErrCreatePracticeSchedule = errors.New("failed create practice schedule")
+	ErrAddPracticeSchedule     = errors.New("failed add practice schedule")
+	ErrCreatePracticeSchedule  = errors.New("failed create practice schedule")
+	ErrDeletePracticeSchedules = errors.New("failed delete practice schedules")
 	// Available Slot
 	ErrGetAllAvailableSlot = errors.New("failed get all available slot")
 )
@@ -624,6 +629,13 @@ type (
 	}
 	// Practice
 	CreatePracticeRequest struct {
+		Type        string `json:"prac_type"`
+		Name        string `json:"prac_name"`
+		Address     string `json:"prac_address"`
+		PhoneNumber string `json:"prac_phone_number"`
+	}
+	UpdatePracticeRequest struct {
+		ID          string `json:"-"`
 		Type        string `json:"prac_type"`
 		Name        string `json:"prac_name"`
 		Address     string `json:"prac_address"`

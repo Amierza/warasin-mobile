@@ -20,6 +20,7 @@ type (
 		// Practice
 		CreatePractice(ctx context.Context, req dto.CreatePracticeRequest) (dto.PracticeResponse, error)
 		GetAllPractice(ctx context.Context) (dto.AllPracticeResponse, error)
+		UpdatePractice(ctx context.Context, req dto.UpdatePracticeRequest, practiceID string) (dto.PracticeResponse, error)
 
 		// Available Slot
 		GetAllAvailableSlot(ctx context.Context) (dto.AllAvailableSlotResponse, error)
@@ -276,6 +277,101 @@ func (ps *PsychologService) GetAllPractice(ctx context.Context) (dto.AllPractice
 	return dto.AllPracticeResponse{
 		Psycholog: psycholog,
 		Practices: practices,
+	}, nil
+}
+func (ps *PsychologService) UpdatePractice(ctx context.Context, req dto.UpdatePracticeRequest, practiceID string) (dto.PracticeResponse, error) {
+	prac, err := ps.psychologRepo.GetPracticeByID(ctx, nil, practiceID)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrPracticeNotFound
+	}
+
+	if req.Type != "" {
+		err = ps.psychologRepo.DeletePracticeSchedule(ctx, nil, practiceID)
+		if err != nil {
+			return dto.PracticeResponse{}, dto.ErrDeletePracticeSchedules
+		}
+
+		var schedules []entity.PracticeSchedule
+		switch req.Type {
+		case "Konsultasi Online":
+			days := []string{"Thursday", "Friday", "Saturday"}
+			for _, day := range days {
+				schedules = append(schedules, entity.PracticeSchedule{
+					ID:         uuid.New(),
+					Day:        day,
+					Open:       "07:00",
+					Close:      "18:00",
+					PracticeID: &prac.ID,
+				})
+			}
+			prac.Type = req.Type
+		case "Praktek Klinik":
+			days := []string{"Monday", "Tuesday", "Wednesday"}
+			for _, day := range days {
+				schedules = append(schedules, entity.PracticeSchedule{
+					ID:         uuid.New(),
+					Day:        day,
+					Open:       "07:00",
+					Close:      "18:00",
+					PracticeID: &prac.ID,
+				})
+			}
+			prac.Type = req.Type
+		default:
+			return dto.PracticeResponse{}, dto.ErrAddPracticeSchedule
+		}
+
+		err = ps.psychologRepo.CreatePracticeSchedule(ctx, nil, schedules)
+		if err != nil {
+			return dto.PracticeResponse{}, dto.ErrCreatePracticeSchedule
+		}
+
+		prac.PracticeSchedules = schedules
+	}
+
+	if req.Name != "" {
+		if len(req.Name) < 5 {
+			return dto.PracticeResponse{}, dto.ErrInvalidPracticeName
+		}
+
+		prac.Name = req.Name
+	}
+
+	if req.Address != "" {
+		prac.Address = req.Address
+	}
+
+	if req.PhoneNumber != "" {
+		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber, false)
+		if err != nil {
+			return dto.PracticeResponse{}, dto.ErrFormatPhoneNumber
+		}
+
+		prac.PhoneNumber = phoneNumberFormatted
+	}
+
+	err = ps.psychologRepo.UpdatePractice(ctx, nil, prac)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrUpdatePractice
+	}
+
+	var practiceSchedules []dto.PracticeScheduleResponse
+	for _, sch := range prac.PracticeSchedules {
+		practiceSchedules = append(practiceSchedules, dto.PracticeScheduleResponse{
+			ID:    sch.ID,
+			Day:   sch.Day,
+			Open:  sch.Open,
+			Close: sch.Close,
+		})
+	}
+
+	return dto.PracticeResponse{
+		ID:                prac.ID,
+		Type:              prac.Type,
+		Name:              prac.Name,
+		Address:           prac.Address,
+		PhoneNumber:       prac.PhoneNumber,
+		PracticeSchedules: practiceSchedules,
 	}, nil
 }
 
