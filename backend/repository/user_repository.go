@@ -14,20 +14,24 @@ import (
 type (
 	IUserRepository interface {
 		// Get
-		CheckEmail(ctx context.Context, tx *gorm.DB, email string) (entity.User, bool, error)
-		GetUserByPassword(ctx context.Context, tx *gorm.DB, password string) (entity.User, error)
-		GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error)
-		GetRoleByName(ctx context.Context, tx *gorm.DB, roleName string) (entity.Role, error)
-		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error)
-		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error)
+		GetUserByEmail(ctx context.Context, tx *gorm.DB, email string) (entity.User, bool, error)
+		GetUserByPassword(ctx context.Context, tx *gorm.DB, password string) (entity.User, bool, error)
+		GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, bool, error)
+		GetRoleByName(ctx context.Context, tx *gorm.DB, roleName string) (entity.Role, bool, error)
+		GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, bool, error)
+		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, bool, error)
 		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
-		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error)
+		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, bool, error)
+		GetPracticeByID(ctx context.Context, tx *gorm.DB, pracID string) (entity.Practice, bool, error)
+		GetAvailableSlotByID(ctx context.Context, tx *gorm.DB, slotID string) (entity.AvailableSlot, bool, error)
 
 		// Create
 		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
+		CreateConsultation(ctx context.Context, tx *gorm.DB, consultation entity.Consultation) error
 
 		// Update
 		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
+		UpdateStatusBookSlot(ctx context.Context, tx *gorm.DB, slotID uuid.UUID, statusBook bool) error
 	}
 
 	UserRepository struct {
@@ -42,7 +46,7 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 }
 
 // Get
-func (ur *UserRepository) CheckEmail(ctx context.Context, tx *gorm.DB, email string) (entity.User, bool, error) {
+func (ur *UserRepository) GetUserByEmail(ctx context.Context, tx *gorm.DB, email string) (entity.User, bool, error) {
 	if tx == nil {
 		tx = ur.db
 	}
@@ -54,65 +58,65 @@ func (ur *UserRepository) CheckEmail(ctx context.Context, tx *gorm.DB, email str
 
 	return user, true, nil
 }
-func (ur *UserRepository) GetUserByPassword(ctx context.Context, tx *gorm.DB, password string) (entity.User, error) {
+func (ur *UserRepository) GetUserByPassword(ctx context.Context, tx *gorm.DB, password string) (entity.User, bool, error) {
 	if tx == nil {
 		tx = ur.db
 	}
 
 	var user entity.User
 	if err := tx.WithContext(ctx).Where("password = ?", password).Take(&user).Error; err != nil {
-		return entity.User{}, err
+		return entity.User{}, false, err
 	}
 
-	return user, nil
+	return user, true, nil
 }
-func (ur *UserRepository) GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, error) {
+func (ur *UserRepository) GetUserByID(ctx context.Context, tx *gorm.DB, userID string) (entity.User, bool, error) {
 	if tx == nil {
 		tx = ur.db
 	}
 
 	var user entity.User
 	if err := tx.WithContext(ctx).Preload("City.Province").Preload("Role").Where("id = ?", userID).Take(&user).Error; err != nil {
-		return entity.User{}, err
+		return entity.User{}, false, err
 	}
 
-	return user, nil
+	return user, true, nil
 }
-func (ur *UserRepository) GetRoleByName(ctx context.Context, tx *gorm.DB, roleName string) (entity.Role, error) {
+func (ur *UserRepository) GetRoleByName(ctx context.Context, tx *gorm.DB, roleName string) (entity.Role, bool, error) {
 	if tx == nil {
 		tx = ur.db
 	}
 
 	var role entity.Role
 	if err := tx.WithContext(ctx).Where("name = ?", roleName).Take(&role).Error; err != nil {
-		return entity.Role{}, err
+		return entity.Role{}, false, err
 	}
 
-	return role, nil
+	return role, true, nil
 }
-func (ur *UserRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, error) {
+func (ur *UserRepository) GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, bool, error) {
 	if tx == nil {
 		tx = ur.db
 	}
 
 	var role entity.Role
 	if err := tx.WithContext(ctx).Where("id = ?", roleID).Take(&role).Error; err != nil {
-		return entity.Role{}, err
+		return entity.Role{}, false, err
 	}
 
-	return role, nil
+	return role, true, nil
 }
-func (ur *UserRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, error) {
+func (ur *UserRepository) GetPermissionsByRoleID(ctx context.Context, tx *gorm.DB, roleID string) ([]string, bool, error) {
 	if tx == nil {
 		tx = ur.db
 	}
 
 	var endpoints []string
 	if err := tx.WithContext(ctx).Table("permissions").Where("role_id = ?", roleID).Pluck("endpoint", &endpoints).Error; err != nil {
-		return []string{}, err
+		return []string{}, false, err
 	}
 
-	return endpoints, nil
+	return endpoints, true, nil
 }
 func (ur *UserRepository) GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error) {
 	if tx == nil {
@@ -158,17 +162,50 @@ func (ur *UserRepository) GetAllNewsWithPagination(ctx context.Context, tx *gorm
 		},
 	}, err
 }
-func (ur *UserRepository) GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, error) {
+func (ur *UserRepository) GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, bool, error) {
 	if tx == nil {
 		tx = ur.db
 	}
 
 	var news entity.News
 	if err := tx.WithContext(ctx).Where("id = ?", newsID).Take(&news).Error; err != nil {
-		return entity.News{}, err
+		return entity.News{}, true, err
 	}
 
-	return news, nil
+	return news, true, nil
+}
+func (ur *UserRepository) GetPracticeByID(ctx context.Context, tx *gorm.DB, pracID string) (entity.Practice, bool, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.Practice{}).
+		Preload("Psycholog.Role").
+		Preload("Psycholog.City.Province").
+		Preload("PracticeSchedules")
+
+	var practice entity.Practice
+	if err := query.Where("id = ?", pracID).Take(&practice).Error; err != nil {
+		return entity.Practice{}, false, err
+	}
+
+	return practice, true, nil
+}
+func (ur *UserRepository) GetAvailableSlotByID(ctx context.Context, tx *gorm.DB, slotID string) (entity.AvailableSlot, bool, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.AvailableSlot{}).
+		Preload("Psycholog.Role").
+		Preload("Psycholog.City.Province")
+
+	var slot entity.AvailableSlot
+	if err := query.Where("id = ?", slotID).Take(&slot).Error; err != nil {
+		return entity.AvailableSlot{}, false, err
+	}
+
+	return slot, true, nil
 }
 
 // Create
@@ -184,6 +221,13 @@ func (ur *UserRepository) RegisterUser(ctx context.Context, tx *gorm.DB, user en
 
 	return user, nil
 }
+func (ur *UserRepository) CreateConsultation(ctx context.Context, tx *gorm.DB, consultation entity.Consultation) error {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	return tx.WithContext(ctx).Create(&consultation).Error
+}
 
 // Update
 func (ur *UserRepository) UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error) {
@@ -196,4 +240,14 @@ func (ur *UserRepository) UpdateUser(ctx context.Context, tx *gorm.DB, user enti
 	}
 
 	return user, nil
+}
+func (ur *UserRepository) UpdateStatusBookSlot(ctx context.Context, tx *gorm.DB, slotID uuid.UUID, statusBook bool) error {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	return tx.WithContext(ctx).
+		Model(&entity.AvailableSlot{}).
+		Where("id = ?", slotID).
+		Update("is_booked", statusBook).Error
 }
