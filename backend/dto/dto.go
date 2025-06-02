@@ -76,6 +76,7 @@ const (
 	// Specialization
 	MESSAGE_FAILED_GET_ALL_SPECIALIZATION = "failed get all specialization"
 	// Practice
+	MESSAGE_FAILED_CREATE_PRACTICE   = "failed create practice"
 	MESSAGE_FAILED_GET_LIST_PRACTICE = "failed get all practice"
 	// Available Slot
 	MESSAGE_FAILED_GET_LIST_AVAILABLE_SLOT = "failed get all available slot"
@@ -139,23 +140,28 @@ const (
 	// Specialization
 	MESSAGE_SUCCESS_GET_ALL_SPECIALIZATION = "success get all specialization"
 	// Practice
+	MESSAGE_SUCCESS_CREATE_PRACTICE   = "success create practice"
 	MESSAGE_SUCCESS_GET_LIST_PRACTICE = "success get all practice"
 	// Available Slot
 	MESSAGE_SUCCESS_GET_LIST_AVAILABLE_SLOT = "success get all available slot"
 )
 
 var (
+	// UUID
+	ErrParseUUID = errors.New("failed parse uuid")
 	// Middleware
 	ErrDeniedAccess           = errors.New("denied access")
 	ErrGetPermissionsByRoleID = errors.New("failed get all permission by role id")
 	// Input Validation
-	ErrFormatBirthdate   = errors.New("failed parse birthdate input")
-	ErrInvalidSTRNumber  = errors.New("failed invalid STR Number")
-	ErrInvalidWorkYear   = errors.New("failed invalid work year")
-	ErrInvalidName       = errors.New("failed invalid name")
-	ErrInvalidEmail      = errors.New("failed invalid email")
-	ErrInvalidPassword   = errors.New("failed invalid password")
-	ErrFormatPhoneNumber = errors.New("failed standarize phone number input")
+	ErrFormatBirthdate     = errors.New("failed parse birthdate input")
+	ErrInvalidSTRNumber    = errors.New("failed invalid STR Number")
+	ErrInvalidWorkYear     = errors.New("failed invalid work year")
+	ErrInvalidName         = errors.New("failed invalid name")
+	ErrInvalidEmail        = errors.New("failed invalid email")
+	ErrInvalidPassword     = errors.New("failed invalid password")
+	ErrFormatPhoneNumber   = errors.New("failed standarize phone number input")
+	ErrInvalidPracticeName = errors.New("failed invalid practice name")
+	ErrInvalidPracticeType = errors.New("failed invalid practice type")
 	// Authentication
 	ErrRegisterUser = errors.New("failed to register user")
 	// Email
@@ -249,7 +255,11 @@ var (
 	ErrDeleteEducationByPsychologID = errors.New("failed delete education by psycholog id")
 	ErrCreateEducations             = errors.New("failed create educations")
 	// Practice
+	ErrCreatePractice = errors.New("failed create practice")
 	ErrGetAllPractice = errors.New("failed get all practice")
+	// Practice Schedule
+	ErrAddPracticeSchedule    = errors.New("failed add practice schedule")
+	ErrCreatePracticeSchedule = errors.New("failed create practice schedule")
 	// Available Slot
 	ErrGetAllAvailableSlot = errors.New("failed get all available slot")
 )
@@ -613,6 +623,12 @@ type (
 		Data []UserNewsResponse `json:"data"`
 	}
 	// Practice
+	CreatePracticeRequest struct {
+		Type        string `json:"prac_type"`
+		Name        string `json:"prac_name"`
+		Address     string `json:"prac_address"`
+		PhoneNumber string `json:"prac_phone_number"`
+	}
 	PracticeScheduleResponse struct {
 		ID    uuid.UUID `json:"prac_sched_id"`
 		Day   string    `json:"prac_sched_day"`

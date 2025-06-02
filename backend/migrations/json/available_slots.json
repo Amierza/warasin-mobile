@@ -17,7 +17,7 @@
     "slot_id": "c3d4e5f6-a7b8-4cde-af12-345678901234",
     "slot_start": "10:00",
     "slot_end": "11:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f"
   },
   {
@@ -28,12 +28,13 @@
     "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f"
   },
   {
-    "slot_id": "e5f6a7b8-c9d0-4ef1-8234-567890123456",
+    "slot_id": "e5f6a7b8-c9d0-4ef1-c234-567890123456",
     "slot_start": "14:00",
     "slot_end": "15:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "cbf021b0-5d91-4564-bde6-67278816a30f"
   },
+
   {
     "slot_id": "f6a7b8c9-d0e1-4f12-9345-678901234567",
     "slot_start": "08:00",
@@ -45,21 +46,21 @@
     "slot_id": "a7b8c9d0-e1f2-4123-a456-789012345678",
     "slot_start": "09:00",
     "slot_end": "10:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
   },
   {
     "slot_id": "b8c9d0e1-f2a3-4234-b567-890123456789",
     "slot_start": "10:00",
     "slot_end": "11:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
   },
   {
-    "slot_id": "c9d0e1f2-a3b4-4345-8678-901234567890",
+    "slot_id": "c9d0e1f2-a3b4-4345-c678-901234567890",
     "slot_start": "13:00",
     "slot_end": "14:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
   },
   {
@@ -69,6 +70,7 @@
     "slot_is_booked": true,
     "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
   },
+
   {
     "slot_id": "e1f2a3b4-c5d6-4567-a890-123456789012",
     "slot_start": "08:00",
@@ -80,39 +82,40 @@
     "slot_id": "f2a3b4c5-d6e7-4678-b901-234567890123",
     "slot_start": "09:00",
     "slot_end": "10:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
   },
   {
-    "slot_id": "a3b4c5d6-e7f8-4789-8012-345678901234",
+    "slot_id": "a3b4c5d6-e7f8-4789-c012-345678901234",
     "slot_start": "10:00",
     "slot_end": "11:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
   },
   {
     "slot_id": "b4c5d6e7-f8a9-4890-9123-456789012345",
     "slot_start": "13:00",
     "slot_end": "14:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
   },
   {
     "slot_id": "c5d6e7f8-a9b0-4901-a234-567890123456",
     "slot_start": "14:00",
     "slot_end": "15:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
   },
+
   {
     "slot_id": "d6e7f8a9-b0c1-4012-b345-678901234567",
     "slot_start": "08:00",
     "slot_end": "09:00",
-    "slot_is_booked": false,
+    "slot_is_booked": true,
     "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76"
   },
   {
-    "slot_id": "e7f8a9b0-c1d2-4123-8456-789012345678",
+    "slot_id": "e7f8a9b0-c1d2-4123-c456-789012345678",
     "slot_start": "09:00",
     "slot_end": "10:00",
     "slot_is_booked": true,
@@ -136,11 +139,12 @@
     "slot_id": "b0c1d2e3-f4a5-4456-b789-012345678901",
     "slot_start": "14:00",
     "slot_end": "15:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76"
   },
+
   {
-    "slot_id": "c1d2e3f4-a5b6-4567-8890-123456789012",
+    "slot_id": "c1d2e3f4-a5b6-4567-c890-123456789012",
     "slot_start": "08:00",
     "slot_end": "09:00",
     "slot_is_booked": false,
@@ -157,21 +161,21 @@
     "slot_id": "e3f4a5b6-c7d8-4789-a012-345678901234",
     "slot_start": "10:00",
     "slot_end": "11:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
   },
   {
     "slot_id": "f4a5b6c7-d8e9-4890-b123-456789012345",
     "slot_start": "13:00",
     "slot_end": "14:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
   },
   {
-    "slot_id": "a5b6c7d8-e9f0-4901-8234-567890123456",
+    "slot_id": "a5b6c7d8-e9f0-4901-c234-567890123456",
     "slot_start": "14:00",
     "slot_end": "15:00",
-    "slot_is_booked": true,
+    "slot_is_booked": false,
     "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
   }
 ]

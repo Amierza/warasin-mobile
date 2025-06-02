@@ -539,7 +539,7 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 	}
 
 	if req.PhoneNumber != "" {
-		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber)
+		phoneNumberFormatted, err := helpers.StandardizePhoneNumber(req.PhoneNumber, true)
 		if err != nil {
 			return dto.AllUserResponse{}, dto.ErrFormatPhoneNumber
 		}

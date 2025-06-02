@@ -30,5 +30,53 @@
     "prac_address": "Jl. Mahir No.27, Yogyakarta",
     "prac_phone_number": "+62 27 3355444",
     "psy_id": "77a162f0-b1e2-44b8-8a62-b1d7c2271e3d"
+  },
+  {
+    "prac_id": "a2f8c9d1-3e7b-4c56-9a18-f2e3d4c5b6a7",
+    "prac_type": "Praktek Klinik",
+    "prac_name": "Klinik Psikologi Sejahtera",
+    "prac_address": "Jl. Damai No.25, Jakarta Selatan",
+    "prac_phone_number": "+62 21 7778901",
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
+  },
+  {
+    "prac_id": "b3e9d2f4-5a6c-4d78-8b29-e4f5a6b7c8d9",
+    "prac_type": "Konsultasi Online",
+    "prac_name": "Psikologi Online Terpadu",
+    "prac_address": "Jl. Teknologi No.8, Jakarta Pusat",
+    "prac_phone_number": "+62 21 9012345",
+    "psy_id": "e3b7d8a9-e438-4a4f-b0ff-6fe9ff278e5a"
+  },
+  {
+    "prac_id": "c4f0e3a5-6b7d-4e89-9c3a-f5a6b7c8d9e0",
+    "prac_type": "Praktek Klinik",
+    "prac_name": "Klinik Psikologi Mandiri",
+    "prac_address": "Jl. Merdeka No.12, Medan",
+    "prac_phone_number": "+62 61 4567890",
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76"
+  },
+  {
+    "prac_id": "d5a1f4b6-7c8e-4f9a-ad4b-a6b7c8d9e0f1",
+    "prac_type": "Konsultasi Online",
+    "prac_name": "Konsultasi Psikologi Pintar",
+    "prac_address": "Jl. Cerdas No.33, Medan",
+    "prac_phone_number": "+62 61 6789012",
+    "psy_id": "3f01f6e2-3496-4f78-b6d2-551b16b8ec76"
+  },
+  {
+    "prac_id": "e6b2a5c7-8d9f-4a0b-be5c-b7c8d9e0f1a2",
+    "prac_type": "Praktek Klinik",
+    "prac_name": "Klinik Psikologi Bahagia",
+    "prac_address": "Jl. Sukacita No.7, Makassar",
+    "prac_phone_number": "+62 41 2345678",
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
+  },
+  {
+    "prac_id": "f7c3b6d8-9e0a-4b1c-cf6d-c8d9e0f1a2b3",
+    "prac_type": "Konsultasi Online",
+    "prac_name": "Terapi Psikologi Modern",
+    "prac_address": "Jl. Inovasi No.21, Makassar",
+    "prac_phone_number": "+62 41 8901234",
+    "psy_id": "d1a7e4b3-47db-44f2-b1fb-9454730e0735"
   }
 ]
