@@ -70,6 +70,7 @@ const (
 	// User News
 	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_NEWS = "failed get all user news"
 	// Consultation
+	MESSAGE_FAILED_CREATE_CONSULTATION   = "failed create consultation"
 	MESSAGE_FAILED_GET_LIST_CONSULTATION = "failed get all consultation"
 	MESSAGE_FAILED_UPDATE_CONSULTATION   = "failed update consultation"
 	// Language Master
@@ -137,6 +138,7 @@ const (
 	// User News
 	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_NEWS = "success get all user news"
 	// Consultation
+	MESSAGE_SUCCESS_CREATE_CONSULTATION   = "success create consultation"
 	MESSAGE_SUCCESS_GET_LIST_CONSULTATION = "success get all consultation"
 	MESSAGE_SUCCESS_UPDATE_CONSULTATION   = "success update consultation"
 	// Language Master
@@ -160,15 +162,19 @@ var (
 	ErrDeniedAccess           = errors.New("denied access")
 	ErrGetPermissionsByRoleID = errors.New("failed get all permission by role id")
 	// Input Validation
-	ErrFormatBirthdate     = errors.New("failed parse birthdate input")
-	ErrInvalidSTRNumber    = errors.New("failed invalid STR Number")
-	ErrInvalidWorkYear     = errors.New("failed invalid work year")
-	ErrInvalidName         = errors.New("failed invalid name")
-	ErrInvalidEmail        = errors.New("failed invalid email")
-	ErrInvalidPassword     = errors.New("failed invalid password")
-	ErrFormatPhoneNumber   = errors.New("failed standarize phone number input")
-	ErrInvalidPracticeName = errors.New("failed invalid practice name")
-	ErrInvalidPracticeType = errors.New("failed invalid practice type")
+	ErrFieldEmpty                 = errors.New("failed there are empty fields")
+	ErrFormatBirthdate            = errors.New("failed parse birthdate input")
+	ErrInvalidSTRNumber           = errors.New("failed invalid STR Number")
+	ErrInvalidWorkYear            = errors.New("failed invalid work year")
+	ErrInvalidName                = errors.New("failed invalid name")
+	ErrInvalidEmail               = errors.New("failed invalid email")
+	ErrInvalidPassword            = errors.New("failed invalid password")
+	ErrFormatPhoneNumber          = errors.New("failed standarize phone number input")
+	ErrInvalidPracticeName        = errors.New("failed invalid practice name")
+	ErrInvalidPracticeType        = errors.New("failed invalid practice type")
+	ErrInvalidRateConsultation    = errors.New("failed invalid rate consultation")
+	ErrConsultationCommentToShort = errors.New("failed consultation comment to short")
+	ErrInvalidStatusConsultation  = errors.New("failed invalid status consultation")
 	// Authentication
 	ErrRegisterUser = errors.New("failed to register user")
 	// Email
@@ -244,6 +250,7 @@ var (
 	ErrGetAllConsultationWithPagination = errors.New("failed get list consultation with pagination")
 	ErrConsultationNotFound             = errors.New("failed consultation not founc")
 	ErrUpdateConsultation               = errors.New("failed update consultation")
+	ErrCreateConsultation               = errors.New("failed create consultation")
 	// User motivation
 	ErrGetAllUserMotivation = errors.New("failed all user motivation")
 	// User News
@@ -264,17 +271,21 @@ var (
 	ErrDeleteEducationByPsychologID = errors.New("failed delete education by psycholog id")
 	ErrCreateEducations             = errors.New("failed create educations")
 	// Practice
-	ErrPracticeNotFound = errors.New("failed practice not found")
-	ErrCreatePractice   = errors.New("failed create practice")
-	ErrGetAllPractice   = errors.New("failed get all practice")
-	ErrUpdatePractice   = errors.New("failed update practice")
-	ErrDeletePractice   = errors.New("failed delete practice")
+	ErrPracticeAlreadyExists = errors.New("failed practice already exists")
+	ErrPracticeNotFound      = errors.New("failed practice not found")
+	ErrCreatePractice        = errors.New("failed create practice")
+	ErrGetAllPractice        = errors.New("failed get all practice")
+	ErrUpdatePractice        = errors.New("failed update practice")
+	ErrDeletePractice        = errors.New("failed delete practice")
 	// Practice Schedule
 	ErrAddPracticeSchedule     = errors.New("failed add practice schedule")
 	ErrCreatePracticeSchedule  = errors.New("failed create practice schedule")
 	ErrDeletePracticeSchedules = errors.New("failed delete practice schedules")
 	// Available Slot
-	ErrGetAllAvailableSlot = errors.New("failed get all available slot")
+	ErrAvailableSlotAlreadyExists = errors.New("failed available slot already exists")
+	ErrGetAllAvailableSlot        = errors.New("failed get all available slot")
+	ErrAvailableSlotNotFound      = errors.New("failed available slot not found")
+	ErrUpdateStatusBookSlot       = errors.New("failed update book status slot")
 )
 
 type (
@@ -684,12 +695,8 @@ type (
 		Psycholog      PsychologResponse       `json:"psycholog"`
 		AvailableSlots []AvailableSlotResponse `json:"available_slot"`
 	}
-	// Consulation
-	AllConsultationRepositoryResponse struct {
-		PaginationResponse
-		Consultations []entity.Consultation
-	}
-	ConsultationResponseForPsycholog struct {
+	// Consultation
+	ConsultationResponse struct {
 		ID            uuid.UUID             `json:"consul_id"`
 		Date          string                `json:"consul_date"`
 		Rate          int                   `json:"consul_rate"`
@@ -699,15 +706,46 @@ type (
 		AvailableSlot AvailableSlotResponse `json:"available_slot"`
 		Practice      PracticeResponse      `json:"practice"`
 	}
-	AllConsultationResponseForPsycholog struct {
-		Psycholog    PsychologResponse                  `json:"psycholog"`
-		Consultation []ConsultationResponseForPsycholog `json:"consultation"`
-	}
-	ConsultationPaginationResponseForPsycholog struct {
+	AllConsultationRepositoryResponse struct {
 		PaginationResponse
-		Data AllConsultationResponseForPsycholog `json:"data"`
+		Consultations []entity.Consultation
+	}
+	AllConsultationResponse struct {
+		Psycholog    PsychologResponse      `json:"psycholog"`
+		Consultation []ConsultationResponse `json:"consultation"`
+	}
+	ConsultationPaginationResponse struct {
+		PaginationResponse
+		Data AllConsultationResponse `json:"data"`
 	}
 	UpdateConsultationRequest struct {
 		Status *int `json:"status"`
+	}
+	CreateConsultationRequest struct {
+		Date            string `json:"consul_date"`
+		AvailableSlotID string `json:"slot_id"`
+		PracticeID      string `json:"prac_id"`
+	}
+	ConsultationResponseForUser struct {
+		ID            uuid.UUID             `json:"consul_id"`
+		Date          string                `json:"consul_date"`
+		Rate          int                   `json:"consul_rate"`
+		Comment       string                `json:"consul_comment"`
+		Status        int                   `json:"consul_status"`
+		Psycholog     PsychologResponse     `json:"psycholog"`
+		AvailableSlot AvailableSlotResponse `json:"available_slot"`
+		Practice      PracticeResponse      `json:"practice"`
+	}
+	AllConsultationRepositoryResponseForUser struct {
+		PaginationResponse
+		Consultations []entity.Consultation
+	}
+	AllConsultationResponseForUser struct {
+		User         AllUserResponse               `json:"user"`
+		Consultation []ConsultationResponseForUser `json:"consultation"`
+	}
+	ConsultationPaginationResponseForUser struct {
+		PaginationResponse
+		Data AllConsultationResponseForUser `json:"data"`
 	}
 )

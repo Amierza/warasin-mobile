@@ -33,6 +33,10 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, masterHandler han
 			// News
 			routes.GET("/get-all-news", userHandler.GetAllNews)
 			routes.GET("/get-detail-news/:id", userHandler.GetDetailNews)
+
+			// Consultation
+			routes.POST("create-consultation", userHandler.CreateConsultation)
+			routes.GET("get-all-consultation", userHandler.GetAllConsultation)
 		}
 	}
 }
