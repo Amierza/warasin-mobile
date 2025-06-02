@@ -45,6 +45,7 @@ type (
 		CreateConsultation(ctx context.Context, req dto.CreateConsultationRequest) (dto.ConsultationResponse, error)
 		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForUser, error)
 		GetDetailConsultation(ctx context.Context, consulID string) (dto.ConsultationResponseForUser, error)
+		UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequestForUser, consulID string) (dto.ConsultationResponseForUser, error)
 	}
 
 	UserService struct {
@@ -446,18 +447,13 @@ func (us *UserService) GetDetailUser(ctx context.Context) (dto.AllUserResponse, 
 	}
 
 	return dto.AllUserResponse{
-		ID:       user.ID,
-		Name:     user.Name,
-		Email:    user.Email,
-		Password: user.Password,
-		Image:    user.Image,
-		Gender:   user.Gender,
-		Birthdate: func(t *time.Time) string {
-			if t != nil {
-				return t.Format("2006-01-02")
-			}
-			return ""
-		}(user.Birthdate),
+		ID:          user.ID,
+		Name:        user.Name,
+		Email:       user.Email,
+		Password:    user.Password,
+		Image:       user.Image,
+		Gender:      user.Gender,
+		Birthdate:   user.Birthdate,
 		PhoneNumber: user.PhoneNumber,
 		Data01:      user.Data01,
 		Data02:      user.Data02,
@@ -537,7 +533,7 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 	}
 
 	if req.Birthdate != "" {
-		t, err := helpers.ParseBirthdate(req.Birthdate)
+		t, err := helpers.ValidateAndNormalizeDateString(req.Birthdate)
 		if err != nil {
 			return dto.AllUserResponse{}, dto.ErrFormatBirthdate
 		}
@@ -559,18 +555,13 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 	}
 
 	res := dto.AllUserResponse{
-		ID:       updatedUser.ID,
-		Name:     updatedUser.Name,
-		Email:    updatedUser.Email,
-		Password: updatedUser.Password,
-		Image:    updatedUser.Image,
-		Gender:   updatedUser.Gender,
-		Birthdate: func() string {
-			if updatedUser.Birthdate != nil {
-				return updatedUser.Birthdate.Format("2006-01-02")
-			}
-			return ""
-		}(),
+		ID:          updatedUser.ID,
+		Name:        updatedUser.Name,
+		Email:       updatedUser.Email,
+		Password:    updatedUser.Password,
+		Image:       updatedUser.Image,
+		Gender:      updatedUser.Gender,
+		Birthdate:   updatedUser.Birthdate,
 		PhoneNumber: updatedUser.PhoneNumber,
 		Data01:      updatedUser.Data01,
 		Data02:      updatedUser.Data02,
@@ -690,7 +681,7 @@ func (us *UserService) CreateConsultation(ctx context.Context, req dto.CreateCon
 		Name:        u.Name,
 		Email:       u.Email,
 		Password:    u.Password,
-		Birthdate:   u.Birthdate.String(),
+		Birthdate:   u.Birthdate,
 		PhoneNumber: u.PhoneNumber,
 		Data01:      u.Data01,
 		Data02:      u.Data02,
@@ -778,7 +769,7 @@ func (us *UserService) GetAllConsultationWithPagination(ctx context.Context, req
 		Name:        dataWithPaginate.Consultations[0].User.Name,
 		Email:       dataWithPaginate.Consultations[0].User.Email,
 		Password:    dataWithPaginate.Consultations[0].User.Password,
-		Birthdate:   dataWithPaginate.Consultations[0].User.Birthdate.String(),
+		Birthdate:   dataWithPaginate.Consultations[0].User.Birthdate,
 		PhoneNumber: dataWithPaginate.Consultations[0].User.PhoneNumber,
 		Data01:      dataWithPaginate.Consultations[0].User.Data01,
 		Data02:      dataWithPaginate.Consultations[0].User.Data02,
@@ -1004,6 +995,181 @@ func (us *UserService) GetDetailConsultation(ctx context.Context, consulID strin
 			Institution:    edu.Institution,
 			GraduationYear: edu.GraduationYear,
 		})
+	}
+
+	return data, nil
+}
+func (us *UserService) UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequestForUser, consulID string) (dto.ConsultationResponseForUser, error) {
+	consul, flag, err := us.userRepo.GetConsultationByID(ctx, nil, consulID)
+	if err != nil || !flag {
+		return dto.ConsultationResponseForUser{}, dto.ErrConsultationNotFound
+	}
+
+	if req.Date != "" {
+		date, err := helpers.ValidateAndNormalizeDateString(req.Date)
+		if err != nil {
+			return dto.ConsultationResponseForUser{}, dto.ErrParseConsultationDate
+		}
+
+		consul.Date = date
+	}
+
+	if req.Rate != nil {
+		valid := false
+		switch *req.Rate {
+		case 1, 2, 3, 4, 5:
+			valid = true
+		}
+		if !valid {
+			return dto.ConsultationResponseForUser{}, dto.ErrInvalidRateConsultation
+		}
+
+		consul.Rate = *req.Rate
+	}
+
+	if req.Comment != "" {
+		if len(req.Comment) < 5 {
+			return dto.ConsultationResponseForUser{}, dto.ErrConsultationCommentToShort
+		}
+
+		consul.Comment = req.Comment
+	}
+
+	if req.AvailableSlotID != "" {
+		slot, flag, err := us.userRepo.GetAvailableSlotByID(ctx, nil, req.AvailableSlotID)
+		if err != nil || !flag {
+			return dto.ConsultationResponseForUser{}, dto.ErrAvailableSlotNotFound
+		}
+
+		err = us.userRepo.UpdateStatusBookSlot(ctx, nil, *consul.AvailableSlotID, false)
+		if err != nil {
+			return dto.ConsultationResponseForUser{}, dto.ErrUpdateStatusBookSlot
+		}
+
+		slotID, err := uuid.Parse(req.AvailableSlotID)
+		if err != nil {
+			return dto.ConsultationResponseForUser{}, dto.ErrParseUUID
+		}
+
+		err = us.userRepo.UpdateStatusBookSlot(ctx, nil, slotID, true)
+		if err != nil {
+			return dto.ConsultationResponseForUser{}, dto.ErrUpdateStatusBookSlot
+		}
+
+		slot.IsBooked = true
+		consul.AvailableSlot = slot
+		consul.AvailableSlotID = &slotID
+	}
+
+	if req.PracticeID != "" {
+		prac, flag, err := us.userRepo.GetPracticeByID(ctx, nil, req.PracticeID)
+		if err != nil || !flag {
+			return dto.ConsultationResponseForUser{}, dto.ErrPracticeNotFound
+		}
+
+		pracID, err := uuid.Parse(req.PracticeID)
+		if err != nil {
+			return dto.ConsultationResponseForUser{}, dto.ErrParseUUID
+		}
+
+		consul.Practice = prac
+		consul.PracticeID = &pracID
+	}
+
+	dayName, err := helpers.GetDayName(consul.Date)
+	if err != nil {
+		return dto.ConsultationResponseForUser{}, dto.ErrParseConsultationDate
+	}
+
+	var practiceSchedules []dto.PracticeScheduleResponse
+	for _, pracSch := range consul.Practice.PracticeSchedules {
+		if dayName == pracSch.Day {
+			practiceSchedules = append(practiceSchedules, dto.PracticeScheduleResponse{
+				ID:    pracSch.ID,
+				Day:   pracSch.Day,
+				Open:  pracSch.Open,
+				Close: pracSch.Close,
+			})
+		}
+	}
+
+	data := dto.ConsultationResponseForUser{
+		ID:      consul.ID,
+		Date:    consul.Date,
+		Rate:    consul.Rate,
+		Comment: consul.Comment,
+		Status:  consul.Status,
+		Psycholog: dto.PsychologResponse{
+			ID:          consul.AvailableSlot.Psycholog.ID,
+			Name:        consul.AvailableSlot.Psycholog.Name,
+			STRNumber:   consul.AvailableSlot.Psycholog.STRNumber,
+			Email:       consul.AvailableSlot.Psycholog.Email,
+			Password:    consul.AvailableSlot.Psycholog.Password,
+			WorkYear:    consul.AvailableSlot.Psycholog.WorkYear,
+			Description: consul.AvailableSlot.Psycholog.Description,
+			PhoneNumber: consul.AvailableSlot.Psycholog.PhoneNumber,
+			Image:       consul.AvailableSlot.Psycholog.Image,
+			City: dto.CityResponse{
+				ID:   consul.AvailableSlot.Psycholog.CityID,
+				Name: consul.AvailableSlot.Psycholog.City.Name,
+				Type: consul.AvailableSlot.Psycholog.City.Type,
+				Province: dto.ProvinceResponse{
+					ID:   consul.AvailableSlot.Psycholog.City.ProvinceID,
+					Name: consul.AvailableSlot.Psycholog.City.Province.Name,
+				},
+			},
+			Role: dto.RoleResponse{
+				ID:   consul.AvailableSlot.Psycholog.RoleID,
+				Name: consul.AvailableSlot.Psycholog.Role.Name,
+			},
+		},
+		AvailableSlot: dto.AvailableSlotResponse{
+			ID:       consul.AvailableSlot.ID,
+			Start:    consul.AvailableSlot.Start,
+			End:      consul.AvailableSlot.End,
+			IsBooked: consul.AvailableSlot.IsBooked,
+		},
+		Practice: dto.PracticeResponse{
+			ID:                consul.Practice.ID,
+			Type:              consul.Practice.Type,
+			Name:              consul.Practice.Name,
+			Address:           consul.Practice.Address,
+			PhoneNumber:       consul.Practice.PhoneNumber,
+			PracticeSchedules: practiceSchedules,
+		},
+	}
+
+	// LanguageMasters
+	for _, lang := range consul.AvailableSlot.Psycholog.PsychologLanguages {
+		data.Psycholog.LanguageMasters = append(data.Psycholog.LanguageMasters, dto.LanguageMasterResponse{
+			ID:   &lang.LanguageMaster.ID,
+			Name: lang.LanguageMaster.Name,
+		})
+	}
+
+	// Specializations
+	for _, spec := range consul.AvailableSlot.Psycholog.PsychologSpecializations {
+		data.Psycholog.Specializations = append(data.Psycholog.Specializations, dto.SpecializationResponse{
+			ID:          &spec.Specialization.ID,
+			Name:        spec.Specialization.Name,
+			Description: spec.Specialization.Description,
+		})
+	}
+
+	// Educations
+	for _, edu := range consul.AvailableSlot.Psycholog.Educations {
+		data.Psycholog.Educations = append(data.Psycholog.Educations, dto.EducationResponse{
+			ID:             &edu.ID,
+			Degree:         edu.Degree,
+			Major:          edu.Major,
+			Institution:    edu.Institution,
+			GraduationYear: edu.GraduationYear,
+		})
+	}
+
+	err = us.userRepo.UpdateConsultation(ctx, nil, consul)
+	if err != nil {
+		return dto.ConsultationResponseForUser{}, dto.ErrUpdateConsultation
 	}
 
 	return data, nil

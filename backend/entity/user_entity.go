@@ -1,26 +1,24 @@
 package entity
 
 import (
-	"time"
-
 	"github.com/Amierza/warasin-mobile/backend/helpers"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type User struct {
-	ID          uuid.UUID  `gorm:"type:uuid;primaryKey" json:"user_id"`
-	Name        string     `json:"user_name"`
-	Email       string     `gorm:"unique; not null" json:"user_email"`
-	Password    string     `json:"user_password"`
-	Image       string     `json:"user_image,omitempty"`
-	Gender      *bool      `json:"user_gender,omitempty"`
-	Birthdate   *time.Time `gorm:"type:date" json:"user_birth_date,omitempty"`
-	PhoneNumber string     `json:"user_phone_number,omitempty"`
-	Data01      int        `json:"user_data01,omitempty"`
-	Data02      int        `json:"user_data02,omitempty"`
-	Data03      int        `json:"user_data03,omitempty"`
-	IsVerified  *bool      `json:"user_is_verified"`
+	ID          uuid.UUID `gorm:"type:uuid;primaryKey" json:"user_id"`
+	Name        string    `json:"user_name"`
+	Email       string    `gorm:"unique; not null" json:"user_email"`
+	Password    string    `json:"user_password"`
+	Image       string    `json:"user_image,omitempty"`
+	Gender      *bool     `json:"user_gender,omitempty"`
+	Birthdate   string    `gorm:"type:date" json:"user_birth_date,omitempty"`
+	PhoneNumber string    `json:"user_phone_number,omitempty"`
+	Data01      int       `json:"user_data01,omitempty"`
+	Data02      int       `json:"user_data02,omitempty"`
+	Data03      int       `json:"user_data03,omitempty"`
+	IsVerified  *bool     `json:"user_is_verified"`
 
 	CityID *uuid.UUID `gorm:"type:uuid" json:"city_id"`
 	City   City       `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
