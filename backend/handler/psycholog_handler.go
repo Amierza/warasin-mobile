@@ -19,6 +19,7 @@ type (
 		CreatePractice(ctx *gin.Context)
 		GetAllPractice(ctx *gin.Context)
 		UpdatePractice(ctx *gin.Context)
+		DeletePractice(ctx *gin.Context)
 
 		// Available Slot
 		GetAllAvailableSlot(ctx *gin.Context)
@@ -125,6 +126,18 @@ func (ph *PsychologHandler) UpdatePractice(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_PRACTICE, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (ph *PsychologHandler) DeletePractice(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := ph.psychologService.DeletePractice(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_DELETE_PRACTICE, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_DELETE_PRACTICE, result)
 	ctx.JSON(http.StatusOK, res)
 }
 
