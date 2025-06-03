@@ -39,6 +39,7 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, masterHandler han
 			routes.GET("get-all-consultation", userHandler.GetAllConsultation)
 			routes.GET("get-detail-consultation/:id", userHandler.GetDetailConsultation)
 			routes.PATCH("update-consultation/:id", userHandler.UpdateConsultation)
+			routes.DELETE("delete-consultation/:id", userHandler.DeleteConsultation)
 		}
 	}
 }

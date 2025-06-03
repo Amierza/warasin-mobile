@@ -630,6 +630,16 @@ func (ps *PsychologService) UpdateConsultation(ctx context.Context, req dto.Upda
 	}
 
 	if req.Status != nil {
+		valid := false
+		switch *req.Status {
+		case 1, 2:
+			valid = true
+
+			if !valid {
+				return dto.ConsultationResponse{}, dto.ErrInvalidStatusInput
+			}
+		}
+
 		consul.Status = *req.Status
 	}
 
