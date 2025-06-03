@@ -74,6 +74,7 @@ const (
 	MESSAGE_FAILED_GET_LIST_CONSULTATION   = "failed get all consultation"
 	MESSAGE_FAILED_GET_DETAIL_CONSULTATION = "failed get detail consultation"
 	MESSAGE_FAILED_UPDATE_CONSULTATION     = "failed update consultation"
+	MESSAGE_FAILED_DELETE_CONSULTATION     = "failed delete consultation"
 	// Language Master
 	MESSAGE_FAILED_GET_ALL_LANGUAGE_MASTER = "failed get all language master"
 	// Specialization
@@ -143,6 +144,7 @@ const (
 	MESSAGE_SUCCESS_GET_LIST_CONSULTATION   = "success get all consultation"
 	MESSAGE_SUCCESS_GET_DETAIL_CONSULTATION = "success get detail consultation"
 	MESSAGE_SUCCESS_UPDATE_CONSULTATION     = "success update consultation"
+	MESSAGE_SUCCESS_DELETE_CONSULTATION     = "success delete consultation"
 	// Language Master
 	MESSAGE_SUCCESS_GET_ALL_LANGUAGE_MASTER = "success get all language master"
 	// Specialization
@@ -177,6 +179,8 @@ var (
 	ErrInvalidRateConsultation    = errors.New("failed invalid rate consultation")
 	ErrConsultationCommentToShort = errors.New("failed consultation comment to short")
 	ErrInvalidStatusConsultation  = errors.New("failed invalid status consultation")
+	ErrInvalidStatusInput         = errors.New("failed invalid status input")
+	ErrInvalidPsychologSchedule   = errors.New("failed invalid psycholog schedule")
 	// Authentication
 	ErrRegisterUser = errors.New("failed to register user")
 	// Email
@@ -250,9 +254,11 @@ var (
 	ErrMotivationNotFound             = errors.New("failed motivation not found")
 	// Consultation
 	ErrGetAllConsultationWithPagination = errors.New("failed get list consultation with pagination")
-	ErrConsultationNotFound             = errors.New("failed consultation not founc")
+	ErrConsultationAlreadyBooked        = errors.New("failed consultation already booked")
+	ErrConsultationNotFound             = errors.New("failed consultation not found")
 	ErrUpdateConsultation               = errors.New("failed update consultation")
 	ErrCreateConsultation               = errors.New("failed create consultation")
+	ErrDeleteConsultation               = errors.New("failed delete consultation")
 	// User motivation
 	ErrGetAllUserMotivation = errors.New("failed all user motivation")
 	// User News
@@ -754,6 +760,7 @@ type (
 		ID              string `json:"-"`
 		Date            string `json:"consul_date,omitempty"`
 		Rate            *int   `json:"consul_rate,omitempty"`
+		Status          *int   `json:"consul_status,omitempty"`
 		Comment         string `json:"consul_comment,omitempty"`
 		AvailableSlotID string `json:"slot_id,omitempty"`
 		PracticeID      string `json:"prac_id,omitempty"`

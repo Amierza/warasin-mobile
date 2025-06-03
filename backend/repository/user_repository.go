@@ -35,6 +35,9 @@ type (
 		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
 		UpdateStatusBookSlot(ctx context.Context, tx *gorm.DB, slotID uuid.UUID, statusBook bool) error
 		UpdateConsultation(ctx context.Context, tx *gorm.DB, consultation entity.Consultation) error
+
+		// Delete
+		DeleteConsultation(ctx context.Context, tx *gorm.DB, consulID string) error
 	}
 
 	UserRepository struct {
@@ -329,4 +332,13 @@ func (ur *UserRepository) UpdateConsultation(ctx context.Context, tx *gorm.DB, c
 	}
 
 	return tx.WithContext(ctx).Where("id = ?", consultation.ID).Updates(&consultation).Error
+}
+
+// Delete
+func (ur *UserRepository) DeleteConsultation(ctx context.Context, tx *gorm.DB, consulID string) error {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", consulID).Delete(&entity.Consultation{}).Error
 }
