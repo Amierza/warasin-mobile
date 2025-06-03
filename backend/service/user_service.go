@@ -51,6 +51,12 @@ type (
 		// Psycholog
 		GetAllPsycholog(ctx context.Context, filter dto.PsychologFilter) ([]dto.PsychologResponse, error)
 		GetDetailPsycholog(ctx context.Context, psyID string) (dto.PsychologResponse, error)
+
+		// Practice
+		GetAllPractice(ctx context.Context, psyID string) ([]dto.PracticeResponse, error)
+
+		// Available Slot
+		GetAllAvailableSlot(ctx context.Context, psyID string) ([]dto.AvailableSlotResponse, error)
 	}
 
 	UserService struct {
@@ -1476,4 +1482,63 @@ func (us *UserService) GetDetailPsycholog(ctx context.Context, psyID string) (dt
 	}
 
 	return psycholog, nil
+}
+
+// Practice
+func (us *UserService) GetAllPractice(ctx context.Context, psyID string) ([]dto.PracticeResponse, error) {
+	datas, err := us.userRepo.GetAllPractice(ctx, nil, psyID)
+	if err != nil {
+		return []dto.PracticeResponse{}, dto.ErrGetAllPractice
+	}
+
+	if len(datas.Practices) == 0 {
+		return []dto.PracticeResponse{}, nil
+	}
+
+	var practices []dto.PracticeResponse
+	for _, practice := range datas.Practices {
+		data := dto.PracticeResponse{
+			ID:          practice.ID,
+			Type:        practice.Type,
+			Name:        practice.Name,
+			Address:     practice.Address,
+			PhoneNumber: practice.PhoneNumber,
+		}
+
+		// PracticeSchedule
+		for _, pracSche := range practice.PracticeSchedules {
+			data.PracticeSchedules = append(data.PracticeSchedules, dto.PracticeScheduleResponse{
+				ID:    pracSche.ID,
+				Day:   pracSche.Day,
+				Open:  pracSche.Open,
+				Close: pracSche.Close,
+			})
+		}
+
+		practices = append(practices, data)
+	}
+
+	return practices, nil
+}
+
+// Available Slot
+func (us *UserService) GetAllAvailableSlot(ctx context.Context, psyID string) ([]dto.AvailableSlotResponse, error) {
+	datas, err := us.userRepo.GetAllAvailableSlot(ctx, nil, psyID)
+	if err != nil {
+		return []dto.AvailableSlotResponse{}, dto.ErrGetAllAvailableSlot
+	}
+
+	var availableSlots []dto.AvailableSlotResponse
+	for _, availableSlot := range datas.AvailableSlots {
+		data := dto.AvailableSlotResponse{
+			ID:       availableSlot.ID,
+			Start:    availableSlot.Start,
+			End:      availableSlot.End,
+			IsBooked: availableSlot.IsBooked,
+		}
+
+		availableSlots = append(availableSlots, data)
+	}
+
+	return availableSlots, nil
 }
