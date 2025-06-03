@@ -34,6 +34,7 @@ type (
 		// Update
 		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
 		UpdateStatusBookSlot(ctx context.Context, tx *gorm.DB, slotID uuid.UUID, statusBook bool) error
+		UpdateConsultation(ctx context.Context, tx *gorm.DB, consultation entity.Consultation) error
 	}
 
 	UserRepository struct {
@@ -276,7 +277,7 @@ func (ur *UserRepository) GetConsultationByID(ctx context.Context, tx *gorm.DB, 
 		return entity.Consultation{}, false, err
 	}
 
-	return consultation, false, nil
+	return consultation, true, nil
 }
 
 // Create
@@ -321,4 +322,11 @@ func (ur *UserRepository) UpdateStatusBookSlot(ctx context.Context, tx *gorm.DB,
 		Model(&entity.AvailableSlot{}).
 		Where("id = ?", slotID).
 		Update("is_booked", statusBook).Error
+}
+func (ur *UserRepository) UpdateConsultation(ctx context.Context, tx *gorm.DB, consultation entity.Consultation) error {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	return tx.WithContext(ctx).Where("id = ?", consultation.ID).Updates(&consultation).Error
 }

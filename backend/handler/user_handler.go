@@ -37,6 +37,7 @@ type (
 		CreateConsultation(ctx *gin.Context)
 		GetAllConsultation(ctx *gin.Context)
 		GetDetailConsultation(ctx *gin.Context)
+		UpdateConsultation(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -324,5 +325,24 @@ func (uh *UserHandler) GetDetailConsultation(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_CONSULTATION, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (uh *UserHandler) UpdateConsultation(ctx *gin.Context) {
+	var payload dto.UpdateConsultationRequestForUser
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	idStr := ctx.Param("id")
+	result, err := uh.userService.UpdateConsultation(ctx, payload, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_UPDATE_CONSULTATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_CONSULTATION, result)
 	ctx.JSON(http.StatusOK, res)
 }

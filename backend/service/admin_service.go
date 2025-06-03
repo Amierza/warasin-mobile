@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"time"
 
 	"github.com/Amierza/warasin-mobile/backend/dto"
 	"github.com/Amierza/warasin-mobile/backend/entity"
@@ -192,7 +191,7 @@ func (as *AdminService) CreateUser(ctx context.Context, req dto.CreateUserReques
 		return dto.AllUserResponse{}, dto.ErrInvalidPassword
 	}
 
-	birthdateFormatted, err := helpers.ParseBirthdate(req.Birthdate)
+	birthdateFormatted, err := helpers.ValidateAndNormalizeDateString(req.Birthdate)
 	if err != nil {
 		return dto.AllUserResponse{}, dto.ErrFormatBirthdate
 	}
@@ -233,7 +232,7 @@ func (as *AdminService) CreateUser(ctx context.Context, req dto.CreateUserReques
 		Name:        user.Name,
 		Email:       user.Email,
 		Password:    user.Password,
-		Birthdate:   user.Birthdate.String(),
+		Birthdate:   user.Birthdate,
 		PhoneNumber: user.PhoneNumber,
 		Data01:      user.Data01,
 		Data02:      user.Data02,
@@ -265,18 +264,13 @@ func (as *AdminService) GetAllUserWithPagination(ctx context.Context, req dto.Pa
 	var datas []dto.AllUserResponse
 	for _, user := range dataWithPaginate.Users {
 		data := dto.AllUserResponse{
-			ID:       user.ID,
-			Name:     user.Name,
-			Email:    user.Email,
-			Password: user.Password,
-			Image:    user.Image,
-			Gender:   user.Gender,
-			Birthdate: func(t *time.Time) string {
-				if t != nil {
-					return t.Format("2006-01-02")
-				}
-				return ""
-			}(user.Birthdate),
+			ID:          user.ID,
+			Name:        user.Name,
+			Email:       user.Email,
+			Password:    user.Password,
+			Image:       user.Image,
+			Gender:      user.Gender,
+			Birthdate:   user.Birthdate,
 			PhoneNumber: user.PhoneNumber,
 			Data01:      user.Data01,
 			Data02:      user.Data02,
@@ -317,18 +311,13 @@ func (as *AdminService) GetDetailUser(ctx context.Context, userID string) (dto.A
 	}
 
 	return dto.AllUserResponse{
-		ID:       user.ID,
-		Name:     user.Name,
-		Email:    user.Email,
-		Password: user.Password,
-		Image:    user.Image,
-		Gender:   user.Gender,
-		Birthdate: func(t *time.Time) string {
-			if t != nil {
-				return t.Format("2006-01-02")
-			}
-			return ""
-		}(user.Birthdate),
+		ID:          user.ID,
+		Name:        user.Name,
+		Email:       user.Email,
+		Password:    user.Password,
+		Image:       user.Image,
+		Gender:      user.Gender,
+		Birthdate:   user.Birthdate,
 		PhoneNumber: user.PhoneNumber,
 		Data01:      user.Data01,
 		Data02:      user.Data02,
@@ -403,7 +392,7 @@ func (as *AdminService) UpdateUser(ctx context.Context, req dto.UpdateUserReques
 	}
 
 	if req.Birthdate != "" {
-		t, err := helpers.ParseBirthdate(req.Birthdate)
+		t, err := helpers.ValidateAndNormalizeDateString(req.Birthdate)
 		if err != nil {
 			return dto.AllUserResponse{}, dto.ErrFormatBirthdate
 		}
@@ -425,18 +414,13 @@ func (as *AdminService) UpdateUser(ctx context.Context, req dto.UpdateUserReques
 	}
 
 	res := dto.AllUserResponse{
-		ID:       user.ID,
-		Name:     user.Name,
-		Email:    user.Email,
-		Password: user.Password,
-		Image:    user.Image,
-		Gender:   user.Gender,
-		Birthdate: func() string {
-			if user.Birthdate != nil {
-				return user.Birthdate.Format("2006-01-02")
-			}
-			return ""
-		}(),
+		ID:          user.ID,
+		Name:        user.Name,
+		Email:       user.Email,
+		Password:    user.Password,
+		Image:       user.Image,
+		Gender:      user.Gender,
+		Birthdate:   user.Birthdate,
 		PhoneNumber: user.PhoneNumber,
 		Data01:      user.Data01,
 		Data02:      user.Data02,
@@ -475,7 +459,7 @@ func (as *AdminService) DeleteUser(ctx context.Context, req dto.DeleteUserReques
 		Name:        deletedUser.Name,
 		Email:       deletedUser.Email,
 		Password:    deletedUser.Password,
-		Birthdate:   deletedUser.Birthdate.String(),
+		Birthdate:   deletedUser.Birthdate,
 		PhoneNumber: deletedUser.PhoneNumber,
 		Data01:      deletedUser.Data01,
 		Data02:      deletedUser.Data02,
@@ -1325,18 +1309,13 @@ func (as *AdminService) GetAllUserMotivationWithPagination(ctx context.Context, 
 		data := dto.UserMotivationResponse{
 			ID: &userMotivation.ID,
 			User: dto.AllUserResponse{
-				ID:       userMotivation.User.ID,
-				Name:     userMotivation.User.Name,
-				Email:    userMotivation.User.Email,
-				Password: userMotivation.User.Password,
-				Image:    userMotivation.User.Image,
-				Gender:   userMotivation.User.Gender,
-				Birthdate: func(t *time.Time) string {
-					if t != nil {
-						return t.Format("2006-01-02")
-					}
-					return ""
-				}(userMotivation.User.Birthdate),
+				ID:          userMotivation.User.ID,
+				Name:        userMotivation.User.Name,
+				Email:       userMotivation.User.Email,
+				Password:    userMotivation.User.Password,
+				Image:       userMotivation.User.Image,
+				Gender:      userMotivation.User.Gender,
+				Birthdate:   userMotivation.User.Birthdate,
 				PhoneNumber: userMotivation.User.PhoneNumber,
 				Data01:      userMotivation.User.Data01,
 				Data02:      userMotivation.User.Data02,
@@ -1395,18 +1374,13 @@ func (as *AdminService) GetAllUserNewsWithPagination(ctx context.Context, req dt
 			ID:   &userNews.ID,
 			Date: userNews.Date,
 			User: dto.AllUserResponse{
-				ID:       userNews.User.ID,
-				Name:     userNews.User.Name,
-				Email:    userNews.User.Email,
-				Password: userNews.User.Password,
-				Image:    userNews.User.Image,
-				Gender:   userNews.User.Gender,
-				Birthdate: func(t *time.Time) string {
-					if t != nil {
-						return t.Format("2006-01-02")
-					}
-					return ""
-				}(userNews.User.Birthdate),
+				ID:          userNews.User.ID,
+				Name:        userNews.User.Name,
+				Email:       userNews.User.Email,
+				Password:    userNews.User.Password,
+				Image:       userNews.User.Image,
+				Gender:      userNews.User.Gender,
+				Birthdate:   userNews.User.Birthdate,
 				PhoneNumber: userNews.User.PhoneNumber,
 				Data01:      userNews.User.Data01,
 				Data02:      userNews.User.Data02,
