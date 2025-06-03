@@ -487,6 +487,49 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 		consultations []dto.ConsultationResponse
 	)
 
+	if len(dataWithPaginate.Consultations) == 0 {
+		psy, _, err := ps.psychologRepo.GetPsychologByID(ctx, nil, psyID)
+		if err != nil {
+			return dto.ConsultationPaginationResponse{}, dto.ErrUserNotFound
+		}
+
+		return dto.ConsultationPaginationResponse{
+			Data: dto.AllConsultationResponse{
+				Psycholog: dto.PsychologResponse{
+					ID:          psy.ID,
+					Name:        psy.Name,
+					STRNumber:   psy.STRNumber,
+					Email:       psy.Email,
+					Password:    psy.Password,
+					WorkYear:    psy.WorkYear,
+					Description: psy.Description,
+					PhoneNumber: psy.PhoneNumber,
+					Image:       psy.Image,
+					City: dto.CityResponse{
+						ID:   psy.CityID,
+						Name: psy.City.Name,
+						Type: psy.City.Type,
+						Province: dto.ProvinceResponse{
+							ID:   psy.City.ProvinceID,
+							Name: psy.City.Province.Name,
+						},
+					},
+					Role: dto.RoleResponse{
+						ID:   psy.RoleID,
+						Name: psy.Role.Name,
+					},
+				},
+				Consultation: []dto.ConsultationResponse{},
+			},
+			PaginationResponse: dto.PaginationResponse{
+				Page:    req.Page,
+				PerPage: req.PerPage,
+				MaxPage: 0,
+				Count:   0,
+			},
+		}, nil
+	}
+
 	psycholog = dto.PsychologResponse{
 		ID:          dataWithPaginate.Consultations[0].AvailableSlot.Psycholog.ID,
 		Name:        dataWithPaginate.Consultations[0].AvailableSlot.Psycholog.Name,

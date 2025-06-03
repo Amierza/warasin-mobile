@@ -44,6 +44,12 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, masterHandler han
 			// Psycholog
 			routes.GET("get-all-psycholog", userHandler.GetAllPsycholog)
 			routes.GET("get-detail-psycholog/:id", userHandler.GetDetailPsycholog)
+
+			// Practice
+			routes.GET("/get-all-practice/:psyID", userHandler.GetAllPractice)
+
+			// Available Slot
+			routes.GET("/get-all-available-slot/:psyID", userHandler.GetAllAvailableSlot)
 		}
 	}
 }

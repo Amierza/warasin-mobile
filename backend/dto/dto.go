@@ -541,16 +541,19 @@ type (
 	}
 	// Psycholog
 	CreatePsychologRequest struct {
-		Name        string     `json:"name"`
-		STRNumber   string     `json:"str_number"`
-		Email       string     `gorm:"unique" json:"email"`
-		Password    string     `json:"password"`
-		WorkYear    string     `json:"work_year"`
-		Description string     `json:"description"`
-		PhoneNumber string     `json:"phone_number"`
-		Image       string     `json:"image"`
-		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id"`
-		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id"`
+		Name              string              `json:"name"`
+		STRNumber         string              `json:"str_number"`
+		Email             string              `gorm:"unique" json:"email"`
+		Password          string              `json:"password"`
+		WorkYear          string              `json:"work_year"`
+		Description       string              `json:"description"`
+		PhoneNumber       string              `json:"phone_number"`
+		Image             string              `json:"image"`
+		CityID            *uuid.UUID          `json:"city_id"`
+		RoleID            *uuid.UUID          `json:"role_id"`
+		LanguageMasterIDs []string            `json:"language_master,omitempty"`
+		SpecializationIDs []string            `json:"specialization,omitempty"`
+		Educations        []EducationResponse `json:"education,omitempty"`
 	}
 	PsychologResponse struct {
 		ID              uuid.UUID                `json:"psy_id"`

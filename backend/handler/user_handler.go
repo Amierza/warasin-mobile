@@ -43,6 +43,12 @@ type (
 		// Psycholog
 		GetAllPsycholog(ctx *gin.Context)
 		GetDetailPsycholog(ctx *gin.Context)
+
+		// Practice
+		GetAllPractice(ctx *gin.Context)
+
+		// Available Slot
+		GetAllAvailableSlot(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -393,5 +399,33 @@ func (uh *UserHandler) GetDetailPsycholog(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_PSYCHOLOG, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// Practice
+func (uh *UserHandler) GetAllPractice(ctx *gin.Context) {
+	idStr := ctx.Param("psyID")
+	result, err := uh.userService.GetAllPractice(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_PRACTICE, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_PRACTICE, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// Available Slot
+func (uh *UserHandler) GetAllAvailableSlot(ctx *gin.Context) {
+	idStr := ctx.Param("psyID")
+	result, err := uh.userService.GetAllAvailableSlot(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_AVAILABLE_SLOT, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_AVAILABLE_SLOT, result)
 	ctx.JSON(http.StatusOK, res)
 }
