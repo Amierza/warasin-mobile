@@ -38,6 +38,7 @@ type (
 		GetAllConsultation(ctx *gin.Context)
 		GetDetailConsultation(ctx *gin.Context)
 		UpdateConsultation(ctx *gin.Context)
+		DeleteConsultation(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -344,5 +345,17 @@ func (uh *UserHandler) UpdateConsultation(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_UPDATE_CONSULTATION, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (uh *UserHandler) DeleteConsultation(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := uh.userService.DeleteConsultation(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_DELETE_CONSULTATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_DELETE_CONSULTATION, result)
 	ctx.JSON(http.StatusOK, res)
 }

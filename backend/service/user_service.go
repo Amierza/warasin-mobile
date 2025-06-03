@@ -46,6 +46,7 @@ type (
 		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForUser, error)
 		GetDetailConsultation(ctx context.Context, consulID string) (dto.ConsultationResponseForUser, error)
 		UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequestForUser, consulID string) (dto.ConsultationResponseForUser, error)
+		DeleteConsultation(ctx context.Context, consulID string) (dto.ConsultationResponseForUser, error)
 	}
 
 	UserService struct {
@@ -654,6 +655,14 @@ func (us *UserService) CreateConsultation(ctx context.Context, req dto.CreateCon
 		return dto.ConsultationResponse{}, dto.ErrPracticeNotFound
 	}
 
+	if a.IsBooked {
+		return dto.ConsultationResponse{}, dto.ErrConsultationAlreadyBooked
+	}
+
+	if *a.PsychologID != *p.PsychologID {
+		return dto.ConsultationResponse{}, dto.ErrInvalidPsychologSchedule
+	}
+
 	consultation := entity.Consultation{
 		ID:              uuid.New(),
 		Date:            req.Date,
@@ -1005,9 +1014,17 @@ func (us *UserService) UpdateConsultation(ctx context.Context, req dto.UpdateCon
 		return dto.ConsultationResponseForUser{}, dto.ErrConsultationNotFound
 	}
 
+	if req.Status != nil {
+		if *req.Status != 1 {
+			return dto.ConsultationResponseForUser{}, dto.ErrInvalidStatusInput
+		}
+
+		consul.Status = *req.Status
+	}
+
 	if req.Date != "" {
 		date, err := helpers.ValidateAndNormalizeDateString(req.Date)
-		if err != nil {
+		if err != nil || date == "" {
 			return dto.ConsultationResponseForUser{}, dto.ErrParseConsultationDate
 		}
 
@@ -1173,4 +1190,113 @@ func (us *UserService) UpdateConsultation(ctx context.Context, req dto.UpdateCon
 	}
 
 	return data, nil
+}
+func (us *UserService) DeleteConsultation(ctx context.Context, consulID string) (dto.ConsultationResponseForUser, error) {
+	deletedConsul, flag, err := us.userRepo.GetConsultationByID(ctx, nil, consulID)
+	if err != nil || !flag {
+		return dto.ConsultationResponseForUser{}, dto.ErrConsultationNotFound
+	}
+
+	err = us.userRepo.UpdateStatusBookSlot(ctx, nil, *deletedConsul.AvailableSlotID, false)
+	if err != nil {
+		return dto.ConsultationResponseForUser{}, dto.ErrUpdateStatusBookSlot
+	}
+
+	err = us.userRepo.DeleteConsultation(ctx, nil, consulID)
+	if err != nil {
+		return dto.ConsultationResponseForUser{}, dto.ErrDeleteConsultation
+	}
+
+	dayName, err := helpers.GetDayName(deletedConsul.Date)
+	if err != nil {
+		return dto.ConsultationResponseForUser{}, dto.ErrParseConsultationDate
+	}
+
+	var practiceSchedules []dto.PracticeScheduleResponse
+	for _, pracSch := range deletedConsul.Practice.PracticeSchedules {
+		if dayName == pracSch.Day {
+			practiceSchedules = append(practiceSchedules, dto.PracticeScheduleResponse{
+				ID:    pracSch.ID,
+				Day:   pracSch.Day,
+				Open:  pracSch.Open,
+				Close: pracSch.Close,
+			})
+		}
+	}
+
+	res := dto.ConsultationResponseForUser{
+		ID:      deletedConsul.ID,
+		Date:    deletedConsul.Date,
+		Rate:    deletedConsul.Rate,
+		Comment: deletedConsul.Comment,
+		Status:  deletedConsul.Status,
+		Psycholog: dto.PsychologResponse{
+			ID:          deletedConsul.AvailableSlot.Psycholog.ID,
+			Name:        deletedConsul.AvailableSlot.Psycholog.Name,
+			STRNumber:   deletedConsul.AvailableSlot.Psycholog.STRNumber,
+			Email:       deletedConsul.AvailableSlot.Psycholog.Email,
+			Password:    deletedConsul.AvailableSlot.Psycholog.Password,
+			WorkYear:    deletedConsul.AvailableSlot.Psycholog.WorkYear,
+			Description: deletedConsul.AvailableSlot.Psycholog.Description,
+			PhoneNumber: deletedConsul.AvailableSlot.Psycholog.PhoneNumber,
+			Image:       deletedConsul.AvailableSlot.Psycholog.Image,
+			City: dto.CityResponse{
+				ID:   deletedConsul.AvailableSlot.Psycholog.CityID,
+				Name: deletedConsul.AvailableSlot.Psycholog.City.Name,
+				Type: deletedConsul.AvailableSlot.Psycholog.City.Type,
+				Province: dto.ProvinceResponse{
+					ID:   deletedConsul.AvailableSlot.Psycholog.City.ProvinceID,
+					Name: deletedConsul.AvailableSlot.Psycholog.City.Province.Name,
+				},
+			},
+			Role: dto.RoleResponse{
+				ID:   deletedConsul.AvailableSlot.Psycholog.RoleID,
+				Name: deletedConsul.AvailableSlot.Psycholog.Role.Name,
+			},
+		},
+		AvailableSlot: dto.AvailableSlotResponse{
+			ID:       deletedConsul.AvailableSlot.ID,
+			Start:    deletedConsul.AvailableSlot.Start,
+			End:      deletedConsul.AvailableSlot.End,
+			IsBooked: deletedConsul.AvailableSlot.IsBooked,
+		},
+		Practice: dto.PracticeResponse{
+			ID:                deletedConsul.Practice.ID,
+			Type:              deletedConsul.Practice.Type,
+			Name:              deletedConsul.Practice.Name,
+			Address:           deletedConsul.Practice.Address,
+			PhoneNumber:       deletedConsul.Practice.PhoneNumber,
+			PracticeSchedules: practiceSchedules,
+		},
+	}
+
+	// LanguageMasters
+	for _, lang := range deletedConsul.AvailableSlot.Psycholog.PsychologLanguages {
+		res.Psycholog.LanguageMasters = append(res.Psycholog.LanguageMasters, dto.LanguageMasterResponse{
+			ID:   &lang.LanguageMaster.ID,
+			Name: lang.LanguageMaster.Name,
+		})
+	}
+
+	// Specializations
+	for _, spec := range deletedConsul.AvailableSlot.Psycholog.PsychologSpecializations {
+		res.Psycholog.Specializations = append(res.Psycholog.Specializations, dto.SpecializationResponse{
+			ID:          &spec.Specialization.ID,
+			Name:        spec.Specialization.Name,
+			Description: spec.Specialization.Description,
+		})
+	}
+
+	// Educations
+	for _, edu := range deletedConsul.AvailableSlot.Psycholog.Educations {
+		res.Psycholog.Educations = append(res.Psycholog.Educations, dto.EducationResponse{
+			ID:             &edu.ID,
+			Degree:         edu.Degree,
+			Major:          edu.Major,
+			Institution:    edu.Institution,
+			GraduationYear: edu.GraduationYear,
+		})
+	}
+
+	return res, nil
 }
