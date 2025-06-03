@@ -26,6 +26,8 @@ type (
 		GetAvailableSlotByID(ctx context.Context, tx *gorm.DB, slotID string) (entity.AvailableSlot, bool, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, userID string) (dto.AllConsultationRepositoryResponseForUser, error)
 		GetConsultationByID(ctx context.Context, tx *gorm.DB, consulID string) (entity.Consultation, bool, error)
+		GetAllPsycholog(ctx context.Context, tx *gorm.DB, filter dto.PsychologFilter) ([]entity.Psycholog, error)
+		GetPsychologByID(ctx context.Context, tx *gorm.DB, psyID string) (entity.Psycholog, bool, error)
 
 		// Create
 		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
@@ -265,7 +267,7 @@ func (ur *UserRepository) GetConsultationByID(ctx context.Context, tx *gorm.DB, 
 		tx = ur.db
 	}
 
-	query := tx.WithContext(ctx).Model(&entity.Consultation{}).Where("id = ?", &consulID).
+	query := tx.WithContext(ctx).Model(&entity.Consultation{}).Where("id = ?", consulID).
 		Preload("User.Role").
 		Preload("User.City.Province").
 		Preload("AvailableSlot.Psycholog.Role").
@@ -276,11 +278,74 @@ func (ur *UserRepository) GetConsultationByID(ctx context.Context, tx *gorm.DB, 
 		Preload("Practice.PracticeSchedules")
 
 	var consultation entity.Consultation
-	if err := query.Order("created_at DESC").Find(&consultation).Error; err != nil {
+	if err := query.Order("created_at DESC").Take(&consultation).Error; err != nil {
 		return entity.Consultation{}, false, err
 	}
 
 	return consultation, true, nil
+}
+func (ur *UserRepository) GetAllPsycholog(ctx context.Context, tx *gorm.DB, filter dto.PsychologFilter) ([]entity.Psycholog, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var (
+		psychologs []entity.Psycholog
+		err        error
+	)
+
+	query := tx.WithContext(ctx).Model(&entity.Psycholog{}).
+		Preload("Role").
+		Preload("City.Province").
+		Preload("PsychologLanguages.LanguageMaster").
+		Preload("PsychologSpecializations.Specialization").
+		Preload("Educations")
+
+	if filter.Name != "" {
+		query = query.Where("name ILIKE ?", "%"+filter.Name+"%")
+	}
+
+	if filter.City != "" {
+		query = query.Joins("JOIN cities ON cities.id = psychologs.city_id").
+			Where("cities.name ILIKE ?", "%"+filter.City+"%")
+	}
+
+	if filter.Province != "" {
+		query = query.Joins("JOIN cities ON id = psychologs.city_id").
+			Joins("JOIN provinces ON provinces.id = cities.province_id").
+			Where("provinces.name ILIKE ?", "%"+filter.Province+"%")
+	}
+
+	if filter.Specialization != "" {
+		query = query.Joins("JOIN psycholog_specializations ON psycholog_specializations.psycholog_id = psychologs.id").
+			Joins("JOIN specializations ON specializations.id = psycholog_specializations.specialization_id").
+			Where("specializations.name ILIKE ?", "%"+filter.Specialization+"%")
+	}
+
+	if err := query.Order("created_at DESC").Find(&psychologs).Error; err != nil {
+		return []entity.Psycholog{}, err
+	}
+
+	return psychologs, err
+}
+func (ur *UserRepository) GetPsychologByID(ctx context.Context, tx *gorm.DB, psyID string) (entity.Psycholog, bool, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.Psycholog{}).
+		Preload("Role").
+		Preload("City.Province").
+		Preload("PsychologLanguages.LanguageMaster").
+		Preload("PsychologSpecializations.Specialization").
+		Preload("Educations")
+
+	var psy entity.Psycholog
+	if err := query.Where("id = ?", psyID).Take(&psy).Error; err != nil {
+		return entity.Psycholog{}, false, err
+	}
+
+	return psy, true, nil
 }
 
 // Create
