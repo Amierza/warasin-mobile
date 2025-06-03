@@ -45,6 +45,16 @@
     "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
   },
   {
+    "permission_id": "1efee736-e54e-4a1e-a9c9-71bac59c1ddd",
+    "permission_endpoint": "/api/v1/user/get-all-psycholog",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "764d8d02-518d-43d8-8768-57b3403765bd",
+    "permission_endpoint": "/api/v1/user/get-detail-psycholog/:id",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
     "permission_id": "eaf063c7-0dbc-4021-b33d-78475bd11b09",
     "permission_endpoint": "/api/v1/psycholog/get-detail-psycholog",
     "role_id": "dc3f6a8e-4875-4297-a285-4f2439595ee2"

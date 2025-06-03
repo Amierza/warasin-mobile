@@ -47,6 +47,10 @@ type (
 		GetDetailConsultation(ctx context.Context, consulID string) (dto.ConsultationResponseForUser, error)
 		UpdateConsultation(ctx context.Context, req dto.UpdateConsultationRequestForUser, consulID string) (dto.ConsultationResponseForUser, error)
 		DeleteConsultation(ctx context.Context, consulID string) (dto.ConsultationResponseForUser, error)
+
+		// Psycholog
+		GetAllPsycholog(ctx context.Context, filter dto.PsychologFilter) ([]dto.PsychologResponse, error)
+		GetDetailPsycholog(ctx context.Context, psyID string) (dto.PsychologResponse, error)
 	}
 
 	UserService struct {
@@ -773,6 +777,50 @@ func (us *UserService) GetAllConsultationWithPagination(ctx context.Context, req
 		consultations []dto.ConsultationResponseForUser
 	)
 
+	if len(dataWithPaginate.Consultations) == 0 {
+		user, _, err := us.userRepo.GetUserByID(ctx, nil, userID)
+		if err != nil {
+			return dto.ConsultationPaginationResponseForUser{}, dto.ErrUserNotFound
+		}
+
+		return dto.ConsultationPaginationResponseForUser{
+			Data: dto.AllConsultationResponseForUser{
+				User: dto.AllUserResponse{
+					ID:          user.ID,
+					Name:        user.Name,
+					Email:       user.Email,
+					Password:    user.Password,
+					Birthdate:   user.Birthdate,
+					PhoneNumber: user.PhoneNumber,
+					Data01:      user.Data01,
+					Data02:      user.Data02,
+					Data03:      user.Data03,
+					IsVerified:  user.IsVerified,
+					City: dto.CityResponse{
+						ID:   &user.City.ID,
+						Name: user.City.Name,
+						Type: user.City.Type,
+						Province: dto.ProvinceResponse{
+							ID:   user.City.ProvinceID,
+							Name: user.City.Province.Name,
+						},
+					},
+					Role: dto.RoleResponse{
+						ID:   &user.Role.ID,
+						Name: user.Role.Name,
+					},
+				},
+				Consultation: []dto.ConsultationResponseForUser{},
+			},
+			PaginationResponse: dto.PaginationResponse{
+				Page:    req.Page,
+				PerPage: req.PerPage,
+				MaxPage: 0,
+				Count:   0,
+			},
+		}, nil
+	}
+
 	user = dto.AllUserResponse{
 		ID:          dataWithPaginate.Consultations[0].User.ID,
 		Name:        dataWithPaginate.Consultations[0].User.Name,
@@ -1299,4 +1347,133 @@ func (us *UserService) DeleteConsultation(ctx context.Context, consulID string) 
 	}
 
 	return res, nil
+}
+
+// Psycholog
+func (us *UserService) GetAllPsycholog(ctx context.Context, filter dto.PsychologFilter) ([]dto.PsychologResponse, error) {
+	psychologs, err := us.userRepo.GetAllPsycholog(ctx, nil, filter)
+	if err != nil {
+		return []dto.PsychologResponse{}, dto.ErrGetAllPsycholog
+	}
+
+	var datas []dto.PsychologResponse
+	for _, psycholog := range psychologs {
+		data := dto.PsychologResponse{
+			ID:          psycholog.ID,
+			Name:        psycholog.Name,
+			STRNumber:   psycholog.STRNumber,
+			Email:       psycholog.Email,
+			Password:    psycholog.Password,
+			WorkYear:    psycholog.WorkYear,
+			Description: psycholog.Description,
+			PhoneNumber: psycholog.PhoneNumber,
+			Image:       psycholog.Image,
+			City: dto.CityResponse{
+				ID:   psycholog.CityID,
+				Name: psycholog.City.Name,
+				Type: psycholog.City.Type,
+				Province: dto.ProvinceResponse{
+					ID:   psycholog.City.ProvinceID,
+					Name: psycholog.City.Province.Name,
+				},
+			},
+			Role: dto.RoleResponse{
+				ID:   psycholog.RoleID,
+				Name: psycholog.Role.Name,
+			},
+		}
+
+		// LanguageMasters
+		for _, lang := range psycholog.PsychologLanguages {
+			data.LanguageMasters = append(data.LanguageMasters, dto.LanguageMasterResponse{
+				ID:   &lang.LanguageMaster.ID,
+				Name: lang.LanguageMaster.Name,
+			})
+		}
+
+		// Specializations
+		for _, spec := range psycholog.PsychologSpecializations {
+			data.Specializations = append(data.Specializations, dto.SpecializationResponse{
+				ID:          &spec.Specialization.ID,
+				Name:        spec.Specialization.Name,
+				Description: spec.Specialization.Description,
+			})
+		}
+
+		// Educations
+		for _, edu := range psycholog.Educations {
+			data.Educations = append(data.Educations, dto.EducationResponse{
+				ID:             &edu.ID,
+				Degree:         edu.Degree,
+				Major:          edu.Major,
+				Institution:    edu.Institution,
+				GraduationYear: edu.GraduationYear,
+			})
+		}
+
+		datas = append(datas, data)
+	}
+
+	return datas, nil
+}
+func (us *UserService) GetDetailPsycholog(ctx context.Context, psyID string) (dto.PsychologResponse, error) {
+	psy, flag, err := us.userRepo.GetPsychologByID(ctx, nil, psyID)
+	if err != nil || !flag {
+		return dto.PsychologResponse{}, dto.ErrPsychologNotFound
+	}
+
+	psycholog := dto.PsychologResponse{
+		ID:          psy.ID,
+		Name:        psy.Name,
+		STRNumber:   psy.STRNumber,
+		Email:       psy.Email,
+		Password:    psy.Password,
+		WorkYear:    psy.WorkYear,
+		Description: psy.Description,
+		PhoneNumber: psy.PhoneNumber,
+		Image:       psy.Image,
+		City: dto.CityResponse{
+			ID:   psy.CityID,
+			Name: psy.City.Name,
+			Type: psy.City.Type,
+			Province: dto.ProvinceResponse{
+				ID:   psy.City.ProvinceID,
+				Name: psy.City.Province.Name,
+			},
+		},
+		Role: dto.RoleResponse{
+			ID:   psy.RoleID,
+			Name: psy.Role.Name,
+		},
+	}
+
+	// LanguageMasters
+	for _, lang := range psy.PsychologLanguages {
+		psycholog.LanguageMasters = append(psycholog.LanguageMasters, dto.LanguageMasterResponse{
+			ID:   &lang.LanguageMaster.ID,
+			Name: lang.LanguageMaster.Name,
+		})
+	}
+
+	// Specializations
+	for _, spec := range psy.PsychologSpecializations {
+		psycholog.Specializations = append(psycholog.Specializations, dto.SpecializationResponse{
+			ID:          &spec.Specialization.ID,
+			Name:        spec.Specialization.Name,
+			Description: spec.Specialization.Description,
+		})
+	}
+
+	// Educations
+	for _, edu := range psy.Educations {
+		psycholog.Educations = append(psycholog.Educations, dto.EducationResponse{
+			ID:             &edu.ID,
+			Degree:         edu.Degree,
+			Major:          edu.Major,
+			Institution:    edu.Institution,
+			GraduationYear: edu.GraduationYear,
+		})
+	}
+
+	return psycholog, nil
 }
