@@ -215,6 +215,7 @@ var (
 	ErrGetPsychologIDFromToken       = errors.New("failed get psycholog id from token")
 	ErrRegisterPsycholog             = errors.New("failed to register psycholog")
 	ErrGetAllPsychologWithPagination = errors.New("failed get list psycholog with pagination")
+	ErrGetAllPsycholog               = errors.New("failed get list psycholog")
 	ErrPsychologNotFound             = errors.New("failed psycholog not found")
 	ErrGetPsychologFromID            = errors.New("failed get` psycholog from id")
 	ErrUpdatePsycholog               = errors.New("failed update psycholog")
@@ -764,5 +765,11 @@ type (
 		Comment         string `json:"consul_comment,omitempty"`
 		AvailableSlotID string `json:"slot_id,omitempty"`
 		PracticeID      string `json:"prac_id,omitempty"`
+	}
+	PsychologFilter struct {
+		Name           string
+		City           string
+		Province       string
+		Specialization string
 	}
 )
