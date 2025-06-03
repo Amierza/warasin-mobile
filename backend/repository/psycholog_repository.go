@@ -19,6 +19,7 @@ type (
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, psychologID string) (dto.AllConsultationRepositoryResponse, error)
 		GetPracticeByID(ctx context.Context, tx *gorm.DB, practiceID string) (entity.Practice, bool, error)
 		GetConsultationByID(ctx context.Context, tx *gorm.DB, consulID string) (entity.Consultation, bool, error)
+		GetPsychologByID(ctx context.Context, tx *gorm.DB, psyID string) (entity.Psycholog, bool, error)
 
 		// POST / Create
 		CreatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error
@@ -197,6 +198,25 @@ func (pr *PsychologRepository) GetConsultationByID(ctx context.Context, tx *gorm
 	}
 
 	return consultation, true, nil
+}
+func (pr *PsychologRepository) GetPsychologByID(ctx context.Context, tx *gorm.DB, psyID string) (entity.Psycholog, bool, error) {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.Psycholog{}).
+		Preload("Role").
+		Preload("City.Province").
+		Preload("PsychologLanguages.LanguageMaster").
+		Preload("PsychologSpecializations.Specialization").
+		Preload("Educations")
+
+	var psy entity.Psycholog
+	if err := query.Where("id = ?", psyID).Take(&psy).Error; err != nil {
+		return entity.Psycholog{}, false, err
+	}
+
+	return psy, true, nil
 }
 
 // Post / Create

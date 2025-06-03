@@ -28,6 +28,8 @@ type (
 		GetConsultationByID(ctx context.Context, tx *gorm.DB, consulID string) (entity.Consultation, bool, error)
 		GetAllPsycholog(ctx context.Context, tx *gorm.DB, filter dto.PsychologFilter) ([]entity.Psycholog, error)
 		GetPsychologByID(ctx context.Context, tx *gorm.DB, psyID string) (entity.Psycholog, bool, error)
+		GetAllPractice(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllPracticeRepositoryResponse, error)
+		GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllAvailableSlotRepositoryResponse, error)
 
 		// Create
 		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
@@ -346,6 +348,51 @@ func (ur *UserRepository) GetPsychologByID(ctx context.Context, tx *gorm.DB, psy
 	}
 
 	return psy, true, nil
+}
+func (ur *UserRepository) GetAllPractice(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllPracticeRepositoryResponse, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var (
+		practices []entity.Practice
+		err       error
+	)
+
+	query := tx.WithContext(ctx).Model(&entity.Practice{}).Where("psycholog_id = ?", psyID).
+		Preload("Psycholog.Role").
+		Preload("Psycholog.City.Province").
+		Preload("PracticeSchedules")
+
+	if err := query.Order("created_at DESC").Find(&practices).Error; err != nil {
+		return dto.AllPracticeRepositoryResponse{}, err
+	}
+
+	return dto.AllPracticeRepositoryResponse{
+		Practices: practices,
+	}, err
+}
+func (ur *UserRepository) GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllAvailableSlotRepositoryResponse, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var (
+		availableSlots []entity.AvailableSlot
+		err            error
+	)
+
+	query := tx.WithContext(ctx).Model(&entity.AvailableSlot{}).Where("psycholog_id = ?", psyID).
+		Preload("Psycholog.Role").
+		Preload("Psycholog.City.Province")
+
+	if err := query.Order("created_at DESC").Find(&availableSlots).Error; err != nil {
+		return dto.AllAvailableSlotRepositoryResponse{}, err
+	}
+
+	return dto.AllAvailableSlotRepositoryResponse{
+		AvailableSlots: availableSlots,
+	}, err
 }
 
 // Create
