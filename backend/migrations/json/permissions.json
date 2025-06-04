@@ -57,12 +57,17 @@
   {
     "permission_id": "b8263087-8825-442f-bd18-27d9f7547eab",
     "permission_endpoint": "/api/v1/user/get-all-practice/:psyID",
-    "role_id": "dc3f6a8e-4875-4297-a285-4f2439595ee2"
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
   },
   {
     "permission_id": "8d982c1a-bc80-4fba-86cc-b5ade27f6adc",
     "permission_endpoint": "/api/v1/user/get-all-available-slot/:psyID",
-    "role_id": "dc3f6a8e-4875-4297-a285-4f2439595ee2"
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
+    "permission_id": "bffba83c-f7b3-46b8-bfe2-4a83fca1da44",
+    "permission_endpoint": "/api/v1/user/create-news-detail",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
   },
   {
     "permission_id": "eaf063c7-0dbc-4021-b33d-78475bd11b09",

@@ -49,6 +49,9 @@ type (
 
 		// Available Slot
 		GetAllAvailableSlot(ctx *gin.Context)
+
+		// News Detail
+		CreateNewsDetail(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -427,5 +430,25 @@ func (uh *UserHandler) GetAllAvailableSlot(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_AVAILABLE_SLOT, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// News Detail
+func (uh *UserHandler) CreateNewsDetail(ctx *gin.Context) {
+	var payload dto.CreateNewsDetailRequest
+	if err := ctx.ShouldBind(&payload); err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	result, err := uh.userService.CreateNewsDetail(ctx, payload)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_CREATE_NEWS_DETAIL, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_NEWS_DETAIL, result)
 	ctx.JSON(http.StatusOK, res)
 }

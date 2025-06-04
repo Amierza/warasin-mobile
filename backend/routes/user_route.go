@@ -50,6 +50,9 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, masterHandler han
 
 			// Available Slot
 			routes.GET("/get-all-available-slot/:psyID", userHandler.GetAllAvailableSlot)
+
+			// News Detail
+			routes.POST("create-news-detail", userHandler.CreateNewsDetail)
 		}
 	}
 }
