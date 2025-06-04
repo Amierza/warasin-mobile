@@ -67,8 +67,9 @@ const (
 	MESSAGE_FAILED_DELETE_PSYCHOLOG     = "failed delete psycholog"
 	// User Motivation
 	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "failed get all user motivation"
-	// User News
-	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_NEWS = "failed get all user news"
+	// News Detail
+	MESSAGE_FAILED_GET_LIST_NEWS_DETAIL = "failed get all news detail"
+	MESSAGE_FAILED_CREATE_NEWS_DETAIL   = "failed create news detail"
 	// Consultation
 	MESSAGE_FAILED_CREATE_CONSULTATION     = "failed create consultation"
 	MESSAGE_FAILED_GET_LIST_CONSULTATION   = "failed get all consultation"
@@ -137,8 +138,9 @@ const (
 	MESSAGE_SUCCESS_DELETE_PSYCHOLOG     = "success delete psycholog"
 	// User Motivation
 	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "success get all user motivation"
-	// User News
-	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_NEWS = "success get all user news"
+	// News Detail
+	MESSAGE_SUCCESS_GET_LIST_NEWS_DETAIL = "success get all news detail"
+	MESSAGE_SUCCESS_CREATE_NEWS_DETAIL   = "success create news detail"
 	// Consultation
 	MESSAGE_SUCCESS_CREATE_CONSULTATION     = "success create consultation"
 	MESSAGE_SUCCESS_GET_LIST_CONSULTATION   = "success get all consultation"
@@ -162,6 +164,7 @@ var (
 	// Parse
 	ErrParseUUID             = errors.New("failed parse uuid")
 	ErrParseConsultationDate = errors.New("failed parse consultation date")
+	ErrParseDate             = errors.New("failed parse date")
 	// Middleware
 	ErrDeniedAccess           = errors.New("denied access")
 	ErrGetPermissionsByRoleID = errors.New("failed get all permission by role id")
@@ -236,6 +239,7 @@ var (
 	ErrNewsTitleAlreadyExists   = errors.New("failed news title already exists")
 	ErrUpdateNews               = errors.New("failed update news")
 	ErrDeleteNews               = errors.New("failed delete news")
+	ErrNewsNotFound             = errors.New("failed news not found")
 	// Motivation Category
 	ErrCreateMotivationCategory               = errors.New("failed create motivation category")
 	ErrGetAllMotivationCategoryWithPagination = errors.New("failed get list motivation category with pagination")
@@ -262,8 +266,11 @@ var (
 	ErrDeleteConsultation               = errors.New("failed delete consultation")
 	// User motivation
 	ErrGetAllUserMotivation = errors.New("failed all user motivation")
-	// User News
-	ErrGetAllUserNews = errors.New("failed all user news")
+	// News Detail
+	ErrGetAllNewsDetail        = errors.New("failed all news detail")
+	ErrCreateNewsDetail        = errors.New("failed create news detail")
+	ErrNewsDetailAlreadyExists = errors.New("failed news detail already exists")
+	ErrNewsDetailNotFound      = errors.New("failed news detail not found")
 	// Language Master
 	ErrLanguageMasterNotFound = errors.New("failed language master not found")
 	ErrGetAllLanguageMaster   = errors.New("failed get all language master")
@@ -295,6 +302,7 @@ var (
 	ErrGetAllAvailableSlot        = errors.New("failed get all available slot")
 	ErrAvailableSlotNotFound      = errors.New("failed available slot not found")
 	ErrUpdateStatusBookSlot       = errors.New("failed update book status slot")
+	ErrCreateAvailableSlots       = errors.New("failed create available slots")
 )
 
 type (
@@ -643,7 +651,7 @@ type (
 		PaginationResponse
 		Data []UserMotivationResponse `json:"data"`
 	}
-	// User News
+	// News Detail
 	UserNewsResponse struct {
 		ID   *uuid.UUID      `json:"user_news_id"`
 		Date string          `json:"user_news_date"`
@@ -657,6 +665,10 @@ type (
 	UserNewsPaginationResponse struct {
 		PaginationResponse
 		Data []UserNewsResponse `json:"data"`
+	}
+	CreateNewsDetailRequest struct {
+		Date   string `json:"news_detail_date"`
+		NewsID string `json:"news_id"`
 	}
 	// Practice
 	CreatePracticeRequest struct {

@@ -30,10 +30,12 @@ type (
 		GetPsychologByID(ctx context.Context, tx *gorm.DB, psyID string) (entity.Psycholog, bool, error)
 		GetAllPractice(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllPracticeRepositoryResponse, error)
 		GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllAvailableSlotRepositoryResponse, error)
+		GetNewsDetailByUserAndNewsID(ctx context.Context, tx *gorm.DB, userID string, newsID string) (entity.NewsDetail, bool, error)
 
 		// Create
 		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
 		CreateConsultation(ctx context.Context, tx *gorm.DB, consultation entity.Consultation) error
+		CreateNewsDetail(ctx context.Context, tx *gorm.DB, newsDetail entity.NewsDetail) error
 
 		// Update
 		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
@@ -394,6 +396,23 @@ func (ur *UserRepository) GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, 
 		AvailableSlots: availableSlots,
 	}, err
 }
+func (ur *UserRepository) GetNewsDetailByUserAndNewsID(ctx context.Context, tx *gorm.DB, userID string, newsID string) (entity.NewsDetail, bool, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.NewsDetail{}).
+		Preload("User").
+		Preload("User.City.Province").
+		Preload("News")
+
+	var newsDetail entity.NewsDetail
+	if err := query.Where("user_id = ? AND news_id = ?", userID, newsID).Take(&newsDetail).Error; err != nil {
+		return entity.NewsDetail{}, false, err
+	}
+
+	return newsDetail, true, nil
+}
 
 // Create
 func (ur *UserRepository) RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error) {
@@ -414,6 +433,13 @@ func (ur *UserRepository) CreateConsultation(ctx context.Context, tx *gorm.DB, c
 	}
 
 	return tx.WithContext(ctx).Create(&consultation).Error
+}
+func (ur *UserRepository) CreateNewsDetail(ctx context.Context, tx *gorm.DB, newsDetail entity.NewsDetail) error {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	return tx.WithContext(ctx).Create(&newsDetail).Error
 }
 
 // Update

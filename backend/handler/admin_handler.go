@@ -642,12 +642,12 @@ func (ah *AdminHandler) GetAllUserNews(ctx *gin.Context) {
 
 	result, err := ah.adminService.GetAllUserNewsWithPagination(ctx.Request.Context(), payload)
 	if err != nil {
-		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_NEWS, err.Error(), nil)
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_NEWS_DETAIL, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
 		return
 	}
 
-	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_NEWS, result)
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_NEWS_DETAIL, result)
 	ctx.JSON(http.StatusOK, res)
 }
 

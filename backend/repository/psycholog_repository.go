@@ -24,6 +24,7 @@ type (
 		// POST / Create
 		CreatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error
 		CreatePracticeSchedule(ctx context.Context, tx *gorm.DB, schedules []entity.PracticeSchedule) error
+		CreateAvailableSlots(ctx context.Context, tx *gorm.DB, slots []entity.AvailableSlot) error
 
 		// PATCH / Update
 		UpdatePractice(ctx context.Context, tx *gorm.DB, practice entity.Practice) error
@@ -233,6 +234,13 @@ func (pr *PsychologRepository) CreatePracticeSchedule(ctx context.Context, tx *g
 	}
 
 	return tx.WithContext(ctx).Create(&schedules).Error
+}
+func (pr *PsychologRepository) CreateAvailableSlots(ctx context.Context, tx *gorm.DB, slots []entity.AvailableSlot) error {
+	if tx == nil {
+		tx = pr.db
+	}
+
+	return tx.WithContext(ctx).Create(&slots).Error
 }
 
 // PATCH / Update
