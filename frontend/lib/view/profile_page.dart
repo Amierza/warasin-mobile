@@ -3,6 +3,7 @@ import 'package:frontend/shared/theme.dart';
 import 'package:frontend/widget/header.dart';
 import 'package:frontend/widget/navigation_bar.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -25,9 +26,7 @@ class ProfilePage extends StatelessWidget {
             Container(
               width: double.infinity,
               height: double.maxFinite,
-              decoration: BoxDecoration(
-                color: backgroundColor,
-              ),
+              decoration: BoxDecoration(color: backgroundColor),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -41,46 +40,78 @@ class ProfilePage extends StatelessWidget {
                       style: GoogleFonts.poppins(
                         fontSize: 22,
                         fontWeight: semiBold,
-                        color: primaryTextColor
+                        color: primaryTextColor,
                       ),
                     ),
                     MenuButton(
-                      icon: Icons.history, 
+                      icon: Icons.history,
                       name: "Riwayat Konsultasi",
                       onPressed: () {
                         Get.toNamed('/history_consultation');
                       },
                     ),
                     MenuButton(
-                      icon: Icons.people_outline, 
+                      icon: Icons.people_outline,
                       name: "Riwayat Kesehatan",
-                      onPressed:  () {
+                      onPressed: () {
                         Get.toNamed('/data_completeness_greetings');
                       },
                     ),
 
-                    const SizedBox(
-                      height: 60,
-                    ),
+                    const SizedBox(height: 60),
                     Text(
                       'Pengaturan',
                       style: GoogleFonts.poppins(
                         fontSize: 22,
                         fontWeight: semiBold,
-                        color: primaryTextColor
+                        color: primaryTextColor,
                       ),
                     ),
                     MenuButton(
-                      icon: Icons.settings, 
-                      name: "Pengaturan Pribadi"
+                      icon: Icons.settings,
+                      name: "Pengaturan Pribadi",
                     ),
+                    MenuButton(icon: Icons.note_outlined, name: "Catatan Anda"),
                     MenuButton(
-                      icon: Icons.note_outlined, 
-                      name: "Catatan Anda"
+                      icon: Icons.favorite_border_outlined,
+                      name: "Daftar Favorit",
                     ),
-                    MenuButton(
-                      icon: Icons.favorite_border_outlined, 
-                      name: "Daftar Favorit"
+                    const SizedBox(height: 30),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          final box = GetStorage();
+                          box.erase();
+                          Get.offAllNamed('/login');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 14,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.logout, color: Colors.white),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Logout',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -98,8 +129,8 @@ class MenuButton extends StatelessWidget {
   final IconData icon;
   final String name;
   final VoidCallback? onPressed;
-  
-  const MenuButton ({
+
+  const MenuButton({
     super.key,
     required this.icon,
     required this.name,
@@ -112,42 +143,26 @@ class MenuButton extends StatelessWidget {
       onTap: onPressed,
       behavior: HitTestBehavior.opaque, // Agar area kosong juga merespon tap
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 16, 
-          horizontal: 16
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: tertiaryTextColor
-            )
-          ),
+          border: Border(bottom: BorderSide(color: tertiaryTextColor)),
         ),
         child: Row(
           children: [
-            Icon(
-              icon, 
-              color: primaryTextColor, 
-              size: 30
-            ),
+            Icon(icon, color: primaryTextColor, size: 30),
             const SizedBox(width: 16),
             Expanded(
               child: Text(
-                name, 
+                name,
                 style: TextStyle(
-                fontSize: 18,
-                fontWeight: medium,
-                color: primaryTextColor,
-              )),
+                  fontSize: 18,
+                  fontWeight: medium,
+                  color: primaryTextColor,
+                ),
+              ),
             ),
-            Icon(
-              Icons.chevron_right, 
-              color: tertiaryTextColor, 
-              size: 36
-            ),
-            const SizedBox(
-              height: 20,
-            ),
+            Icon(Icons.chevron_right, color: tertiaryTextColor, size: 36),
+            const SizedBox(height: 20),
           ],
         ),
       ),

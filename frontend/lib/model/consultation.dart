@@ -1,3 +1,4 @@
+import 'package:frontend/model/psycholog.dart';
 import 'package:frontend/model/user_detail_response.dart';
 
 class AvailableSlot {
@@ -52,7 +53,7 @@ class Practice {
   final String pracName;
   final String pracAddress;
   final String pracPhoneNumber;
-  final List<Schedule> pracSchedule;
+  final List<Schedule>? pracSchedule;
 
   Practice({
     required this.pracId,
@@ -60,7 +61,7 @@ class Practice {
     required this.pracName,
     required this.pracAddress,
     required this.pracPhoneNumber,
-    required this.pracSchedule,
+    this.pracSchedule,
   });
 
   factory Practice.fromJson(Map<String, dynamic> json) {
@@ -71,9 +72,11 @@ class Practice {
       pracAddress: json['prac_address'],
       pracPhoneNumber: json['prac_phone_number'],
       pracSchedule:
-          (json['practice_schedule'] as List)
-              .map((item) => Schedule.fromJson(item))
-              .toList(),
+          json['practice_schedule'] != null
+              ? (json['practice_schedule'] as List)
+                  .map((item) => Schedule.fromJson(item))
+                  .toList()
+              : [],
     );
   }
 }
@@ -130,6 +133,106 @@ class PracticeResponse {
   }
 }
 
+class Consultation {
+  final String consulId;
+  final String consulDate;
+  int? consulRate;
+  String? consulComment;
+  final int consulStatus;
+  final Psycholog psycholog;
+  final AvailableSlot availableSlot;
+  final Practice practice;
+
+  Consultation({
+    required this.consulId,
+    required this.consulDate,
+    this.consulRate,
+    this.consulComment,
+    required this.consulStatus,
+    required this.psycholog,
+    required this.availableSlot,
+    required this.practice,
+  });
+
+  factory Consultation.fromJson(Map<String, dynamic> json) {
+    return Consultation(
+      consulId: json['consul_id'],
+      consulDate: json['consul_date'],
+      consulRate: json['consul_rate'],
+      consulComment: json['consul_comment'],
+      consulStatus: json['consul_status'],
+      psycholog: Psycholog.fromJson(json['psycholog']),
+      availableSlot: AvailableSlot.fromJson(json['available_slot']),
+      practice: Practice.fromJson(json['practice']),
+    );
+  }
+}
+
+class AllConsultation {
+  final User user;
+  final List<Consultation> consultation;
+
+  AllConsultation({required this.user, required this.consultation});
+
+  factory AllConsultation.fromJson(Map<String, dynamic> json) {
+    return AllConsultation(
+      user: User.fromJson(json['user']),
+      consultation:
+          json['consultation'] != null
+              ? (json['consultation'] as List)
+                  .map((consul) => Consultation.fromJson(consul))
+                  .toList()
+              : [],
+    );
+  }
+}
+
+class AllConsultationResponse {
+  final bool status;
+  final String message;
+  final String timestamp;
+  final AllConsultation data;
+
+  AllConsultationResponse({
+    required this.status,
+    required this.message,
+    required this.timestamp,
+    required this.data,
+  });
+
+  factory AllConsultationResponse.fromJson(Map<String, dynamic> json) {
+    return AllConsultationResponse(
+      status: json['status'],
+      message: json['message'],
+      timestamp: json['timestamp'],
+      data: AllConsultation.fromJson(json['data']),
+    );
+  }
+}
+
+class DetailConsultationResponse {
+  final bool status;
+  final String message;
+  final String timestamp;
+  final Consultation data;
+
+  DetailConsultationResponse({
+    required this.status,
+    required this.message,
+    required this.timestamp,
+    required this.data,
+  });
+
+  factory DetailConsultationResponse.fromJson(Map<String, dynamic> json) {
+    return DetailConsultationResponse(
+      status: json['status'],
+      message: json['message'],
+      timestamp: json['timestamp'],
+      data: Consultation.fromJson(json['data']),
+    );
+  }
+}
+
 class ConsultationResponse {
   final bool status;
   final String message;
@@ -156,8 +259,8 @@ class ConsultationResponse {
 class ConsultationData {
   final String consulId;
   final String consulDate;
-  final int consulRate;
-  final String consulComment;
+  final int? consulRate;
+  final String? consulComment;
   final int consulStatus;
   final User user;
   final AvailableSlot availableSlot;
@@ -166,8 +269,8 @@ class ConsultationData {
   ConsultationData({
     required this.consulId,
     required this.consulDate,
-    required this.consulRate,
-    required this.consulComment,
+    this.consulRate,
+    this.consulComment,
     required this.consulStatus,
     required this.user,
     required this.availableSlot,
