@@ -137,8 +137,8 @@ class MyApp extends StatelessWidget {
           middlewares: [AuthMiddleware()],
         ),
         GetPage(
-          name: '/concultation_detail',
-          page: () => const DetailConcultationPage(),
+          name: '/concultation_detail/:id',
+          page: () => DetailConcultationPage(),
           middlewares: [AuthMiddleware()],
         ),
         GetPage(
