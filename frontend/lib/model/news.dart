@@ -75,3 +75,31 @@ class GetAllNewsResponse {
     };
   }
 }
+
+class GetDetailNewsResponse {
+  final bool status;
+  final String message;
+  final News data;
+  final String timestamp;
+
+  GetDetailNewsResponse({
+    required this.status,
+    required this.message,
+    required this.data,
+    required this.timestamp,
+  });
+
+  @override
+  String toString() {
+    return 'GetDetailNewsResponse(status: $status, message: $message, data: $data, timestamp: $timestamp)';
+  }
+
+  factory GetDetailNewsResponse.fromJson(Map<String, dynamic> json) {
+    return GetDetailNewsResponse(
+      status: json['status'],
+      message: json['message'],
+      data: News.fromJson(json['data']),
+      timestamp: json['timestamp'],
+    );
+  }
+}

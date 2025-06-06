@@ -3,26 +3,20 @@ import 'package:frontend/model/news.dart';
 import 'package:frontend/service/news_service.dart';
 import 'package:get/get.dart';
 
-class GetAllNewsController extends GetxController {
-  var newsList = <News>[].obs;
+class GetDetailNewsController extends GetxController {
   var isLoading = false.obs;
-  var allNews = Rxn<GetAllNewsResponse>();
+  var detailNews = Rxn<GetDetailNewsResponse>();
 
-  @override
-  void onInit() {
-    fetchAllNews();
-    super.onInit();
-  }
-
-  Future<void> fetchAllNews() async{
+  Future<void> fetchDetailNews(String newsId) async{
     isLoading.value = true;
 
     try {
-      final response = await NewsService.getAllNews();
+      final response = await NewsService.getDetailNews(newsId);
 
-      if (response is GetAllNewsResponse) {
-        allNews.value = response;
-        newsList.value = response.data;
+      print(response);
+
+      if (response is GetDetailNewsResponse) {
+        detailNews.value = response;
       }
 
       if (response is ErrorResponse) {
