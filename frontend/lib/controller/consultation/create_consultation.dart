@@ -16,28 +16,23 @@ class ConsultationController extends GetxController {
     if (consulDate.value.isEmpty ||
         slotId.value.isEmpty ||
         pracId.value.isEmpty) {
-      print('Data belum lengkap');
       return;
     }
 
-    isLoading.value = true;
-
-    final result = await ConsultationService.createConsultation(
-      consulDate.value,
-      slotId.value,
-      pracId.value,
-    );
-
-    if (result is ConsultationResponse) {
-      consultationResult.value = result;
-      errorResult.value = null;
-    } else if (result is ErrorResponse) {
-      errorResult.value = result;
-      consultationResult.value = null;
-    } else {
-      print('Unexpected error or null result');
+    try {
+      isLoading.value = true;
+      final result = await ConsultationService.createConsultation(
+        consulDate.value,
+        slotId.value,
+        pracId.value,
+      );
+      if (result is ConsultationResponse) {
+        consultationResult.value = result;
+        errorResult.value = null;
+      } 
+    } catch(error) {
+      print('Unexpected error or null result, $error');
     }
-
     isLoading.value = false;
   }
 }

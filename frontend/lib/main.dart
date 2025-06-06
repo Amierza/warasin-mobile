@@ -46,7 +46,7 @@ Future<void> main() async {
 Future<Widget> buildApp() async {
   Get.lazyPut<RegisterController>(() => RegisterController(), fenix: false);
   Get.lazyPut<LoginController>(() => LoginController(), fenix: false);
-  Get.lazyPut<HeaderController>(() => HeaderController(), fenix: false);
+  Get.lazyPut<HeaderController>(() => HeaderController(), fenix: true);
 
   return const MyApp();
 }
