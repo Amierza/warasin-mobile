@@ -60,6 +60,7 @@ type (
 
 		// News Detail
 		CreateNewsDetail(ctx context.Context, req dto.CreateNewsDetailRequest) (dto.UserNewsResponse, error)
+		GetAllNewsDetail(ctx context.Context) ([]dto.NewsDetailResponse, error)
 	}
 
 	UserService struct {
@@ -1630,4 +1631,36 @@ func (us *UserService) CreateNewsDetail(ctx context.Context, req dto.CreateNewsD
 			Date:  newsDetail.News.Date,
 		},
 	}, nil
+}
+func (us *UserService) GetAllNewsDetail(ctx context.Context) ([]dto.NewsDetailResponse, error) {
+	token := ctx.Value("Authorization").(string)
+
+	userID, err := us.jwtService.GetUserIDByToken(token)
+	if err != nil {
+		return []dto.NewsDetailResponse{}, dto.ErrGetUserIDFromToken
+	}
+
+	datas, err := us.userRepo.GetAllNewsDetail(ctx, nil, userID)
+	if err != nil {
+		return []dto.NewsDetailResponse{}, dto.ErrGetAllNewsDetail
+	}
+
+	var newsDetails []dto.NewsDetailResponse
+	for _, newsDetail := range datas {
+		data := dto.NewsDetailResponse{
+			ID:   &newsDetail.ID,
+			Date: newsDetail.Date,
+			News: dto.NewsResponse{
+				ID:    &newsDetail.News.ID,
+				Image: newsDetail.News.Image,
+				Title: newsDetail.News.Title,
+				Body:  newsDetail.News.Body,
+				Date:  newsDetail.News.Date,
+			},
+		}
+
+		newsDetails = append(newsDetails, data)
+	}
+
+	return newsDetails, nil
 }
