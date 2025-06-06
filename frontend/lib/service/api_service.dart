@@ -66,19 +66,15 @@ class ApiService {
         },
       );
 
-      final responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
         if (responseBody['status'] == true) {
-          return UserDetailResponse.fromJson(responseBody);
+          final userData = UserDetailResponse.fromJson(responseBody);
+          return userData;
         } else {
-          box.remove('access_token');
-          return ErrorResponse.fromJson(responseBody);
+          final errorResponse = ErrorResponse.fromJson(responseBody);
+          return errorResponse;
         }
-      } else if (response.statusCode == 401) {
-        box.remove('access_token');
-        return ErrorResponse.fromJson(responseBody);
-      } else {
-        return null;
       }
     } catch (e) {
       print("Error fetching user detail: $e");

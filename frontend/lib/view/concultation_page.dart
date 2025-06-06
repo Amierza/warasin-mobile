@@ -116,7 +116,7 @@ class ConcultationPage extends StatelessWidget {
                             psycholog: psy,
                             onTap: () {
                               Get.toNamed(
-                                '/concultation_detail',
+                                '/concultation_detail/${psy.psyId}',
                               ); // will be handled later
                             },
                           ),
@@ -163,7 +163,7 @@ class CounselorCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Image.asset(
-                      'assets/Alone.png',
+                      'assets/default_profile.png',
                       width: 100,
                       height: 100,
                       fit: BoxFit.cover,

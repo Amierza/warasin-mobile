@@ -5,7 +5,7 @@ class UserDetailResponse {
   final bool status;
   final String message;
   final User data;
-  final DateTime timestamp;
+  final String timestamp;
 
   UserDetailResponse({
     required this.status,
@@ -19,7 +19,7 @@ class UserDetailResponse {
       status: json['status'],
       message: json['message'],
       data: User.fromJson(json['data']),
-      timestamp: DateTime.parse(json['timestamp']),
+      timestamp: json['timestamp'],
     );
   }
 }
@@ -36,7 +36,7 @@ class User {
   final int userData01;
   final int userData02;
   final int userData03;
-  final bool isVerified;
+  final bool? isVerified;
   final City city;
   final Role role;
 
