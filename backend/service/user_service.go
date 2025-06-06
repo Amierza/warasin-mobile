@@ -57,6 +57,9 @@ type (
 
 		// Available Slot
 		GetAllAvailableSlot(ctx context.Context, psyID string) ([]dto.AvailableSlotResponse, error)
+
+		// News Detail
+		CreateNewsDetail(ctx context.Context, req dto.CreateNewsDetailRequest) (dto.UserNewsResponse, error)
 	}
 
 	UserService struct {
@@ -1541,4 +1544,90 @@ func (us *UserService) GetAllAvailableSlot(ctx context.Context, psyID string) ([
 	}
 
 	return availableSlots, nil
+}
+
+// News Detail
+func (us *UserService) CreateNewsDetail(ctx context.Context, req dto.CreateNewsDetailRequest) (dto.UserNewsResponse, error) {
+	token := ctx.Value("Authorization").(string)
+
+	userID, err := us.jwtService.GetUserIDByToken(token)
+	if err != nil {
+		return dto.UserNewsResponse{}, dto.ErrGetUserIDFromToken
+	}
+
+	user, flag, err := us.userRepo.GetUserByID(ctx, nil, userID)
+	if err != nil || !flag {
+		return dto.UserNewsResponse{}, dto.ErrUserNotFound
+	}
+
+	news, flag, err := us.userRepo.GetNewsByID(ctx, nil, req.NewsID)
+	if err != nil || !flag {
+		return dto.UserNewsResponse{}, dto.ErrNewsNotFound
+	}
+
+	_, flag, err = us.userRepo.GetNewsDetailByUserAndNewsID(ctx, nil, userID, req.NewsID)
+	if err == nil || flag {
+		return dto.UserNewsResponse{}, dto.ErrNewsDetailAlreadyExists
+	}
+
+	dateParsed, err := helpers.ValidateAndNormalizeDateString(req.Date)
+	if err != nil {
+		return dto.UserNewsResponse{}, dto.ErrParseDate
+	}
+
+	nd := entity.NewsDetail{
+		ID:     uuid.New(),
+		Date:   dateParsed,
+		UserID: &user.ID,
+		NewsID: &news.ID,
+	}
+
+	err = us.userRepo.CreateNewsDetail(ctx, nil, nd)
+	if err != nil {
+		return dto.UserNewsResponse{}, dto.ErrCreateNewsDetail
+	}
+
+	newsDetail, flag, err := us.userRepo.GetNewsDetailByUserAndNewsID(ctx, nil, userID, req.NewsID)
+	if err != nil || !flag {
+		return dto.UserNewsResponse{}, dto.ErrNewsDetailNotFound
+	}
+
+	return dto.UserNewsResponse{
+		ID:   &newsDetail.ID,
+		Date: newsDetail.Date,
+		User: dto.AllUserResponse{
+			ID:          newsDetail.User.ID,
+			Name:        newsDetail.User.Name,
+			Email:       newsDetail.User.Email,
+			Password:    newsDetail.User.Password,
+			Image:       newsDetail.User.Image,
+			Gender:      newsDetail.User.Gender,
+			Birthdate:   newsDetail.User.Birthdate,
+			PhoneNumber: newsDetail.User.PhoneNumber,
+			Data01:      newsDetail.User.Data01,
+			Data02:      newsDetail.User.Data02,
+			Data03:      newsDetail.User.Data03,
+			IsVerified:  newsDetail.User.IsVerified,
+			City: dto.CityResponse{
+				ID:   newsDetail.User.CityID,
+				Name: newsDetail.User.City.Name,
+				Type: newsDetail.User.City.Type,
+				Province: dto.ProvinceResponse{
+					ID:   newsDetail.User.City.ProvinceID,
+					Name: newsDetail.User.City.Province.Name,
+				},
+			},
+			Role: dto.RoleResponse{
+				ID:   newsDetail.User.RoleID,
+				Name: newsDetail.User.Role.Name,
+			},
+		},
+		News: dto.NewsResponse{
+			ID:    &newsDetail.News.ID,
+			Image: newsDetail.News.Image,
+			Title: newsDetail.News.Title,
+			Body:  newsDetail.News.Body,
+			Date:  newsDetail.News.Date,
+		},
+	}, nil
 }

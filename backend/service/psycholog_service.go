@@ -203,6 +203,32 @@ func (ps *PsychologService) CreatePractice(ctx context.Context, req dto.CreatePr
 		return dto.PracticeResponse{}, dto.ErrCreatePracticeSchedule
 	}
 
+	var availableSlots []entity.AvailableSlot
+	timeSlots := []struct {
+		start string
+		end   string
+	}{
+		{"08:00", "09:00"},
+		{"09:00", "10:00"},
+		{"10:00", "11:00"},
+		{"13:00", "14:00"},
+		{"14:00", "15:00"},
+	}
+	for _, slot := range timeSlots {
+		availableSlots = append(availableSlots, entity.AvailableSlot{
+			ID:          uuid.New(),
+			Start:       slot.start,
+			End:         slot.end,
+			IsBooked:    false,
+			PsychologID: &psychologID,
+		})
+	}
+
+	err = ps.psychologRepo.CreateAvailableSlots(ctx, nil, availableSlots)
+	if err != nil {
+		return dto.PracticeResponse{}, dto.ErrCreateAvailableSlots
+	}
+
 	return dto.PracticeResponse{
 		ID:                practice.ID,
 		Type:              practice.Type,
@@ -425,6 +451,71 @@ func (ps *PsychologService) GetAllAvailableSlot(ctx context.Context) (dto.AllAva
 		return dto.AllAvailableSlotResponse{}, dto.ErrGetAllAvailableSlot
 	}
 
+	if len(datas.AvailableSlots) == 0 {
+		psy, _, err := ps.psychologRepo.GetPsychologByID(ctx, nil, psyID)
+		if err != nil {
+			return dto.AllAvailableSlotResponse{}, dto.ErrPsychologNotFound
+		}
+
+		psycholog := dto.PsychologResponse{
+			ID:          psy.ID,
+			Name:        psy.Name,
+			STRNumber:   psy.STRNumber,
+			Email:       psy.Email,
+			Password:    psy.Password,
+			WorkYear:    psy.WorkYear,
+			Description: psy.Description,
+			PhoneNumber: psy.PhoneNumber,
+			Image:       psy.Image,
+			City: dto.CityResponse{
+				ID:   psy.CityID,
+				Name: psy.City.Name,
+				Type: psy.City.Type,
+				Province: dto.ProvinceResponse{
+					ID:   psy.City.ProvinceID,
+					Name: psy.City.Province.Name,
+				},
+			},
+			Role: dto.RoleResponse{
+				ID:   psy.RoleID,
+				Name: psy.Role.Name,
+			},
+		}
+
+		// LanguageMasters
+		for _, lang := range psy.PsychologLanguages {
+			psycholog.LanguageMasters = append(psycholog.LanguageMasters, dto.LanguageMasterResponse{
+				ID:   &lang.LanguageMaster.ID,
+				Name: lang.LanguageMaster.Name,
+			})
+		}
+
+		// Specializations
+		for _, spec := range psy.PsychologSpecializations {
+			psycholog.Specializations = append(psycholog.Specializations, dto.SpecializationResponse{
+				ID:          &spec.Specialization.ID,
+				Name:        spec.Specialization.Name,
+				Description: spec.Specialization.Description,
+			})
+		}
+
+		// Educations
+		for _, edu := range psy.Educations {
+			psycholog.Educations = append(psycholog.Educations, dto.EducationResponse{
+				ID:             &edu.ID,
+				Degree:         edu.Degree,
+				Major:          edu.Major,
+				Institution:    edu.Institution,
+				GraduationYear: edu.GraduationYear,
+			})
+		}
+
+		return dto.AllAvailableSlotResponse{
+			Psycholog:      psycholog,
+			AvailableSlots: []dto.AvailableSlotResponse{},
+		}, nil
+	}
+
 	psycholog := dto.PsychologResponse{
 		ID:          datas.AvailableSlots[0].Psycholog.ID,
 		Name:        datas.AvailableSlots[0].Psycholog.Name,
@@ -490,35 +581,65 @@ func (ps *PsychologService) GetAllConsultationWithPagination(ctx context.Context
 	if len(dataWithPaginate.Consultations) == 0 {
 		psy, _, err := ps.psychologRepo.GetPsychologByID(ctx, nil, psyID)
 		if err != nil {
-			return dto.ConsultationPaginationResponse{}, dto.ErrUserNotFound
+			return dto.ConsultationPaginationResponse{}, dto.ErrPsychologNotFound
+		}
+
+		psycholog = dto.PsychologResponse{
+			ID:          psy.ID,
+			Name:        psy.Name,
+			STRNumber:   psy.STRNumber,
+			Email:       psy.Email,
+			Password:    psy.Password,
+			WorkYear:    psy.WorkYear,
+			Description: psy.Description,
+			PhoneNumber: psy.PhoneNumber,
+			Image:       psy.Image,
+			City: dto.CityResponse{
+				ID:   psy.CityID,
+				Name: psy.City.Name,
+				Type: psy.City.Type,
+				Province: dto.ProvinceResponse{
+					ID:   psy.City.ProvinceID,
+					Name: psy.City.Province.Name,
+				},
+			},
+			Role: dto.RoleResponse{
+				ID:   psy.RoleID,
+				Name: psy.Role.Name,
+			},
+		}
+
+		// LanguageMasters
+		for _, lang := range psy.PsychologLanguages {
+			psycholog.LanguageMasters = append(psycholog.LanguageMasters, dto.LanguageMasterResponse{
+				ID:   &lang.LanguageMaster.ID,
+				Name: lang.LanguageMaster.Name,
+			})
+		}
+
+		// Specializations
+		for _, spec := range psy.PsychologSpecializations {
+			psycholog.Specializations = append(psycholog.Specializations, dto.SpecializationResponse{
+				ID:          &spec.Specialization.ID,
+				Name:        spec.Specialization.Name,
+				Description: spec.Specialization.Description,
+			})
+		}
+
+		// Educations
+		for _, edu := range psy.Educations {
+			psycholog.Educations = append(psycholog.Educations, dto.EducationResponse{
+				ID:             &edu.ID,
+				Degree:         edu.Degree,
+				Major:          edu.Major,
+				Institution:    edu.Institution,
+				GraduationYear: edu.GraduationYear,
+			})
 		}
 
 		return dto.ConsultationPaginationResponse{
 			Data: dto.AllConsultationResponse{
-				Psycholog: dto.PsychologResponse{
-					ID:          psy.ID,
-					Name:        psy.Name,
-					STRNumber:   psy.STRNumber,
-					Email:       psy.Email,
-					Password:    psy.Password,
-					WorkYear:    psy.WorkYear,
-					Description: psy.Description,
-					PhoneNumber: psy.PhoneNumber,
-					Image:       psy.Image,
-					City: dto.CityResponse{
-						ID:   psy.CityID,
-						Name: psy.City.Name,
-						Type: psy.City.Type,
-						Province: dto.ProvinceResponse{
-							ID:   psy.City.ProvinceID,
-							Name: psy.City.Province.Name,
-						},
-					},
-					Role: dto.RoleResponse{
-						ID:   psy.RoleID,
-						Name: psy.Role.Name,
-					},
-				},
+				Psycholog:    psycholog,
 				Consultation: []dto.ConsultationResponse{},
 			},
 			PaginationResponse: dto.PaginationResponse{
