@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/consultation/create_consultation.dart';
 import 'package:frontend/controller/consultation/get_all_available_slot.dart';
 import 'package:frontend/controller/consultation/get_all_practice.dart';
 import 'package:frontend/controller/consultation/get_detail_psycholog.dart';
 import 'package:frontend/shared/theme.dart';
+import 'package:frontend/widget/dialog_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class DetailConcultationPage extends StatefulWidget {
   const DetailConcultationPage({super.key});
@@ -15,10 +18,12 @@ class DetailConcultationPage extends StatefulWidget {
 
 class _DetailConcultationPageState extends State<DetailConcultationPage> {
   int selectedDateIndex = 0;
-  int selectedTimeIndex = 0;
+  int? selectedConsultationIndex;
+  String? selectedConsulId;
+  int? selectedSlotIndex;
+  String? selectedSlotId;
 
   List<DateTime> availableDates = [];
-  List<String> times = ["10.00 - 11.00", "12.00 - 13.00", "14.00 - 15.00"];
 
   @override
   void initState() {
@@ -28,19 +33,38 @@ class _DetailConcultationPageState extends State<DetailConcultationPage> {
 
   void generateDates() {
     final now = DateTime.now();
-    availableDates = List.generate(14, (index) => now.add(Duration(days: index)));
+    availableDates = List.generate(
+      14,
+      (index) => now.add(Duration(days: index)),
+    );
   }
 
   String _getMonthName(int month) {
     const months = [
-      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+      'Januari',
+      'Februari',
+      'Maret',
+      'April',
+      'Mei',
+      'Juni',
+      'Juli',
+      'Agustus',
+      'September',
+      'Oktober',
+      'November',
+      'Desember',
     ];
     return months[month - 1];
   }
 
+  String getSelectedDateFormatted() {
+    final selectedDate = availableDates[selectedDateIndex];
+    return DateFormat('yyyy-MM-dd').format(selectedDate);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final consultationController = Get.put(ConsultationController());
     final controller = Get.put(GetDetailPsycholog());
     final practiceController = Get.put(GetAllPractice());
     final slotController = Get.put(GetAllAvailableSlot());
@@ -112,7 +136,7 @@ class _DetailConcultationPageState extends State<DetailConcultationPage> {
         }
 
         return SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -120,20 +144,21 @@ class _DetailConcultationPageState extends State<DetailConcultationPage> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: (psycholog.data.psyImage != null &&
-                            psycholog.data.psyImage!.startsWith('http'))
-                        ? Image.network(
-                            psycholog.data.psyImage!,
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            'assets/default_profile.png',
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
+                    child:
+                        (psycholog.data.psyImage != null &&
+                                psycholog.data.psyImage!.startsWith('http'))
+                            ? Image.network(
+                              psycholog.data.psyImage!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            )
+                            : Image.asset(
+                              'assets/default_profile.png',
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
@@ -149,17 +174,18 @@ class _DetailConcultationPageState extends State<DetailConcultationPage> {
                           ),
                         ),
                         Column(
-                          children: practice.data
-                              .map(
-                                (prac) => Text(
-                                  '${prac.pracName}\n${prac.pracType}',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 14,
-                                    color: primaryTextColor,
-                                  ),
-                                ),
-                              )
-                              .toList(),
+                          children:
+                              practice.data
+                                  .map(
+                                    (prac) => Text(
+                                      '${prac.pracName}\n${prac.pracType}',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 14,
+                                        color: primaryTextColor,
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
                         ),
                         SizedBox(height: 8),
                       ],
@@ -171,20 +197,88 @@ class _DetailConcultationPageState extends State<DetailConcultationPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _infoCard(Icons.people, psycholog.data.educations.length.toString(), "Gelar"),
-                  _infoCard(Icons.bar_chart_outlined, psycholog.data.psyWorkYear, "Tahun Kerja"),
-                  _infoCard(Icons.star_outlined, psycholog.data.specializations.length.toString(), "Spesialisasi"),
-                  _infoCard(Icons.language, psycholog.data.languages.length.toString(), "Bahasa"),
+                  _infoCard(
+                    Icons.people,
+                    psycholog.data.educations.length.toString(),
+                    "Gelar",
+                  ),
+                  _infoCard(
+                    Icons.bar_chart_outlined,
+                    psycholog.data.psyWorkYear,
+                    "Tahun Kerja",
+                  ),
+                  _infoCard(
+                    Icons.star_outlined,
+                    psycholog.data.specializations.length.toString(),
+                    "Spesialisasi",
+                  ),
+                  _infoCard(
+                    Icons.language,
+                    psycholog.data.languages.length.toString(),
+                    "Bahasa",
+                  ),
                 ],
               ),
               SizedBox(height: 40),
-              Text("Tentang Konselor", style: GoogleFonts.poppins(fontSize: 22, fontWeight: bold)),
+              Text(
+                "Tentang Konselor",
+                style: GoogleFonts.poppins(fontSize: 22, fontWeight: bold),
+              ),
               Text(
                 psycholog.data.psyDescription,
-                style: GoogleFonts.poppins(fontSize: 14, color: primaryTextColor),
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  color: primaryTextColor,
+                ),
               ),
               SizedBox(height: 40),
-              Text("Jadwal", style: GoogleFonts.poppins(fontSize: 22, fontWeight: bold, color: primaryTextColor)),
+              Text(
+                "Mulai Konsultasi",
+                style: GoogleFonts.poppins(fontSize: 22, fontWeight: bold),
+              ),
+              const SizedBox(height: 10),
+              practice.data.isNotEmpty
+                  ? Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: List.generate(practice.data.length, (index) {
+                      final consul = practice.data[index];
+                      final isSelected = selectedConsultationIndex == index;
+
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedConsultationIndex = index;
+                            selectedConsulId =
+                                consul
+                                    .pracId; // ini yang benar untuk ID praktik
+                          });
+                        },
+                        child: _consultationMethod(
+                          consul.pracType,
+                          isSelected,
+                          consul.pracName,
+                          consul.pracAddress,
+                        ),
+                      );
+                    }),
+                  )
+                  : Text(
+                    "Konsultasi tidak tersedia.",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: primaryTextColor,
+                    ),
+                  ),
+              const SizedBox(height: 10),
+              Text(
+                "Jadwal",
+                style: GoogleFonts.poppins(
+                  fontSize: 22,
+                  fontWeight: bold,
+                  color: primaryTextColor,
+                ),
+              ),
               const SizedBox(height: 10),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -201,41 +295,121 @@ class _DetailConcultationPageState extends State<DetailConcultationPage> {
                             selectedDateIndex = index;
                           });
                         },
-                        child: _dateCard(day, month, selectedDateIndex == index),
+                        child: _dateCard(
+                          day,
+                          month,
+                          selectedDateIndex == index,
+                        ),
                       ),
                     );
                   }),
                 ),
               ),
               const SizedBox(height: 20),
-              Text("Waktu", style: GoogleFonts.poppins(fontSize: 22, fontWeight: bold)),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(times.length, (index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedTimeIndex = index;
-                      });
-                    },
-                    child: _timeCard(times[index], selectedTimeIndex == index),
-                  );
-                }),
+              Text(
+                "Waktu",
+                style: GoogleFonts.poppins(fontSize: 22, fontWeight: bold),
               ),
-              const SizedBox(height: 60),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  minimumSize: Size(double.infinity, 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              const SizedBox(height: 10),
+              availableSlot != null && availableSlot.data.isNotEmpty
+                  ? Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
+                    children: List.generate(availableSlot.data.length, (index) {
+                      final slot = availableSlot.data[index];
+                      final isDisabled = slot.isBooked;
+
+                      return GestureDetector(
+                        onTap:
+                            isDisabled
+                                ? null
+                                : () {
+                                  setState(() {
+                                    selectedSlotIndex = index;
+                                    selectedSlotId = slot.slotId;
+                                  });
+                                },
+                        child: Opacity(
+                          opacity: isDisabled ? 0.4 : 1.0,
+                          child: _timeCard(
+                            "${slot.slotStart} - ${slot.slotEnd}",
+                            selectedSlotIndex == index && !isDisabled,
+                          ),
+                        ),
+                      );
+                    }),
+                  )
+                  : Text(
+                    "Tidak ada slot tersedia.",
+                    style: GoogleFonts.poppins(
+                      fontSize: 14,
+                      color: primaryTextColor,
+                    ),
                   ),
-                ),
-                child: Text(
-                  "Pesan Konselor Sekarang",
-                  style: GoogleFonts.poppins(fontSize: 16, fontWeight: bold, color: Colors.white),
+
+              const SizedBox(height: 50),
+              Obx(
+                () => ElevatedButton(
+                  onPressed: () async {
+                    var dateFormatted = getSelectedDateFormatted();
+                    var selectedSlot = selectedSlotId;
+                    var selectedPractice = selectedConsulId;
+
+                    if (selectedSlot?.isNotEmpty == true &&
+                        selectedPractice?.isNotEmpty == true) {
+                      consultationController.consulDate.value = dateFormatted;
+                      consultationController.slotId.value = selectedSlot!;
+                      consultationController.pracId.value = selectedPractice!;
+
+                      await consultationController.createConsultation();
+
+                      if (consultationController.consultationResult.value !=
+                          null) {
+                        showCustomDialog(
+                          context: context,
+                          icon: Icons.check_circle,
+                          title: 'Berhasil',
+                          message: 'Konsultasi berhasil dipesan.',
+                          onPressed: () {
+                            Get.back();
+                          },
+                          backgroundColor: successColor,
+                        );
+                      } else if (consultationController.errorResult.value !=
+                          null) {
+                        Get.snackbar(
+                          "Gagal",
+                          consultationController.errorResult.value?.message ??
+                              "Terjadi kesalahan",
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+                      }
+                    } else {
+                      Get.snackbar(
+                        "Gagal",
+                        "Lengkapi semua pilihan terlebih dahulu",
+                        snackPosition: SnackPosition.BOTTOM,
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    minimumSize: Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child:
+                      consultationController.isLoading.value
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                            "Pesan Konselor Sekarang",
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: semiBold,
+                            ),
+                          ),
                 ),
               ),
             ],
@@ -261,7 +435,10 @@ Widget _infoCard(IconData icon, String value, String label) {
       ),
       const SizedBox(height: 8),
       Text(value, style: GoogleFonts.poppins(fontSize: 18, fontWeight: bold)),
-      Text(label, style: GoogleFonts.poppins(fontSize: 14, color: primaryTextColor)),
+      Text(
+        label,
+        style: GoogleFonts.poppins(fontSize: 14, color: primaryTextColor),
+      ),
     ],
   );
 }
@@ -295,19 +472,68 @@ Widget _dateCard(String day, String month, bool isSelected) {
   );
 }
 
-Widget _timeCard(String time, bool isSelected) {
+Widget _consultationMethod(
+  String type,
+  bool isSelected,
+  String name,
+  String address,
+) {
+  return Container(
+    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+    width: double.infinity,
+    decoration: BoxDecoration(
+      color: isSelected ? primaryColor : Colors.grey[200],
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '$name - $type',
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: semiBold,
+            color: isSelected ? Colors.white : primaryTextColor,
+          ),
+        ),
+        SizedBox(height: 10),
+        Text(
+          address,
+          style: GoogleFonts.poppins(
+            fontSize: 12,
+            fontWeight: medium,
+            color: isSelected ? Colors.white : primaryTextColor,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _timeCard(String time, bool isSelected, {bool isDisabled = false}) {
   return Container(
     padding: EdgeInsets.all(10),
     decoration: BoxDecoration(
-      color: isSelected ? primaryColor : Colors.grey[300],
+      color:
+          isDisabled
+              ? Colors.grey[300]
+              : isSelected
+              ? primaryColor
+              : Colors.grey[200],
       borderRadius: BorderRadius.circular(10),
+      border: isDisabled ? Border.all(color: Colors.grey) : null,
     ),
     child: Text(
       time,
       style: GoogleFonts.poppins(
         fontSize: 14,
         fontWeight: semiBold,
-        color: isSelected ? Colors.white : primaryTextColor,
+        color:
+            isDisabled
+                ? Colors.grey
+                : isSelected
+                ? Colors.white
+                : primaryTextColor,
       ),
     ),
   );
