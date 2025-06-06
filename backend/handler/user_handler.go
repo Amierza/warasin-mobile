@@ -52,6 +52,7 @@ type (
 
 		// News Detail
 		CreateNewsDetail(ctx *gin.Context)
+		GetAllNewsDetail(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -450,5 +451,16 @@ func (uh *UserHandler) CreateNewsDetail(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_NEWS_DETAIL, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (uh *UserHandler) GetAllNewsDetail(ctx *gin.Context) {
+	result, err := uh.userService.GetAllNewsDetail(ctx)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_NEWS_DETAIL, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_NEWS_DETAIL, result)
 	ctx.JSON(http.StatusOK, res)
 }

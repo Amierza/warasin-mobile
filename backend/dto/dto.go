@@ -434,6 +434,7 @@ type (
 		Name        string     `json:"name"`
 		Email       string     `json:"email"`
 		Password    string     `json:"password"`
+		Image       string     `json:"image,omitempty"`
 		Gender      bool       `json:"gender"`
 		Birthdate   string     `json:"birth_date"`
 		PhoneNumber string     `json:"phone_number"`
@@ -470,12 +471,11 @@ type (
 		Date  string `json:"date"`
 	}
 	NewsResponse struct {
-		ID       *uuid.UUID `json:"news_id"`
-		Image    string     `json:"news_image"`
-		Title    string     `json:"news_title"`
-		Body     string     `json:"news_body"`
-		Date     string     `json:"news_date"`
-		ReadDate string     `json:"news_read_date,omitempty"`
+		ID    *uuid.UUID `json:"news_id"`
+		Image string     `json:"news_image"`
+		Title string     `json:"news_title"`
+		Body  string     `json:"news_body"`
+		Date  string     `json:"news_date"`
 	}
 	NewsPaginationResponse struct {
 		PaginationResponse
@@ -653,10 +653,15 @@ type (
 	}
 	// News Detail
 	UserNewsResponse struct {
-		ID   *uuid.UUID      `json:"user_news_id"`
-		Date string          `json:"user_news_date"`
+		ID   *uuid.UUID      `json:"news_detail_id"`
+		Date string          `json:"news_detail_date"`
 		User AllUserResponse `json:"user"`
 		News NewsResponse    `json:"news"`
+	}
+	NewsDetailResponse struct {
+		ID   *uuid.UUID   `json:"news_detail_id"`
+		Date string       `json:"news_detail_date"`
+		News NewsResponse `json:"news"`
 	}
 	AllUserNewsRepositoryResponse struct {
 		PaginationResponse

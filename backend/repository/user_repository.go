@@ -31,6 +31,7 @@ type (
 		GetAllPractice(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllPracticeRepositoryResponse, error)
 		GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllAvailableSlotRepositoryResponse, error)
 		GetNewsDetailByUserAndNewsID(ctx context.Context, tx *gorm.DB, userID string, newsID string) (entity.NewsDetail, bool, error)
+		GetAllNewsDetail(ctx context.Context, tx *gorm.DB, userID string) ([]entity.NewsDetail, error)
 
 		// Create
 		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
@@ -412,6 +413,23 @@ func (ur *UserRepository) GetNewsDetailByUserAndNewsID(ctx context.Context, tx *
 	}
 
 	return newsDetail, true, nil
+}
+func (ur *UserRepository) GetAllNewsDetail(ctx context.Context, tx *gorm.DB, userID string) ([]entity.NewsDetail, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.NewsDetail{}).
+		Preload("User").
+		Preload("User.City.Province").
+		Preload("News")
+
+	var newsDetails []entity.NewsDetail
+	if err := query.Where("user_id = ?", userID).Find(&newsDetails).Error; err != nil {
+		return []entity.NewsDetail{}, err
+	}
+
+	return newsDetails, nil
 }
 
 // Create

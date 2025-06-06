@@ -171,8 +171,8 @@ func (ah *AdminHandler) GetAllUser(ctx *gin.Context) {
 	res := utils.Response{
 		Status:   true,
 		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_USER,
-		Data:     result.Data,
 		Meta:     result.PaginationResponse,
+		Data:     result.Data,
 	}
 
 	ctx.JSON(http.StatusOK, res)
@@ -627,7 +627,13 @@ func (ah *AdminHandler) GetAllUserMotivation(ctx *gin.Context) {
 		return
 	}
 
-	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_MOTIVATION, result)
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_MOTIVATION,
+		Meta:     result.PaginationResponse,
+		Data:     result.Data,
+	}
+
 	ctx.JSON(http.StatusOK, res)
 }
 
@@ -647,7 +653,13 @@ func (ah *AdminHandler) GetAllUserNews(ctx *gin.Context) {
 		return
 	}
 
-	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_NEWS_DETAIL, result)
+	res := utils.Response{
+		Status:   true,
+		Messsage: dto.MESSAGE_SUCCESS_GET_LIST_NEWS_DETAIL,
+		Meta:     result.PaginationResponse,
+		Data:     result.Data,
+	}
+
 	ctx.JSON(http.StatusOK, res)
 }
 
