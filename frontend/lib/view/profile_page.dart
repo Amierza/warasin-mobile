@@ -70,6 +70,9 @@ class ProfilePage extends StatelessWidget {
                     MenuButton(
                       icon: Icons.settings,
                       name: "Pengaturan Pribadi",
+                      onPressed: () {
+                        Get.toNamed('/edit_profile');
+                      },
                     ),
                     MenuButton(icon: Icons.note_outlined, name: "Catatan Anda"),
                     MenuButton(

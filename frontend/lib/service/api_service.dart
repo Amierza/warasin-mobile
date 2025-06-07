@@ -81,4 +81,53 @@ class ApiService {
       return null;
     }
   }
+
+  static Future<dynamic> updateUserService(
+    String? name,
+    String? email,
+    String? image,
+    bool? gender,
+    String? birthDate,
+    String? phoneNumber,
+    String? cityId,
+  ) async {
+    final box = GetStorage();
+    final token = box.read('access_token');
+
+    if (token == null) return null;
+
+    try {
+      final Map<String, dynamic> data = {};
+      if (name != null) data['name'] = name;
+      if (email != null) data['email'] = email;
+      if (image != null) data['image'] = image;
+      if (gender != null) data['gender'] = gender;
+      if (birthDate != null) data['birth_date'] = birthDate;
+      if (phoneNumber != null) data['phone_number'] = phoneNumber;
+      if (cityId != null) data['city_id'] = cityId;
+
+      final response = await http.patch(
+        Uri.parse('$baseUrl/user/update-user'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data),
+      );
+
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        if (responseBody['status'] == true) {
+          final userData = UserDetailResponse.fromJson(responseBody);
+          return userData;
+        } else {
+          final errorResponse = ErrorResponse.fromJson(responseBody);
+          return errorResponse;
+        }
+      }
+    } catch (e) {
+      print("Error fetching update user : $e");
+      return null;
+    }
+  }
 }

@@ -11,6 +11,7 @@ import 'package:frontend/view/data_completeness_problems_page.dart';
 import 'package:frontend/view/data_completeness_profile_page.dart';
 import 'package:frontend/view/data_completeness_supports_page.dart';
 import 'package:frontend/view/detail_concultation_page.dart';
+import 'package:frontend/view/edit_profile_page.dart';
 import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/forget_password_pasword_page.dart';
 import 'package:frontend/view/history_consultation_page.dart';
@@ -50,7 +51,6 @@ Future<Widget> buildApp() async {
 
   return const MyApp();
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -149,6 +149,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/profile',
           page: () => const ProfilePage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/edit_profile',
+          page: () => EditProfilePage(),
           middlewares: [AuthMiddleware()],
         ),
       ],
