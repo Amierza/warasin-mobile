@@ -22,6 +22,11 @@ class UserDetailResponse {
       timestamp: json['timestamp'],
     );
   }
+
+  @override
+  String toString() {
+    return 'UserDetailResponse(status: $status, message: $message, data: $data, timestamp: $timestamp)';
+  }
 }
 
 class User {
@@ -74,5 +79,13 @@ class User {
       city: City.fromJson(json['city']),
       role: Role.fromJson(json['role']),
     );
+  }
+
+  @override
+  String toString() {
+    return 'User(userId: $userId, userName: $userName, userEmail: $userEmail, userPassword: $userPassword, '
+        'userImage: $userImage, userGender: $userGender, userBirthDate: $userBirthDate, '
+        'userPhoneNumber: $userPhoneNumber, userData01: $userData01, userData02: $userData02, '
+        'userData03: $userData03, isVerified: $isVerified, city: $city, role: $role)';
   }
 }
