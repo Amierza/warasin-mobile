@@ -111,7 +111,7 @@ class EditProfilePage extends StatelessWidget {
         _buildTextFormField(
           label: "Nama Lengkap",
           icon: Icons.person_outline,
-          controller: TextEditingController(text: controller.name.value),
+          controller: controller.nameController,
           onChanged: (val) => controller.name.value = val,
           validator:
               (val) => val?.isEmpty ?? true ? "Nama tidak boleh kosong" : null,
@@ -120,7 +120,7 @@ class EditProfilePage extends StatelessWidget {
         _buildTextFormField(
           label: "Email",
           icon: Icons.email_outlined,
-          controller: TextEditingController(text: controller.email.value),
+          controller: controller.emailController,
           onChanged: (val) => controller.email.value = val,
           keyboardType: TextInputType.emailAddress,
           validator: (val) {
@@ -133,7 +133,7 @@ class EditProfilePage extends StatelessWidget {
         _buildTextFormField(
           label: "Nomor Telepon",
           icon: Icons.phone_outlined,
-          controller: TextEditingController(text: controller.phoneNumber.value),
+          controller: controller.phoneController,
           onChanged: (val) => controller.phoneNumber.value = val,
           keyboardType: TextInputType.phone,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -197,7 +197,7 @@ class EditProfilePage extends StatelessWidget {
 
   Widget _buildDateField() {
     return TextFormField(
-      controller: TextEditingController(text: controller.birthDate.value),
+      controller: controller.birthDateController,
       readOnly: true,
       onTap: () async {
         final DateTime? picked = await showDatePicker(
@@ -207,7 +207,7 @@ class EditProfilePage extends StatelessWidget {
                   ? DateFormat('yyyy-MM-dd').parse(controller.birthDate.value)
                   : DateTime.now().subtract(
                     const Duration(days: 6570),
-                  ), // 18 years ago
+                  ), // 18 tahun
           firstDate: DateTime(1900),
           lastDate: DateTime.now(),
           builder:
@@ -222,8 +222,12 @@ class EditProfilePage extends StatelessWidget {
                 child: child!,
               ),
         );
+
         if (picked != null) {
-          controller.birthDate.value = DateFormat('yyyy-MM-dd').format(picked);
+          final formattedDate = DateFormat('yyyy-MM-dd').format(picked);
+          controller.birthDate.value = formattedDate;
+          controller.birthDateController.text =
+              formattedDate; // <- Tambahkan ini
         }
       },
       validator:
@@ -273,10 +277,9 @@ class EditProfilePage extends StatelessWidget {
         return _buildLoadingInput("Memuat provinsi...");
       }
 
-      // Set initial value if user already has province
       if (controller.province.value.isNotEmpty &&
           locationController.selectedProvinceId.value.isEmpty) {
-        locationController.selectedProvinceId.value = controller.province.value;
+        locationController.selectProvince(controller.province.value);
       }
 
       return DropdownButtonFormField<String>(
@@ -286,8 +289,7 @@ class EditProfilePage extends StatelessWidget {
                 : null,
         onChanged: (String? val) {
           if (val != null) {
-            locationController.selectedProvinceId.value = val;
-            locationController.fetchCitiesByProvince(val);
+            locationController.selectProvince(val); // sudah termasuk fetch city
           }
         },
         decoration: InputDecoration(
@@ -453,9 +455,10 @@ class EditProfilePage extends StatelessWidget {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      // Update cityId from location controller
-      if (locationController.selectedCityId.value.isNotEmpty) {
-        controller.cityId.value = locationController.selectedCityId.value;
+      // Hanya update jika user memilih kota baru
+      final selectedCity = locationController.selectedCityId.value;
+      if (selectedCity.isNotEmpty && selectedCity != controller.cityId.value) {
+        controller.cityId.value = selectedCity;
       }
       controller.updateProfile();
     }

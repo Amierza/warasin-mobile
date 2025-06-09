@@ -11,20 +11,10 @@ class Province {
     );
   }
 
-  // Tambahkan ini:
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is Province &&
-            runtimeType == other.runtimeType &&
-            provinceId == other.provinceId;
+  String toString() {
+    return 'Province(provinceId: $provinceId, provinceName: $provinceName)';
   }
-
-  @override
-  int get hashCode => provinceId.hashCode;
-
-  @override
-  String toString() => provinceName;
 }
 
 class ProvinceResponse {

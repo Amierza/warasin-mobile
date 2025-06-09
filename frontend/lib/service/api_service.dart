@@ -99,7 +99,6 @@ class ApiService {
     try {
       final Map<String, dynamic> data = {};
       if (name != null) data['name'] = name;
-      if (email != null) data['email'] = email;
       if (image != null) data['image'] = image;
       if (gender != null) data['gender'] = gender;
       if (birthDate != null) data['birth_date'] = birthDate;

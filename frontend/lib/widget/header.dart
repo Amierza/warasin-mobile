@@ -9,7 +9,7 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HeaderController controller = Get.find<HeaderController>();
+    final HeaderController controller = Get.put(HeaderController());
     
     return Row(
       children: [

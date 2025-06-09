@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:frontend/controller/header_controller.dart';
 import 'package:frontend/controller/login_controller.dart';
 import 'package:frontend/controller/register_controller.dart';
 import 'package:frontend/middleware/middleware.dart';
@@ -47,7 +46,6 @@ Future<void> main() async {
 Future<Widget> buildApp() async {
   Get.lazyPut<RegisterController>(() => RegisterController(), fenix: false);
   Get.lazyPut<LoginController>(() => LoginController(), fenix: false);
-  Get.lazyPut<HeaderController>(() => HeaderController(), fenix: true);
 
   return const MyApp();
 }

@@ -22,6 +22,11 @@ class City {
           json['province'] != null ? Province.fromJson(json['province']) : null,
     );
   }
+
+  @override
+  String toString() {
+    return 'City(cityId: $cityId, cityName: $cityName, province: $province)';
+  }
 }
 
 class CityResponse {
@@ -44,5 +49,10 @@ class CityResponse {
       timestamp: json['timestamp'],
       data: (json['data'] as List).map((city) => City.fromJson(city)).toList(),
     );
+  }
+
+  @override
+  String toString() {
+    return 'CityResponse(status: $status, message: $message, data: $data, timestamp: $timestamp)';
   }
 }

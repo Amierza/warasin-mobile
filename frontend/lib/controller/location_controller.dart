@@ -38,6 +38,12 @@ class LocationController extends GetxController {
     isLoadingCity.value = false;
   }
 
+  void selectProvince(String provinceId) {
+    selectedProvinceId.value = provinceId;
+    selectedCityId.value = '';
+    fetchCitiesByProvince(provinceId);
+  }
+
   void selectCity(String cityId) {
     selectedCityId.value = cityId;
   }
