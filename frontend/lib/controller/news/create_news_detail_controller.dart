@@ -22,7 +22,7 @@ class CreateNewsDetailController extends GetxController {
         formattedDate,
         newsId,
       );
-      
+
       if (response is CreateNewsDetail) {
         Get.snackbar(
           "Berita selesai dibaca",

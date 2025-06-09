@@ -14,6 +14,7 @@ import 'package:frontend/view/edit_profile_page.dart';
 import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/forget_password_pasword_page.dart';
 import 'package:frontend/view/history_consultation_page.dart';
+import 'package:frontend/view/news_history_page.dart';
 import 'package:frontend/view/profile_page.dart';
 import 'package:frontend/view/home_page.dart';
 import 'package:frontend/view/login_page.dart';
@@ -132,6 +133,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/news/:id',
           page: () => const NewsDetailPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/news_history',
+          page: () => ReadNewsListPage(),
           middlewares: [AuthMiddleware()],
         ),
         GetPage(
