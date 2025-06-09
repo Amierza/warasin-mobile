@@ -52,9 +52,9 @@ class ProfilePage extends StatelessWidget {
                     ),
                     MenuButton(
                       icon: Icons.people_outline,
-                      name: "Riwayat Kesehatan",
+                      name: "Riwayat Berita",
                       onPressed: () {
-                        Get.toNamed('/data_completeness_greetings');
+                        Get.toNamed('/news_history');
                       },
                     ),
 

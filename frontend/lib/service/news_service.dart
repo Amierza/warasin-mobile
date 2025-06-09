@@ -105,4 +105,35 @@ class NewsService {
       return null;
     }
   }
+
+  static Future<dynamic> getAllNewsDetailController() async {
+    final box = GetStorage();
+    final token = box.read('access_token');
+
+    if (token == null) return null;
+
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/user/get-all-news-detail'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        if (responseBody['status'] == true) {
+          final newsDetailResponse = GetAllNewsDetail.fromJson(responseBody);
+          return newsDetailResponse;
+        } else {
+          final errorResponse = ErrorResponse.fromJson(responseBody);
+          return errorResponse;
+        }
+      }
+    } catch (error) {
+      print('Error Fetching get all news detail : $error');
+      return null;
+    }
+  }
 }

@@ -120,6 +120,7 @@ class NewsPage extends StatelessWidget {
                               );
                             }).toList(),
                       ),
+                      SizedBox(height: 50),
                     ],
                   ),
                 ),

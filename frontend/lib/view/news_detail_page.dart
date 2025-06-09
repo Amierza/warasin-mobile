@@ -153,7 +153,7 @@ class NewsDetailPage extends StatelessWidget {
                         newsController.isLoading.value || newsId == null
                             ? null
                             : () =>
-                                newsController.fetchCreateNewsDetail(newsId!),
+                                newsController.fetchCreateNewsDetail(newsId),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryColor,
                       foregroundColor: Colors.white,
