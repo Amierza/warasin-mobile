@@ -38,7 +38,6 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
     });
 
     Navigator.pushNamed(context, _routes[index]);
-    // Get.toNamed(_routes[index]);
   }
 
   @override

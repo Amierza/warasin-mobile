@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/news/create_news_detail_controller.dart';
 import 'package:frontend/controller/news/get_detail_news_controller.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ class NewsDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(GetDetailNewsController());
+    final newsController = Get.put(CreateNewsDetailController());
     final newsId = Get.parameters['id'];
 
     if (controller.detailNews.value == null && newsId != null) {
@@ -47,7 +49,7 @@ class NewsDetailPage extends StatelessWidget {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         final news = controller.detailNews.value;
@@ -79,6 +81,13 @@ class NewsDetailPage extends StatelessWidget {
                           width: double.infinity,
                           height: 200,
                           fit: BoxFit.cover,
+                          errorBuilder:
+                              (context, error, stackTrace) => Image.asset(
+                                "assets/default_image.jpg",
+                                width: double.infinity,
+                                height: 200,
+                                fit: BoxFit.cover,
+                              ),
                         )
                         : Image.asset(
                           "assets/default_image.jpg",
@@ -134,6 +143,46 @@ class NewsDetailPage extends StatelessWidget {
                   color: primaryTextColor,
                 ),
               ),
+              const SizedBox(height: 26),
+              Obx(() {
+                return SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed:
+                        newsController.isLoading.value || newsId == null
+                            ? null
+                            : () =>
+                                newsController.fetchCreateNewsDetail(newsId!),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      elevation: 2,
+                      shadowColor: primaryColor.withOpacity(0.3),
+                    ),
+                    child:
+                        newsController.isLoading.value
+                            ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                            : Text(
+                              "Selesaikan membaca",
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                  ),
+                );
+              }),
             ],
           ),
         );
