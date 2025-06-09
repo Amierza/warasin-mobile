@@ -13,8 +13,6 @@ class GetDetailNewsController extends GetxController {
     try {
       final response = await NewsService.getDetailNews(newsId);
 
-      print(response);
-
       if (response is GetDetailNewsResponse) {
         detailNews.value = response;
       }
