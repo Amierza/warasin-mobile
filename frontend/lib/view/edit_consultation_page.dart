@@ -209,12 +209,17 @@ class _UpdateConsultationPageState extends State<UpdateConsultationPage> {
     required void Function(T?) onChanged,
     String? Function(T?)? validator,
     String? hint,
+    bool isRequired =
+        false, // Tambahkan parameter untuk menentukan apakah wajib diisi
   }) {
     return DropdownButtonFormField<T>(
       value: value,
       onChanged: onChanged,
       items: items,
-      validator: validator,
+      validator:
+          isRequired
+              ? (value) => value == null ? '$label wajib dipilih' : null
+              : null,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
@@ -392,6 +397,7 @@ class _UpdateConsultationPageState extends State<UpdateConsultationPage> {
 
                     _buildSectionHeader('Status Konsultasi', Icons.assignment),
                     const SizedBox(height: 12),
+                    // Status konsultasi: 0 = UpComing, 1 = Done (tidak ditampilkan untuk user), 2 = Cancel
                     Obx(() {
                       return _buildDropdownField<int>(
                         value: selectedStatus.value,
@@ -403,7 +409,7 @@ class _UpdateConsultationPageState extends State<UpdateConsultationPage> {
                                 value == null ? 'Status wajib dipilih' : null,
                         items: const [
                           DropdownMenuItem<int>(
-                            value: 0,
+                            value: 0, // UpComing
                             child: Row(
                               children: [
                                 Icon(
@@ -420,13 +426,9 @@ class _UpdateConsultationPageState extends State<UpdateConsultationPage> {
                             value: 1,
                             child: Row(
                               children: [
-                                Icon(
-                                  Icons.check_circle,
-                                  color: Colors.green,
-                                  size: 16,
-                                ),
+                                Icon(Icons.cancel, color: Colors.red, size: 16),
                                 SizedBox(width: 8),
-                                Text("Selesai"),
+                                Text("Batal Pesanan"),
                               ],
                             ),
                           ),

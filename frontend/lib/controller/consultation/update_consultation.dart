@@ -98,9 +98,26 @@ class UpdateConsultationController extends GetxController {
       errorMessage.value = '';
       updateSuccess.value = false;
 
+      int? parseToInt(dynamic value) {
+        if (value is int) return value;
+        if (value is String) return int.tryParse(value);
+        return null;
+      }
+
+      final transformedBody = {
+        if (body['rate'] != null) 'consul_rate': parseToInt(body['rate']),
+        if (body['date'] != null) 'consul_date': body['date'],
+        if (body['status'] != null) 'consul_status': parseToInt(body['status']),
+        if (body['comment'] != null) 'consul_comment': body['comment'],
+        if (body['practice_id'] != null) 'practice_id': body['practice_id'],
+        if (body['slot_id'] != null) 'slot_id': body['slot_id'],
+      };
+
+      print(transformedBody);
+
       final result = await ConsultationService.updateConsultationService(
         consulId,
-        body,
+        transformedBody,
       );
 
       if (result == null) {
@@ -108,7 +125,7 @@ class UpdateConsultationController extends GetxController {
         Get.snackbar("Error", errorMessage.value);
       } else if (result is ConsultationResponse) {
         updateSuccess.value = true;
-        Get.back(result: true); // kembali ke halaman sebelumnya
+        Get.back(result: true);
         Get.snackbar(
           "Sukses",
           "Konsultasi berhasil diperbarui",
