@@ -227,10 +227,11 @@ class ConsultationService {
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
         if (responseBody['status'] == true) {
-          final consultationResponse = GetConsultationUser.fromJson(
+          final consultationResponse = GetDetailConsultationResponse.fromJson(
             responseBody,
           );
-          return consultationResponse;
+          print('consultation response : $consultationResponse');
+          return responseBody;
         } else {
           final errorResponse = ErrorResponse.fromJson(responseBody);
           return errorResponse;
