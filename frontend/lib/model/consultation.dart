@@ -261,7 +261,7 @@ class ConsultationData {
   final String consulDate;
   final int? consulRate;
   final String? consulComment;
-  final int consulStatus;
+  final int? consulStatus;
   final User user;
   final AvailableSlot availableSlot;
   final Practice practice;
@@ -271,7 +271,7 @@ class ConsultationData {
     required this.consulDate,
     this.consulRate,
     this.consulComment,
-    required this.consulStatus,
+    this.consulStatus,
     required this.user,
     required this.availableSlot,
     required this.practice,
@@ -287,6 +287,64 @@ class ConsultationData {
       user: User.fromJson(json['user']),
       availableSlot: AvailableSlot.fromJson(json['available_slot']),
       practice: Practice.fromJson(json['practice']),
+    );
+  }
+}
+
+class GetConsultationUser {
+  final String consulId;
+  final String consulDate;
+  final int? consulRate;
+  final String? consulComment;
+  final int? consulStatus;
+  final Psycholog psycholog;
+  final AvailableSlot availableSlot;
+  final Practice practice;
+
+  GetConsultationUser({
+    required this.consulId,
+    required this.consulDate,
+    this.consulRate,
+    this.consulComment,
+    this.consulStatus,
+    required this.psycholog,
+    required this.availableSlot,
+    required this.practice,
+  });
+
+  factory GetConsultationUser.fromJson(Map<String, dynamic> json) {
+    return GetConsultationUser(
+      consulId: json['consul_id'],
+      consulDate: json['consul_date'],
+      consulRate: json['consul_rate'],
+      consulComment: json['consul_comment'],
+      consulStatus: json['consul_status'],
+      psycholog: Psycholog.fromJson(json['psycholog']),
+      availableSlot: AvailableSlot.fromJson(json['available_slot']),
+      practice: Practice.fromJson(json['practice']),
+    );
+  }
+}
+
+class GetDetailConsultationResponse {
+  final bool status;
+  final String message;
+  final String timestamp;
+  final GetConsultationUser data;
+
+  GetDetailConsultationResponse({
+    required this.status,
+    required this.message,
+    required this.timestamp,
+    required this.data,
+  });
+
+  factory GetDetailConsultationResponse.fromJson(Map<String, dynamic> json) {
+    return GetDetailConsultationResponse(
+      status: json['status'],
+      message: json['message'],
+      timestamp: json['timestamp'],
+      data: GetConsultationUser.fromJson(json['data']),
     );
   }
 }

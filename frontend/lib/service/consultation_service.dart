@@ -192,7 +192,9 @@ class ConsultationService {
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
         if (responseBody['status'] == true) {
-          final allConsultationData = AllConsultationResponse.fromJson(responseBody);
+          final allConsultationData = AllConsultationResponse.fromJson(
+            responseBody,
+          );
           return allConsultationData;
         } else {
           final errorResponse = ErrorResponse.fromJson(responseBody);
@@ -201,6 +203,72 @@ class ConsultationService {
       }
     } catch (error) {
       print('Error Fetching get all consultation : $error');
+      return null;
+    }
+  }
+
+  static Future<dynamic> updateConsultationService(
+    String consulId,
+    Map<String, dynamic> data,
+  ) async {
+    final box = GetStorage();
+    final token = box.read('access_token');
+
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/user/update-consultation/$consulId'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(data),
+      );
+
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        if (responseBody['status'] == true) {
+          final consultationResponse = GetConsultationUser.fromJson(
+            responseBody,
+          );
+          return consultationResponse;
+        } else {
+          final errorResponse = ErrorResponse.fromJson(responseBody);
+          return errorResponse;
+        }
+      }
+    } catch (error) {
+      print('Error Fetching update consultation : $error');
+      return null;
+    }
+  }
+
+  static Future<dynamic> getDetailConsultationService(String consulId) async {
+    final box = GetStorage();
+    final token = box.read('access_token');
+
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/user/get-detail-consultation/$consulId'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        if (responseBody['status'] == true) {
+          final consultationResponse = GetDetailConsultationResponse.fromJson(
+            responseBody,
+          );
+          return consultationResponse;
+        } else {
+          final errorResponse = ErrorResponse.fromJson(responseBody);
+          return errorResponse;
+        }
+      }
+    } catch (error) {
+      print('Error Fetching get detail consultation : $error');
       return null;
     }
   }

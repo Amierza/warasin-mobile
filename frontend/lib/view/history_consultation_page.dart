@@ -169,6 +169,9 @@ class HistoryConsultationPage extends StatelessWidget {
                     return HistoryConsultationCard(
                       consultation: consultation,
                       onTap: () {
+                        Get.toNamed(
+                          '/edit_concultation_detail/${consultation.consulId}',
+                        );
                         // Navigate to detail page if needed
                       },
                     );
@@ -234,20 +237,29 @@ class HistoryConsultationCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Image.network(
-                  consultation.psycholog.psyImage ?? '',
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Image.asset(
-                      'assets/default_profile.png',
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
-                    );
-                  },
-                ),
+                child:
+                    consultation.psycholog.psyImage != null &&
+                            consultation.psycholog.psyImage!.isNotEmpty
+                        ? Image.network(
+                          consultation.psycholog.psyImage!,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              'assets/default_profile.png',
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                        : Image.asset(
+                          'assets/default_profile.png',
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
               ),
               const SizedBox(width: 16),
               Expanded(
