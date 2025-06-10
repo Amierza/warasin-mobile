@@ -10,6 +10,7 @@ import 'package:frontend/view/data_completeness_problems_page.dart';
 import 'package:frontend/view/data_completeness_profile_page.dart';
 import 'package:frontend/view/data_completeness_supports_page.dart';
 import 'package:frontend/view/detail_concultation_page.dart';
+import 'package:frontend/view/edit_consultation_page.dart';
 import 'package:frontend/view/edit_profile_page.dart';
 import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/forget_password_pasword_page.dart';
@@ -143,6 +144,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/concultation_detail/:id',
           page: () => DetailConcultationPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/edit_concultation_detail/:id',
+          page: () => UpdateConsultationPage(),
           middlewares: [AuthMiddleware()],
         ),
         GetPage(
