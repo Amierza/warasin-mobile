@@ -34,11 +34,13 @@ type (
 		GetAllAvailableSlot(ctx context.Context, tx *gorm.DB, psyID string) (dto.AllAvailableSlotRepositoryResponse, error)
 		GetNewsDetailByUserAndNewsID(ctx context.Context, tx *gorm.DB, userID string, newsID string) (entity.NewsDetail, bool, error)
 		GetAllNewsDetail(ctx context.Context, tx *gorm.DB, userID string) ([]entity.NewsDetail, error)
+		GetUserMotivationByUserAndMotivationID(ctx context.Context, tx *gorm.DB, userID string, motivationID string) (entity.UserMotivation, bool, error)
 
 		// Create
 		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
 		CreateConsultation(ctx context.Context, tx *gorm.DB, consultation entity.Consultation) error
 		CreateNewsDetail(ctx context.Context, tx *gorm.DB, newsDetail entity.NewsDetail) error
+		CreateUserMotivation(ctx context.Context, tx *gorm.DB, userMotivation entity.UserMotivation) error
 
 		// Update
 		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
@@ -489,6 +491,23 @@ func (ur *UserRepository) GetAllNewsDetail(ctx context.Context, tx *gorm.DB, use
 
 	return newsDetails, nil
 }
+func (ur *UserRepository) GetUserMotivationByUserAndMotivationID(ctx context.Context, tx *gorm.DB, userID string, motivationID string) (entity.UserMotivation, bool, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.UserMotivation{}).
+		Preload("User").
+		Preload("User.City.Province").
+		Preload("Motivation.MotivationCategory")
+
+	var userMotivation entity.UserMotivation
+	if err := query.Where("user_id = ? AND motivation_id = ?", userID, motivationID).Take(&userMotivation).Error; err != nil {
+		return entity.UserMotivation{}, false, err
+	}
+
+	return userMotivation, true, nil
+}
 
 // Create
 func (ur *UserRepository) RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error) {
@@ -516,6 +535,13 @@ func (ur *UserRepository) CreateNewsDetail(ctx context.Context, tx *gorm.DB, new
 	}
 
 	return tx.WithContext(ctx).Create(&newsDetail).Error
+}
+func (ur *UserRepository) CreateUserMotivation(ctx context.Context, tx *gorm.DB, userMotivation entity.UserMotivation) error {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	return tx.WithContext(ctx).Create(&userMotivation).Error
 }
 
 // Update

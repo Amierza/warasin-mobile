@@ -67,6 +67,8 @@ const (
 	MESSAGE_FAILED_DELETE_PSYCHOLOG     = "failed delete psycholog"
 	// User Motivation
 	MESSAGE_FAILED_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "failed get all user motivation"
+	MESSAGE_FAILED_CREATE_USER_MOTIVATION             = "success create user motivation"
+	MESSAGE_FAILED_GET_LIST_USER_MOTIVATION           = "success get all user motivation"
 	// News Detail
 	MESSAGE_FAILED_GET_LIST_NEWS_DETAIL = "failed get all news detail"
 	MESSAGE_FAILED_CREATE_NEWS_DETAIL   = "failed create news detail"
@@ -138,6 +140,8 @@ const (
 	MESSAGE_SUCCESS_DELETE_PSYCHOLOG     = "success delete psycholog"
 	// User Motivation
 	MESSAGE_SUCCESS_GET_PSYCHOLOG_LIST_USER_MOTIVATION = "success get all user motivation"
+	MESSAGE_SUCCESS_CREATE_USER_MOTIVATION             = "success create user motivation"
+	MESSAGE_SUCCESS_GET_LIST_USER_MOTIVATION           = "success get all user motivation"
 	// News Detail
 	MESSAGE_SUCCESS_GET_LIST_NEWS_DETAIL = "success get all news detail"
 	MESSAGE_SUCCESS_CREATE_NEWS_DETAIL   = "success create news detail"
@@ -265,7 +269,10 @@ var (
 	ErrCreateConsultation               = errors.New("failed create consultation")
 	ErrDeleteConsultation               = errors.New("failed delete consultation")
 	// User motivation
-	ErrGetAllUserMotivation = errors.New("failed all user motivation")
+	ErrGetAllUserMotivation        = errors.New("failed all user motivation")
+	ErrUserMotivationAlreadyExists = errors.New("failed user motivation already exists")
+	ErrCreateUserMotivation        = errors.New("failed create user motivation")
+	ErrUserMotivationNotFound      = errors.New("failed user motivation not found")
 	// News Detail
 	ErrGetAllNewsDetail        = errors.New("failed all news detail")
 	ErrCreateNewsDetail        = errors.New("failed create news detail")
@@ -636,6 +643,11 @@ type (
 		GraduationYear string     `json:"edu_graduation_year"`
 	}
 	// User Motivation
+	CreateUserMotivationRequest struct {
+		DisplayDate  string `json:"user_mot_display_date"`
+		Reaction     int    `json:"user_mot_reaction"`
+		MotivationID string `json:"mot_id"`
+	}
 	UserMotivationResponse struct {
 		ID          *uuid.UUID         `json:"user_mot_id"`
 		DisplayDate string             `json:"user_mot_date"`
