@@ -655,6 +655,12 @@ type (
 		User        AllUserResponse    `json:"user"`
 		Motivation  MotivationResponse `json:"motivation"`
 	}
+	UserMotivationResponseCustom struct {
+		ID          uuid.UUID          `json:"user_mot_id"`
+		DisplayDate string             `json:"user_mot_date"`
+		Reaction    int                `json:"user_mot_reaction"`
+		Motivation  MotivationResponse `json:"motivation"`
+	}
 	AllUserMotivationRepositoryResponse struct {
 		PaginationResponse
 		UserMotivations []entity.UserMotivation

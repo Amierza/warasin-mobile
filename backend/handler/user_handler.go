@@ -60,6 +60,7 @@ type (
 
 		// User Motivation
 		CreateUserMotivation(ctx *gin.Context)
+		GetAllUserMotivation(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -527,5 +528,16 @@ func (uh *UserHandler) CreateUserMotivation(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_CREATE_USER_MOTIVATION, result)
+	ctx.JSON(http.StatusOK, res)
+}
+func (uh *UserHandler) GetAllUserMotivation(ctx *gin.Context) {
+	result, err := uh.userService.GetAllUserMotivation(ctx)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_LIST_USER_MOTIVATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_USER_MOTIVATION, result)
 	ctx.JSON(http.StatusOK, res)
 }
