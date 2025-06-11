@@ -43,6 +43,7 @@ type (
 
 		// Motivation
 		GetAllMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationPaginationResponse, error)
+		GetDetailMotivation(ctx context.Context, motivationID string) (dto.MotivationResponse, error)
 
 		// Consultation
 		CreateConsultation(ctx context.Context, req dto.CreateConsultationRequest) (dto.ConsultationResponse, error)
@@ -677,6 +678,22 @@ func (us *UserService) GetAllMotivationWithPagination(ctx context.Context, req d
 			PerPage: dataWithPaginate.PerPage,
 			MaxPage: dataWithPaginate.MaxPage,
 			Count:   dataWithPaginate.Count,
+		},
+	}, nil
+}
+func (us *UserService) GetDetailMotivation(ctx context.Context, motivationID string) (dto.MotivationResponse, error) {
+	motivation, _, err := us.userRepo.GetMotivationByID(ctx, nil, motivationID)
+	if err != nil {
+		return dto.MotivationResponse{}, dto.ErrGetNewsFromID
+	}
+
+	return dto.MotivationResponse{
+		ID:      &motivation.ID,
+		Author:  motivation.Author,
+		Content: motivation.Content,
+		MotivationCategory: dto.MotivationCategoryResponse{
+			ID:   &motivation.MotivationCategory.ID,
+			Name: motivation.MotivationCategory.Name,
 		},
 	}, nil
 }

@@ -36,6 +36,7 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, masterHandler han
 
 			// Motivation
 			routes.GET("/get-all-motivation", userHandler.GetAllMotivation)
+			routes.GET("/get-detail-motivation/:id", userHandler.GetDetailMotivation)
 
 			// Consultation
 			routes.POST("create-consultation", userHandler.CreateConsultation)

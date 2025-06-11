@@ -23,6 +23,7 @@ type (
 		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
 		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, bool, error)
 		GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error)
+		GetMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) (entity.Motivation, bool, error)
 		GetPracticeByID(ctx context.Context, tx *gorm.DB, pracID string) (entity.Practice, bool, error)
 		GetAvailableSlotByID(ctx context.Context, tx *gorm.DB, slotID string) (entity.AvailableSlot, bool, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, userID string) (dto.AllConsultationRepositoryResponseForUser, error)
@@ -231,6 +232,18 @@ func (ur *UserRepository) GetAllMotivationWithPagination(ctx context.Context, tx
 			Count:   count,
 		},
 	}, err
+}
+func (ur *UserRepository) GetMotivationByID(ctx context.Context, tx *gorm.DB, motivationID string) (entity.Motivation, bool, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var motivation entity.Motivation
+	if err := tx.WithContext(ctx).Preload("MotivationCategory").Where("id = ?", motivationID).Take(&motivation).Error; err != nil {
+		return entity.Motivation{}, true, err
+	}
+
+	return motivation, true, nil
 }
 func (ur *UserRepository) GetPracticeByID(ctx context.Context, tx *gorm.DB, pracID string) (entity.Practice, bool, error) {
 	if tx == nil {

@@ -35,6 +35,7 @@ type (
 
 		// Motivation
 		GetAllMotivation(ctx *gin.Context)
+		GetDetailMotivation(ctx *gin.Context)
 
 		// Consultation
 		CreateConsultation(ctx *gin.Context)
@@ -313,6 +314,18 @@ func (uh *UserHandler) GetAllMotivation(ctx *gin.Context) {
 		Meta:     result.PaginationResponse,
 	}
 
+	ctx.JSON(http.StatusOK, res)
+}
+func (uh *UserHandler) GetDetailMotivation(ctx *gin.Context) {
+	idStr := ctx.Param("id")
+	result, err := uh.userService.GetDetailMotivation(ctx, idStr)
+	if err != nil {
+		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DETAIL_MOTIVATION, err.Error(), nil)
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_DETAIL_MOTIVATION, result)
 	ctx.JSON(http.StatusOK, res)
 }
 
