@@ -15,6 +15,11 @@
     "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
   },
   {
+    "permission_id": "863fd528-c339-4cfb-9604-3e79c6687802",
+    "permission_endpoint": "/api/v1/user/get-all-motivation",
+    "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"
+  },
+  {
     "permission_id": "31fb25ce-8f9c-4d07-88c5-3d8b0399e468",
     "permission_endpoint": "/api/v1/user/get-detail-news/:id",
     "role_id": "1d1bba3e-4f22-47d2-ae7d-741ae6b44b85"

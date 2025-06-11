@@ -41,6 +41,9 @@ type (
 		GetAllNewsWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.NewsPaginationResponse, error)
 		GetDetailNews(ctx context.Context, newsID string) (dto.NewsResponse, error)
 
+		// Motivation
+		GetAllMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationPaginationResponse, error)
+
 		// Consultation
 		CreateConsultation(ctx context.Context, req dto.CreateConsultationRequest) (dto.ConsultationResponse, error)
 		GetAllConsultationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.ConsultationPaginationResponseForUser, error)
@@ -642,6 +645,39 @@ func (us *UserService) GetDetailNews(ctx context.Context, newsID string) (dto.Ne
 		Title: news.Title,
 		Body:  news.Body,
 		Date:  news.Date,
+	}, nil
+}
+
+// Motivation
+func (us *UserService) GetAllMotivationWithPagination(ctx context.Context, req dto.PaginationRequest) (dto.MotivationPaginationResponse, error) {
+	dataWithPaginate, err := us.userRepo.GetAllMotivationWithPagination(ctx, nil, req)
+	if err != nil {
+		return dto.MotivationPaginationResponse{}, dto.ErrGetAllMotivationWithPagination
+	}
+
+	var datas []dto.MotivationResponse
+	for _, motivation := range dataWithPaginate.Motivations {
+		data := dto.MotivationResponse{
+			ID:      &motivation.ID,
+			Author:  motivation.Author,
+			Content: motivation.Content,
+			MotivationCategory: dto.MotivationCategoryResponse{
+				ID:   &motivation.MotivationCategory.ID,
+				Name: motivation.MotivationCategory.Name,
+			},
+		}
+
+		datas = append(datas, data)
+	}
+
+	return dto.MotivationPaginationResponse{
+		Data: datas,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    dataWithPaginate.Page,
+			PerPage: dataWithPaginate.PerPage,
+			MaxPage: dataWithPaginate.MaxPage,
+			Count:   dataWithPaginate.Count,
+		},
 	}, nil
 }
 
