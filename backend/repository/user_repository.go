@@ -22,6 +22,7 @@ type (
 		GetRoleByID(ctx context.Context, tx *gorm.DB, roleID string) (entity.Role, bool, error)
 		GetAllNewsWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllNewsRepositoryResponse, error)
 		GetNewsByID(ctx context.Context, tx *gorm.DB, newsID string) (entity.News, bool, error)
+		GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error)
 		GetPracticeByID(ctx context.Context, tx *gorm.DB, pracID string) (entity.Practice, bool, error)
 		GetAvailableSlotByID(ctx context.Context, tx *gorm.DB, slotID string) (entity.AvailableSlot, bool, error)
 		GetAllConsultationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest, userID string) (dto.AllConsultationRepositoryResponseForUser, error)
@@ -186,6 +187,50 @@ func (ur *UserRepository) GetNewsByID(ctx context.Context, tx *gorm.DB, newsID s
 	}
 
 	return news, true, nil
+}
+func (ur *UserRepository) GetAllMotivationWithPagination(ctx context.Context, tx *gorm.DB, req dto.PaginationRequest) (dto.AllMotivationRepositoryResponse, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	var motivations []entity.Motivation
+	var err error
+	var count int64
+
+	if req.PerPage == 0 {
+		req.PerPage = 10
+	}
+
+	if req.Page == 0 {
+		req.Page = 1
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.Motivation{}).Preload("MotivationCategory")
+
+	if req.Search != "" {
+		searchValue := "%" + strings.ToLower(req.Search) + "%"
+		query = query.Where("LOWER(author) LIKE ? OR LOWER(content) LIKE ?", searchValue, searchValue)
+	}
+
+	if err := query.Count(&count).Error; err != nil {
+		return dto.AllMotivationRepositoryResponse{}, err
+	}
+
+	if err := query.Order("created_at DESC").Scopes(Paginate(req.Page, req.PerPage)).Find(&motivations).Error; err != nil {
+		return dto.AllMotivationRepositoryResponse{}, err
+	}
+
+	totalPage := int64(math.Ceil(float64(count) / float64(req.PerPage)))
+
+	return dto.AllMotivationRepositoryResponse{
+		Motivations: motivations,
+		PaginationResponse: dto.PaginationResponse{
+			Page:    req.Page,
+			PerPage: req.PerPage,
+			MaxPage: totalPage,
+			Count:   count,
+		},
+	}, err
 }
 func (ur *UserRepository) GetPracticeByID(ctx context.Context, tx *gorm.DB, pracID string) (entity.Practice, bool, error) {
 	if tx == nil {

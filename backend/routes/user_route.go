@@ -34,6 +34,9 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, masterHandler han
 			routes.GET("/get-all-news", userHandler.GetAllNews)
 			routes.GET("/get-detail-news/:id", userHandler.GetDetailNews)
 
+			// Motivation
+			routes.GET("/get-all-motivation", userHandler.GetAllMotivation)
+
 			// Consultation
 			routes.POST("create-consultation", userHandler.CreateConsultation)
 			routes.GET("get-all-consultation", userHandler.GetAllConsultation)
