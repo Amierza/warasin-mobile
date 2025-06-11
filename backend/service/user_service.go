@@ -65,6 +65,9 @@ type (
 		// News Detail
 		CreateNewsDetail(ctx context.Context, req dto.CreateNewsDetailRequest) (dto.UserNewsResponse, error)
 		GetAllNewsDetail(ctx context.Context) ([]dto.NewsDetailResponse, error)
+
+		// User Motivation
+		CreateUserMotivation(ctx context.Context, req dto.CreateUserMotivationRequest) (dto.UserMotivationResponse, error)
 	}
 
 	UserService struct {
@@ -1716,4 +1719,93 @@ func (us *UserService) GetAllNewsDetail(ctx context.Context) ([]dto.NewsDetailRe
 	}
 
 	return newsDetails, nil
+}
+
+// User Motivation
+func (us *UserService) CreateUserMotivation(ctx context.Context, req dto.CreateUserMotivationRequest) (dto.UserMotivationResponse, error) {
+	token := ctx.Value("Authorization").(string)
+
+	userID, err := us.jwtService.GetUserIDByToken(token)
+	if err != nil {
+		return dto.UserMotivationResponse{}, dto.ErrGetUserIDFromToken
+	}
+
+	user, flag, err := us.userRepo.GetUserByID(ctx, nil, userID)
+	if err != nil || !flag {
+		return dto.UserMotivationResponse{}, dto.ErrUserNotFound
+	}
+
+	motivation, flag, err := us.userRepo.GetMotivationByID(ctx, nil, req.MotivationID)
+	if err != nil || !flag {
+		return dto.UserMotivationResponse{}, dto.ErrMotivationNotFound
+	}
+
+	_, flag, err = us.userRepo.GetUserMotivationByUserAndMotivationID(ctx, nil, userID, req.MotivationID)
+	if err == nil || flag {
+		return dto.UserMotivationResponse{}, dto.ErrUserMotivationAlreadyExists
+	}
+
+	dateParsed, err := helpers.ValidateAndNormalizeDateString(req.DisplayDate)
+	if err != nil {
+		return dto.UserMotivationResponse{}, dto.ErrParseDate
+	}
+
+	uM := entity.UserMotivation{
+		ID:           uuid.New(),
+		DisplayDate:  dateParsed,
+		Reaction:     req.Reaction,
+		UserID:       &user.ID,
+		MotivationID: &motivation.ID,
+	}
+
+	err = us.userRepo.CreateUserMotivation(ctx, nil, uM)
+	if err != nil {
+		return dto.UserMotivationResponse{}, dto.ErrCreateUserMotivation
+	}
+
+	userMotivation, flag, err := us.userRepo.GetUserMotivationByUserAndMotivationID(ctx, nil, userID, req.MotivationID)
+	if err != nil || !flag {
+		return dto.UserMotivationResponse{}, dto.ErrUserMotivationNotFound
+	}
+
+	return dto.UserMotivationResponse{
+		ID:          &userMotivation.ID,
+		DisplayDate: userMotivation.DisplayDate,
+		User: dto.AllUserResponse{
+			ID:          userMotivation.User.ID,
+			Name:        userMotivation.User.Name,
+			Email:       userMotivation.User.Email,
+			Password:    userMotivation.User.Password,
+			Image:       userMotivation.User.Image,
+			Gender:      userMotivation.User.Gender,
+			Birthdate:   userMotivation.User.Birthdate,
+			PhoneNumber: userMotivation.User.PhoneNumber,
+			Data01:      userMotivation.User.Data01,
+			Data02:      userMotivation.User.Data02,
+			Data03:      userMotivation.User.Data03,
+			IsVerified:  userMotivation.User.IsVerified,
+			City: dto.CityResponse{
+				ID:   userMotivation.User.CityID,
+				Name: userMotivation.User.City.Name,
+				Type: userMotivation.User.City.Type,
+				Province: dto.ProvinceResponse{
+					ID:   userMotivation.User.City.ProvinceID,
+					Name: userMotivation.User.City.Province.Name,
+				},
+			},
+			Role: dto.RoleResponse{
+				ID:   userMotivation.User.RoleID,
+				Name: userMotivation.User.Role.Name,
+			},
+		},
+		Motivation: dto.MotivationResponse{
+			ID:      &userMotivation.Motivation.ID,
+			Author:  userMotivation.Motivation.Author,
+			Content: userMotivation.Motivation.Content,
+			MotivationCategory: dto.MotivationCategoryResponse{
+				ID:   &userMotivation.Motivation.MotivationCategory.ID,
+				Name: motivation.MotivationCategory.Name,
+			},
+		},
+	}, nil
 }

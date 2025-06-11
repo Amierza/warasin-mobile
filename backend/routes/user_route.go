@@ -58,6 +58,9 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, masterHandler han
 			// News Detail
 			routes.POST("create-news-detail", userHandler.CreateNewsDetail)
 			routes.GET("get-all-news-detail", userHandler.GetAllNewsDetail)
+
+			// User Motivation
+			routes.POST("create-user-motivation", userHandler.CreateUserMotivation)
 		}
 	}
 }
