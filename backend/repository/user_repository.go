@@ -35,6 +35,7 @@ type (
 		GetNewsDetailByUserAndNewsID(ctx context.Context, tx *gorm.DB, userID string, newsID string) (entity.NewsDetail, bool, error)
 		GetAllNewsDetail(ctx context.Context, tx *gorm.DB, userID string) ([]entity.NewsDetail, error)
 		GetUserMotivationByUserAndMotivationID(ctx context.Context, tx *gorm.DB, userID string, motivationID string) (entity.UserMotivation, bool, error)
+		GetAllUserMotivation(ctx context.Context, tx *gorm.DB, userID string) ([]entity.UserMotivation, error)
 
 		// Create
 		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
@@ -507,6 +508,23 @@ func (ur *UserRepository) GetUserMotivationByUserAndMotivationID(ctx context.Con
 	}
 
 	return userMotivation, true, nil
+}
+func (ur *UserRepository) GetAllUserMotivation(ctx context.Context, tx *gorm.DB, userID string) ([]entity.UserMotivation, error) {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	query := tx.WithContext(ctx).Model(&entity.UserMotivation{}).
+		Preload("User").
+		Preload("User.City.Province").
+		Preload("Motivation.MotivationCategory")
+
+	var userMotivations []entity.UserMotivation
+	if err := query.Where("user_id = ?", userID).Find(&userMotivations).Error; err != nil {
+		return []entity.UserMotivation{}, err
+	}
+
+	return userMotivations, nil
 }
 
 // Create

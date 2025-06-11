@@ -67,7 +67,8 @@ type (
 		GetAllNewsDetail(ctx context.Context) ([]dto.NewsDetailResponse, error)
 
 		// User Motivation
-		CreateUserMotivation(ctx context.Context, req dto.CreateUserMotivationRequest) (dto.UserMotivationResponse, error)
+		CreateUserMotivation(ctx context.Context, req dto.CreateUserMotivationRequest) (dto.UserMotivationResponseCustom, error)
+		GetAllUserMotivation(ctx context.Context) ([]dto.UserMotivationResponseCustom, error)
 	}
 
 	UserService struct {
@@ -1722,32 +1723,32 @@ func (us *UserService) GetAllNewsDetail(ctx context.Context) ([]dto.NewsDetailRe
 }
 
 // User Motivation
-func (us *UserService) CreateUserMotivation(ctx context.Context, req dto.CreateUserMotivationRequest) (dto.UserMotivationResponse, error) {
+func (us *UserService) CreateUserMotivation(ctx context.Context, req dto.CreateUserMotivationRequest) (dto.UserMotivationResponseCustom, error) {
 	token := ctx.Value("Authorization").(string)
 
 	userID, err := us.jwtService.GetUserIDByToken(token)
 	if err != nil {
-		return dto.UserMotivationResponse{}, dto.ErrGetUserIDFromToken
+		return dto.UserMotivationResponseCustom{}, dto.ErrGetUserIDFromToken
 	}
 
 	user, flag, err := us.userRepo.GetUserByID(ctx, nil, userID)
 	if err != nil || !flag {
-		return dto.UserMotivationResponse{}, dto.ErrUserNotFound
+		return dto.UserMotivationResponseCustom{}, dto.ErrUserNotFound
 	}
 
 	motivation, flag, err := us.userRepo.GetMotivationByID(ctx, nil, req.MotivationID)
 	if err != nil || !flag {
-		return dto.UserMotivationResponse{}, dto.ErrMotivationNotFound
+		return dto.UserMotivationResponseCustom{}, dto.ErrMotivationNotFound
 	}
 
 	_, flag, err = us.userRepo.GetUserMotivationByUserAndMotivationID(ctx, nil, userID, req.MotivationID)
 	if err == nil || flag {
-		return dto.UserMotivationResponse{}, dto.ErrUserMotivationAlreadyExists
+		return dto.UserMotivationResponseCustom{}, dto.ErrUserMotivationAlreadyExists
 	}
 
 	dateParsed, err := helpers.ValidateAndNormalizeDateString(req.DisplayDate)
 	if err != nil {
-		return dto.UserMotivationResponse{}, dto.ErrParseDate
+		return dto.UserMotivationResponseCustom{}, dto.ErrParseDate
 	}
 
 	uM := entity.UserMotivation{
@@ -1760,44 +1761,17 @@ func (us *UserService) CreateUserMotivation(ctx context.Context, req dto.CreateU
 
 	err = us.userRepo.CreateUserMotivation(ctx, nil, uM)
 	if err != nil {
-		return dto.UserMotivationResponse{}, dto.ErrCreateUserMotivation
+		return dto.UserMotivationResponseCustom{}, dto.ErrCreateUserMotivation
 	}
 
 	userMotivation, flag, err := us.userRepo.GetUserMotivationByUserAndMotivationID(ctx, nil, userID, req.MotivationID)
 	if err != nil || !flag {
-		return dto.UserMotivationResponse{}, dto.ErrUserMotivationNotFound
+		return dto.UserMotivationResponseCustom{}, dto.ErrUserMotivationNotFound
 	}
 
-	return dto.UserMotivationResponse{
-		ID:          &userMotivation.ID,
+	return dto.UserMotivationResponseCustom{
+		ID:          userMotivation.ID,
 		DisplayDate: userMotivation.DisplayDate,
-		User: dto.AllUserResponse{
-			ID:          userMotivation.User.ID,
-			Name:        userMotivation.User.Name,
-			Email:       userMotivation.User.Email,
-			Password:    userMotivation.User.Password,
-			Image:       userMotivation.User.Image,
-			Gender:      userMotivation.User.Gender,
-			Birthdate:   userMotivation.User.Birthdate,
-			PhoneNumber: userMotivation.User.PhoneNumber,
-			Data01:      userMotivation.User.Data01,
-			Data02:      userMotivation.User.Data02,
-			Data03:      userMotivation.User.Data03,
-			IsVerified:  userMotivation.User.IsVerified,
-			City: dto.CityResponse{
-				ID:   userMotivation.User.CityID,
-				Name: userMotivation.User.City.Name,
-				Type: userMotivation.User.City.Type,
-				Province: dto.ProvinceResponse{
-					ID:   userMotivation.User.City.ProvinceID,
-					Name: userMotivation.User.City.Province.Name,
-				},
-			},
-			Role: dto.RoleResponse{
-				ID:   userMotivation.User.RoleID,
-				Name: userMotivation.User.Role.Name,
-			},
-		},
 		Motivation: dto.MotivationResponse{
 			ID:      &userMotivation.Motivation.ID,
 			Author:  userMotivation.Motivation.Author,
@@ -1808,4 +1782,38 @@ func (us *UserService) CreateUserMotivation(ctx context.Context, req dto.CreateU
 			},
 		},
 	}, nil
+}
+func (us *UserService) GetAllUserMotivation(ctx context.Context) ([]dto.UserMotivationResponseCustom, error) {
+	token := ctx.Value("Authorization").(string)
+
+	userID, err := us.jwtService.GetUserIDByToken(token)
+	if err != nil {
+		return []dto.UserMotivationResponseCustom{}, dto.ErrGetUserIDFromToken
+	}
+
+	datas, err := us.userRepo.GetAllUserMotivation(ctx, nil, userID)
+	if err != nil {
+		return []dto.UserMotivationResponseCustom{}, dto.ErrGetAllUserMotivation
+	}
+
+	var userMotivations []dto.UserMotivationResponseCustom
+	for _, userMotivation := range datas {
+		data := dto.UserMotivationResponseCustom{
+			ID:          userMotivation.ID,
+			DisplayDate: userMotivation.DisplayDate,
+			Motivation: dto.MotivationResponse{
+				ID:      &userMotivation.Motivation.ID,
+				Author:  userMotivation.Motivation.Author,
+				Content: userMotivation.Motivation.Content,
+				MotivationCategory: dto.MotivationCategoryResponse{
+					ID:   &userMotivation.Motivation.MotivationCategory.ID,
+					Name: userMotivation.Motivation.MotivationCategory.Name,
+				},
+			},
+		}
+
+		userMotivations = append(userMotivations, data)
+	}
+
+	return userMotivations, nil
 }
