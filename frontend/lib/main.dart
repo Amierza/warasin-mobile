@@ -15,6 +15,7 @@ import 'package:frontend/view/edit_profile_page.dart';
 import 'package:frontend/view/forget_password_email_page.dart';
 import 'package:frontend/view/forget_password_pasword_page.dart';
 import 'package:frontend/view/history_consultation_page.dart';
+import 'package:frontend/view/history_user_motivation_page.dart';
 import 'package:frontend/view/motivation_page.dart';
 import 'package:frontend/view/news_history_page.dart';
 import 'package:frontend/view/profile_page.dart';
@@ -160,6 +161,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/history_consultation',
           page: () => const HistoryConsultationPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/history_motivation',
+          page: () => HistoryUserMotivationPage(),
           middlewares: [AuthMiddleware()],
         ),
         GetPage(

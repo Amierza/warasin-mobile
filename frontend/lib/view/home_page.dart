@@ -263,27 +263,36 @@ class ProgressSection extends StatelessWidget {
           mainAxisSpacing: 10,
           children: [
             ProgressItem(
-              title: '10x bulan ini',
-              subtitle: 'Jumlah Komunikasi dengan AI',
+              title: 'Butuh Semangat?',
+              subtitle: 'Baca Motivasi Harian',
               color: Colors.teal,
               onTap: () {
                 Get.toNamed('/motivation');
               },
             ),
             ProgressItem(
-              title: '5x bulan ini',
-              subtitle: 'Konsultasi dengan Para Ahli',
+              title: 'Curhat Yuk',
+              subtitle: 'Konsultasi Sekarang',
               color: Colors.green,
+              onTap: () {
+                Get.toNamed('/concultation');
+              },
             ),
             ProgressItem(
-              title: '3x bulan ini',
-              subtitle: 'Modul Pembelajaran Dibuka',
+              title: 'Info Terbaru',
+              subtitle: 'Baca Berita Kesehatan',
               color: Colors.orange,
+              onTap: () {
+                Get.toNamed('/news');
+              },
             ),
             ProgressItem(
-              title: 'Konselor Favorit Bulan Ini!',
-              subtitle: '',
-              color: Colors.deepOrange,
+              title: 'Lengkapi Profil',
+              subtitle: 'Biar Lebih Personal',
+              color: Colors.deepPurple,
+              onTap: () {
+                Get.toNamed('/edit_profile');
+              },
             ),
           ],
         ),

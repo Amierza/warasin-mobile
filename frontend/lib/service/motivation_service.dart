@@ -88,4 +88,38 @@ class MotivationService {
       return null;
     }
   }
+
+  static Future<dynamic> getAllUserMotivation() async {
+    final box = GetStorage();
+    final token = box.read('access_token');
+
+    if (token == null) return null;
+
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/user/get-all-user-motivation'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+        if (responseBody['status'] == true) {
+          final motivationData = AllUserMotivationResponse.fromJson(
+            responseBody,
+          );
+          return motivationData;
+        } else {
+          final errorResponse = ErrorResponse.fromJson(responseBody);
+          return errorResponse;
+        }
+      }
+      if (response.statusCode == 200) {}
+    } catch (error) {
+      print('Error Fetching get all user motivation : $error');
+      return null;
+    }
+  }
 }
