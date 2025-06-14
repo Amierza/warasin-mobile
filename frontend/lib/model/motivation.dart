@@ -62,3 +62,49 @@ class AllMotivationResponse {
     );
   }
 }
+
+class UserMotivation {
+  final String userMotivationId;
+  final String userMotivationDate;
+  final int userMotivationReaction;
+  final Motivation motivation;
+
+  UserMotivation({
+    required this.userMotivationId,
+    required this.userMotivationDate,
+    required this.userMotivationReaction,
+    required this.motivation,
+  });
+
+  factory UserMotivation.fromJson(Map<String, dynamic> json) {
+    return UserMotivation(
+      userMotivationId: json['user_mot_id'],
+      userMotivationDate: json['user_mot_date'],
+      userMotivationReaction: json['user_mot_reaction'],
+      motivation: Motivation.fromJson(json['motivation']),
+    );
+  }
+}
+
+class CreateUserMotivationResponse {
+  final bool status;
+  final String message;
+  final String timestamp;
+  final UserMotivation data;
+
+  CreateUserMotivationResponse({
+    required this.status,
+    required this.message,
+    required this.timestamp,
+    required this.data,
+  });
+
+  factory CreateUserMotivationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserMotivationResponse(
+      status: json['status'],
+      message: json['message'],
+      timestamp: json['timestamp'],
+      data: UserMotivation.fromJson(json['data']),
+    );
+  }
+}

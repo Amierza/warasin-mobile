@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/motivation/get_all_motivation.dart';
+import 'package:frontend/controller/motivation/create_user_motivation.dart';
 import 'package:frontend/model/motivation.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,9 @@ class _MotivationHomePageState extends State<MotivationPage> {
   final GetAllMotivationController _controller = Get.put(
     GetAllMotivationController(),
   );
+  final CreateUserMotivationController _ratingController = Get.put(
+    CreateUserMotivationController(),
+  );
   String selectedCategory = "Semua";
   List<String> categories = ["Semua"];
 
@@ -23,7 +27,6 @@ class _MotivationHomePageState extends State<MotivationPage> {
   void initState() {
     super.initState();
     _controller.fetchAllMotivatio().then((_) {
-      // Extract unique categories after data is loaded
       if (_controller.motivationList.isNotEmpty) {
         Set<String> uniqueCategories =
             _controller.motivationList
@@ -144,6 +147,9 @@ class _MotivationHomePageState extends State<MotivationPage> {
                     categoryColor: getCategoryColor(
                       motivation.motivationCategory.categoryName,
                     ),
+                    onRatingSubmitted: (rating) {
+                      _ratingController.submitRating(motivation.motivationId);
+                    },
                   );
                 },
               ),
@@ -155,15 +161,26 @@ class _MotivationHomePageState extends State<MotivationPage> {
   }
 }
 
-class MotivationCard extends StatelessWidget {
+class MotivationCard extends StatefulWidget {
   final Motivation motivation;
   final Color categoryColor;
+  final Function(int) onRatingSubmitted;
 
   const MotivationCard({
     super.key,
     required this.motivation,
     required this.categoryColor,
+    required this.onRatingSubmitted,
   });
+
+  @override
+  State<MotivationCard> createState() => _MotivationCardState();
+}
+
+class _MotivationCardState extends State<MotivationCard> {
+  int selectedRating = 0;
+  bool showRatingBar = false;
+  final CreateUserMotivationController _ratingController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -179,8 +196,8 @@ class MotivationCard extends StatelessWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              categoryColor.withOpacity(0.2),
-              categoryColor.withOpacity(0.7),
+              widget.categoryColor.withOpacity(0.2),
+              widget.categoryColor.withOpacity(0.7),
             ],
           ),
         ),
@@ -196,17 +213,17 @@ class MotivationCard extends StatelessWidget {
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: categoryColor.withOpacity(0.1),
+                  color: widget.categoryColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: categoryColor.withOpacity(0.3),
+                    color: widget.categoryColor.withOpacity(0.3),
                     width: 1,
                   ),
                 ),
                 child: Text(
-                  motivation.motivationCategory.categoryName,
+                  widget.motivation.motivationCategory.categoryName,
                   style: GoogleFonts.poppins(
-                    color: categoryColor,
+                    color: widget.categoryColor,
                     fontSize: 12,
                     fontWeight: semiBold,
                   ),
@@ -215,7 +232,7 @@ class MotivationCard extends StatelessWidget {
               const SizedBox(height: 16),
               // Quote Content
               Text(
-                motivation.motivationContent,
+                widget.motivation.motivationContent,
                 style: GoogleFonts.poppins(
                   fontSize: 14,
                   fontWeight: medium,
@@ -231,13 +248,13 @@ class MotivationCard extends StatelessWidget {
                     width: 4,
                     height: 20,
                     decoration: BoxDecoration(
-                      color: categoryColor,
+                      color: widget.categoryColor,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    "— ${motivation.motivationAuthor}",
+                    "— ${widget.motivation.motivationAuthor}",
                     style: GoogleFonts.poppins(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
@@ -245,6 +262,110 @@ class MotivationCard extends StatelessWidget {
                       fontStyle: FontStyle.italic,
                     ),
                   ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              // Rating Section
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (!showRatingBar)
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            showRatingBar = true;
+                          });
+                        },
+                        child: Text(
+                          'Beri Rating',
+                          style: GoogleFonts.poppins(
+                            color: widget.categoryColor,
+                            fontWeight: semiBold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (showRatingBar) ...[
+                    Text(
+                      'Berikan rating untuk motivasi ini:',
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: primaryTextColor,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(5, (index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedRating = index + 1;
+                              _ratingController.setRating(selectedRating);
+                            });
+                          },
+                          child: Icon(
+                            index < selectedRating
+                                ? Icons.star
+                                : Icons.star_border,
+                            color:
+                                index < selectedRating
+                                    ? Colors.amber
+                                    : Colors.grey,
+                            size: 30,
+                          ),
+                        );
+                      }),
+                    ),
+                    const SizedBox(height: 8),
+                    Obx(() {
+                      if (_ratingController.isLoading.value) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                showRatingBar = false;
+                                selectedRating = 0;
+                              });
+                            },
+                            child: Text(
+                              'Batal',
+                              style: GoogleFonts.poppins(color: Colors.grey),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          ElevatedButton(
+                            onPressed:
+                                selectedRating > 0
+                                    ? () {
+                                      widget.onRatingSubmitted(selectedRating);
+                                      setState(() {
+                                        showRatingBar = false;
+                                        selectedRating = 0;
+                                      });
+                                    }
+                                    : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: widget.categoryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Text(
+                              'Kirim',
+                              style: GoogleFonts.poppins(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
+                  ],
                 ],
               ),
             ],
