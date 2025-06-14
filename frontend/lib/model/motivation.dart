@@ -108,3 +108,29 @@ class CreateUserMotivationResponse {
     );
   }
 }
+
+class AllUserMotivationResponse {
+  final bool status;
+  final String message;
+  final String timestamp;
+  final List<UserMotivation> data;
+
+  AllUserMotivationResponse({
+    required this.status,
+    required this.message,
+    required this.timestamp,
+    required this.data,
+  });
+
+  factory AllUserMotivationResponse.fromJson(Map<String, dynamic> json) {
+    return AllUserMotivationResponse(
+      status: json['status'],
+      message: json['message'],
+      timestamp: json['timestamp'],
+      data:
+          (json['data'] as List)
+              .map((motivation) => UserMotivation.fromJson(motivation))
+              .toList(),
+    );
+  }
+}

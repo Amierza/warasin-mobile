@@ -78,6 +78,9 @@ class ProfilePage extends StatelessWidget {
                     MenuButton(
                       icon: Icons.favorite_border_outlined,
                       name: "Daftar Favorit",
+                      onPressed: () {
+                        Get.toNamed('/history_motivation');
+                      },
                     ),
                     const SizedBox(height: 30),
                     Center(

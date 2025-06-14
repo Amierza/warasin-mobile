@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/motivation/get_all_motivation.dart';
 import 'package:frontend/controller/motivation/create_user_motivation.dart';
+import 'package:frontend/controller/motivation/get_all_user_motivation.dart';
 import 'package:frontend/model/motivation.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:get/get.dart';
@@ -20,8 +21,13 @@ class _MotivationHomePageState extends State<MotivationPage> {
   final CreateUserMotivationController _ratingController = Get.put(
     CreateUserMotivationController(),
   );
+  final GetAllUserMotivationController _userMotivationController = Get.put(
+    GetAllUserMotivationController(),
+  );
   String selectedCategory = "Semua";
   List<String> categories = ["Semua"];
+  List<String> ratedMotivationIds = [];
+  Map<String, int> motivationRatings = {};
 
   @override
   void initState() {
@@ -36,6 +42,22 @@ class _MotivationHomePageState extends State<MotivationPage> {
           categories.addAll(uniqueCategories.toList());
         });
       }
+    });
+
+    _userMotivationController.fetchAllUserMotivation().then((_) {
+      setState(() {
+        ratedMotivationIds =
+            _userMotivationController.userMotivationList
+                .map((e) => e.motivation.motivationId)
+                .toList();
+
+        // Store ratings for each motivation
+        for (var userMotivation
+            in _userMotivationController.userMotivationList) {
+          motivationRatings[userMotivation.motivation.motivationId] =
+              userMotivation.userMotivationReaction;
+        }
+      });
     });
   }
 
@@ -148,8 +170,21 @@ class _MotivationHomePageState extends State<MotivationPage> {
                       motivation.motivationCategory.categoryName,
                     ),
                     onRatingSubmitted: (rating) {
-                      _ratingController.submitRating(motivation.motivationId);
+                      _ratingController
+                          .submitRating(motivation.motivationId)
+                          .then((_) {
+                            // After successful rating, update the local state
+                            setState(() {
+                              ratedMotivationIds.add(motivation.motivationId);
+                              motivationRatings[motivation.motivationId] =
+                                  rating;
+                            });
+                          });
                     },
+                    isAlreadyRated: ratedMotivationIds.contains(
+                      motivation.motivationId,
+                    ),
+                    userRating: motivationRatings[motivation.motivationId] ?? 0,
                   );
                 },
               ),
@@ -165,12 +200,16 @@ class MotivationCard extends StatefulWidget {
   final Motivation motivation;
   final Color categoryColor;
   final Function(int) onRatingSubmitted;
+  final bool isAlreadyRated;
+  final int userRating;
 
   const MotivationCard({
     super.key,
     required this.motivation,
     required this.categoryColor,
     required this.onRatingSubmitted,
+    required this.isAlreadyRated,
+    required this.userRating,
   });
 
   @override
@@ -269,7 +308,35 @@ class _MotivationCardState extends State<MotivationCard> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (!showRatingBar)
+                  if (widget.isAlreadyRated)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Rating Anda:',
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            color: primaryTextColor,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: List.generate(5, (index) {
+                            return Icon(
+                              index < widget.userRating
+                                  ? Icons.star
+                                  : Icons.star_border,
+                              color:
+                                  index < widget.userRating
+                                      ? Colors.amber
+                                      : Colors.grey,
+                              size: 24,
+                            );
+                          }),
+                        ),
+                      ],
+                    )
+                  else if (!showRatingBar)
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
@@ -287,7 +354,7 @@ class _MotivationCardState extends State<MotivationCard> {
                         ),
                       ),
                     ),
-                  if (showRatingBar) ...[
+                  if (!widget.isAlreadyRated && showRatingBar) ...[
                     Text(
                       'Berikan rating untuk motivasi ini:',
                       style: GoogleFonts.poppins(
