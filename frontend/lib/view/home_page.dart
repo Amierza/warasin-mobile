@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:frontend/widget/header.dart';
 import 'package:frontend/widget/navigation_bar.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePage extends StatelessWidget {
@@ -97,11 +98,7 @@ class MoodSection extends StatelessWidget {
               image: 'assets/Angry.png',
               label: 'Angry',
             ),
-            MoodItem(
-              color: customGreen,
-              image: 'assets/Sad.png',
-              label: 'Sad',
-            ),
+            MoodItem(color: customGreen, image: 'assets/Sad.png', label: 'Sad'),
           ],
         ),
       ],
@@ -269,6 +266,9 @@ class ProgressSection extends StatelessWidget {
               title: '10x bulan ini',
               subtitle: 'Jumlah Komunikasi dengan AI',
               color: Colors.teal,
+              onTap: () {
+                Get.toNamed('/motivation');
+              },
             ),
             ProgressItem(
               title: '5x bulan ini',
@@ -323,35 +323,45 @@ class ProgressItem extends StatelessWidget {
   final String title;
   final String subtitle;
   final Color color;
+  final VoidCallback? onTap;
 
-  ProgressItem({
+  const ProgressItem({
+    Key? key,
     required this.title,
     required this.subtitle,
     required this.color,
-  });
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: GoogleFonts.poppins(
-              fontSize: 18,
-              fontWeight: bold,
-              color: Colors.white,
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(10),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-          ),
-          const SizedBox(height: 5),
-          Text(subtitle, style: TextStyle(fontSize: 14, color: Colors.white)),
-        ],
+            const SizedBox(height: 5),
+            Text(
+              subtitle,
+              style: const TextStyle(fontSize: 14, color: Colors.white),
+            ),
+          ],
+        ),
       ),
     );
   }

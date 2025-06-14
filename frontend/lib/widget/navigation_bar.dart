@@ -1,7 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/theme.dart';
-// import 'package:get/get.dart';
 
 class CustomNavigationBar extends StatefulWidget {
   final int currentIndex;
@@ -20,7 +19,6 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
 
   final List<String> _routes = [
     '/home',
-    '/terapiin',
     '/concultation',
     '/news',
     '/profile',
@@ -49,7 +47,6 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
       index: _selectedIndex,
       items: const [
         Icon(Icons.home, color: Colors.white),
-        Icon(Icons.headset_outlined, color: Colors.white),
         Icon(Icons.person, color: Colors.white),
         Icon(Icons.newspaper, color: Colors.white),
         Icon(Icons.settings, color: Colors.white),
