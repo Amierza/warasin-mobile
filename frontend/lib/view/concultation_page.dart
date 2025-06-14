@@ -130,7 +130,7 @@ class ConcultationPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const CustomNavigationBar(currentIndex: 2),
+      bottomNavigationBar: const CustomNavigationBar(currentIndex: 1),
     );
   }
 }

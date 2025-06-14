@@ -129,7 +129,7 @@ class NewsPage extends StatelessWidget {
           ),
         );
       }),
-      bottomNavigationBar: const CustomNavigationBar(currentIndex: 3),
+      bottomNavigationBar: const CustomNavigationBar(currentIndex: 2),
     );
   }
 }
