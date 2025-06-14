@@ -33,6 +33,9 @@ func Migrate(db *gorm.DB) error {
 		&entity.Practice{},
 		&entity.PracticeSchedule{},
 		&entity.AvailableSlot{},
+
+		&entity.Conversation{},
+		&entity.Message{},
 	); err != nil {
 		return err
 	}

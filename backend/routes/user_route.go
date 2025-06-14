@@ -62,6 +62,9 @@ func User(route *gin.Engine, userHandler handler.IUserHandler, masterHandler han
 			// User Motivation
 			routes.POST("create-user-motivation", userHandler.CreateUserMotivation)
 			routes.GET("get-all-user-motivation", userHandler.GetAllUserMotivation)
+
+			// chat
+			routes.POST("/chat", userHandler.Chat)
 		}
 	}
 }

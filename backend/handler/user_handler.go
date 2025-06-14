@@ -61,6 +61,9 @@ type (
 		// User Motivation
 		CreateUserMotivation(ctx *gin.Context)
 		GetAllUserMotivation(ctx *gin.Context)
+
+		// Chat
+		Chat(ctx *gin.Context)
 	}
 
 	UserHandler struct {
@@ -539,5 +542,23 @@ func (uh *UserHandler) GetAllUserMotivation(ctx *gin.Context) {
 	}
 
 	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_GET_LIST_USER_MOTIVATION, result)
+	ctx.JSON(http.StatusOK, res)
+}
+
+// Chat
+func (uh *UserHandler) Chat(ctx *gin.Context) {
+	var req dto.ChatRequest
+	if err := ctx.ShouldBindJSON(&req); err != nil {
+		ctx.JSON(http.StatusBadRequest, utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil))
+		return
+	}
+
+	result, err := uh.userService.HandleChat(ctx, req)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, utils.BuildResponseFailed(dto.MESSAGE_FAILED_HANDLE_CHAT, err.Error(), nil))
+		return
+	}
+
+	res := utils.BuildResponseSuccess(dto.MESSAGE_SUCCESS_HANDLE_CHAT, result)
 	ctx.JSON(http.StatusOK, res)
 }
