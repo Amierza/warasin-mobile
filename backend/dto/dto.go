@@ -89,6 +89,8 @@ const (
 	MESSAGE_FAILED_DELETE_PRACTICE   = "failed delete practice"
 	// Available Slot
 	MESSAGE_FAILED_GET_LIST_AVAILABLE_SLOT = "failed get all available slot"
+	// Chat
+	MESSAGE_FAILED_HANDLE_CHAT = "chat failed"
 
 	// ====================================== Success ======================================
 	// Authentication
@@ -162,6 +164,8 @@ const (
 	MESSAGE_SUCCESS_DELETE_PRACTICE   = "success delete practice"
 	// Available Slot
 	MESSAGE_SUCCESS_GET_LIST_AVAILABLE_SLOT = "success get all available slot"
+	// Chat
+	MESSAGE_SUCCESS_HANDLE_CHAT = "chat success"
 )
 
 var (
@@ -210,6 +214,7 @@ var (
 	ErrValidateToken           = errors.New("failed to validate token")
 	ErrParsingExpiredTime      = errors.New("failed to parsing expired time")
 	ErrTokenExpired            = errors.New("token expired")
+	ErrInvalidToken            = errors.New("token invalid expired")
 	// City & Province
 	ErrGetCityByID    = errors.New("failed get city by id")
 	ErrGetAllProvince = errors.New("failed get list province")
@@ -310,6 +315,11 @@ var (
 	ErrAvailableSlotNotFound      = errors.New("failed available slot not found")
 	ErrUpdateStatusBookSlot       = errors.New("failed update book status slot")
 	ErrCreateAvailableSlots       = errors.New("failed create available slots")
+	// Chat
+	ErrCreateConversation = errors.New("failed create conversation")
+	ErrSaveMessage        = errors.New("failed save message")
+	ErrGetChatGPTResponse = errors.New("failed get chat gpt response")
+	ErrGetMessages        = errors.New("failed get messages")
 )
 
 type (
@@ -809,5 +819,15 @@ type (
 		City           string
 		Province       string
 		Specialization string
+	}
+	// chat
+	ChatRequest struct {
+		Message        string    `json:"message" binding:"required"`
+		ConversationID uuid.UUID `json:"conversation_id,omitempty"`
+		UserID         uuid.UUID `json:"user_id"`
+	}
+	ChatResponse struct {
+		Response       string    `json:"response"`
+		ConversationID uuid.UUID `json:"conversation_id"`
 	}
 )

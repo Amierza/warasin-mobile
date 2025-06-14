@@ -36,12 +36,15 @@ type (
 		GetAllNewsDetail(ctx context.Context, tx *gorm.DB, userID string) ([]entity.NewsDetail, error)
 		GetUserMotivationByUserAndMotivationID(ctx context.Context, tx *gorm.DB, userID string, motivationID string) (entity.UserMotivation, bool, error)
 		GetAllUserMotivation(ctx context.Context, tx *gorm.DB, userID string) ([]entity.UserMotivation, error)
+		GetMessagesByConversationID(ctx context.Context, convoID uuid.UUID) ([]entity.Message, error)
 
 		// Create
 		RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
 		CreateConsultation(ctx context.Context, tx *gorm.DB, consultation entity.Consultation) error
 		CreateNewsDetail(ctx context.Context, tx *gorm.DB, newsDetail entity.NewsDetail) error
 		CreateUserMotivation(ctx context.Context, tx *gorm.DB, userMotivation entity.UserMotivation) error
+		CreateConversation(ctx context.Context, tx *gorm.DB, convo entity.Conversation) error
+		SaveMessage(ctx context.Context, tx *gorm.DB, msg entity.Message) error
 
 		// Update
 		UpdateUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error)
@@ -526,6 +529,16 @@ func (ur *UserRepository) GetAllUserMotivation(ctx context.Context, tx *gorm.DB,
 
 	return userMotivations, nil
 }
+func (ur *UserRepository) GetMessagesByConversationID(ctx context.Context, convoID uuid.UUID) ([]entity.Message, error) {
+	var messages []entity.Message
+	if err := ur.db.WithContext(ctx).
+		Where("conversation_id = ?", convoID).
+		Order("created_at ASC").
+		Find(&messages).Error; err != nil {
+		return nil, err
+	}
+	return messages, nil
+}
 
 // Create
 func (ur *UserRepository) RegisterUser(ctx context.Context, tx *gorm.DB, user entity.User) (entity.User, error) {
@@ -560,6 +573,20 @@ func (ur *UserRepository) CreateUserMotivation(ctx context.Context, tx *gorm.DB,
 	}
 
 	return tx.WithContext(ctx).Create(&userMotivation).Error
+}
+func (ur *UserRepository) CreateConversation(ctx context.Context, tx *gorm.DB, convo entity.Conversation) error {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	return ur.db.WithContext(ctx).Create(&convo).Error
+}
+func (ur *UserRepository) SaveMessage(ctx context.Context, tx *gorm.DB, msg entity.Message) error {
+	if tx == nil {
+		tx = ur.db
+	}
+
+	return ur.db.WithContext(ctx).Create(&msg).Error
 }
 
 // Update

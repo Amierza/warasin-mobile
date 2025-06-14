@@ -69,6 +69,9 @@ type (
 		// User Motivation
 		CreateUserMotivation(ctx context.Context, req dto.CreateUserMotivationRequest) (dto.UserMotivationResponseCustom, error)
 		GetAllUserMotivation(ctx context.Context) ([]dto.UserMotivationResponseCustom, error)
+
+		// Chat
+		HandleChat(ctx context.Context, req dto.ChatRequest) (dto.ChatResponse, error)
 	}
 
 	UserService struct {
@@ -1816,4 +1819,79 @@ func (us *UserService) GetAllUserMotivation(ctx context.Context) ([]dto.UserMoti
 	}
 
 	return userMotivations, nil
+}
+
+// Chat
+func (us *UserService) HandleChat(ctx context.Context, req dto.ChatRequest) (dto.ChatResponse, error) {
+	tokenRaw := ctx.Value("Authorization")
+	token, ok := tokenRaw.(string)
+	if !ok {
+		return dto.ChatResponse{}, dto.ErrInvalidToken
+	}
+
+	userID, err := us.jwtService.GetUserIDByToken(token)
+	if err != nil {
+		return dto.ChatResponse{}, dto.ErrGetUserIDFromToken
+	}
+	uID, err := uuid.Parse(userID)
+	if err != nil {
+		return dto.ChatResponse{}, dto.ErrParseUUID
+	}
+
+	convoID := req.ConversationID
+	if convoID == uuid.Nil {
+		convo := entity.Conversation{
+			ID:     uuid.New(),
+			UserID: &uID,
+		}
+		if err := us.userRepo.CreateConversation(ctx, nil, convo); err != nil {
+			return dto.ChatResponse{}, dto.ErrCreateConversation
+		}
+		convoID = convo.ID
+	}
+
+	userMsg := entity.Message{
+		ID:             uuid.New(),
+		ConversationID: &convoID,
+		Sender:         "user",
+		Content:        req.Message,
+	}
+	if err := us.userRepo.SaveMessage(ctx, nil, userMsg); err != nil {
+		return dto.ChatResponse{}, dto.ErrSaveMessage
+	}
+
+	messages, err := us.userRepo.GetMessagesByConversationID(ctx, convoID)
+	if err != nil {
+		return dto.ChatResponse{}, dto.ErrGetMessages
+	}
+
+	var chatHistory []map[string]string
+	for _, m := range messages {
+		chatHistory = append(chatHistory, map[string]string{
+			"role":    m.Sender,
+			"content": m.Content,
+		})
+	}
+
+	replyRaw, err := utils.GetChatGPTResponse(ctx, chatHistory)
+	if err != nil {
+		return dto.ChatResponse{}, dto.ErrGetChatGPTResponse
+	}
+
+	reply := helpers.StripMarkdown(replyRaw)
+
+	aiMsg := entity.Message{
+		ID:             uuid.New(),
+		ConversationID: &convoID,
+		Sender:         "assistant",
+		Content:        reply,
+	}
+	if err := us.userRepo.SaveMessage(ctx, nil, aiMsg); err != nil {
+		return dto.ChatResponse{}, dto.ErrSaveMessage
+	}
+
+	return dto.ChatResponse{
+		Response:       reply,
+		ConversationID: convoID,
+	}, nil
 }
