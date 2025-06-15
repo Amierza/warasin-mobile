@@ -7,6 +7,7 @@ import (
 	"github.com/Amierza/warasin-mobile/backend/service"
 	"github.com/Amierza/warasin-mobile/backend/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type (
@@ -242,7 +243,41 @@ func (uh *UserHandler) GetDetailUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 func (uh *UserHandler) UpdateUser(ctx *gin.Context) {
-	var payload dto.UpdateUserRequest
+	payload := dto.UpdateUserRequest{}
+	payload.Name = ctx.PostForm("name")
+	payload.Email = ctx.PostForm("email")
+	fileHeader, err := ctx.FormFile("image")
+	if err == nil {
+		file, err := fileHeader.Open()
+		if err != nil {
+			res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_OPEN_PHOTO, err.Error(), nil)
+			ctx.AbortWithStatusJSON(http.StatusInternalServerError, res)
+			return
+		}
+		defer file.Close()
+
+		payload.FileHeader = fileHeader
+		payload.FileReader = file
+	}
+	genderStr := ctx.PostForm("gender")
+	if genderStr != "" {
+		g := genderStr == "true"
+		payload.Gender = &g
+	}
+	payload.Birthdate = ctx.PostForm("birth_date")
+	payload.PhoneNumber = ctx.PostForm("phone_number")
+	cityIDStr := ctx.PostForm("city_id")
+	if cityIDStr != "" {
+		if cityUUID, err := uuid.Parse(cityIDStr); err == nil {
+			payload.CityID = &cityUUID
+		}
+	}
+	roleIDStr := ctx.PostForm("role_id")
+	if roleIDStr != "" {
+		if roleUUID, err := uuid.Parse(roleIDStr); err == nil {
+			payload.RoleID = &roleUUID
+		}
+	}
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)

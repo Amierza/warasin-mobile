@@ -1,5 +1,12 @@
 *.env
 storage/
-assets/
 volumes/
 .vscode/
+assets/**
+!assets/
+!assets/user/
+!assets/user/.gitkeep
+!assets/news/
+!assets/news/.gitkeep
+!assets/psycholog/
+!assets/psycholog/.gitkeep

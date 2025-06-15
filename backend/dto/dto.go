@@ -2,6 +2,7 @@ package dto
 
 import (
 	"errors"
+	"mime/multipart"
 
 	"github.com/Amierza/warasin-mobile/backend/entity"
 	"github.com/google/uuid"
@@ -10,6 +11,9 @@ import (
 const (
 	// ====================================== Failed ======================================
 	MESSAGE_FAILED_GET_DATA_FROM_BODY = "failed get data from body"
+	// File
+	MESSAGE_FAILED_READ_PHOTO = "failed read photo"
+	MESSAGE_FAILED_OPEN_PHOTO = "failed open photo"
 	// Middleware
 	MESSAGE_FAILED_PROSES_REQUEST             = "failed proses request"
 	MESSAGE_FAILED_ACCESS_DENIED              = "failed access denied"
@@ -320,6 +324,10 @@ var (
 	ErrSaveMessage        = errors.New("failed save message")
 	ErrGetChatGPTResponse = errors.New("failed get chat gpt response")
 	ErrGetMessages        = errors.New("failed get messages")
+	// File
+	ErrInvalidExtensionPhoto = errors.New("only jpg/jpeg/png allowed")
+	ErrCreateFile            = errors.New("failed create file")
+	ErrSaveFile              = errors.New("failed save file")
 )
 
 type (
@@ -448,26 +456,30 @@ type (
 		Users []entity.User
 	}
 	CreateUserRequest struct {
-		Name        string     `json:"name"`
-		Email       string     `json:"email"`
-		Password    string     `json:"password"`
-		Image       string     `json:"image,omitempty"`
-		Gender      bool       `json:"gender"`
-		Birthdate   string     `json:"birth_date"`
-		PhoneNumber string     `json:"phone_number"`
-		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id"`
-		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id"`
+		Name        string                `json:"name"`
+		Email       string                `json:"email"`
+		Password    string                `json:"password"`
+		Image       string                `json:"image,omitempty"`
+		Gender      *bool                 `json:"gender"`
+		Birthdate   string                `json:"birth_date"`
+		PhoneNumber string                `json:"phone_number"`
+		CityID      *uuid.UUID            `json:"city_id"`
+		RoleID      *uuid.UUID            `json:"role_id"`
+		FileHeader  *multipart.FileHeader `json:"fileheader,omitempty"`
+		FileReader  multipart.File        `json:"filereader,omitempty"`
 	}
 	UpdateUserRequest struct {
-		ID          string     `json:"-"`
-		Name        string     `json:"name,omitempty"`
-		Email       string     `json:"email,omitempty"`
-		Image       string     `json:"image,omitempty"`
-		Gender      *bool      `json:"gender,omitempty"`
-		Birthdate   string     `json:"birth_date,omitempty"`
-		PhoneNumber string     `json:"phone_number,omitempty"`
-		CityID      *uuid.UUID `gorm:"type:uuid" json:"city_id,omitempty"`
-		RoleID      *uuid.UUID `gorm:"type:uuid" json:"role_id,omitempty"`
+		ID          string                `json:"-"`
+		Name        string                `json:"name,omitempty"`
+		Email       string                `json:"email,omitempty"`
+		Image       string                `json:"image,omitempty"`
+		Gender      *bool                 `json:"gender,omitempty"`
+		Birthdate   string                `json:"birth_date,omitempty"`
+		PhoneNumber string                `json:"phone_number,omitempty"`
+		CityID      *uuid.UUID            `json:"city_id,omitempty"`
+		RoleID      *uuid.UUID            `json:"role_id,omitempty"`
+		FileHeader  *multipart.FileHeader `json:"fileheader,omitempty"`
+		FileReader  multipart.File        `json:"filereader,omitempty"`
 	}
 	DeleteUserRequest struct {
 		UserID string `json:"-"`
@@ -482,10 +494,12 @@ type (
 	}
 	// News
 	CreateNewsRequest struct {
-		Image string `json:"image"`
-		Title string `json:"title"`
-		Body  string `json:"body"`
-		Date  string `json:"date"`
+		Image      string                `json:"image,omitempty"`
+		Title      string                `json:"title"`
+		Body       string                `json:"body"`
+		Date       string                `json:"date"`
+		FileHeader *multipart.FileHeader `json:"fileheader,omitempty"`
+		FileReader multipart.File        `json:"filereader,omitempty"`
 	}
 	NewsResponse struct {
 		ID    *uuid.UUID `json:"news_id"`
@@ -503,11 +517,13 @@ type (
 		News []entity.News
 	}
 	UpdateNewsRequest struct {
-		ID    string `json:"-"`
-		Image string `json:"image,omitempty"`
-		Title string `json:"title,omitempty"`
-		Body  string `json:"body,omitempty"`
-		Date  string `gorm:"type:date" json:"date,omitempty"`
+		ID         string                `json:"-"`
+		Image      string                `json:"image,omitempty"`
+		Title      string                `json:"title,omitempty"`
+		Body       string                `json:"body,omitempty"`
+		Date       string                `json:"date,omitempty"`
+		FileHeader *multipart.FileHeader `json:"fileheader,omitempty"`
+		FileReader multipart.File        `json:"filereader,omitempty"`
 	}
 	DeleteNewsRequest struct {
 		NewsID string `json:"-"`
@@ -566,19 +582,21 @@ type (
 	}
 	// Psycholog
 	CreatePsychologRequest struct {
-		Name              string              `json:"name"`
-		STRNumber         string              `json:"str_number"`
-		Email             string              `gorm:"unique" json:"email"`
-		Password          string              `json:"password"`
-		WorkYear          string              `json:"work_year"`
-		Description       string              `json:"description"`
-		PhoneNumber       string              `json:"phone_number"`
-		Image             string              `json:"image"`
-		CityID            *uuid.UUID          `json:"city_id"`
-		RoleID            *uuid.UUID          `json:"role_id"`
-		LanguageMasterIDs []string            `json:"language_master,omitempty"`
-		SpecializationIDs []string            `json:"specialization,omitempty"`
-		Educations        []EducationResponse `json:"education,omitempty"`
+		Name              string                `json:"name"`
+		STRNumber         string                `json:"str_number"`
+		Email             string                `gorm:"unique" json:"email"`
+		Password          string                `json:"password"`
+		WorkYear          string                `json:"work_year"`
+		Description       string                `json:"description"`
+		PhoneNumber       string                `json:"phone_number"`
+		Image             string                `json:"image,omitempty"`
+		CityID            *uuid.UUID            `json:"city_id"`
+		RoleID            *uuid.UUID            `json:"role_id"`
+		LanguageMasterIDs []string              `json:"language_master,omitempty"`
+		SpecializationIDs []string              `json:"specialization,omitempty"`
+		Educations        []EducationResponse   `json:"education,omitempty"`
+		FileHeader        *multipart.FileHeader `json:"fileheader,omitempty"`
+		FileReader        multipart.File        `json:"filereader,omitempty"`
 	}
 	PsychologResponse struct {
 		ID              uuid.UUID                `json:"psy_id"`
@@ -605,18 +623,20 @@ type (
 		Psychologs []entity.Psycholog
 	}
 	UpdatePsychologRequest struct {
-		ID                string              `json:"-"`
-		Name              string              `json:"name,omitempty"`
-		STRNumber         string              `json:"str_number,omitempty"`
-		Email             string              `json:"email,omitempty"`
-		WorkYear          string              `json:"work_year,omitempty"`
-		Description       string              `json:"description,omitempty"`
-		PhoneNumber       string              `json:"phone_number,omitempty"`
-		Image             string              `json:"image,omitempty"`
-		CityID            string              `json:"city_id,omitempty"`
-		LanguageMasterIDs []string            `json:"language_master,omitempty"`
-		SpecializationIDs []string            `json:"specialization,omitempty"`
-		Educations        []EducationResponse `json:"education,omitempty"`
+		ID                string                `json:"-"`
+		Name              string                `json:"name,omitempty"`
+		STRNumber         string                `json:"str_number,omitempty"`
+		Email             string                `json:"email,omitempty"`
+		WorkYear          string                `json:"work_year,omitempty"`
+		Description       string                `json:"description,omitempty"`
+		PhoneNumber       string                `json:"phone_number,omitempty"`
+		Image             string                `json:"image,omitempty"`
+		CityID            *uuid.UUID            `json:"city_id,omitempty"`
+		LanguageMasterIDs []string              `json:"language_master,omitempty"`
+		SpecializationIDs []string              `json:"specialization,omitempty"`
+		Educations        []EducationResponse   `json:"education,omitempty"`
+		FileHeader        *multipart.FileHeader `json:"fileheader,omitempty"`
+		FileReader        multipart.File        `json:"filereader,omitempty"`
 	}
 	DeletePsychologRequest struct {
 		ID string `json:"-"`

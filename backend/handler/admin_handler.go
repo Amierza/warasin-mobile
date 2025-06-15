@@ -7,6 +7,7 @@ import (
 	"github.com/Amierza/warasin-mobile/backend/service"
 	"github.com/Amierza/warasin-mobile/backend/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 type (
@@ -136,7 +137,38 @@ func (ah *AdminHandler) GetAllRole(ctx *gin.Context) {
 
 // User
 func (ah *AdminHandler) CreateUser(ctx *gin.Context) {
-	var payload dto.CreateUserRequest
+	payload := dto.CreateUserRequest{}
+	payload.Name = ctx.PostForm("name")
+	payload.Email = ctx.PostForm("email")
+	payload.Password = ctx.PostForm("password")
+	fileHeader, err := ctx.FormFile("image")
+	if err == nil {
+		file, err := fileHeader.Open()
+		if err != nil {
+			res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_OPEN_PHOTO, err.Error(), nil)
+			ctx.AbortWithStatusJSON(http.StatusInternalServerError, res)
+			return
+		}
+		defer file.Close()
+
+		payload.FileHeader = fileHeader
+		payload.FileReader = file
+	}
+	genderStr := ctx.PostForm("gender")
+	if genderStr != "" {
+		g := genderStr == "true"
+		payload.Gender = &g
+	}
+	payload.Birthdate = ctx.PostForm("birth_date")
+	payload.PhoneNumber = ctx.PostForm("phone_number")
+	cityIDStr := ctx.PostForm("city_id")
+	if cityUUID, err := uuid.Parse(cityIDStr); err == nil {
+		payload.CityID = &cityUUID
+	}
+	roleIDStr := ctx.PostForm("role_id")
+	if roleUUID, err := uuid.Parse(roleIDStr); err == nil {
+		payload.RoleID = &roleUUID
+	}
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
@@ -190,10 +222,43 @@ func (ah *AdminHandler) GetDetailUser(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 func (ah *AdminHandler) UpdateUser(ctx *gin.Context) {
+	payload := dto.UpdateUserRequest{}
 	idStr := ctx.Param("id")
-
-	var payload dto.UpdateUserRequest
 	payload.ID = idStr
+	payload.Name = ctx.PostForm("name")
+	payload.Email = ctx.PostForm("email")
+	fileHeader, err := ctx.FormFile("image")
+	if err == nil {
+		file, err := fileHeader.Open()
+		if err != nil {
+			res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_OPEN_PHOTO, err.Error(), nil)
+			ctx.AbortWithStatusJSON(http.StatusInternalServerError, res)
+			return
+		}
+		defer file.Close()
+
+		payload.FileHeader = fileHeader
+		payload.FileReader = file
+	}
+	genderStr := ctx.PostForm("gender")
+	if genderStr != "" {
+		g := genderStr == "true"
+		payload.Gender = &g
+	}
+	payload.Birthdate = ctx.PostForm("birth_date")
+	payload.PhoneNumber = ctx.PostForm("phone_number")
+	cityIDStr := ctx.PostForm("city_id")
+	if cityIDStr != "" {
+		if cityUUID, err := uuid.Parse(cityIDStr); err == nil {
+			payload.CityID = &cityUUID
+		}
+	}
+	roleIDStr := ctx.PostForm("role_id")
+	if roleIDStr != "" {
+		if roleUUID, err := uuid.Parse(roleIDStr); err == nil {
+			payload.RoleID = &roleUUID
+		}
+	}
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
@@ -234,7 +299,23 @@ func (ah *AdminHandler) DeleteUser(ctx *gin.Context) {
 
 // News
 func (ah *AdminHandler) CreateNews(ctx *gin.Context) {
-	var payload dto.CreateNewsRequest
+	payload := dto.CreateNewsRequest{}
+	fileHeader, err := ctx.FormFile("image")
+	if err == nil {
+		file, err := fileHeader.Open()
+		if err != nil {
+			res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_OPEN_PHOTO, err.Error(), nil)
+			ctx.AbortWithStatusJSON(http.StatusInternalServerError, res)
+			return
+		}
+		defer file.Close()
+
+		payload.FileHeader = fileHeader
+		payload.FileReader = file
+	}
+	payload.Title = ctx.PostForm("title")
+	payload.Body = ctx.PostForm("body")
+	payload.Date = ctx.PostForm("date")
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
@@ -288,10 +369,25 @@ func (ah *AdminHandler) GetDetailNews(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 func (ah *AdminHandler) UpdateNews(ctx *gin.Context) {
+	payload := dto.UpdateNewsRequest{}
 	idStr := ctx.Param("id")
-
-	var payload dto.UpdateNewsRequest
 	payload.ID = idStr
+	fileHeader, err := ctx.FormFile("image")
+	if err == nil {
+		file, err := fileHeader.Open()
+		if err != nil {
+			res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_OPEN_PHOTO, err.Error(), nil)
+			ctx.AbortWithStatusJSON(http.StatusInternalServerError, res)
+			return
+		}
+		defer file.Close()
+
+		payload.FileHeader = fileHeader
+		payload.FileReader = file
+	}
+	payload.Title = ctx.PostForm("title")
+	payload.Body = ctx.PostForm("body")
+	payload.Date = ctx.PostForm("date")
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
@@ -528,7 +624,35 @@ func (ah *AdminHandler) DeleteMotivation(ctx *gin.Context) {
 
 // Psycholog
 func (ah *AdminHandler) CreatePsycholog(ctx *gin.Context) {
-	var payload dto.CreatePsychologRequest
+	payload := dto.CreatePsychologRequest{}
+	payload.Name = ctx.PostForm("name")
+	payload.STRNumber = ctx.PostForm("str_number")
+	payload.Email = ctx.PostForm("email")
+	payload.Password = ctx.PostForm("password")
+	payload.WorkYear = ctx.PostForm("work_year")
+	payload.Description = ctx.PostForm("description")
+	payload.PhoneNumber = ctx.PostForm("phone_number")
+	fileHeader, err := ctx.FormFile("image")
+	if err == nil {
+		file, err := fileHeader.Open()
+		if err != nil {
+			res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_OPEN_PHOTO, err.Error(), nil)
+			ctx.AbortWithStatusJSON(http.StatusInternalServerError, res)
+			return
+		}
+		defer file.Close()
+
+		payload.FileHeader = fileHeader
+		payload.FileReader = file
+	}
+	cityIDStr := ctx.PostForm("city_id")
+	if cityUUID, err := uuid.Parse(cityIDStr); err == nil {
+		payload.CityID = &cityUUID
+	}
+	roleIDStr := ctx.PostForm("role_id")
+	if roleUUID, err := uuid.Parse(roleIDStr); err == nil {
+		payload.RoleID = &roleUUID
+	}
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
@@ -570,9 +694,32 @@ func (ah *AdminHandler) GetAllPsycholog(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 func (ah *AdminHandler) UpdatePsycholog(ctx *gin.Context) {
+	payload := dto.UpdatePsychologRequest{}
 	idStr := ctx.Param("id")
-	var payload dto.UpdatePsychologRequest
 	payload.ID = idStr
+	payload.Name = ctx.PostForm("name")
+	payload.STRNumber = ctx.PostForm("str_number")
+	payload.Email = ctx.PostForm("email")
+	payload.WorkYear = ctx.PostForm("work_year")
+	payload.Description = ctx.PostForm("description")
+	payload.PhoneNumber = ctx.PostForm("phone_number")
+	fileHeader, err := ctx.FormFile("image")
+	if err == nil {
+		file, err := fileHeader.Open()
+		if err != nil {
+			res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_OPEN_PHOTO, err.Error(), nil)
+			ctx.AbortWithStatusJSON(http.StatusInternalServerError, res)
+			return
+		}
+		defer file.Close()
+
+		payload.FileHeader = fileHeader
+		payload.FileReader = file
+	}
+	cityIDStr := ctx.PostForm("city_id")
+	if cityUUID, err := uuid.Parse(cityIDStr); err == nil {
+		payload.CityID = &cityUUID
+	}
 	if err := ctx.ShouldBind(&payload); err != nil {
 		res := utils.BuildResponseFailed(dto.MESSAGE_FAILED_GET_DATA_FROM_BODY, err.Error(), nil)
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)

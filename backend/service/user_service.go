@@ -5,7 +5,9 @@ import (
 	"context"
 	"fmt"
 	"html/template"
+	"io"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -550,8 +552,31 @@ func (us *UserService) UpdateUser(ctx context.Context, req dto.UpdateUserRequest
 		user.IsVerified = &falseValue
 	}
 
-	if req.Image != "" {
-		user.Image = req.Image
+	if req.FileHeader != nil || req.FileReader != nil {
+		ext := strings.TrimPrefix(filepath.Ext(req.FileHeader.Filename), ".")
+		ext = strings.ToLower(ext)
+		if ext != "jpg" && ext != "jpeg" && ext != "png" {
+			return dto.AllUserResponse{}, dto.ErrInvalidExtensionPhoto
+		}
+
+		fileName := fmt.Sprintf("%s_warasin.%s",
+			strings.ReplaceAll(strings.ToLower(user.Name), " ", "_"),
+			ext,
+		)
+
+		_ = os.MkdirAll("assets/user", os.ModePerm)
+		savePath := fmt.Sprintf("assets/user/%s", fileName)
+
+		out, err := os.Create(savePath)
+		if err != nil {
+			return dto.AllUserResponse{}, dto.ErrCreateFile
+		}
+		defer out.Close()
+
+		if _, err := io.Copy(out, req.FileReader); err != nil {
+			return dto.AllUserResponse{}, dto.ErrSaveFile
+		}
+		user.Image = fileName
 	}
 
 	if req.Gender != nil {
