@@ -2,6 +2,11 @@ package service
 
 import (
 	"context"
+	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/Amierza/warasin-mobile/backend/dto"
 	"github.com/Amierza/warasin-mobile/backend/entity"
@@ -191,6 +196,33 @@ func (as *AdminService) CreateUser(ctx context.Context, req dto.CreateUserReques
 		return dto.AllUserResponse{}, dto.ErrInvalidPassword
 	}
 
+	if req.FileHeader != nil || req.FileReader != nil {
+		ext := strings.TrimPrefix(filepath.Ext(req.FileHeader.Filename), ".")
+		ext = strings.ToLower(ext)
+		if ext != "jpg" && ext != "jpeg" && ext != "png" {
+			return dto.AllUserResponse{}, dto.ErrInvalidExtensionPhoto
+		}
+
+		fileName := fmt.Sprintf("%s_warasin.%s",
+			strings.ReplaceAll(strings.ToLower(req.Name), " ", "_"),
+			ext,
+		)
+
+		_ = os.MkdirAll("assets/user", os.ModePerm)
+		savePath := fmt.Sprintf("assets/user/%s", fileName)
+
+		out, err := os.Create(savePath)
+		if err != nil {
+			return dto.AllUserResponse{}, dto.ErrCreateFile
+		}
+		defer out.Close()
+
+		if _, err := io.Copy(out, req.FileReader); err != nil {
+			return dto.AllUserResponse{}, dto.ErrSaveFile
+		}
+		req.Image = fileName
+	}
+
 	birthdateFormatted, err := helpers.ValidateAndNormalizeDateString(req.Birthdate)
 	if err != nil {
 		return dto.AllUserResponse{}, dto.ErrFormatBirthdate
@@ -217,7 +249,7 @@ func (as *AdminService) CreateUser(ctx context.Context, req dto.CreateUserReques
 		Email:       req.Email,
 		Password:    req.Password,
 		Image:       req.Image,
-		Gender:      &req.Gender,
+		Gender:      req.Gender,
 		Birthdate:   birthdateFormatted,
 		PhoneNumber: phoneNumberFormatted,
 		City:        city,
@@ -387,8 +419,31 @@ func (as *AdminService) UpdateUser(ctx context.Context, req dto.UpdateUserReques
 		user.Email = req.Email
 	}
 
-	if req.Image != "" {
-		user.Image = req.Image
+	if req.FileHeader != nil || req.FileReader != nil {
+		ext := strings.TrimPrefix(filepath.Ext(req.FileHeader.Filename), ".")
+		ext = strings.ToLower(ext)
+		if ext != "jpg" && ext != "jpeg" && ext != "png" {
+			return dto.AllUserResponse{}, dto.ErrInvalidExtensionPhoto
+		}
+
+		fileName := fmt.Sprintf("%s_warasin.%s",
+			strings.ReplaceAll(strings.ToLower(user.Name), " ", "_"),
+			ext,
+		)
+
+		_ = os.MkdirAll("assets/user", os.ModePerm)
+		savePath := fmt.Sprintf("assets/user/%s", fileName)
+
+		out, err := os.Create(savePath)
+		if err != nil {
+			return dto.AllUserResponse{}, dto.ErrCreateFile
+		}
+		defer out.Close()
+
+		if _, err := io.Copy(out, req.FileReader); err != nil {
+			return dto.AllUserResponse{}, dto.ErrSaveFile
+		}
+		user.Image = fileName
 	}
 
 	if req.Gender != nil {
@@ -494,6 +549,33 @@ func (as *AdminService) CreateNews(ctx context.Context, req dto.CreateNewsReques
 		return dto.NewsResponse{}, dto.ErrNewsTitleAlreadyExists
 	}
 
+	if req.FileHeader != nil || req.FileReader != nil {
+		ext := strings.TrimPrefix(filepath.Ext(req.FileHeader.Filename), ".")
+		ext = strings.ToLower(ext)
+		if ext != "jpg" && ext != "jpeg" && ext != "png" {
+			return dto.NewsResponse{}, dto.ErrInvalidExtensionPhoto
+		}
+
+		fileName := fmt.Sprintf("%s_warasin.%s",
+			strings.ReplaceAll(strings.ToLower(req.Title), " ", "_"),
+			ext,
+		)
+
+		_ = os.MkdirAll("assets/news", os.ModePerm)
+		savePath := fmt.Sprintf("assets/news/%s", fileName)
+
+		out, err := os.Create(savePath)
+		if err != nil {
+			return dto.NewsResponse{}, dto.ErrCreateFile
+		}
+		defer out.Close()
+
+		if _, err := io.Copy(out, req.FileReader); err != nil {
+			return dto.NewsResponse{}, dto.ErrSaveFile
+		}
+		req.Image = fileName
+	}
+
 	news := entity.News{
 		ID:    uuid.New(),
 		Image: req.Image,
@@ -566,9 +648,6 @@ func (as *AdminService) UpdateNews(ctx context.Context, req dto.UpdateNewsReques
 		return dto.NewsResponse{}, dto.ErrGetNewsFromID
 	}
 
-	if req.Image != "" {
-		news.Image = req.Image
-	}
 	if req.Title != "" {
 		if req.Title == news.Title {
 			return dto.NewsResponse{}, dto.ErrNewsTitleAlreadyExists
@@ -580,6 +659,32 @@ func (as *AdminService) UpdateNews(ctx context.Context, req dto.UpdateNewsReques
 	}
 	if req.Date != "" {
 		news.Date = req.Date
+	}
+	if req.FileHeader != nil || req.FileReader != nil {
+		ext := strings.TrimPrefix(filepath.Ext(req.FileHeader.Filename), ".")
+		ext = strings.ToLower(ext)
+		if ext != "jpg" && ext != "jpeg" && ext != "png" {
+			return dto.NewsResponse{}, dto.ErrInvalidExtensionPhoto
+		}
+
+		fileName := fmt.Sprintf("%s_warasin.%s",
+			strings.ReplaceAll(strings.ToLower(news.Title), " ", "_"),
+			ext,
+		)
+
+		_ = os.MkdirAll("assets/news", os.ModePerm)
+		savePath := fmt.Sprintf("assets/news/%s", fileName)
+
+		out, err := os.Create(savePath)
+		if err != nil {
+			return dto.NewsResponse{}, dto.ErrCreateFile
+		}
+		defer out.Close()
+
+		if _, err := io.Copy(out, req.FileReader); err != nil {
+			return dto.NewsResponse{}, dto.ErrSaveFile
+		}
+		news.Image = fileName
 	}
 
 	err = as.adminRepo.UpdateNews(ctx, nil, news)
@@ -910,6 +1015,33 @@ func (as *AdminService) CreatePsycholog(ctx context.Context, req dto.CreatePsych
 		return dto.PsychologResponse{}, dto.ErrFormatPhoneNumber
 	}
 
+	if req.FileHeader != nil || req.FileReader != nil {
+		ext := strings.TrimPrefix(filepath.Ext(req.FileHeader.Filename), ".")
+		ext = strings.ToLower(ext)
+		if ext != "jpg" && ext != "jpeg" && ext != "png" {
+			return dto.PsychologResponse{}, dto.ErrInvalidExtensionPhoto
+		}
+
+		fileName := fmt.Sprintf("%s_warasin.%s",
+			strings.ReplaceAll(strings.ToLower(req.Name), " ", "_"),
+			ext,
+		)
+
+		_ = os.MkdirAll("assets/psycholog", os.ModePerm)
+		savePath := fmt.Sprintf("assets/psycholog/%s", fileName)
+
+		out, err := os.Create(savePath)
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrCreateFile
+		}
+		defer out.Close()
+
+		if _, err := io.Copy(out, req.FileReader); err != nil {
+			return dto.PsychologResponse{}, dto.ErrSaveFile
+		}
+		req.Image = fileName
+	}
+
 	city, err := as.masterRepo.GetCityByID(ctx, nil, req.CityID.String())
 	if err != nil {
 		return dto.PsychologResponse{}, dto.ErrGetCityByID
@@ -1101,13 +1233,40 @@ func (as *AdminService) UpdatePsycholog(ctx context.Context, req dto.UpdatePsych
 		psycholog.Image = req.Image
 	}
 
-	if req.CityID != "" {
-		city, err := as.masterRepo.GetCityByID(ctx, nil, req.CityID)
+	if req.CityID != nil {
+		city, err := as.masterRepo.GetCityByID(ctx, nil, req.CityID.String())
 		if err != nil {
 			return dto.PsychologResponse{}, dto.ErrGetCityByID
 		}
 
 		psycholog.City = city
+	}
+
+	if req.FileHeader != nil || req.FileReader != nil {
+		ext := strings.TrimPrefix(filepath.Ext(req.FileHeader.Filename), ".")
+		ext = strings.ToLower(ext)
+		if ext != "jpg" && ext != "jpeg" && ext != "png" {
+			return dto.PsychologResponse{}, dto.ErrInvalidExtensionPhoto
+		}
+
+		fileName := fmt.Sprintf("%s_warasin.%s",
+			strings.ReplaceAll(strings.ToLower(psycholog.Name), " ", "_"),
+			ext,
+		)
+
+		_ = os.MkdirAll("assets/psycholog", os.ModePerm)
+		savePath := fmt.Sprintf("assets/psycholog/%s", fileName)
+
+		out, err := os.Create(savePath)
+		if err != nil {
+			return dto.PsychologResponse{}, dto.ErrCreateFile
+		}
+		defer out.Close()
+
+		if _, err := io.Copy(out, req.FileReader); err != nil {
+			return dto.PsychologResponse{}, dto.ErrSaveFile
+		}
+		psycholog.Image = fileName
 	}
 
 	if len(req.LanguageMasterIDs) > 0 {
