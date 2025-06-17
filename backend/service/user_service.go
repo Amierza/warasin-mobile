@@ -1800,6 +1800,7 @@ func (us *UserService) CreateUserMotivation(ctx context.Context, req dto.CreateU
 	return dto.UserMotivationResponseCustom{
 		ID:          userMotivation.ID,
 		DisplayDate: userMotivation.DisplayDate,
+		Reaction:    userMotivation.Reaction,
 		Motivation: dto.MotivationResponse{
 			ID:      &userMotivation.Motivation.ID,
 			Author:  userMotivation.Motivation.Author,
@@ -1829,6 +1830,7 @@ func (us *UserService) GetAllUserMotivation(ctx context.Context) ([]dto.UserMoti
 		data := dto.UserMotivationResponseCustom{
 			ID:          userMotivation.ID,
 			DisplayDate: userMotivation.DisplayDate,
+			Reaction:    userMotivation.Reaction,
 			Motivation: dto.MotivationResponse{
 				ID:      &userMotivation.Motivation.ID,
 				Author:  userMotivation.Motivation.Author,
