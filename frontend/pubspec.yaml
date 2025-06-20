@@ -48,6 +48,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   calendar_date_picker2: ^2.0.0
   intl: ^0.18.1
+  path: ^1.9.1
 
 dev_dependencies:
   flutter_test:

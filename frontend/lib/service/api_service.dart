@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:frontend/config/config.dart';
 import 'package:frontend/model/error.dart';
 import 'package:frontend/model/token_payload.dart';
 import 'package:frontend/model/user_detail_response.dart';
 import 'package:get_storage/get_storage.dart';
+import "package:path/path.dart";
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 
@@ -82,51 +84,44 @@ class ApiService {
     }
   }
 
-  static Future<dynamic> updateUserService(
-    String? name,
-    String? email,
-    String? image,
-    bool? gender,
-    String? birthDate,
-    String? phoneNumber,
-    String? cityId,
-  ) async {
+  static Future<dynamic> updateUserService({
+    Map<String, dynamic>? updatedFields,
+    File? imageFile,
+  }) async {
     final box = GetStorage();
     final token = box.read('access_token');
 
     if (token == null) return null;
 
-    try {
-      final Map<String, dynamic> data = {};
-      if (name != null) data['name'] = name;
-      if (image != null) data['image'] = image;
-      if (gender != null) data['gender'] = gender;
-      if (birthDate != null) data['birth_date'] = birthDate;
-      if (phoneNumber != null) data['phone_number'] = phoneNumber;
-      if (cityId != null) data['city_id'] = cityId;
+    final uri = Uri.parse("$baseUrl/user/update-user");
+    final request = http.MultipartRequest("PATCH", uri);
+    request.headers["Authorization"] = "Bearer $token";
 
-      final response = await http.patch(
-        Uri.parse('$baseUrl/user/update-user'),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode(data),
+    updatedFields?.forEach((key, value) {
+      request.fields[key] = value.toString();
+    });
+
+    if (imageFile != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath(
+          'photo',
+          imageFile.path,
+          filename: basename(imageFile.path),
+        ),
       );
+    }
 
-      if (response.statusCode == 200) {
-        final responseBody = jsonDecode(response.body);
-        if (responseBody['status'] == true) {
-          final userData = UserDetailResponse.fromJson(responseBody);
-          return userData;
-        } else {
-          final errorResponse = ErrorResponse.fromJson(responseBody);
-          return errorResponse;
-        }
-      }
-    } catch (e) {
-      print("Error fetching update user : $e");
-      return null;
+    final steamedResponse = await request.send();
+    final response = await http.Response.fromStream(steamedResponse);
+    final responseBody = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      print(responseBody);
+      final userData = UserDetailResponse.fromJson(responseBody);
+      return userData;
+    } else {
+      final errorResponse = ErrorResponse.fromJson(responseBody);
+      return errorResponse;
     }
   }
 }

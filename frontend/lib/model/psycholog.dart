@@ -10,7 +10,7 @@ class Psycholog {
   final String psyWorkYear;
   final String psyDescription;
   final String psyPhoneNumber;
-  final String? psyImage;
+  final String psyImage;
   final City city;
   final Role role;
   final List<Language> languages;
