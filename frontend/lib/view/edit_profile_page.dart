@@ -277,9 +277,13 @@ class EditProfilePage extends StatelessWidget {
         return _buildLoadingInput("Memuat provinsi...");
       }
 
-      if (controller.province.value.isNotEmpty &&
+      if (!controller.isInitialized.value &&
+          controller.province.value.isNotEmpty &&
           locationController.selectedProvinceId.value.isEmpty) {
-        locationController.selectProvince(controller.province.value);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          locationController.selectProvince(controller.province.value);
+          controller.isInitialized.value = true;
+        });
       }
 
       return DropdownButtonFormField<String>(

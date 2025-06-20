@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 
 class UpdateUser extends GetxController {
   final isLoading = false.obs;
+  final user = Rxn<User>();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -23,6 +23,9 @@ class UpdateUser extends GetxController {
   final cityId = ''.obs;
   final gender = Rxn<bool>();
   final province = ''.obs;
+  var isInitialized = false.obs;
+
+  File? selectedPhoto;
 
   final imageFile = Rx<File?>(null);
   final imageBase64 = ''.obs;
@@ -35,17 +38,13 @@ class UpdateUser extends GetxController {
 
   Future<void> pickImage() async {
     try {
-      final picked = await ImagePicker().pickImage(
+      final pickedFile = await ImagePicker().pickImage(
         source: ImageSource.gallery,
-        maxWidth: 800,
-        maxHeight: 800,
-        imageQuality: 85,
       );
 
-      if (picked != null) {
-        imageFile.value = File(picked.path);
-        final bytes = await picked.readAsBytes();
-        imageBase64.value = "data:image/png;base64,${base64Encode(bytes)}";
+      if (pickedFile != null) {
+        selectedPhoto = File(pickedFile.path);
+        update();
       }
     } catch (e) {
       Get.snackbar(
@@ -56,28 +55,46 @@ class UpdateUser extends GetxController {
     }
   }
 
-  Future<void> updateProfile() async {
+  void updateProfile() async {
+    isLoading.value = true;
+
     try {
       if (!_validateFields()) return;
 
-      name.value = nameController.text;
-      email.value = emailController.text;
-      phoneNumber.value = phoneController.text;
-      birthDate.value = birthDateController.text;
+      final Map<String, dynamic> updatedFields = {};
+
+      if (nameController.text != user.value?.userName) {
+        updatedFields['name'] = nameController.text;
+      }
+
+      if (emailController.text != user.value?.userEmail) {
+        updatedFields['email'] = emailController.text;
+      }
+
+      if (phoneController.text != user.value?.userPhoneNumber) {
+        updatedFields['phone_number'] = phoneController.text;
+      }
+
+      if (birthDateController.text != user.value?.userBirthDate) {
+        updatedFields['birth_date'] = birthDateController.text;
+      }
+
+      if (cityId.value != user.value?.city.cityId) {
+        updatedFields['city_id'] = cityId.value;
+      }
+
+      // if (selectedPhoto == user.value?.userImage) {
+      //   selectedPhoto = user.value?.userImage;
+      // }
+
       isLoading.value = true;
 
       final response = await ApiService.updateUserService(
-        name.value,
-        email.value,
-        imageBase64.value,
-        gender.value,
-        birthDate.value,
-        phoneNumber.value,
-        cityId.value,
+        updatedFields: updatedFields,
+        imageFile: selectedPhoto,
       );
 
       if (response is UserDetailResponse) {
-        print(response.data.userBirthDate);
         Get.snackbar("Sukses", "Profil berhasil diperbarui");
         await fetchUserDetail();
       } else if (response is ErrorResponse) {
@@ -108,9 +125,6 @@ class UpdateUser extends GetxController {
   }
 
   void _handleError(dynamic e) {
-    print("Error updateProfile: ${e.toString()}");
-    print("Stack trace: ${StackTrace.current}");
-
     Get.snackbar(
       "Error",
       "Gagal update profil: ${e.toString()}",
@@ -125,6 +139,7 @@ class UpdateUser extends GetxController {
       final result = await ApiService.getUserDetailService();
 
       if (result is UserDetailResponse) {
+        user.value = result.data;
         _updateUserData(result);
       }
     } finally {
@@ -138,6 +153,7 @@ class UpdateUser extends GetxController {
     emailController.text = result.data.userEmail;
     phoneController.text = result.data.userPhoneNumber;
     birthDateController.text = result.data.userBirthDate;
+     cityController.text = result.data.city.cityId.toString(); 
 
     // Update reactive values
     name.value = result.data.userName;
