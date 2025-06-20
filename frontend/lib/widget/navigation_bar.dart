@@ -5,10 +5,8 @@ import 'package:frontend/shared/theme.dart';
 class CustomNavigationBar extends StatefulWidget {
   final int currentIndex;
 
-  const CustomNavigationBar({
-    Key? key,
-    required this.currentIndex,
-  }) : super(key: key);
+  const CustomNavigationBar({Key? key, required this.currentIndex})
+    : super(key: key);
 
   @override
   _CustomNavigationBarState createState() => _CustomNavigationBarState();
@@ -17,12 +15,7 @@ class CustomNavigationBar extends StatefulWidget {
 class _CustomNavigationBarState extends State<CustomNavigationBar> {
   late int _selectedIndex;
 
-  final List<String> _routes = [
-    '/home',
-    '/concultation',
-    '/news',
-    '/profile',
-  ];
+  final List<String> _routes = ['/home', '/chatbot', '/concultation', '/news', '/profile'];
 
   @override
   void initState() {
@@ -47,6 +40,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
       index: _selectedIndex,
       items: const [
         Icon(Icons.home, color: Colors.white),
+        Icon(Icons.chat, color: Colors.white),
         Icon(Icons.person, color: Colors.white),
         Icon(Icons.newspaper, color: Colors.white),
         Icon(Icons.settings, color: Colors.white),

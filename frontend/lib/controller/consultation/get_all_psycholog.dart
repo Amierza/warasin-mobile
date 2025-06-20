@@ -19,6 +19,7 @@ class GetAllPsycholog extends GetxController {
 
     try {
       final response = await ConsultationService.getAllPsycholog();
+
       if (response is AllPsychologResponse) {
         allPsycholog.value = response;
         psychologList.value = response.data;
