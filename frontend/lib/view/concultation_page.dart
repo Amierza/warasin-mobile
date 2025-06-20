@@ -130,7 +130,7 @@ class ConcultationPage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const CustomNavigationBar(currentIndex: 1),
+      bottomNavigationBar: const CustomNavigationBar(currentIndex: 2),
     );
   }
 }
@@ -157,7 +157,7 @@ class CounselorCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: Image.network(
-                  psycholog.psyImage,
+                  psycholog.psyImage ?? "",
                   width: 100,
                   height: 100,
                   fit: BoxFit.cover,

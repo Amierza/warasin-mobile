@@ -126,7 +126,7 @@ class ProfilePage extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const CustomNavigationBar(currentIndex: 3),
+      bottomNavigationBar: const CustomNavigationBar(currentIndex: 4),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/controller/login_controller.dart';
 import 'package:frontend/controller/register_controller.dart';
 import 'package:frontend/middleware/middleware.dart';
+import 'package:frontend/view/chatbot_page.dart';
 import 'package:frontend/view/concultation_page.dart';
 import 'package:frontend/view/data_completeness_feels_page.dart';
 import 'package:frontend/view/data_completeness_greetings_page.dart';
@@ -131,6 +132,11 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/concultation',
           page: () => const ConcultationPage(),
+          middlewares: [AuthMiddleware()],
+        ),
+        GetPage(
+          name: '/chatbot',
+          page: () => ChatbotPage(),
           middlewares: [AuthMiddleware()],
         ),
         GetPage(

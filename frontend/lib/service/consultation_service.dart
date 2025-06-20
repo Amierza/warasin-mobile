@@ -25,9 +25,12 @@ class ConsultationService {
         },
       );
 
+      final responseBody = jsonDecode(response.body);
+      print('RESPONSE BODY: $responseBody');
+      print('TYPE of data: ${responseBody['data'].runtimeType}');
+
       if (response.statusCode == 200) {
-        final responseBody = jsonDecode(response.body);
-        if (responseBody['status'] == true) {
+        if (responseBody['data'] != null) {
           final psychologData = AllPsychologResponse.fromJson(responseBody);
           return psychologData;
         } else {

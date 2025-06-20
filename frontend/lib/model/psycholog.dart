@@ -10,7 +10,7 @@ class Psycholog {
   final String psyWorkYear;
   final String psyDescription;
   final String psyPhoneNumber;
-  final String psyImage;
+  final String? psyImage;
   final City city;
   final Role role;
   final List<Language> languages;
@@ -48,17 +48,23 @@ class Psycholog {
       city: City.fromJson(json['city']),
       role: Role.fromJson(json['role']),
       languages:
-          (json['language'] as List)
-              .map((lang) => Language.fromJson(lang))
-              .toList(),
+          (json['language'] != null && json['language'] is List)
+              ? (json['language'] as List)
+                  .map((lang) => Language.fromJson(lang))
+                  .toList()
+              : [],
       specializations:
-          (json['specialization'] as List)
-              .map((spe) => Specialization.fromJson(spe))
-              .toList(),
+          (json['specialization'] != null && json['specialization'] is List)
+              ? (json['specialization'] as List)
+                  .map((spe) => Specialization.fromJson(spe))
+                  .toList()
+              : [],
       educations:
-          (json['education'] as List)
-              .map((edu) => Education.fromJson(edu))
-              .toList(),
+          (json['education'] != null && json['education'] is List)
+              ? (json['education'] as List)
+                  .map((edu) => Education.fromJson(edu))
+                  .toList()
+              : [],
     );
   }
 }
@@ -135,7 +141,11 @@ class AllPsychologResponse {
       message: json['message'],
       timestamp: json['timestamp'],
       data:
-          (json['data'] as List).map((psy) => Psycholog.fromJson(psy)).toList(),
+          (json['data'] != null && json['data'] is List)
+              ? List<Psycholog>.from(
+                (json['data'] as List).map((psy) => Psycholog.fromJson(psy)),
+              )
+              : [],
     );
   }
 }
