@@ -12,7 +12,6 @@ class HistoryConsultationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final consultationController = Get.put(GetAllConsultation());
-    consultationController.fetchAllConsultation(); // Fetch data when page loads
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -43,109 +42,6 @@ class HistoryConsultationPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 30),
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    style: GoogleFonts.poppins(color: tertiaryTextColor),
-                    decoration: InputDecoration(
-                      hintText: "Bulan",
-                      hintStyle: GoogleFonts.poppins(
-                        color: tertiaryTextColor,
-                        fontSize: 20,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 14,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: tertiaryTextColor,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: tertiaryTextColor,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: primaryTextColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: TextFormField(
-                    style: GoogleFonts.poppins(color: tertiaryTextColor),
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      hintText: "Tahun",
-                      hintStyle: GoogleFonts.poppins(
-                        color: tertiaryTextColor,
-                        fontSize: 20,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 14,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: tertiaryTextColor,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: tertiaryTextColor,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(
-                          width: 2,
-                          color: primaryTextColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Add search functionality here
-                consultationController.fetchAllConsultation();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryColor,
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              ),
-              child: Text(
-                "Cari...",
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  fontWeight: bold,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
             Expanded(
               child: Obx(() {
                 if (consultationController.isLoading.value) {

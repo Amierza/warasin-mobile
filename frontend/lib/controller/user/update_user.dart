@@ -27,9 +27,6 @@ class UpdateUser extends GetxController {
 
   File? selectedPhoto;
 
-  final imageFile = Rx<File?>(null);
-  final imageBase64 = ''.obs;
-
   @override
   void onInit() {
     fetchUserDetail();
@@ -37,22 +34,17 @@ class UpdateUser extends GetxController {
   }
 
   Future<void> pickImage() async {
-    try {
-      final pickedFile = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-      );
-
-      if (pickedFile != null) {
-        selectedPhoto = File(pickedFile.path);
-        update();
-      }
-    } catch (e) {
-      Get.snackbar(
-        "Error",
-        "Gagal memilih gambar: ${e.toString()}",
-        snackPosition: SnackPosition.BOTTOM,
-      );
+    final pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      selectedPhoto = File(pickedFile.path);
+      update();
     }
+  }
+
+  void setGender(bool? value) {
+    gender.value = value;
   }
 
   void updateProfile() async {
@@ -79,13 +71,13 @@ class UpdateUser extends GetxController {
         updatedFields['birth_date'] = birthDateController.text;
       }
 
+      if (gender.value != user.value?.userGender) {
+        updatedFields['gender'] = gender.value;
+      }
+
       if (cityId.value != user.value?.city.cityId) {
         updatedFields['city_id'] = cityId.value;
       }
-
-      // if (selectedPhoto == user.value?.userImage) {
-      //   selectedPhoto = user.value?.userImage;
-      // }
 
       isLoading.value = true;
 
@@ -96,7 +88,6 @@ class UpdateUser extends GetxController {
 
       if (response is UserDetailResponse) {
         Get.snackbar("Sukses", "Profil berhasil diperbarui");
-        await fetchUserDetail();
       } else if (response is ErrorResponse) {
         Get.snackbar("Error", response.message);
       }
@@ -153,7 +144,7 @@ class UpdateUser extends GetxController {
     emailController.text = result.data.userEmail;
     phoneController.text = result.data.userPhoneNumber;
     birthDateController.text = result.data.userBirthDate;
-     cityController.text = result.data.city.cityId.toString(); 
+    cityController.text = result.data.city.cityId.toString();
 
     // Update reactive values
     name.value = result.data.userName;

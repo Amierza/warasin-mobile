@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/controller/news/create_news_detail_controller.dart';
+import 'package:frontend/controller/news/get_all_news_detail_controller.dart';
 import 'package:frontend/controller/news/get_detail_news_controller.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:get/get.dart';
@@ -21,11 +22,17 @@ class NewsDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(GetDetailNewsController());
+    final addedController = Get.put(GetAllNewsDetailController());
     final newsController = Get.put(CreateNewsDetailController());
     final newsId = Get.parameters['id'];
 
     if (controller.detailNews.value == null && newsId != null) {
       controller.fetchDetailNews(newsId);
+    }
+
+    // Fetch data news yang sudah dibaca saat pertama kali membuka halaman
+    if (addedController.newsList.isEmpty) {
+      addedController.fetchAllNewsDetail();
     }
 
     return Scaffold(
@@ -66,6 +73,11 @@ class NewsDetailPage extends StatelessWidget {
             ),
           );
         }
+
+        final isRead = addedController.newsList.any(
+          (item) => item.news.newsId == newsId,
+        );
+        final isLoading = newsController.isLoading.value;
 
         return SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -144,45 +156,45 @@ class NewsDetailPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 26),
-              Obx(() {
-                return SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ElevatedButton(
-                    onPressed:
-                        newsController.isLoading.value || newsId == null
-                            ? null
-                            : () =>
-                                newsController.fetchCreateNewsDetail(newsId),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      elevation: 2,
-                      shadowColor: primaryColor.withOpacity(0.3),
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed:
+                      isRead || isLoading || newsId == null
+                          ? null
+                          : () async {
+                            await newsController.fetchCreateNewsDetail(newsId);
+                            addedController.fetchAllNewsDetail();
+                          },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isRead ? tertiaryTextColor : primaryColor,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    child:
-                        newsController.isLoading.value
-                            ? const SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              ),
-                            )
-                            : Text(
-                              "Selesaikan membaca",
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
+                    elevation: 2,
+                    shadowColor: primaryColor.withOpacity(0.3),
                   ),
-                );
-              }),
+                  child:
+                      isLoading
+                          ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                          : Text(
+                            isRead ? "Sudah dibaca" : "Selesaikan membaca",
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                ),
+              ),
             ],
           ),
         );

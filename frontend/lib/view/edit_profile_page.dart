@@ -58,45 +58,54 @@ class EditProfilePage extends StatelessWidget {
 
   Widget _buildProfileImageSection() {
     return GestureDetector(
-      onTap: controller.pickImage,
+      onTap: () => controller.pickImage(),
       child: Stack(
+        alignment: Alignment.center,
         children: [
-          Obx(() {
-            if (controller.imageFile.value != null) {
-              return CircleAvatar(
-                radius: 65,
-                backgroundImage: FileImage(controller.imageFile.value!),
-              );
-            }
-            return CircleAvatar(
-              radius: 65,
-              backgroundColor: Colors.grey.shade200,
-              child:
-                  controller.name.value.isNotEmpty
-                      ? Text(
-                        controller.name.value.substring(0, 1).toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 40,
-                          color: Colors.grey,
-                        ),
-                      )
-                      : const Icon(Icons.person, size: 60, color: Colors.grey),
-            );
-          }),
+          Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey[200],
+            ),
+            child:
+                controller.selectedPhoto != null
+                    ? ClipOval(
+                      child: Image.file(
+                        controller.selectedPhoto!,
+                        width: 120,
+                        height: 120,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                    : controller.user.value?.userImage != null
+                    ? ClipOval(
+                      child: Image.network(
+                        controller.user.value!.userImage,
+                        width: 120,
+                        height: 120,
+                        fit: BoxFit.cover,
+                        errorBuilder:
+                            (context, error, stackTrace) =>
+                                const Icon(Icons.person, size: 60),
+                      ),
+                    )
+                    : const Icon(Icons.person, size: 60),
+          ),
           Positioned(
             bottom: 0,
             right: 0,
             child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: primaryColor,
+              padding: const EdgeInsets.all(4),
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 3),
+                color: Colors.green,
               ),
               child: const Icon(
                 Icons.camera_alt,
-                size: 20,
                 color: Colors.white,
+                size: 20,
               ),
             ),
           ),

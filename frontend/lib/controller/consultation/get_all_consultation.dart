@@ -8,6 +8,12 @@ class GetAllConsultation extends GetxController {
   var isLoading = false.obs;
   var allConsultation = Rxn<AllConsultationResponse>();
 
+  @override
+  void onInit() {
+    super.onInit();
+    fetchAllConsultation();
+  }
+
   Future<void> fetchAllConsultation() async {
     isLoading.value = true;
 

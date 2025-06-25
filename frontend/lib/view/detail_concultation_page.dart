@@ -363,25 +363,36 @@ class _DetailConcultationPageState extends State<DetailConcultationPage> {
 
                       await consultationController.createConsultation();
 
-                      if (consultationController.consultationResult.value !=
-                          null) {
+                      if (consultationController.errorResult.value != null) {
                         showCustomDialog(
                           context: context,
-                          icon: Icons.check_circle,
-                          title: 'Berhasil',
-                          message: 'Konsultasi berhasil dipesan.',
+                          icon: Icons.cancel,
+                          title: 'Gagal Konsultasi',
+                          message: 'Konsultasi gagal dipesan.',
                           onPressed: () {
                             Get.back();
                           },
-                          backgroundColor: successColor,
+                          backgroundColor: dangerColor,
                         );
-                      } else if (consultationController.errorResult.value !=
-                          null) {
-                        Get.snackbar(
-                          "Gagal",
-                          consultationController.errorResult.value?.message ??
-                              "Terjadi kesalahan",
-                          snackPosition: SnackPosition.BOTTOM,
+                      }
+
+                      if (consultationController.errorResult.value == null) {
+                        showCustomDialog(
+                          context: context,
+                          icon: Icons.check_circle,
+                          title: 'Pesan Konsultasi Berhasil',
+                          message: 'Konsultasi berhasil dipesan.',
+                          onPressed: () {
+                            Get.back();
+                            if (psyId != null) {
+                              slotController.fetchAllSlot(psyId);
+                              setState(() {
+                                selectedSlotIndex = null;
+                                selectedSlotId = null;
+                              });
+                            }
+                          },
+                          backgroundColor: successColor,
                         );
                       }
                     } else {
