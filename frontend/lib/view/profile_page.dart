@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/controller/login_controller.dart';
 import 'package:frontend/shared/theme.dart';
 import 'package:frontend/widget/header.dart';
 import 'package:frontend/widget/navigation_bar.dart';
@@ -74,10 +75,9 @@ class ProfilePage extends StatelessWidget {
                         Get.toNamed('/edit_profile');
                       },
                     ),
-                    MenuButton(icon: Icons.note_outlined, name: "Catatan Anda"),
                     MenuButton(
                       icon: Icons.favorite_border_outlined,
-                      name: "Daftar Favorit",
+                      name: "Motivasi Favorit",
                       onPressed: () {
                         Get.toNamed('/history_motivation');
                       },
@@ -88,7 +88,8 @@ class ProfilePage extends StatelessWidget {
                         onPressed: () {
                           final box = GetStorage();
                           box.erase();
-                          Get.offAllNamed('/login');
+                          Get.put(LoginController());
+                          Get.toNamed('/login');
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.redAccent,

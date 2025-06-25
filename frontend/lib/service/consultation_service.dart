@@ -99,15 +99,13 @@ class ConsultationService {
         }),
       );
 
-      if (response.statusCode == 200) {
-        final responseBody = jsonDecode(response.body);
-        if (responseBody['status'] == true) {
-          final consultationData = ConsultationResponse.fromJson(responseBody);
-          return consultationData;
-        } else {
-          final errorResponse = ErrorResponse.fromJson(responseBody);
-          return errorResponse;
-        }
+      final responseBody = jsonDecode(response.body);
+      if (responseBody['status'] == true) {
+        final consultationData = ConsultationResponse.fromJson(responseBody);
+        return consultationData;
+      } else {
+        final errorResponse = ErrorResponse.fromJson(responseBody);
+        return errorResponse;
       }
     } catch (error) {
       print('Error Fetching create consultation : $error');
@@ -226,19 +224,12 @@ class ConsultationService {
         },
         body: jsonEncode(data),
       );
+      final responseBody = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        final responseBody = jsonDecode(response.body);
-        if (responseBody['status'] == true) {
-          final consultationResponse = GetDetailConsultationResponse.fromJson(
-            responseBody,
-          );
-          print('consultation response : $consultationResponse');
-          return responseBody;
-        } else {
-          final errorResponse = ErrorResponse.fromJson(responseBody);
-          return errorResponse;
-        }
+      if (response.statusCode == 200 && responseBody['status'] == true) {
+        return GetDetailConsultationResponse.fromJson(responseBody);
+      } else {
+        return ErrorResponse.fromJson(responseBody);
       }
     } catch (error) {
       print('Error Fetching update consultation : $error');

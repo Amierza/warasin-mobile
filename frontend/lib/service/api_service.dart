@@ -116,7 +116,6 @@ class ApiService {
     final responseBody = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      print(responseBody);
       final userData = UserDetailResponse.fromJson(responseBody);
       return userData;
     } else {

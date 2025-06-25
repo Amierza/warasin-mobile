@@ -34,7 +34,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    await dotenv.load(fileName: ".env.local");
+    await dotenv.load(fileName: ".env");
   } catch (e) {
     print("Gagal load .env: $e");
   }
@@ -166,7 +166,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: '/history_consultation',
-          page: () => const HistoryConsultationPage(),
+          page: () => HistoryConsultationPage(),
           middlewares: [AuthMiddleware()],
         ),
         GetPage(
@@ -176,7 +176,7 @@ class MyApp extends StatelessWidget {
         ),
         GetPage(
           name: '/profile',
-          page: () => const ProfilePage(),
+          page: () => ProfilePage(),
           middlewares: [AuthMiddleware()],
         ),
         GetPage(

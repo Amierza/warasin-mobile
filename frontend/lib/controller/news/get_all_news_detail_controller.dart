@@ -14,6 +14,11 @@ class GetAllNewsDetailController extends GetxController {
     super.onInit();
   }
 
+  bool isNewsRead(String newsId) {
+    return newsList.firstWhereOrNull((news) => news.newsDetailId == newsId) !=
+        null;
+  }
+
   Future<void> fetchAllNewsDetail() async {
     isLoading.value = true;
 

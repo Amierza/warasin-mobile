@@ -26,9 +26,13 @@ class ConsultationController extends GetxController {
         slotId.value,
         pracId.value,
       );
+
       if (result is ConsultationResponse) {
         consultationResult.value = result;
         errorResult.value = null;
+      } 
+      if (result is ErrorResponse) {
+        errorResult.value = result;
       } 
     } catch(error) {
       print('Unexpected error or null result, $error');

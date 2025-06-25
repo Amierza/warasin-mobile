@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:frontend/model/consultation.dart';
 import 'package:frontend/model/error.dart';
 import 'package:frontend/service/consultation_service.dart';
@@ -113,8 +112,6 @@ class UpdateConsultationController extends GetxController {
         if (body['slot_id'] != null) 'slot_id': body['slot_id'],
       };
 
-      print(transformedBody);
-
       final result = await ConsultationService.updateConsultationService(
         consulId,
         transformedBody,
@@ -123,16 +120,9 @@ class UpdateConsultationController extends GetxController {
       if (result == null) {
         errorMessage.value = "Tidak dapat terhubung ke server";
         Get.snackbar("Error", errorMessage.value);
-      } else if (result is ConsultationResponse) {
+      } else if (result is GetDetailConsultationResponse) {
         updateSuccess.value = true;
-        Get.back(result: true);
-        Get.snackbar(
-          "Sukses",
-          "Konsultasi berhasil diperbarui",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
+        Get.snackbar("Sukses", result.message);
       } else if (result is ErrorResponse) {
         errorMessage.value = result.message;
         Get.snackbar(result.error, result.message);
